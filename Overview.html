@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>The Screen Orientation API</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <script src='http://respec.specifiction.com/js/profiles/w3c-common.js' class='remove'></script>
+    <script class='remove'>
+      var respecConfig = {
+          specStatus:           "unofficial",
+          shortName:            "screen-orientation",
+
+          //publishDate:  "2012-12-12",
+          //previousPublishDate:  "2011-06-07",
+          //previousMaturity:     "ED",
+          edDraftURI:           "http://dvcs.w3.org/hg/screen-orientation/raw-file/tip/Overview.html",
+
+          // if this is a LCWD, uncomment and set the end of its review period
+          // lcEnd: "2009-08-05",
+          extraCSS:   ["../ReSpec.js/css/respec.css"],
+          noIDLIn:    true,
+
+          editors:  [
+              { name: "Mounir Lamouri",
+                company: "Mozilla",
+                companyURL: "http://mozilla.org/" },
+          ],
+
+          wg:           "TBD",
+          wgURI:        "TBD",
+          wgPublicList: "public-webapps",
+          wgPatentURI:  "TBD",
+
+          //publishDate: getLastModifiedDate(),
+      };
+    </script>
+  </head>
+
+  <body>
+
+    <section id='abstract'>
+      The Screen Orientation API's goal is to provide an interface for web applications
+      to be able to read the screen orientation state, to be informed when this state
+      changes and to be able to lock the screen orientation to a specific state.
+    </section>
+
+    <section class='informative'>
+      <h2>Introduction</h2>
+      <p>
+        The Screen Orientation API provides an interface for web applications to
+        access and lock the user's device's screen orientation state.
+      </p>
+      <p>
+        This examples is an application that shows the current screen orientation
+        to the user every time the screen orientation state changes:
+      </p>
+      <pre class='example highlight'>
+        &lt;!DOCTYPE html&gt;
+        &lt;html&gt;
+          &lt;script&gt;
+            function show() {
+              alert("Screen orientation state is " + screen.orientation);
+            }
+
+            screen.addEventListener("orientationchange", show, false);
+
+            show();
+          &lt;/script&gt;
+        &lt;/html&gt;
+      </pre>
+    </section>
+
+    <section id='conformance'>
+      <p>
+        This specification defines conformance criteria that apply to a single product: the <dfn>user agent</dfn> that
+        implements the interfaces that it contains.
+      </p>
+      <p>
+        Implementations that use ECMAScript to expose the APIs defined in this specification must implement them in a manner
+        consistent with the ECMAScript Bindings defined in the Web IDL specification [[!WEBIDL]].
+      </p>
+    </section>
+
+    <section>
+      <h2>Terminology</h2>
+
+      <p>
+        The <code><a href="http://dev.w3.org/html5/spec/webappapis.html#function">
+        Function</a></code> interface represents a function in the scripting
+        language being used as defined in [[!HTML5]].
+      </p>
+      <p>
+        The concepts <dfn><a href="http://dev.w3.org/html5/spec/webappapis.html#queue-a-task">
+        queue a task</a></dfn> and
+        <dfn><a href="http://dev.w3.org/html5/spec/webappapis.html#fire-a-simple-event">
+        fire a simple event</a></dfn> are defined in [[!HTML5]].
+      </p>
+      <p>
+        The terms <dfn> <a href="http://dev.w3.org/html5/spec/webappapis.html#event-handlers">
+        event handlers</a></dfn> and
+        <dfn><a href="http://dev.w3.org/html5/spec/webappapis.html#event-handler-event-type">
+        event handler event types</a></dfn> are defined in [[!HTML5]].
+      </p>
+      <p>
+        The concepts of <dfn><a href="http://dev.w3.org/html5/spec/browsers.html#browsing-context">
+        browsing context</a></dfn> and
+        <dfn><a href="http://dev.w3.org/html5/spec/browsers.html#active-document">
+        active document</a></dfn> are defined in [[!HTML5]].
+      </p>
+    </section>
+
+    <section>
+      <h2>Extensions to the <a>Screen</a> Interface</h2>
+      <p style='color: red; font-weight: bold;'>TODO: add 'partial' support to respec</p>
+      The CSSOM View specification defines a <code>Screen</code> interface [[!CSSOM-VIEW]], which this specification extends:
+      <dl class='idl' title='interface Screen'>
+        <dt>readonly attribute DOMString orientation</dt>
+        <dd>
+          <p>
+            The <a>user agent</a> MUST return the value of the orientation of the output device.
+          </p>
+          <p>
+            The returned orientation MUST be amongst those values:
+            <ul>
+              <li><code>portrait-primary</code>, if the orientation is in the primary portrait mode;</li>
+              <li><code>portrait-secondary</code>, if the orientation is in the secondary portrait mode, usually upside-down;</li>
+              <li><code>landscape-primary</code>, if the orientation is in the primary landscape mode;</li>
+              <li><code>landscape-secondary</code>, if the orientation is in the secondary landscape mode.</li>
+            </ul>
+          </p>
+        </dd>
+        <dt>[TreatNonCallableAsNull] attribute Function? onorientationchange</dt>
+        <dd></dd>
+      </dl>
+
+      <p>
+        When the screen orientation of the current <a>browsing context</a> changes, the <a>user agent</a> MUST <a>queue a task</a>
+        which updates the <code>orientation</code> attribute and <a>fire a simple event</a> named <code>orientationchange</code>
+        at the <code>Screen</code> object.
+
+        <div class="note">
+          <p>
+            For example, that means if an application A is locked to <code>landscape-primary</code>
+            and application B is locked to <code>portrait-primary</code>, switching from
+            application A to B or B to A will not fire an <code>orientationchange</code>
+            event because both application will keep the orientation they had.
+          </p>
+          <p>
+            However, locking the application can fire an <code>orientationchange</code> if the
+            application wasn't in the specified type before being locked.
+          </p>
+        </div>
+      </p>
+    </section>
+
+    <section>
+      <h2>Event handlers</h2>
+      <p>
+        The following are the <a>event handlers</a> (and their corresponding
+        <a>event handler event types</a>) that MUST be supported as attributes
+        by the <code>Screen</code> object:
+      </p>
+
+      <table class="simple">
+        <thead>
+          <tr>
+            <th>event handler</th>
+            <th>event handler event type</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong><code>onorientationchange</code></strong></td>
+            <td><code>orientationchange</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+  </body>
+</html>
