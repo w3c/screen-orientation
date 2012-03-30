@@ -106,11 +106,49 @@
         <dfn><a href="http://dev.w3.org/html5/spec/browsers.html#active-document">
         active document</a></dfn> are defined in [[!HTML5]].
       </p>
+
+      <section>
+        <h2>Current orientation</h2>
+
+        <p>
+          The <dfn>current orientation</dfn> SHOULD be an orientation amongst those values:
+          <ul>
+            <li><code>portrait-primary</code>, if the orientation is in the primary portrait mode;</li>
+            <li><code>portrait-secondary</code>, if the orientation is in the secondary portrait mode;</li>
+            <li><code>landscape-primary</code>, if the orientation is in the primary landscape mode;</li>
+            <li><code>landscape-secondary</code>, if the orientation is in the secondary landscape mode.</li>
+          </ul>
+        </p>
+
+        <div class="note">
+          <p>
+            The notion of primary and secondary depends on the device and the platform. Usually, platforms have a way to distinguish
+            the two portrait and landscape orientations.<br>
+            For example, on most phones, portrait-primary is going to be the orientation that is used when the phone
+            is in hand and secondary will be upside-down orientation. Also, landscape-primary will be the landscape orientation
+            that is a 90 degree orientation counter-clock and secondary the other one.<br>
+            On tablets, landscape-primary will be the orientation used when the tablet is in hands.
+          </p>
+        </div>
+      </section>
+
+      <section>
+        <h2>Allowed orientations</h2>
+
+        <p>
+          The <dfn>allowed orientations</dfn> SHOULD be orientations amongst the <a>current orientation</a> list
+          or amongst those values:
+          <ul>
+            <li><code>portrait</code>, value that covers <code>portrait-primary</code> and <code>portrait-secondary</code> cases;
+            <li><code>landscape</code>, value that covers <code>landscape-primary</code> and <code>landscape-secondary</code> cases;
+          </ul>
+        </p>
+      </section>
     </section>
 
     <section>
       <h2>Extensions to the <a>Screen</a> Interface</h2>
-      <p style='color: red; font-weight: bold;'>TODO: add 'partial' support to respec</p>
+      <p style='color: red; font-weight: bold;'>TODO: should be 'partial interface' but respec doesn't support that.</p>
       The CSSOM View specification defines a <code>Screen</code> interface [[!CSSOM-VIEW]], which this specification extends:
       <dl class='idl' title='interface Screen'>
         <dt>readonly attribute DOMString orientation</dt>
@@ -119,13 +157,25 @@
             The <a>user agent</a> MUST return the value of the orientation of the output device.
           </p>
           <p>
-            The returned orientation MUST be amongst those values:
-            <ul>
-              <li><code>portrait-primary</code>, if the orientation is in the primary portrait mode;</li>
-              <li><code>portrait-secondary</code>, if the orientation is in the secondary portrait mode, usually upside-down;</li>
-              <li><code>landscape-primary</code>, if the orientation is in the primary landscape mode;</li>
-              <li><code>landscape-secondary</code>, if the orientation is in the secondary landscape mode.</li>
-            </ul>
+            The returned orientation MUST be in the <a>current orientation</a> list.
+          </p>
+        </dd>
+        <dt>boolean lockOrientation(DOMtring orientation)</dt>
+        <dd>
+          The <a>user agent</a> MUST run these steps:
+          <ol>
+            <li>If the <i>orientation</i> isn't part of the <a>allowed orientations</a>, the method MUST return false.</li>
+            <li>If locking to <i>orientation</i> isn't currently allowed, the method MUST return false.</i>
+            <li>Otherwise, the method MUST return true and the screen orientation should be locked to <i>orientation</i>.</li>
+          </ol>
+          When the lock is done, if the orientation did change, the <a>user agent</a> MUST <a>fire a simple event</a>
+          named <code>orientationnchange</code> at the <code>Screen</code> object.
+        </dd>
+        <dt>void unlockOrientation()</dt>
+        <dd>
+          <p>
+            The <a>user agent</a> MUST disable the current lock applied on the screen with <code>lockOrientation</code>.
+            If the current <a>browsing context</a> has a default orientation, the screen orientation SHOULD revert to that.
           </p>
         </dd>
         <dt>[TreatNonCallableAsNull] attribute Function? onorientationchange</dt>
@@ -133,7 +183,7 @@
       </dl>
 
       <p>
-        When the screen orientation of the current <a>browsing context</a> changes, the <a>user agent</a> MUST <a>queue a task</a>
+        When the screen orientation changes in the current <a>browsing context</a>, the <a>user agent</a> MUST <a>queue a task</a>
         which updates the <code>orientation</code> attribute and <a>fire a simple event</a> named <code>orientationchange</code>
         at the <code>Screen</code> object.
 
