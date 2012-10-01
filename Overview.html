@@ -3,14 +3,14 @@
   <head>
     <title>The Screen Orientation API</title>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-    <script src='http://respec.specifiction.com/js/profiles/w3c-common.js' class='remove'></script>
+    <script src='http://www.w3.org/Tools/respec/respec-w3c-common' class='remove'></script>
     <script class='remove'>
       var respecConfig = {
           specStatus:           "ED",
           shortName:            "screen-orientation",
 
-          publishDate:          "2012-05-11",
-          previousPublishDate:  "2012-03-30",
+          publishDate:          "2012-10-01",
+          previousPublishDate:  "2012-05-11",
           previousMaturity:     "ED",
           edDraftURI:           "http://dvcs.w3.org/hg/screen-orientation/raw-file/tip/Overview.html",
 
@@ -137,22 +137,43 @@
           The <dfn>allowed orientations</dfn> SHOULD be orientations amongst the <a>current orientation</a> list
           or amongst those values:
           <ul>
-            <li><code>portrait</code>, value that covers <code>portrait-primary</code> and <code>portrait-secondary</code> cases;
-            <li><code>landscape</code>, value that covers <code>landscape-primary</code> and <code>landscape-secondary</code> cases;
+            <li><code>portrait</code>, value that represents <code>portrait-primary</code> and <code>portrait-secondary</code> cases;
+            <li><code>landscape</code>, value that represents <code>landscape-primary</code> and <code>landscape-secondary</code> cases;
           </ul>
+        </p>
+      </section>
+
+      <section>
+        <h2>Lock the orientation</h2>
+
+        <p>
+          The action to <dfn>lock the orientation</dfn> consists of forcing the rendering of the current <a>browsing context</a>
+          to be shown as if the screen was oriented in one or many of the <a>current orientation</a>.<br>
+          If the lock is done on only one orientation, the screen orientation should stay on the given orientation and never change
+          until the screen orientation is unlocked. Otherwise, the screen orientation should be able to change from an orientation
+          to another as long as the orientations are amongst an orientation it has been locked to.
+        </p>
+      </section>
+
+      <section>
+        <h2>Supported orientations</h2>
+
+        <p>
+          A set of orientations is said to be a <dfn>supported orientation</dfn> set if the <a>user agent</a>
+          can <a>lock the orientation</a> to that set.
         </p>
       </section>
     </section>
 
+
     <section>
       <h2>Extensions to the <a>Screen</a> Interface</h2>
-      <p style='color: red; font-weight: bold;'>TODO: should be 'partial interface' but respec doesn't support that.</p>
       The CSSOM View specification defines a <code>Screen</code> interface [[!CSSOM-VIEW]], which this specification extends:
-      <dl class='idl' title='interface Screen'>
+      <dl class='idl' title='partial interface Screen'>
         <dt>readonly attribute DOMString orientation</dt>
         <dd>
           <p>
-            The <a>user agent</a> MUST return the value of the orientation of the output device.
+            The <a>user agent</a> MUST return the value representing the orientation of the screen.
           </p>
           <p>
             The returned orientation MUST be in the <a>current orientation</a> list.
@@ -160,20 +181,26 @@
         </dd>
         <dt>boolean lockOrientation(DOMtring orientation)</dt>
         <dd>
-          The <a>user agent</a> MUST run these steps:
-          <ol>
-            <li>If the <i>orientation</i> isn't part of the <a>allowed orientations</a>, the method MUST return false.</li>
-            <li>If locking to <i>orientation</i> isn't currently allowed, the method MUST return false.</i>
-            <li>Otherwise, the method MUST return true and the screen orientation should be locked to <i>orientation</i>.</li>
-          </ol>
-          When the lock is done, if the orientation did change, the <a>user agent</a> MUST <a>fire a simple event</a>
-          named <code>orientationnchange</code> at the <code>Screen</code> object.
+          The method MUST run these steps of <a>locking the screen orientation</a> with
+          <i>orientation</i>
+          being the only locking orientation and return the value returned from those steps.
+        </dd>
+        <dt>boolean lockOrientation(sequence&lt;DOMtring&gt; orientations)</dt>
+        <dd>
+          The method MUST run these steps of <a>locking the screen orientation</a> with
+          <i>orientations</i>
+          being the only locking orientation and return the value returned from those steps.
         </dd>
         <dt>void unlockOrientation()</dt>
         <dd>
           <p>
             The <a>user agent</a> MUST disable the current lock applied on the screen with <code>lockOrientation</code>.
             If the current <a>browsing context</a> has a default orientation, the screen orientation SHOULD revert to that.
+            Otherwise, the screen orientation SHOULD revert to any value the <a>user agent</a> believes appropriate.
+          </p>
+          <p>
+            When the unlock is done, if the orientation actually changed, the <a>user agent</a> MUST <a>fire a simple event</a>
+            named <code>orientationnchange</code> at the <code>Screen</code> object.
           </p>
         </dd>
         <dt>[TreatNonCallableAsNull] attribute Function? onorientationchange</dt>
@@ -190,13 +217,50 @@
             For example, that means if an application A is locked to <code>landscape-primary</code>
             and application B is locked to <code>portrait-primary</code>, switching from
             application A to B or B to A will not fire an <code>orientationchange</code>
-            event because both application will keep the orientation they had.
+            event because both applications will keep the orientation they had.
           </p>
           <p>
-            However, locking the application can fire an <code>orientationchange</code> if the
-            application wasn't in the specified type before being locked.
+            However, locking the orientation can fire an <code>orientationchange</code> if the
+            orientation had to be changed to satisfy the lock requirements.
           </p>
         </div>
+      </p>
+      <section>
+        <h2>Locking the screen orientation</h2>
+        <p>
+          The steps of <dfn>locking the screen orientation</dfn> are the following:
+          <ol>
+            <li>Let <i>orientations</i> be the list of locking orientations.</li>
+            <li>For each <i>orientation</i> in the <i>orientations</i> list, run the following sub steps:
+              <ol>
+                <li>If <i>orientation</i> isn't part of the <a>allowed orientations</a>, the steps MUST stop here and return false.</li>
+                <li>If <i>orientation</i> is <i>portrait</i> or <i>landscape</i> the value should be removed from the list and the value
+                    it is representing should be inserted instead.</li>
+              </ol>
+            </li>
+            <li>If <i>orientations</i> isn't a supported orientation set, the steps MUST stop here and return false.</li>
+            <li>Return true and run the remaining steps asynchronously.</li>
+            <li>The <a>user agent</a> MUST <a>lock the orientation</a> to <i>orientations</i>.</li>
+            <li>When the lock is done, if the orientation actually changed, the <a>user agent</a> MUST <a>fire a simple event</a>
+                named <code>orientationnchange</code> at the <code>Screen</code> object.</li>
+          </ol>
+        </p>
+      </section>
+    </section>
+
+    <section class='informative'>
+      <h2>Declarative orientation locking</h2>
+      <p>
+        This specification doesn't intend to specify a declarative orientation locking. However, other specifications specify ways to do that.
+      </p>
+      <p>
+        The Web Application Manifest Format and Management APIs [[!WEBAPPS-MANIFEST-API]] specifies a way to declare a default orientation
+        for a web application inside the manifest file.<br>
+        That specification tries to follow this specification regarding orientation.
+      </p>
+      <p>
+        The CSS Device Adaptation specification [[!CSS-ADAPTATION]] specifies a way to declare a default orientation for a web page.<br>
+        That specification isn't yet in sync with this specification.
       </p>
     </section>
 
