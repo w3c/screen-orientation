@@ -9,7 +9,7 @@
           specStatus:           "ED",
           shortName:            "screen-orientation",
 
-          publishDate:          "2012-10-01",
+          publishDate:          "2012-11-05",
           previousPublishDate:  "2012-05-11",
           previousMaturity:     "ED",
           edDraftURI:           "http://dvcs.w3.org/hg/screen-orientation/raw-file/tip/Overview.html",
@@ -118,15 +118,19 @@
           </ul>
         </p>
 
-        <div class="note">
-          <p>
-            The notion of primary and secondary depends on the device and the platform. Usually, platforms have a way to distinguish
-            the two portrait and landscape orientations.<br>
-            For example, on most phones, portrait-primary is going to be the orientation that is used when the phone
-            is in hand and secondary will be upside-down orientation. Also, landscape-primary will be the landscape orientation
-            that is a 90 degree orientation counter-clock and secondary the other one.<br>
-            On tablets, landscape-primary will be the orientation used when the tablet is in hands.
-          </p>
+        <p>
+          The notion of primary and secondary depends on the device and the
+          platform. Some devices are in portrait mode when the user holds the
+          device in the normal orientation, other devices are in landscape
+          mode when the user holds the device in its normal orientation. For
+          devices whose normal orientation is a landscape mode, that normal
+          orientation SHOULD be represented as <code>landscape-primary</code>.
+          For devices whose normal orientation is a portrait mode, that normal
+          orientation SHOULD be represented as <code>portrait-primary</code>.
+          In both if the device is in <code>landscape-primary</code> and is
+          rotated 90 degrees clockwise, that SHOULD be represented as
+          <code>portrait-primary</code>.
+        </p>
         </div>
       </section>
 
@@ -134,9 +138,12 @@
         <h2>Allowed orientations</h2>
 
         <p>
-          The <dfn>allowed orientations</dfn> SHOULD be orientations amongst the <a>current orientation</a> list
-          or amongst those values:
+          The <dfn>allowed orientations</dfn> SHOULD be orientations amongst those values:
           <ul>
+            <li><code>portrait-primary</code>, if the orientation is in the primary portrait mode;</li>
+            <li><code>portrait-secondary</code>, if the orientation is in the secondary portrait mode;</li>
+            <li><code>landscape-primary</code>, if the orientation is in the primary landscape mode;</li>
+            <li><code>landscape-secondary</code>, if the orientation is in the secondary landscape mode.</li>
             <li><code>portrait</code>, value that represents <code>portrait-primary</code> and <code>portrait-secondary</code> cases;
             <li><code>landscape</code>, value that represents <code>landscape-primary</code> and <code>landscape-secondary</code> cases;
           </ul>
@@ -181,13 +188,13 @@
         </dd>
         <dt>boolean lockOrientation(DOMtring orientation)</dt>
         <dd>
-          The method MUST run these steps of <a>locking the screen orientation</a> with
+          The method MUST run these steps for <a>locking the screen orientation</a> with
           <i>orientation</i>
           being the only locking orientation and return the value returned from those steps.
         </dd>
         <dt>boolean lockOrientation(sequence&lt;DOMtring&gt; orientations)</dt>
         <dd>
-          The method MUST run these steps of <a>locking the screen orientation</a> with
+          The method MUST run these steps for <a>locking the screen orientation</a> with
           <i>orientations</i>
           being the only locking orientation and return the value returned from those steps.
         </dd>
@@ -228,17 +235,17 @@
       <section>
         <h2>Locking the screen orientation</h2>
         <p>
-          The steps of <dfn>locking the screen orientation</dfn> are the following:
+          The steps for <dfn>locking the screen orientation</dfn> are the following:
           <ol>
             <li>Let <i>orientations</i> be the list of locking orientations.</li>
             <li>For each <i>orientation</i> in the <i>orientations</i> list, run the following sub steps:
               <ol>
                 <li>If <i>orientation</i> isn't part of the <a>allowed orientations</a>, the steps MUST stop here and return false.</li>
-                <li>If <i>orientation</i> is <i>portrait</i> or <i>landscape</i> the value should be removed from the list and the value
-                    it is representing should be inserted instead.</li>
+                <li>If <i>orientation</i> is <i>portrait</i> or <i>landscape</i> the value should be removed from the list and the values
+                    it is representing MUST be inserted instead.</li>
               </ol>
             </li>
-            <li>If <i>orientations</i> isn't a supported orientation set, the steps MUST stop here and return false.</li>
+            <li>If <i>orientations</i> isn't a <a>supported orientation</a> set, the steps MUST stop here and return false.</li>
             <li>Return true and run the remaining steps asynchronously.</li>
             <li>The <a>user agent</a> MUST <a>lock the orientation</a> to <i>orientations</i>.</li>
             <li>When the lock is done, if the orientation actually changed, the <a>user agent</a> MUST <a>fire a simple event</a>
@@ -256,7 +263,7 @@
       <p>
         The Web Application Manifest Format and Management APIs [[!WEBAPPS-MANIFEST-API]] specifies a way to declare a default orientation
         for a web application inside the manifest file.<br>
-        That specification tries to follow this specification regarding orientation.
+        That specification tries to follow this specification regarding orientation keywords.
       </p>
       <p>
         The CSS Device Adaptation specification [[!CSS-ADAPTATION]] specifies a way to declare a default orientation for a web page.<br>
@@ -289,7 +296,7 @@
     </section>
 
     <section class='appendix'>
-      <h2>Acknowledgements</h2>
+      <h2>Acknowledgments</h2>
       Many thanks to Jonas Sicking and Chris Jones for their contributions to the design of this specification.
     </section>
 
