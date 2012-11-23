@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <title>The Screen Orientation API</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    
+    
+  <style>/*****************************************************************
+ * ReSpec 3 CSS
+ * Robin Berjon - http://berjon.com/
+ *****************************************************************/
+
+/* --- INLINES --- */
+em.rfc2119 { 
+    text-transform:     lowercase;
+    font-variant:       small-caps;
+    font-style:         normal;
+    color:              #900;
+}
+
+h1 acronym, h2 acronym, h3 acronym, h4 acronym, h5 acronym, h6 acronym, a acronym,
+h1 abbr, h2 abbr, h3 abbr, h4 abbr, h5 abbr, h6 abbr, a abbr {
+    border: none;
+}
+
+dfn {
+    font-weight:    bold;
+}
+
+a.internalDFN {
+    color:  inherit;
+    border-bottom:  1px solid #99c;
+    text-decoration:    none;
+}
+
+a.externalDFN {
+    color:  inherit;
+    border-bottom:  1px dotted #ccc;
+    text-decoration:    none;
+}
+
+a.bibref {
+    text-decoration:    none;
+}
+
+cite .bibref {
+    font-style: normal;
+}
+
+code {
+    color:  #ff4500;
+}
+
+
+/* --- --- */
+ol.algorithm { counter-reset:numsection; list-style-type: none; }
+ol.algorithm li { margin: 0.5em 0; }
+ol.algorithm li:before { font-weight: bold; counter-increment: numsection; content: counters(numsection, ".") ") "; }
+
+/* --- TOC --- */
+.toc a, .tof a {
+    text-decoration:    none;
+}
+
+a .secno, a .figno {
+    color:  #000;
+}
+
+ul.tof, ol.tof {
+    list-style: none outside none;
+}
+
+.caption {
+    margin-top: 0.5em;
+    font-style:   italic;
+}
+
+/* --- TABLE --- */
+table.simple {
+    border-spacing: 0;
+    border-collapse:    collapse;
+    border-bottom:  3px solid #005a9c;
+}
+
+.simple th {
+    background: #005a9c;
+    color:  #fff;
+    padding:    3px 5px;
+    text-align: left;
+}
+
+.simple th[scope="row"] {
+    background: inherit;
+    color:  inherit;
+    border-top: 1px solid #ddd;
+}
+
+.simple td {
+    padding:    3px 10px;
+    border-top: 1px solid #ddd;
+}
+
+.simple tr:nth-child(even) {
+    background: #f0f6ff;
+}
+
+/* --- DL --- */
+.section dd > p:first-child {
+    margin-top: 0;
+}
+
+.section dd > p:last-child {
+    margin-bottom: 0;
+}
+
+.section dd {
+    margin-bottom:  1em;
+}
+
+.section dl.attrs dd, .section dl.eldef dd {
+    margin-bottom:  0;
+}
+</style><style>/* --- EXAMPLES --- */
+div.example-title {
+    min-width: 7.5em;
+    color: #b9ab2d;
+}
+div.example-title span {
+    text-transform: uppercase;   
+}
+aside.example, div.example, div.illegal-example {
+    padding: 0.5em;
+    margin: 1em 0;
+    position: relative;
+    clear: both;
+}
+div.illegal-example { color: red }
+div.illegal-example p { color: black }
+aside.example, div.example {
+    padding: .5em;
+    border-left-width: .5em;
+    border-left-style: solid;
+    border-color: #e0cb52;
+    background: #fcfaee;    
+}
+
+aside.example div.example {
+    border-left-width: .1em;
+    border-color: #999;
+    background: #fff;
+}
+aside.example div.example div.example-title {
+    color: #999;
+}
+</style><style>/* --- ISSUES/NOTES --- */
+div.issue-title, div.note-title {
+    padding-right:  1em;
+    min-width: 7.5em;
+    color: #b9ab2d;
+}
+div.issue-title { color: #e05252; }
+div.note-title { color: #52e052; }
+div.issue-title span, div.note-title span {
+    text-transform: uppercase;
+}
+div.note, div.issue {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.note > p:first-child, .issue > p:first-child { margin-top: 0 }
+.issue, .note {
+    padding: .5em;
+    border-left-width: .5em;
+    border-left-style: solid;
+}
+div.issue, div.note {
+    padding: 0.5em;
+    margin: 1em 0;
+    position: relative;
+    clear: both;
+}
+span.note, span.issue { padding: .1em .5em .15em; }
+
+.issue {
+    border-color: #e05252;
+    background: #fbe9e9;
+}
+.note {
+    border-color: #52e052;
+    background: #e9fbe9;
+}
+
+
+</style><style>/* HIGHLIGHTS */
+code.prettyprint {
+    color:  inherit;
+}
+
+/* this from google-code-prettify */
+.pln{color:#000}@media screen{.str{color:#080}.kwd{color:#008}.com{color:#800}.typ{color:#606}.lit{color:#066}.pun,.opn,.clo{color:#660}.tag{color:#008}.atn{color:#606}.atv{color:#080}.dec,.var{color:#606}.fun{color:red}}@media print,projection{.str{color:#060}.kwd{color:#006;font-weight:bold}.com{color:#600;font-style:italic}.typ{color:#404;font-weight:bold}.lit{color:#044}.pun,.opn,.clo{color:#440}.tag{color:#006;font-weight:bold}.atn{color:#404}.atv{color:#060}}ol.linenums{margin-top:0;margin-bottom:0}li.L0,li.L1,li.L2,li.L3,li.L5,li.L6,li.L7,li.L8{list-style-type:none}li.L1,li.L3,li.L5,li.L7,li.L9{background:#eee}
+</style><style>/* --- WEB IDL --- */
+pre.idl {
+    border-top: 1px solid #90b8de;
+    border-bottom: 1px solid #90b8de;
+    padding:    1em;
+    line-height:    120%;
+}
+
+pre.idl::before {
+    content:    "WebIDL";
+    display:    block;
+    width:      150px;
+    background: #90b8de;
+    color:  #fff;
+    font-family:    initial;
+    padding:    3px;
+    font-weight:    bold;
+    margin: -1em 0 1em -1em;
+}
+
+.idlType {
+    color:  #ff4500;
+    font-weight:    bold;
+    text-decoration:    none;
+}
+
+/*.idlModule*/
+/*.idlModuleID*/
+/*.idlInterface*/
+.idlInterfaceID, .idlDictionaryID, .idlCallbackID, .idlEnumID {
+    font-weight:    bold;
+    color:  #005a9c;
+}
+
+.idlSuperclass {
+    font-style: italic;
+    color:  #005a9c;
+}
+
+/*.idlAttribute*/
+.idlAttrType, .idlFieldType, .idlMemberType {
+    color:  #005a9c;
+}
+.idlAttrName, .idlFieldName, .idlMemberName {
+    color:  #ff4500;
+}
+.idlAttrName a, .idlFieldName a, .idlMemberName a {
+    color:  #ff4500;
+    border-bottom:  1px dotted #ff4500;
+    text-decoration: none;
+}
+
+/*.idlMethod*/
+.idlMethType, .idlCallbackType {
+    color:  #005a9c;
+}
+.idlMethName {
+    color:  #ff4500;
+}
+.idlMethName a {
+    color:  #ff4500;
+    border-bottom:  1px dotted #ff4500;
+    text-decoration: none;
+}
+
+/*.idlParam*/
+.idlParamType {
+    color:  #005a9c;
+}
+.idlParamName {
+    font-style: italic;
+}
+
+.extAttr {
+    color:  #666;
+}
+
+/*.idlConst*/
+.idlConstType {
+    color:  #005a9c;
+}
+.idlConstName {
+    color:  #ff4500;
+}
+.idlConstName a {
+    color:  #ff4500;
+    border-bottom:  1px dotted #ff4500;
+    text-decoration: none;
+}
+
+/*.idlException*/
+.idlExceptionID {
+    font-weight:    bold;
+    color:  #c00;
+}
+
+.idlTypedefID, .idlTypedefType {
+    color:  #005a9c;
+}
+
+.idlRaises, .idlRaises a.idlType, .idlRaises a.idlType code, .excName a, .excName a code {
+    color:  #c00;
+    font-weight:    normal;
+}
+
+.excName a {
+    font-family:    monospace;
+}
+
+.idlRaises a.idlType, .excName a.idlType {
+    border-bottom:  1px dotted #c00;
+}
+
+.excGetSetTrue, .excGetSetFalse, .prmNullTrue, .prmNullFalse, .prmOptTrue, .prmOptFalse {
+    width:  45px;
+    text-align: center;
+}
+.excGetSetTrue, .prmNullTrue, .prmOptTrue { color:  #0c0; }
+.excGetSetFalse, .prmNullFalse, .prmOptFalse { color:  #c00; }
+
+.idlImplements a {
+    font-weight:    bold;
+}
+
+dl.attributes, dl.methods, dl.constants, dl.fields, dl.dictionary-members {
+    margin-left:    2em;
+}
+
+.attributes dt, .methods dt, .constants dt, .fields dt, .dictionary-members dt {
+    font-weight:    normal;
+}
+
+.attributes dt code, .methods dt code, .constants dt code, .fields dt code, .dictionary-members dt code {
+    font-weight:    bold;
+    color:  #000;
+    font-family:    monospace;
+}
+
+.attributes dt code, .fields dt code, .dictionary-members dt code {
+    background:  #ffffd2;
+}
+
+.attributes dt .idlAttrType code, .fields dt .idlFieldType code, .dictionary-members dt .idlMemberType code {
+    color:  #005a9c;
+    background:  transparent;
+    font-family:    inherit;
+    font-weight:    normal;
+    font-style: italic;
+}
+
+.methods dt code {
+    background:  #d9e6f8;
+}
+
+.constants dt code {
+    background:  #ddffd2;
+}
+
+.attributes dd, .methods dd, .constants dd, .fields dd, .dictionary-members dd {
+    margin-bottom:  1em;
+}
+
+table.parameters, table.exceptions {
+    border-spacing: 0;
+    border-collapse:    collapse;
+    margin: 0.5em 0;
+    width:  100%;
+}
+table.parameters { border-bottom:  1px solid #90b8de; }
+table.exceptions { border-bottom:  1px solid #deb890; }
+
+.parameters th, .exceptions th {
+    color:  #fff;
+    padding:    3px 5px;
+    text-align: left;
+    font-family:    initial;
+    font-weight:    normal;
+    text-shadow:    #666 1px 1px 0;
+}
+.parameters th { background: #90b8de; }
+.exceptions th { background: #deb890; }
+
+.parameters td, .exceptions td {
+    padding:    3px 10px;
+    border-top: 1px solid #ddd;
+    vertical-align: top;
+}
+
+.parameters tr:first-child td, .exceptions tr:first-child td {
+    border-top: none;
+}
+
+.parameters td.prmName, .exceptions td.excName, .exceptions td.excCodeName {
+    width:  100px;
+}
+
+.parameters td.prmType {
+    width:  120px;
+}
+
+table.exceptions table {
+    border-spacing: 0;
+    border-collapse:    collapse;
+    width:  100%;
+}
+</style><link href="http://www.w3.org/StyleSheets/TR/W3C-WD" rel="stylesheet"><!--[if lt IE 9]><script src='http://www.w3.org/2008/site/js/html5shiv.js'></script><![endif]--></head>
+
+  <body><div class="head">
+  <p>
+    
+      <a href="http://www.w3.org/"><img src="http://www.w3.org/Icons/w3c_home" alt="W3C" height="48" width="72"></a>
+    
+  </p>
+  <h1 class="title" id="title">The Screen Orientation API</h1>
+  
+  <h2 id="w3c-working-draft-23-november-2012"><abbr title="World Wide Web Consortium">W3C</abbr> Working Draft 23 November 2012</h2>
+  <dl>
+    
+      <dt>This version:</dt>
+      <dd><a href="http://www.w3.org/TR/2012/WD-screen-orientation-20121123/">http://www.w3.org/TR/2012/WD-screen-orientation-20121123/</a></dd>
+      <dt>Latest published version:</dt>
+      <dd><a href="http://www.w3.org/TR/screen-orientation/">http://www.w3.org/TR/screen-orientation/</a></dd>
+    
+    
+      <dt>Latest editor's draft:</dt>
+      <dd><a href="http://dvcs.w3.org/hg/screen-orientation/raw-file/tip/Overview.html">http://dvcs.w3.org/hg/screen-orientation/raw-file/tip/Overview.html</a></dd>
+    
+    
+    
+    
+    
+      <dt>Previous version:</dt>
+      <dd><a href="http://www.w3.org/TR/2012/ED-screen-orientation-20120522/">http://www.w3.org/TR/2012/ED-screen-orientation-20120522/</a></dd>
+    
+    
+    <dt>Editor:</dt>
+    <dd><span>Mounir Lamouri</span>, <a href="http://mozilla.org/">Mozilla</a></dd>
+
+    
+  </dl>
+  
+  
+  
+  
+    
+      <p class="copyright">
+        <a href="http://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> © 
+        2012
+        
+        <a href="http://www.w3.org/"><abbr title="World Wide Web Consortium">W3C</abbr></a><sup>®</sup> 
+        (<a href="http://www.csail.mit.edu/"><abbr title="Massachusetts Institute of Technology">MIT</abbr></a>,
+        <a href="http://www.ercim.eu/"><abbr title="European Research Consortium for Informatics and Mathematics">ERCIM</abbr></a>,
+        <a href="http://www.keio.ac.jp/">Keio</a>), All Rights Reserved.
+        <abbr title="World Wide Web Consortium">W3C</abbr> <a href="http://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer">liability</a>,
+        <a href="http://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks">trademark</a> and
+        <a href="http://www.w3.org/Consortium/Legal/copyright-documents">document use</a> rules apply.
+      </p>
+    
+  
+  <hr>
+</div>
+
+    <section class="introductory" id="abstract"><h2>Abstract</h2><p>
+      The Screen Orientation API's goal is to provide an interface for web applications
+      to be able to read the screen orientation state, to be informed when this state
+      changes and to be able to lock the screen orientation to a specific state.
+    </p></section><section id="sotd" class="introductory"><h2>Status of This Document</h2>
+  
+    
+      
+        <p>
+          <em>This section describes the status of this document at the time of its publication. Other
+          documents may supersede this document. A list of current <abbr title="World Wide Web Consortium">W3C</abbr> publications and the latest revision
+          of this technical report can be found in the <a href="http://www.w3.org/TR/"><abbr title="World Wide Web Consortium">W3C</abbr> technical reports
+          index</a> at http://www.w3.org/TR/.</em>
+        </p>
+        
+        <p>
+          This document was published by the <a href="http://www.w3.org/2008/webapps/">Web Applications Working Group</a> as a Working Draft.
+          
+            This document is intended to become a <abbr title="World Wide Web Consortium">W3C</abbr> Recommendation.
+          
+          If you wish to make comments regarding this document, please send them to 
+          <a href="mailto:public-webapps@w3.org">public-webapps@w3.org</a> 
+          (<a href="mailto:public-webapps-request@w3.org?subject=subscribe">subscribe</a>,
+          <a href="http://lists.w3.org/Archives/Public/public-webapps/">archives</a>).
+          
+          
+          All feedback is welcome.
+        </p>
+        
+          <p>
+            Publication as a Working Draft does not imply endorsement by the <abbr title="World Wide Web Consortium">W3C</abbr> Membership.
+            This is a draft document and may be updated, replaced or obsoleted by other documents at 
+            any time. It is inappropriate to cite this document as other than work in progress.
+          </p>
+        
+        
+        <p>
+          
+            This document was produced by a group operating under the 
+            <a href="http://www.w3.org/Consortium/Patent-Policy-20040205/">5 February 2004 <abbr title="World Wide Web Consortium">W3C</abbr> Patent Policy</a>.
+          
+          
+          
+            
+              <abbr title="World Wide Web Consortium">W3C</abbr> maintains a <a href="http://www.w3.org/2004/01/pp-impl/42538/status" rel="disclosure">public list of any patent disclosures</a> 
+            
+            made in connection with the deliverables of the group; that page also includes instructions for 
+            disclosing a patent. An individual who has actual knowledge of a patent which the individual believes contains
+            <a href="http://www.w3.org/Consortium/Patent-Policy-20040205/#def-essential">Essential Claim(s)</a> must disclose the
+            information in accordance with <a href="http://www.w3.org/Consortium/Patent-Policy-20040205/#sec-Disclosure">section
+            6 of the <abbr title="World Wide Web Consortium">W3C</abbr> Patent Policy</a>.
+          
+          
+        </p>
+        
+      
+    
+  
+</section><section id="toc"><h2 class="introductory">Table of Contents</h2><ul class="toc"><li class="tocline"><a class="tocxref" href="#introduction"><span class="secno">1. </span>Introduction</a></li><li class="tocline"><a class="tocxref" href="#conformance"><span class="secno">2. </span>Conformance</a></li><li class="tocline"><a class="tocxref" href="#terminology"><span class="secno">3. </span>Terminology</a><ul class="toc"><li class="tocline"><a class="tocxref" href="#current-orientation"><span class="secno">3.1 </span>Current orientation</a></li><li class="tocline"><a class="tocxref" href="#allowed-orientations"><span class="secno">3.2 </span>Allowed orientations</a></li><li class="tocline"><a class="tocxref" href="#lock-the-orientation"><span class="secno">3.3 </span>Lock the orientation</a></li><li class="tocline"><a class="tocxref" href="#supported-orientations"><span class="secno">3.4 </span>Supported orientations</a></li></ul></li><li class="tocline"><a class="tocxref" href="#extensions-to-the-screen-interface"><span class="secno">4. </span>Extensions to the <span class="formerLink"><code>Screen</code></span> Interface</a><ul class="toc"><li class="tocline"><a class="tocxref" href="#attributes"><span class="secno">4.1 </span>Attributes</a></li><li class="tocline"><a class="tocxref" href="#methods"><span class="secno">4.2 </span>Methods</a></li><li class="tocline"><a class="tocxref" href="#locking-the-screen-orientation"><span class="secno">4.3 </span>Locking the screen orientation</a></li></ul></li><li class="tocline"><a class="tocxref" href="#declarative-orientation-locking"><span class="secno">5. </span>Declarative orientation locking</a></li><li class="tocline"><a class="tocxref" href="#event-handlers"><span class="secno">6. </span>Event handlers</a></li><li class="tocline"><a class="tocxref" href="#acknowledgments"><span class="secno">A. </span>Acknowledgments</a></li><li class="tocline"><a class="tocxref" href="#references"><span class="secno">B. </span>References</a><ul class="toc"><li class="tocline"><a class="tocxref" href="#normative-references"><span class="secno">B.1 </span>Normative references</a></li></ul></li></ul></section>
+
+    <section id="introduction" class="informative">
+      <!--OddPage--><h2><span class="secno">1. </span>Introduction</h2><p><em>This section is non-normative.</em></p>
+      <p>
+        The Screen Orientation API provides an interface for web applications to
+        access and lock the user's device's screen orientation state.
+      </p>
+      <p>
+        This examples is an application that shows the current screen orientation
+        to the user every time the screen orientation state changes:
+      </p>
+      <div class="example"><div class="example-title"><span>Example 1</span></div><pre class="example highlight prettyprint"><span class="dec">&lt;!DOCTYPE html&gt;</span><span class="pln">
+</span><span class="tag">&lt;html&gt;</span><span class="pln">
+  </span><span class="tag">&lt;script&gt;</span><span class="pln">
+    </span><span class="kwd">function</span><span class="pln"> show</span><span class="pun">()</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+      alert</span><span class="pun">(</span><span class="str">"Screen orientation state is "</span><span class="pln"> </span><span class="pun">+</span><span class="pln"> screen</span><span class="pun">.</span><span class="pln">orientation</span><span class="pun">);</span><span class="pln">
+    </span><span class="pun">}</span><span class="pln">
+
+    screen</span><span class="pun">.</span><span class="pln">addEventListener</span><span class="pun">(</span><span class="str">"orientationchange"</span><span class="pun">,</span><span class="pln"> show</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">false</span><span class="pun">);</span><span class="pln">
+
+    show</span><span class="pun">();</span><span class="pln">
+  </span><span class="tag">&lt;/script&gt;</span><span class="pln">
+</span><span class="tag">&lt;/html&gt;</span></pre></div>
+    </section>
+
+    <section id="conformance"><!--OddPage--><h2><span class="secno">2. </span>Conformance</h2>
+<p>
+  As well as sections marked as non-normative, all authoring guidelines, diagrams, examples,
+  and notes in this specification are non-normative. Everything else in this specification is
+  normative.
+</p>
+<p>
+  The key words <em title="must" class="rfc2119">must</em>, <em title="must not" class="rfc2119">must not</em>, <em title="required" class="rfc2119">required</em>, <em title="should" class="rfc2119">should</em>, <em title="should not" class="rfc2119">should not</em>, <em title="recommended" class="rfc2119">recommended</em>, <em title="may" class="rfc2119">may</em>,
+  and <em title="optional" class="rfc2119">optional</em> in this specification are to be interpreted as described in [<cite><a href="#bib-RFC2119" class="bibref">RFC2119</a></cite>].
+</p>
+
+      <p>
+        This specification defines conformance criteria that apply to a single product: the <dfn id="dfn-user-agent">user agent</dfn> that
+        implements the interfaces that it contains.
+      </p>
+      <p>
+        Implementations that use ECMAScript to expose the APIs defined in this specification must implement them in a manner
+        consistent with the ECMAScript Bindings defined in the Web IDL specification [<cite><a href="#bib-WEBIDL" class="bibref">WEBIDL</a></cite>].
+      </p>
+    </section>
+
+    <section id="terminology">
+      <!--OddPage--><h2><span class="secno">3. </span>Terminology</h2>
+
+      <p>
+        The <code><a href="http://dev.w3.org/html5/spec/webappapis.html#function">
+        Function</a></code> interface represents a function in the scripting
+        language being used as defined in [<cite><a href="#bib-HTML5" class="bibref">HTML5</a></cite>].
+      </p>
+      <p>
+        The concepts <dfn id="dfn-queue-a-task"><a href="http://dev.w3.org/html5/spec/webappapis.html#queue-a-task">
+        queue a task</a></dfn> and
+        <dfn id="dfn-fire-a-simple-event"><a href="http://dev.w3.org/html5/spec/webappapis.html#fire-a-simple-event">
+        fire a simple event</a></dfn> are defined in [<cite><a href="#bib-HTML5" class="bibref">HTML5</a></cite>].
+      </p>
+      <p>
+        The terms <dfn id="dfn-event-handlers"> <a href="http://dev.w3.org/html5/spec/webappapis.html#event-handlers">
+        event handlers</a></dfn> and
+        <dfn id="dfn-event-handler-event-types"><a href="http://dev.w3.org/html5/spec/webappapis.html#event-handler-event-type">
+        event handler event types</a></dfn> are defined in [<cite><a href="#bib-HTML5" class="bibref">HTML5</a></cite>].
+      </p>
+      <p>
+        The concepts of <dfn id="dfn-browsing-context"><a href="http://dev.w3.org/html5/spec/browsers.html#browsing-context">
+        browsing context</a></dfn> and
+        <dfn id="dfn-active-document"><a href="http://dev.w3.org/html5/spec/browsers.html#active-document">
+        active document</a></dfn> are defined in [<cite><a href="#bib-HTML5" class="bibref">HTML5</a></cite>].
+      </p>
+
+      <section id="current-orientation">
+        <h3><span class="secno">3.1 </span>Current orientation</h3>
+
+        <p>
+          The <dfn id="dfn-current-orientation">current orientation</dfn> <em title="should" class="rfc2119">should</em> be an orientation amongst those values:
+          </p><ul>
+            <li><code>portrait-primary</code>, if the orientation is in the primary portrait mode;</li>
+            <li><code>portrait-secondary</code>, if the orientation is in the secondary portrait mode;</li>
+            <li><code>landscape-primary</code>, if the orientation is in the primary landscape mode;</li>
+            <li><code>landscape-secondary</code>, if the orientation is in the secondary landscape mode.</li>
+          </ul>
+        <p></p>
+
+        <p>
+          The notion of primary and secondary depends on the device and the
+          platform. Some devices are in portrait mode when the user holds the
+          device in the normal orientation, other devices are in landscape
+          mode when the user holds the device in its normal orientation. For
+          devices whose normal orientation is a landscape mode, that normal
+          orientation <em title="should" class="rfc2119">should</em> be represented as <code>landscape-primary</code>.
+          For devices whose normal orientation is a portrait mode, that normal
+          orientation <em title="should" class="rfc2119">should</em> be represented as <code>portrait-primary</code>.
+          In both if the device is in <code>landscape-primary</code> and is
+          rotated 90 degrees clockwise, that <em title="should" class="rfc2119">should</em> be represented as
+          <code>portrait-primary</code>.
+        </p>
+        
+      </section>
+
+      <section id="allowed-orientations">
+        <h3><span class="secno">3.2 </span>Allowed orientations</h3>
+
+        <p>
+          The <dfn id="dfn-allowed-orientations">allowed orientations</dfn> <em title="should" class="rfc2119">should</em> be orientations amongst those values:
+          </p><ul>
+            <li><code>portrait-primary</code>, if the orientation is in the primary portrait mode;</li>
+            <li><code>portrait-secondary</code>, if the orientation is in the secondary portrait mode;</li>
+            <li><code>landscape-primary</code>, if the orientation is in the primary landscape mode;</li>
+            <li><code>landscape-secondary</code>, if the orientation is in the secondary landscape mode.</li>
+            <li><code>portrait</code>, value that represents <code>portrait-primary</code> and <code>portrait-secondary</code> cases;
+            </li><li><code>landscape</code>, value that represents <code>landscape-primary</code> and <code>landscape-secondary</code> cases;
+          </li></ul>
+        <p></p>
+      </section>
+
+      <section id="lock-the-orientation">
+        <h3><span class="secno">3.3 </span>Lock the orientation</h3>
+
+        <p>
+          The action to <dfn id="dfn-lock-the-orientation">lock the orientation</dfn> consists of forcing the rendering of the current <a class="internalDFN" href="#dfn-browsing-context">browsing context</a>
+          to be shown as if the screen was oriented in one or many of the <a class="internalDFN" href="#dfn-current-orientation">current orientation</a>.<br>
+          If the lock is done on only one orientation, the screen orientation should stay on the given orientation and never change
+          until the screen orientation is unlocked. Otherwise, the screen orientation should be able to change from an orientation
+          to another as long as the orientations are amongst an orientation it has been locked to.
+        </p>
+      </section>
+
+      <section id="supported-orientations">
+        <h3><span class="secno">3.4 </span>Supported orientations</h3>
+
+        <p>
+          A set of orientations is said to be a <dfn id="dfn-supported-orientation">supported orientation</dfn> set if the <a class="internalDFN" href="#dfn-user-agent">user agent</a>
+          can <a class="internalDFN" href="#dfn-lock-the-orientation">lock the orientation</a> to that set.
+        </p>
+      </section>
+    </section>
+
+
+    <section id="extensions-to-the-screen-interface">
+      <!--OddPage--><h2><span class="secno">4. </span>Extensions to the <a class="idlType" href="#idl-def-Screen"><code>Screen</code></a> Interface</h2>
+      The CSSOM View specification defines a <code>Screen</code> interface [<cite><a href="#bib-CSSOM-VIEW" class="bibref">CSSOM-VIEW</a></cite>], which this specification extends:
+      <pre class="idl"><span class="idlInterface" id="idl-def-Screen">partial interface <span class="idlInterfaceID">Screen</span> {
+<span class="idlAttribute">    readonly attribute <span class="idlAttrType"><a>DOMString</a></span> <span class="idlAttrName"><a href="#widl-Screen-orientation">orientation</a></span>;</span>
+<span class="idlMethod">    <span class="idlMethType"><a>boolean</a></span> <span class="idlMethName"><a href="#widl-Screen-lockOrientation-boolean-DOMString-orientation">lockOrientation</a></span> (<span class="idlParam"><span class="idlParamType"><a>DOMString</a></span> <span class="idlParamName">orientation</span></span>);</span>
+<span class="idlMethod">    <span class="idlMethType"><a>boolean</a></span> <span class="idlMethName"><a href="#widl-Screen-lockOrientation-boolean-sequence-DOMString--orientations">lockOrientation</a></span> (<span class="idlParam"><span class="idlParamType">sequence&lt;<a>DOMString</a>&gt;</span> <span class="idlParamName">orientations</span></span>);</span>
+<span class="idlMethod">    <span class="idlMethType"><a>void</a></span>    <span class="idlMethName"><a href="#widl-Screen-unlockOrientation-void">unlockOrientation</a></span> ();</span>
+<span class="idlAttribute">    [<span class="extAttr">TreatNonCallableAsNull</span>]
+             attribute <span class="idlAttrType"><a>Function</a>?</span> <span class="idlAttrName"><a href="#widl-Screen-onorientationchange">onorientationchange</a></span>;</span>
+};</span></pre><section id="attributes"><h3><span class="secno">4.1 </span>Attributes</h3><dl class="attributes"><dt id="widl-Screen-onorientationchange"><code>onorientationchange</code> of type <span class="idlAttrType"><a>Function</a></span>, nullable</dt><dd></dd><dt id="widl-Screen-orientation"><code>orientation</code> of type <span class="idlAttrType"><a>DOMString</a></span>, readonly</dt><dd>
+          <p>
+            The <a class="internalDFN" href="#dfn-user-agent">user agent</a> <em title="must" class="rfc2119">must</em> return the value representing the orientation of the screen.
+          </p>
+          <p>
+            The returned orientation <em title="must" class="rfc2119">must</em> be in the <a class="internalDFN" href="#dfn-current-orientation">current orientation</a> list.
+          </p>
+        </dd></dl></section><section id="methods"><h3><span class="secno">4.2 </span>Methods</h3><dl class="methods"><dt id="widl-Screen-lockOrientation-boolean-DOMString-orientation"><code>lockOrientation</code></dt><dd>
+          The method <em title="must" class="rfc2119">must</em> run these steps for <a class="internalDFN" href="#dfn-locking-the-screen-orientation">locking the screen orientation</a> with
+          <i>orientation</i>
+          being the only locking orientation and return the value returned from those steps.
+        <table class="parameters"><tr><th>Parameter</th><th>Type</th><th>Nullable</th><th>Optional</th><th>Description</th></tr><tr><td class="prmName">orientation</td><td class="prmType"><code><a>DOMString</a></code></td><td class="prmNullFalse">✘</td><td class="prmOptFalse">✘</td><td class="prmDesc"></td></tr></table><div><em>Return type: </em><code><a>boolean</a></code></div></dd><dt id="widl-Screen-lockOrientation-boolean-sequence-DOMString--orientations"><code>lockOrientation</code></dt><dd>
+          The method <em title="must" class="rfc2119">must</em> run these steps for <a class="internalDFN" href="#dfn-locking-the-screen-orientation">locking the screen orientation</a> with
+          <i>orientations</i>
+          being the only locking orientation and return the value returned from those steps.
+        <table class="parameters"><tr><th>Parameter</th><th>Type</th><th>Nullable</th><th>Optional</th><th>Description</th></tr><tr><td class="prmName">orientations</td><td class="prmType"><code>sequence&lt;<a>DOMString</a>&gt;</code></td><td class="prmNullFalse">✘</td><td class="prmOptFalse">✘</td><td class="prmDesc"></td></tr></table><div><em>Return type: </em><code><a>boolean</a></code></div></dd><dt id="widl-Screen-unlockOrientation-void"><code>unlockOrientation</code></dt><dd>
+          <p>
+            The <a class="internalDFN" href="#dfn-user-agent">user agent</a> <em title="must" class="rfc2119">must</em> disable the current lock applied on the screen with <code>lockOrientation</code>.
+            If the current <a class="internalDFN" href="#dfn-browsing-context">browsing context</a> has a default orientation, the screen orientation <em title="should" class="rfc2119">should</em> revert to that.
+            Otherwise, the screen orientation <em title="should" class="rfc2119">should</em> revert to any value the <a class="internalDFN" href="#dfn-user-agent">user agent</a> believes appropriate.
+          </p>
+          <p>
+            When the unlock is done, if the orientation actually changed, the <a class="internalDFN" href="#dfn-user-agent">user agent</a> <em title="must" class="rfc2119">must</em> <a class="internalDFN" href="#dfn-fire-a-simple-event">fire a simple event</a>
+            named <code>orientationnchange</code> at the <code>Screen</code> object.
+          </p>
+        <div><em>No parameters.</em></div><div><em>Return type: </em><code><a>void</a></code></div></dd></dl></section>
+
+      <p>
+        When the screen orientation changes in the current <a class="internalDFN" href="#dfn-browsing-context">browsing context</a>, the <a class="internalDFN" href="#dfn-user-agent">user agent</a> <em title="must" class="rfc2119">must</em> <a class="internalDFN" href="#dfn-queue-a-task">queue a task</a>
+        which updates the <code>orientation</code> attribute and <a class="internalDFN" href="#dfn-fire-a-simple-event">fire a simple event</a> named <code>orientationchange</code>
+        at the <code>Screen</code> object.
+
+        </p><div class="note"><div class="note-title"><span>Note</span></div><div class="">
+          <p>
+            For example, that means if an application A is locked to <code>landscape-primary</code>
+            and application B is locked to <code>portrait-primary</code>, switching from
+            application A to B or B to A will not fire an <code>orientationchange</code>
+            event because both applications will keep the orientation they had.
+          </p>
+          <p>
+            However, locking the orientation can fire an <code>orientationchange</code> if the
+            orientation had to be changed to satisfy the lock requirements.
+          </p>
+        </div></div>
+      <p></p>
+      <section id="locking-the-screen-orientation">
+        <h3><span class="secno">4.3 </span>Locking the screen orientation</h3>
+        <p>
+          The steps for <dfn id="dfn-locking-the-screen-orientation">locking the screen orientation</dfn> are the following:
+          </p><ol>
+            <li>Let <i>orientations</i> be the list of locking orientations.</li>
+            <li>For each <i>orientation</i> in the <i>orientations</i> list, run the following sub steps:
+              <ol>
+                <li>If <i>orientation</i> isn't part of the <a class="internalDFN" href="#dfn-allowed-orientations">allowed orientations</a>, the steps <em title="must" class="rfc2119">must</em> stop here and return false.</li>
+                <li>If <i>orientation</i> is <i>portrait</i> or <i>landscape</i> the value should be removed from the list and the values
+                    it is representing <em title="must" class="rfc2119">must</em> be inserted instead.</li>
+              </ol>
+            </li>
+            <li>If <i>orientations</i> isn't a <a class="internalDFN" href="#dfn-supported-orientation">supported orientation</a> set, the steps <em title="must" class="rfc2119">must</em> stop here and return false.</li>
+            <li>Return true and run the remaining steps asynchronously.</li>
+            <li>The <a class="internalDFN" href="#dfn-user-agent">user agent</a> <em title="must" class="rfc2119">must</em> <a class="internalDFN" href="#dfn-lock-the-orientation">lock the orientation</a> to <i>orientations</i>.</li>
+            <li>When the lock is done, if the orientation actually changed, the <a class="internalDFN" href="#dfn-user-agent">user agent</a> <em title="must" class="rfc2119">must</em> <a class="internalDFN" href="#dfn-fire-a-simple-event">fire a simple event</a>
+                named <code>orientationnchange</code> at the <code>Screen</code> object.</li>
+          </ol>
+        <p></p>
+      </section>
+    </section>
+
+    <section id="declarative-orientation-locking" class="informative">
+      <!--OddPage--><h2><span class="secno">5. </span>Declarative orientation locking</h2><p><em>This section is non-normative.</em></p>
+      <p>
+        This specification doesn't intend to specify a declarative orientation locking. However, other specifications specify ways to do that.
+      </p>
+      <p>
+        The Web Application Manifest Format and Management APIs [<cite><a href="#bib-WEBAPPS-MANIFEST-API" class="bibref">WEBAPPS-MANIFEST-API</a></cite>] specifies a way to declare a default orientation
+        for a web application inside the manifest file.<br>
+        That specification tries to follow this specification regarding orientation keywords.
+      </p>
+      <p>
+        The CSS Device Adaptation specification [<cite><a href="#bib-CSS-ADAPTATION" class="bibref">CSS-ADAPTATION</a></cite>] specifies a way to declare a default orientation for a web page.<br>
+        That specification isn't yet in sync with this specification.
+      </p>
+    </section>
+
+    <section id="event-handlers">
+      <!--OddPage--><h2><span class="secno">6. </span>Event handlers</h2>
+      <p>
+        The following are the <a class="internalDFN" href="#dfn-event-handlers">event handlers</a> (and their corresponding
+        <a class="internalDFN" href="#dfn-event-handler-event-types">event handler event types</a>) that <em title="must" class="rfc2119">must</em> be supported as attributes
+        by the <code>Screen</code> object:
+      </p>
+
+      <table class="simple">
+        <thead>
+          <tr>
+            <th>event handler</th>
+            <th>event handler event type</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong><code>onorientationchange</code></strong></td>
+            <td><code>orientationchange</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="acknowledgments" class="appendix">
+      <!--OddPage--><h2><span class="secno">A. </span>Acknowledgments</h2>
+      Many thanks to Jonas Sicking and Chris Jones for their contributions to the design of this specification.
+    </section>
+
+  
+
+<section class="appendix" id="references"><!--OddPage--><h2><span class="secno">B. </span>References</h2><section id="normative-references"><h3><span class="secno">B.1 </span>Normative references</h3><dl class="bibliography"><dt id="bib-CSS-ADAPTATION">[CSS-ADAPTATION]</dt><dd>Rune Lillesveen. <a href="http://dev.w3.org/csswg/css-device-adapt/">CSS Device Adaptation</a>. 23 January 2012. Editor's Draft. (Work in progress.) URL: <a href="http://dev.w3.org/csswg/css-device-adapt/">http://dev.w3.org/csswg/css-device-adapt/</a>
+</dd><dt id="bib-CSSOM-VIEW">[CSSOM-VIEW]</dt><dd>Anne van Kesteren. <a href="http://www.w3.org/TR/2008/WD-cssom-view-20080222"><cite>CSSOM View Module.</cite></a> 22 February 2008. W3C Working Draft. (Work in progress.) URL: <a href="http://www.w3.org/TR/2008/WD-cssom-view-20080222">http://www.w3.org/TR/2008/WD-cssom-view-20080222</a> 
+</dd><dt id="bib-HTML5">[HTML5]</dt><dd>Ian Hickson; David Hyatt. <a href="http://www.w3.org/TR/html5"><cite>HTML5.</cite></a> 29 March 2012. W3C Working Draft. (Work in progress.) URL: <a href="http://www.w3.org/TR/html5">http://www.w3.org/TR/html5</a> 
+</dd><dt id="bib-RFC2119">[RFC2119]</dt><dd>S. Bradner. <a href="http://www.ietf.org/rfc/rfc2119.txt"><cite>Key words for use in RFCs to Indicate Requirement Levels.</cite></a> March 1997. Internet RFC 2119.  URL: <a href="http://www.ietf.org/rfc/rfc2119.txt">http://www.ietf.org/rfc/rfc2119.txt</a> 
+</dd><dt id="bib-WEBAPPS-MANIFEST-API">[WEBAPPS-MANIFEST-API]</dt><dd>Anant Narayanan. <a href="http://dvcs.w3.org/hg/app-manifest/raw-file/tip/index.html"><cite>Web Application Manifest Format and Management APIs</cite></a>. W3C Editor's Draft. (Work in progress.) URL: <a href="http://dvcs.w3.org/hg/app-manifest/raw-file/tip/index.html">http://dvcs.w3.org/hg/app-manifest/raw-file/tip/index.html</a> 
+</dd><dt id="bib-WEBIDL">[WEBIDL]</dt><dd>Cameron McCormack. <a href="http://www.w3.org/TR/2011/WD-WebIDL-20110927/"><cite>Web IDL.</cite></a> 27 September 2011. W3C Working Draft. (Work in progress.) URL: <a href="http://www.w3.org/TR/2011/WD-WebIDL-20110927/">http://www.w3.org/TR/2011/WD-WebIDL-20110927/</a> 
+</dd></dl></section></section></body></html>
