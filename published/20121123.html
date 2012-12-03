@@ -570,9 +570,9 @@ table.exceptions table {
       <!--OddPage--><h2><span class="secno">3. </span>Terminology</h2>
 
       <p>
-        The <code><a href="http://dev.w3.org/html5/spec/webappapis.html#function">
-        Function</a></code> interface represents a function in the scripting
-        language being used as defined in [<cite><a href="#bib-HTML5" class="bibref">HTML5</a></cite>].
+        The <dfn id='dfn-eventhandler'><a href="http://dev.w3.org/html5/spec/webappapis.html#eventhandler">
+        EventHandler</a></dfn> interface represents a callback used for event
+        handlers as defined in [<cite><a href="#bib-HTML5" class="bibref">HTML5</a></cite>].
       </p>
       <p>
         The concepts <dfn id="dfn-queue-a-task"><a href="http://dev.w3.org/html5/spec/webappapis.html#queue-a-task">
@@ -670,8 +670,8 @@ table.exceptions table {
 <span class="idlMethod">    <span class="idlMethType"><a>boolean</a></span> <span class="idlMethName"><a href="#widl-Screen-lockOrientation-boolean-sequence-DOMString--orientations">lockOrientation</a></span> (<span class="idlParam"><span class="idlParamType">sequence&lt;<a>DOMString</a>&gt;</span> <span class="idlParamName">orientations</span></span>);</span>
 <span class="idlMethod">    <span class="idlMethType"><a>void</a></span>    <span class="idlMethName"><a href="#widl-Screen-unlockOrientation-void">unlockOrientation</a></span> ();</span>
 <span class="idlAttribute">    [<span class="extAttr">TreatNonCallableAsNull</span>]
-             attribute <span class="idlAttrType"><a>Function</a>?</span> <span class="idlAttrName"><a href="#widl-Screen-onorientationchange">onorientationchange</a></span>;</span>
-};</span></pre><section id="attributes"><h3><span class="secno">4.1 </span>Attributes</h3><dl class="attributes"><dt id="widl-Screen-onorientationchange"><code>onorientationchange</code> of type <span class="idlAttrType"><a>Function</a></span>, nullable</dt><dd></dd><dt id="widl-Screen-orientation"><code>orientation</code> of type <span class="idlAttrType"><a>DOMString</a></span>, readonly</dt><dd>
+             attribute <span class="idlAttrType"><a>EventHandler</a></span> <span class="idlAttrName"><a href="#widl-Screen-onorientationchange">onorientationchange</a></span>;</span>
+};</span></pre><section id="attributes"><h3><span class="secno">4.1 </span>Attributes</h3><dl class="attributes"><dt id="widl-Screen-onorientationchange"><code>onorientationchange</code> of type <span class="idlAttrType"><a>EventHandler</a></span>, nullable</dt><dd></dd><dt id="widl-Screen-orientation"><code>orientation</code> of type <span class="idlAttrType"><a>DOMString</a></span>, readonly</dt><dd>
           <p>
             The <a class="internalDFN" href="#dfn-user-agent">user agent</a> <em title="must" class="rfc2119">must</em> return the value representing the orientation of the screen.
           </p>
