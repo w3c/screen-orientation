@@ -241,8 +241,10 @@
             <li>For each <i>orientation</i> in the <i>orientations</i> list, run the following sub steps:
               <ol>
                 <li>If <i>orientation</i> isn't part of the <a>allowed orientations</a>, the steps MUST stop here and return false.</li>
-                <li>If <i>orientation</i> is <i>portrait</i> or <i>landscape</i> the value should be removed from the list and the values
-                    it is representing MUST be inserted instead.</li>
+                <li>If <i>orientation</i> is <i>portrait</i> or <i>landscape</i>
+                the value should be removed from <i>orientations</i> and every
+                value it is representing that is a <a>supported orientation</a>
+                MUST be inserted in <i>orientations</i>.</li>
               </ol>
             </li>
             <li>If <i>orientations</i> isn't a <a>supported orientation</a> set, the steps MUST stop here and return false.</li>
