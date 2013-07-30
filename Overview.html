@@ -9,7 +9,7 @@
     'remove'>
 </script>
     <script class='remove'>
-  var respecConfig = {
+var respecConfig = {
           specStatus:           "ED",
           shortName:            "screen-orientation",
 
@@ -230,10 +230,8 @@
           readonly attribute DOMString orientation
         </dt>
         <dt>
-          boolean lockOrientation(DOMString orientation)
-        </dt>
-        <dt>
-          boolean lockOrientation(sequence&lt;DOMString&gt; orientations)
+          boolean lockOrientation((DOMString or sequence&lt;DOMString&gt;)
+          orientations)
         </dt>
         <dt>
           void unlockOrientation()
