@@ -9,15 +9,16 @@
           specStatus:           "ED",
           shortName:            "screen-orientation",
 
-          publishDate:          "2012-11-05",
-          previousPublishDate:  "2012-05-11",
+          publishDate:          "2013-07-30",
+          previousPublishDate:  "2012-12-06",
           previousMaturity:     "ED",
           edDraftURI:           "http://dvcs.w3.org/hg/screen-orientation/raw-file/tip/Overview.html",
 
           // if this is a LCWD, uncomment and set the end of its review period
           // lcEnd: "2009-08-05",
-          extraCSS:   ["../ReSpec.js/css/respec.css"],
-          noIDLIn:    true,
+          extraCSS:      ["../ReSpec.js/css/respec.css"],
+          noIDLIn:       true,
+          noLegacyStyle: true,
 
           editors:  [
               { name: "Mounir Lamouri",
@@ -34,7 +35,6 @@
   </head>
 
   <body>
-
     <section id='abstract'>
       The Screen Orientation API's goal is to provide an interface for web applications
       to be able to read the screen orientation state, to be informed when this state
@@ -172,47 +172,34 @@
       </section>
     </section>
 
-
     <section>
       <h2>Extensions to the <a>Screen</a> Interface</h2>
       The CSSOM View specification defines a <code>Screen</code> interface [[!CSSOM-VIEW]], which this specification extends:
       <dl class='idl' title='partial interface Screen'>
         <dt>readonly attribute DOMString orientation</dt>
-        <dd>
-          <p>
-            The <a>user agent</a> MUST return the value representing the orientation of the screen.
-          </p>
-          <p>
-            The returned orientation MUST be in the <a>current orientation</a> list.
-          </p>
-        </dd>
+        <dd></dd>
         <dt>boolean lockOrientation(DOMString orientation)</dt>
-        <dd>
-          The method MUST run these steps for <a>locking the screen orientation</a> with
-          <i>orientation</i>
-          being the only locking orientation and return the value returned from those steps.
-        </dd>
+        <dd></dd>
         <dt>boolean lockOrientation(sequence&lt;DOMString&gt; orientations)</dt>
-        <dd>
-          The method MUST run these steps for <a>locking the screen orientation</a> with
-          <i>orientations</i>
-          being the only locking orientation and return the value returned from those steps.
-        </dd>
+        <dd></dd>
         <dt>void unlockOrientation()</dt>
-        <dd>
-          <p>
-            The <a>user agent</a> MUST disable the current lock applied on the screen with <code>lockOrientation</code>.
-            If the current <a>browsing context</a> has a default orientation, the screen orientation SHOULD revert to that.
-            Otherwise, the screen orientation SHOULD revert to any value the <a>user agent</a> believes appropriate.
-          </p>
-          <p>
-            When the unlock is done, if the orientation actually changed, the <a>user agent</a> MUST <a>fire a simple event</a>
-            named <code>orientationnchange</code> at the <code>Screen</code> object.
-          </p>
-        </dd>
+        <dd></dd>
         <dt>[TreatNonCallableAsNull] attribute EventHandler onorientationchange</dt>
         <dd></dd>
       </dl>
+
+      <p>
+        The <code>orientation</code> attribute MUST return the value representing the orientation of the screen. The returned orientation MUST be in the <a>current orientation</a> list.
+      </p>
+
+      <p>
+        The <code>lockOrientation()</code> method, when invoked, MUST run the steps for <a>locking the screen orientation</a>. If <code>lockOrientation</code> was called with a sequence of strings, the sequence should be used as <i>orientation</i> in the mentioned steps. Otherwise, the passed string should be the only element in <i>orientations</i>. The method MUST return the result returned from running previous steps.
+      </p>
+
+
+      <p>
+        The <code>unlockOrientation()</code> method, when invoked, MUST disable the current lock applied on the screen with <code>lockOrientation</code>. If the current <a>browsing context</a> has a default orientation, the screen orientation SHOULD revert to that. Otherwise, the screen orientation SHOULD revert to any value the <a>user agent</a> believes appropriate.
+      </p>
 
       <p>
         When the screen orientation changes in the current <a>browsing context</a>, the <a>user agent</a> MUST <a>queue a task</a>
