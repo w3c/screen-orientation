@@ -830,17 +830,17 @@ table.exceptions table {
       [<cite><a class="bibref" href="#bib-CSSOM-VIEW">CSSOM-VIEW</a></cite>], which this specification extends:
       <pre class="idl"><span class="idlInterface" id="idl-def-Screen">partial interface <span class="idlInterfaceID">Screen</span> : <span class="idlSuperclass">EventTarget</span> {
 <span class="idlAttribute">    readonly    attribute <span class="idlAttrType">DOMString</span>    <span class="idlAttrName"><a href="#widl-Screen-orientation">orientation</a></span>;</span>
-<span class="idlMethod">    <span class="idlMethType">boolean</span> <span class="idlMethName"><a href="#widl-Screen-lockOrientation-boolean-DOMString-sequence-DOMString--orientations">lockOrientation</a></span> (<span class="idlParam"><span class="idlParamType">(DOMString or sequence&lt;DOMString&gt;)</span> <span class="idlParamName">orientations</span></span>);</span>
-<span class="idlMethod">    <span class="idlMethType">void</span>    <span class="idlMethName"><a href="#widl-Screen-unlockOrientation-void">unlockOrientation</a></span> ();</span>
+<span class="idlMethod">    <span class="idlMethType">boolean</span> <span class="idlMethName"><a href="#widl-Screen-lockOrientation">lockOrientation</a></span> (<span class="idlParam"><span class="idlParamType">(DOMString or sequence&lt;DOMString&gt;)</span> <span class="idlParamName">orientations</span></span>);</span>
+<span class="idlMethod">    <span class="idlMethType">void</span>    <span class="idlMethName"><a href="#widl-Screen-unlockOrientation">unlockOrientation</a></span> ();</span>
 <span class="idlAttribute">                attribute <span class="idlAttrType"><a href="#dfn-eventhandler" class="internalDFN">EventHandler</a></span> <span class="idlAttrName"><a href="#widl-Screen-onorientationchange">onorientationchange</a></span>;</span>
 };</span></pre>
       <p>
-        The <code>orientation</code> attribute <em class="rfc2119" title="MUST">MUST</em> return the value
+        The <dfn id="widl-Screen-orientation" title="WIDL-Screen-orientation"><code>orientation</code></dfn> attribute <em class="rfc2119" title="MUST">MUST</em> return the value
         representing the orientation of the screen. The returned orientation
         <em class="rfc2119" title="MUST">MUST</em> be in the <a href="#dfn-current-orientation" class="internalDFN">current orientation</a> list.
       </p>
       <p>
-        The <code>lockOrientation()</code> method, when invoked, <em class="rfc2119" title="MUST">MUST</em> run the
+        The <dfn id="widl-Screen-lockOrientation" title="WIDL-Screen-lockOrientation"><code>lockOrientation()</code></dfn> method, when invoked, <em class="rfc2119" title="MUST">MUST</em> run the
         steps for <a href="#dfn-locking-the-screen-orientation" class="internalDFN">locking the screen orientation</a>. If
         <code>lockOrientation</code> was called with a sequence of strings, the
         sequence <em class="rfc2119" title="MUST">MUST</em> be used as <i>orientation</i> in the mentioned steps.
@@ -849,7 +849,7 @@ table.exceptions table {
         running previous steps.
       </p>
       <p>
-        The <code>unlockOrientation()</code> method, when invoked, <em class="rfc2119" title="MUST">MUST</em>
+        The <dfn id="widl-Screen-unlockOrientation" title="WIDL-Screen-unlockOrientation"><code>unlockOrientation()</code></dfn> method, when invoked, <em class="rfc2119" title="MUST">MUST</em>
         asynchronously <a href="#dfn-lock-the-orientation" class="internalDFN">lock the orientation</a> to the <a href="#dfn-default-orientation" class="internalDFN">default
         orientation</a>. The <a href="#dfn-user-agent" class="internalDFN">user agent</a> <em class="rfc2119" title="MAY">MAY</em> ignore this call if the
         screen is already locked to the <a href="#dfn-default-orientation" class="internalDFN">default orientation</a>.
@@ -858,7 +858,7 @@ table.exceptions table {
         When the screen orientation changes in the current <a href="#dfn-browsing-context" class="internalDFN">browsing
         context</a>, the <a href="#dfn-user-agent" class="internalDFN">user agent</a> <em class="rfc2119" title="MUST">MUST</em> <a href="#dfn-queue-a-task" class="internalDFN">queue a task</a> which
         updates the <code>orientation</code> attribute and <a href="#dfn-fire-a-simple-event" class="internalDFN">fire a simple
-        event</a> named <code>orientationchange</code> at the
+        event</a> named <dfn id="widl-Screen-onorientationchange" title="WIDL-Screen-onorientationchange"><code>orientationchange</code></dfn> at the
         <code>Screen</code> object.
       </p>
       <div class="note"><div class="note-title" aria-level="2" role="heading" id="h_note_1"><span>Note</span></div><div class="">
