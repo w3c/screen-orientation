@@ -210,9 +210,9 @@
         </p>
         <p>
           If the lock is done on only one orientation, the screen orientation
-          should stay on the given orientation and never change until the
+          MUST stay on the given orientation and never change until the
           screen orientation is locked again. Otherwise, the screen orientation
-          should be able to change from an orientation to another as long as
+          MUST be able to change from an orientation to another as long as
           the orientations are amongst an orientation it has been locked to.
         </p>
         <p>
@@ -272,8 +272,8 @@
         The <code>lockOrientation()</code> method, when invoked, MUST run the
         steps for <a>locking the screen orientation</a>. If
         <code>lockOrientation</code> was called with a sequence of strings, the
-        sequence should be used as <i>orientation</i> in the mentioned steps.
-        Otherwise, the passed string should be the only element in
+        sequence MUST be used as <i>orientation</i> in the mentioned steps.
+        Otherwise, the passed string MUST be the only element in
         <i>orientations</i>. The method MUST return the result returned from
         running previous steps.
       </p>
@@ -327,7 +327,7 @@
               orientations</a>, the steps MUST stop here and return false.
               </li>
               <li>If <i>orientation</i> is <i>portrait</i> or <i>landscape</i>
-              the value should be removed from <i>orientations</i> and every
+              the value MUST be removed from <i>orientations</i> and every
               <a>allowed orientations</a> it is representing MUST be inserted
               in <i>orientations</i>.
               </li>
