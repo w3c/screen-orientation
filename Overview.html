@@ -231,6 +231,17 @@
           orientation</a> to that set.
         </p>
       </section>
+      <section>
+        <h2>
+          Default orientation
+        </h2>
+        <p>
+          The <a>browsing context</a>'s <dfn>default orientation</dfn> is the
+          set of orientations to which the screen orientation would be locked
+          when it is not explicitly locked by the current <a>browsing
+          context</a>.
+        </p>
+      </section>
     </section>
     <section>
       <h2>
@@ -267,18 +278,10 @@
         running previous steps.
       </p>
       <p>
-        The <code>unlockOrientation()</code> method, when invoked, MUST run the
-        following steps asynchronously:
-        <ol>
-          <li>If the current <a>browsing context</a> has a default orientation,
-          the <a>user agent</a> MUST <a>lock the orientation</a> to the default
-          orientation and stop here.</li>
-          <li>Otherwise, the <a>user agent</a> MUST <a>lock the orientation</a>
-          to any value that it believes appropriate.</li>
-        </ol>
-        An OPTIONAL optimization would allow the <a>user agent</a> to not run
-        those steps if the outcome would be known to be a no-op. For example,
-        if the <a>current orientation</a> is already the default orientation.
+        The <code>unlockOrientation()</code> method, when invoked, MUST
+        asynchronously <a>lock the orientation</a> to the <a>default
+        orientation</a>. The <a>user agent</a> MAY ignore this call if the
+        screen is already locked to the <a>default orientation</a>.
       </p>
       <p>
         When the screen orientation changes in the current <a>browsing
