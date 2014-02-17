@@ -206,12 +206,19 @@
           rendering of the current <a>browsing context</a> to be shown as if
           the screen was oriented in one or many of the <a>current
           orientation</a>, regardless of the actual screen orientation relative
-          to the user or the previous locks.<br>
+          to the user or the previous locks.
+        </p>
+        <p>
           If the lock is done on only one orientation, the screen orientation
           should stay on the given orientation and never change until the
-          screen orientation is unlocked. Otherwise, the screen orientation
+          screen orientation is locked again. Otherwise, the screen orientation
           should be able to change from an orientation to another as long as
           the orientations are amongst an orientation it has been locked to.
+        </p>
+        <p>
+          When the lock is done, if the orientation actually changed, the
+          <a>user agent</a> MUST <a>fire a simple event</a> named
+          <code>orientationnchange</code> at the <code>Screen</code> object.
         </p>
       </section>
       <section>
@@ -330,10 +337,6 @@
           </li>
           <li>The <a>user agent</a> MUST <a>lock the orientation</a> to
           <i>orientations</i>.
-          </li>
-          <li>When the lock is done, if the orientation actually changed, the
-          <a>user agent</a> MUST <a>fire a simple event</a> named
-          <code>orientationnchange</code> at the <code>Screen</code> object.
           </li>
         </ol>
       </section>
