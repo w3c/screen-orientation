@@ -300,6 +300,11 @@
           following:
         </p>
         <ol>
+          <li>If the <a>user agent</a> does not allow the current <a>browsing
+          context</a> to lock the screen orientation, the steps MUST stop here
+          and return false. For example, some <a>user agents</a> might only
+          allow <a>browsing context</a> in a fullscreen state to lock the screen
+          orientation or <a>browsing context</a> with elevated privileges.</li>
           <li>Let <i>orientations</i> be the list of locking orientations.
           </li>
           <li>For each <i>orientation</i> in the <i>orientations</i> list, run
