@@ -260,12 +260,18 @@
         running previous steps.
       </p>
       <p>
-        The <code>unlockOrientation()</code> method, when invoked, MUST disable
-        the current lock applied on the screen with
-        <code>lockOrientation</code>. If the current <a>browsing context</a>
-        has a default orientation, the screen orientation SHOULD revert to
-        that. Otherwise, the screen orientation SHOULD revert to any value the
-        <a>user agent</a> believes appropriate.
+        The <code>unlockOrientation()</code> method, when invoked, MUST run the
+        following steps asynchronously:
+        <ol>
+          <li>If the current <a>browsing context</a> has a default orientation,
+          the <a>user agent</a> MUST <a>lock the orientation</a> to the default
+          orientation and stop here.</li>
+          <li>Otherwise, the <a>user agent</a> MUST <a>lock the orientation</a>
+          to any value that it believes appropriate.</li>
+        </ol>
+        An OPTIONAL optimization would allow the <a>user agent</a> to not run
+        those steps if the outcome would be known to be a no-op. For example,
+        if the <a>current orientation</a> is already the default orientation.
       </p>
       <p>
         When the screen orientation changes in the current <a>browsing
