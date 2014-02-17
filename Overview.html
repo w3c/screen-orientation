@@ -61,15 +61,25 @@
       <pre class='example highlight'>
         &lt;!DOCTYPE html&gt;
         &lt;html&gt;
-          &lt;script&gt;
-            function show() {
-              alert("Screen orientation state is now " + screen.orientation);
-            }
+          &lt;head&gt;
+            &lt;title&gt;Screen Orientation API Example 1&lt;/title&gt;
+            &lt;script&gt;
+              function show() {
+                alert("Screen orientation state is now " + screen.orientation);
+              }
 
-            screen.addEventListener("orientationchange", show, false);
-
-            show();
-          &lt;/script&gt;
+              screen.addEventListener("orientationchange", show);
+              window.addEventListener("load", show);
+            &lt;/script&gt;
+          &lt;/head&gt;
+          &lt;body&gt;
+            &lt;input type='button' value='Unlock'
+              onclick='screen.unlockOrientation();'&gt;
+            &lt;input type='button' value='Lock to portrait'
+              onclick="screen.lockOrientation('portrait');"&gt;
+            &lt;input type='button' value='Lock to landscape'
+              onclick="screen.lockOrientation('landscape');"&gt;
+          &lt;/body&gt;
         &lt;/html&gt;
 
 </pre>
