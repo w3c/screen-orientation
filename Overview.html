@@ -41,10 +41,9 @@
   </head>
   <body>
     <section id='abstract'>
-      The Screen Orientation API's goal is to provide an interface for web
-      applications to be able to read the screen orientation state, to be
-      informed when this state changes and to be able to lock the screen
-      orientation to a specific state.
+      The <cite>Screen Orientation API</cite> provides the ability to read the
+      screen orientation state, to be informed when this state changes, and to
+      be able to lock the screen orientation to a specific state.
     </section>
     <section class='informative'>
       <h2>
@@ -52,7 +51,7 @@
       </h2>
       <p>
         The Screen Orientation API provides an interface for web applications
-        to access and lock the user's device's screen orientation state.
+        to access and lock the device's screen orientation state.
       </p>
       <p>
         This examples is an application that shows the current screen
@@ -64,7 +63,7 @@
         &lt;html&gt;
           &lt;script&gt;
             function show() {
-              alert("Screen orientation state is " + screen.orientation);
+              alert("Screen orientation state is now " + screen.orientation);
             }
 
             screen.addEventListener("orientationchange", show, false);
@@ -125,39 +124,47 @@
           Current orientation
         </h2>
         <p>
-          The <dfn>current orientation</dfn> SHOULD be an orientation amongst
-          those values:
+          The <dfn>current orientation</dfn> is represented by one of the
+          following values:
         </p>
-        <ul>
-          <li>
-            <code>portrait-primary</code>, if the orientation is in the primary
-            portrait mode;
-          </li>
-          <li>
-            <code>portrait-secondary</code>, if the orientation is in the
-            secondary portrait mode;
-          </li>
-          <li>
-            <code>landscape-primary</code>, if the orientation is in the
-            primary landscape mode;
-          </li>
-          <li>
-            <code>landscape-secondary</code>, if the orientation is in the
-            secondary landscape mode.
-          </li>
-        </ul>
+        <dl>
+          <dt>
+            <code>portrait-primary</code>
+          </dt>
+          <dd>
+            The orientation is in the primary portrait mode.
+          </dd>
+          <dt>
+            <code>portrait-secondary</code>
+          </dt>
+          <dd>
+            The orientation is in the secondary portrait mode.
+          </dd>
+          <dt>
+            <code>landscape-primary</code>
+          </dt>
+          <dd>
+            The orientation is in the primary landscape mode.
+          </dd>
+          <dt>
+            <code>landscape-secondary</code>
+          </dt>
+          <dd>
+            The orientation is in the secondary landscape mode.
+          </dd>
+        </dl>
         <p>
-          The notion of primary and secondary depends on the device and the
-          platform. Some devices are in portrait mode when the user holds the
-          device in the normal orientation, other devices are in landscape mode
-          when the user holds the device in its normal orientation. For devices
-          whose normal orientation is a landscape mode, that normal orientation
-          SHOULD be represented as <code>landscape-primary</code>. For devices
-          whose normal orientation is a portrait mode, that normal orientation
-          SHOULD be represented as <code>portrait-primary</code>. In both if
-          the device is in <code>landscape-primary</code> and is rotated 90
-          degrees clockwise, that SHOULD be represented as
-          <code>portrait-primary</code>.
+          The concepts of primary orientation and secondary orientation depends
+          on the device and the platform. Some devices are in portrait mode when
+          the user holds the device in the normal orientation, other devices are
+          in landscape mode when the user holds the device in its normal
+          orientation. For devices whose normal orientation is a landscape mode,
+          that normal orientation SHOULD be represented as
+          <code>landscape-primary</code>. For devices whose normal orientation
+          is a portrait mode, that normal orientation SHOULD be represented as
+          <code>portrait-primary</code>. In both if the device is in
+          <code>landscape-primary</code> and is rotated 90 degrees clockwise,
+          that SHOULD be represented as <code>portrait-primary</code>.
         </p>
       </section>
       <section>
@@ -165,48 +172,63 @@
           Allowed orientations
         </h2>
         <p>
-          The <dfn>allowed orientations</dfn> SHOULD be orientations amongst
-          those values:
+          The <dfn>allowed orientations</dfn> are represented by the following
+          values:
         </p>
+        <dl>
+          <dt>
+            <code>portrait-primary</code>
+          </dt>
+          <dd>
+            The orientation is in the primary portrait mode.
+          </dd>
+          <dt>
+            <code>portrait-secondary</code>
+          </dt>
+          <dd>
+            The orientation is in the secondary portrait mode.
+          </dd>
+          <dt>
+            <code>landscape-primary</code>
+          </dt>
+          <dd>
+            The orientation is in the primary landscape mode.
+          </dd>
+          <dt>
+            <code>landscape-secondary</code>
+          </dt>
+          <dd>
+            The orientation is in the secondary landscape mode.
+          </dd>
+          <dt>
+            <code>portrait</code>
+          </dt>
+          <dd>
+            The orientation is either <code>portrait-primary</code> or
+            <code>portrait-secondary</code>.
+          </dd>
+          <dt>
+            <code>landscape</code>
+          </dt>
+          <dd>
+            The orientation is either <code>landscape-primary</code> or
+            <code>landscape-secondary</code>.
+          </dd>
+        </dl>
         <ul>
-          <li>
-            <code>portrait-primary</code>, if the orientation is in the primary
-            portrait mode;
-          </li>
-          <li>
-            <code>portrait-secondary</code>, if the orientation is in the
-            secondary portrait mode;
-          </li>
-          <li>
-            <code>landscape-primary</code>, if the orientation is in the
-            primary landscape mode;
-          </li>
-          <li>
-            <code>landscape-secondary</code>, if the orientation is in the
-            secondary landscape mode.
-          </li>
-          <li>
-            <code>portrait</code>, value that represents
-            <code>portrait-primary</code> and <code>portrait-secondary</code>
-            cases;
-          </li>
-          <li>
-            <code>landscape</code>, value that represents
-            <code>landscape-primary</code> and <code>landscape-secondary</code>
-            cases;
-          </li>
         </ul>
       </section>
       <section>
         <h2>
-          Lock the orientation
+          Locking the orientation
         </h2>
         <p>
-          The action to <dfn>lock the orientation</dfn> consists of forcing the
-          rendering of the current <a>browsing context</a> to be shown as if
-          the screen was oriented in one or many of the <a>current
-          orientation</a>, regardless of the actual screen orientation relative
-          to the user or the previous locks.
+          To <dfn>lock the orientation</dfn> means forcing the rendering of the
+          current <a>browsing context</a> to behave as if the screen was
+          naturally orientated in a given orientation and will only change
+          orientation to a given set of <a>allowed orientations</a>, regardless
+          of the actual screen orientation relative to the user or the previous
+          locks.
         </p>
         <p>
           If the lock is done on only one orientation, the screen orientation
@@ -226,9 +248,8 @@
           Supported orientations
         </h2>
         <p>
-          A set of orientations is said to be a <dfn>supported
-          orientation</dfn> set if the <a>user agent</a> can <a>lock the
-          orientation</a> to that set.
+          The <dfn>supported orientations</dfn> is a set of orientations that a
+          <a>user agent</a> can <a>lock the orientation</a> to.
         </p>
       </section>
       <section>
@@ -309,8 +330,8 @@
           Locking the screen orientation
         </h2>
         <p>
-          The steps for <dfn>locking the screen orientation</dfn> are the
-          following:
+          The steps for <dfn>locking the screen orientation</dfn> are as
+          follows:
         </p>
         <ol>
           <li>If the <a>user agent</a> does not allow the current <a>browsing
@@ -333,7 +354,7 @@
               </li>
             </ol>
           </li>
-          <li>If <i>orientations</i> isn't a <a>supported orientation</a> set,
+          <li>If <i>orientations</i> isn't a <a>supported orientations</a> set,
           the steps MUST stop here and return false.
           </li>
           <li>Return true and run the remaining steps asynchronously.
@@ -355,14 +376,14 @@
       <p>
         The Web Application Manifest Format and Management APIs
         [[!WEBAPPS-MANIFEST-API]] specifies a way to declare a default
-        orientation for a web application inside the manifest file.<br>
-        That specification tries to follow this specification regarding
-        orientation keywords.
+        orientation for a web application inside the manifest file. That
+        specification tries to follow this specification regarding orientation
+        keywords.
       </p>
       <p>
         The CSS Device Adaptation specification [[!CSS-ADAPTATION]] specifies a
-        way to declare a default orientation for a web page.<br>
-        That specification isn't yet in sync with this specification.
+        way to declare a default orientation for a web page. That specification
+        isn't yet in sync with this specification.
       </p>
     </section>
     <section>
