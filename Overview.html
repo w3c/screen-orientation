@@ -282,8 +282,7 @@
           readonly attribute DOMString orientation
         </dt>
         <dt>
-          boolean lockOrientation((DOMString or sequence&lt;DOMString&gt;)
-          orientations)
+          boolean lockOrientation(DOMString orientation)
         </dt>
         <dt>
           void unlockOrientation()
@@ -299,12 +298,8 @@
       </p>
       <p>
         The <code>lockOrientation()</code> method, when invoked, MUST run the
-        steps for <a>locking the screen orientation</a>. If
-        <code>lockOrientation</code> was called with a sequence of strings, the
-        sequence MUST be used as <i>orientation</i> in the mentioned steps.
-        Otherwise, the passed string MUST be the only element in
-        <i>orientations</i>. The method MUST return the result returned from
-        running previous steps.
+        steps for <a>locking the screen orientation</a> using <i>orientation</i>.
+        The method MUST return the result returned from running previous steps.
       </p>
       <p>
         The <code>unlockOrientation()</code> method, when invoked, MUST
