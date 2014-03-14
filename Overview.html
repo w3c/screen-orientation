@@ -138,102 +138,119 @@
       </p>
       <section>
         <h2>
-          Current orientation
+          Types of orientations
         </h2>
         <p>
-          The <dfn>current orientation</dfn> is represented by one of the
+          At any given time, the screen orientation type MUST be one of the
           following values:
         </p>
-        <dl>
-          <dt>
-            <code>portrait-primary</code>
-          </dt>
-          <dd>
-            The orientation is in the primary portrait mode.
-          </dd>
-          <dt>
-            <code>portrait-secondary</code>
-          </dt>
-          <dd>
-            The orientation is in the secondary portrait mode.
-          </dd>
-          <dt>
-            <code>landscape-primary</code>
-          </dt>
-          <dd>
-            The orientation is in the primary landscape mode.
-          </dd>
-          <dt>
-            <code>landscape-secondary</code>
-          </dt>
-          <dd>
-            The orientation is in the secondary landscape mode.
-          </dd>
+
+        <dl title="enum OrientationType" class="idl">
+          <dt>portrait-primary</dt>
+          <dd></dd>
+          <dt>portrait-secondary</dt>
+          <dd></dd>
+          <dt>landscape-primary</dt>
+          <dd></dd>
+          <dt>landscape-secondary</dt>
+          <dd></dd>
         </dl>
+
         <p>
-          The concepts of primary orientation and secondary orientation depends
-          on the device and the platform. Some devices are in portrait mode when
-          the user holds the device in the normal orientation, other devices are
-          in landscape mode when the user holds the device in its normal
-          orientation. For devices whose normal orientation is a landscape mode,
-          that normal orientation SHOULD be represented as
-          <code>landscape-primary</code>. For devices whose normal orientation
-          is a portrait mode, that normal orientation SHOULD be represented as
-          <code>portrait-primary</code>. In both if the device is in
-          <code>landscape-primary</code> and is rotated 90 degrees clockwise,
-          that SHOULD be represented as <code>portrait-primary</code>.
+          When the screen width is higher than the screen height, the current
+          screen orientation MUST be whether <code>landscape-primary</code> or
+          <code>landscape-secondary</code>
+        </p>
+
+        <p>
+          When the screen height is equal or higher than the screen width, the
+          current screen orientation MUST be whether
+          <code>portrait-primary</code> or <code>portrait-secondary</code>.
+        </p>
+
+        <p>
+          The decision whether the screen orientation type is
+          <code>*-primary</code> or <code>*-secondary</code> is up to the
+          <a>user agent</a>. For example, it can be based on the device
+          preferred angles, the user's preferred orientations or the current
+          orientation when the applications starts. However, a <a>user agent</a>
+          MUST keep the screen orientation types and the screen orientation
+          angles relation constant during the lifetime of the
+          <code>Screen</code> object.
+        </p>
+
+        <p>
+          It is good practice when using this API to not assume any relationship
+          between the screen orientation type and the screen orientation angle.
         </p>
       </section>
       <section>
         <h2>
-          Allowed orientations
+          Types of orientation locks
         </h2>
         <p>
-          The <dfn>allowed orientations</dfn> are represented by the following
-          values:
+          The screen orientation MUST be lockable to all of the following types:
         </p>
-        <dl>
-          <dt>
-            <code>portrait-primary</code>
-          </dt>
-          <dd>
-            The orientation is in the primary portrait mode.
-          </dd>
-          <dt>
-            <code>portrait-secondary</code>
-          </dt>
-          <dd>
-            The orientation is in the secondary portrait mode.
-          </dd>
-          <dt>
-            <code>landscape-primary</code>
-          </dt>
-          <dd>
-            The orientation is in the primary landscape mode.
-          </dd>
-          <dt>
-            <code>landscape-secondary</code>
-          </dt>
-          <dd>
-            The orientation is in the secondary landscape mode.
-          </dd>
-          <dt>
-            <code>portrait</code>
-          </dt>
-          <dd>
-            The orientation is either <code>portrait-primary</code> or
-            <code>portrait-secondary</code>.
-          </dd>
-          <dt>
-            <code>landscape</code>
-          </dt>
-          <dd>
-            The orientation is either <code>landscape-primary</code> or
-            <code>landscape-secondary</code>.
-          </dd>
+
+        <dl title="enum OrientationLockType" class="idl">
+          <dt>any</dt>
+          <dd></dd>
+          <dt>landscape</dt>
+          <dd></dd>
+          <dt>portrait</dt>
+          <dd><dd>
+          <dt>portrait-primary</dt>
+          <dd></dd>
+          <dt>portrait-secondary</dt>
+          <dd></dd>
+          <dt>landscape-primary</dt>
+          <dd></dd>
+          <dt>landscape-secondary</dt>
+          <dd></dd>
         </dl>
+
+        <p>
+          When the <a>user agent</a> has to <dfn>apply an orientation lock</dfn>
+          using <i>orientation</i>, it MUST follow the following step:
+        </p>
+
         <ul>
+          <li>
+            If <i>orientation</I> is of a value that is also part of
+            <code>OrientationType</code>, the <a>user agent</a> MUST <a>lock the
+            orientation</a> to <i>orientation</i>.
+          </li>
+          <li>
+            If <i>orientation</i> is <code>landscape</code>, the
+            <a>user agent</a> MUST <a>lock the orientation</a> to
+            <code>landscape-primary</code> or <code>landscape-secondary</code>
+            and SHOULD allow the user to switch from one to the other depending
+            on the device orientation, unless the platform conventions say
+            otherwise.
+          </li>
+          <li>
+            If <i>orientation</i> is <code>portrait</code>, the
+            <a>user agent</a> MUST <a>lock the orientation</a> to
+            <code>portrait-primary</code> or <code>portrait-secondary</code> and
+            SHOULD allow the user to switch from one to the other depending on
+            the device orientation, unless the platform conventions say
+            otherwise.
+          </li>
+          <li>
+            If <i>orientation</i> is <code>any</code>, the <a>user agent</a>
+            MUST ignore the previous locks and allow the screen orientation to
+            change based on the device orientation and SHOULD change the current
+            screen orientation if it does not match the one associated with the
+            current device orientation, unless the platform conventions say
+            otherwise.
+          </li>
         </ul>
+
+        <p>
+          Applying an orientation lock might change the screen orientation, in
+          which case, the <a>user agent</a> MUST fire an event as described
+          below.
+        </p>
       </section>
       <section>
         <h2>
@@ -242,22 +259,16 @@
         <p>
           To <dfn>lock the orientation</dfn> means forcing the rendering of the
           current <a>browsing context</a> to behave as if the screen was
-          naturally orientated in a given orientation and will only change
-          orientation to a given set of <a>allowed orientations</a>, regardless
-          of the actual screen orientation relative to the user or the previous
-          locks.
+          naturally orientated in a given <code>OrientationType</code> even if
+          the device orientation might be different. When locking the
+          orientation, the previous locks are ignored.
         </p>
         <p>
-          If the lock is done on only one orientation, the screen orientation
-          MUST stay on the given orientation and never change until the
-          screen orientation is locked again. Otherwise, the screen orientation
-          MUST be able to change from an orientation to another as long as
-          the orientations are amongst an orientation it has been locked to.
-        </p>
-        <p>
-          When the lock is done, if the orientation actually changed, the
-          <a>user agent</a> MUST <a>fire a simple event</a> named
-          <code>orientationnchange</code> at the <code>Screen</code> object.
+          If the lock allows the user to switch between multiple orientations
+          and the current device orientation is in a state that would normally
+          get the screen orientation to change to one of those, the <a>user
+          agent</a> MUST <a>lock the orientation</a> to this new orientation and
+          allow the user to continue switching orientations.
         </p>
       </section>
       <section>
@@ -279,10 +290,10 @@
       [[!CSSOM-VIEW]], which this specification extends:
       <dl class='idl' title='partial interface Screen : EventTarget'>
         <dt>
-          readonly attribute DOMString orientation
+          readonly attribute OrientationType orientation
         </dt>
         <dt>
-          boolean lockOrientation(DOMString orientation)
+          boolean lockOrientation(OrientationLockType orientation)
         </dt>
         <dt>
           void unlockOrientation()
@@ -293,13 +304,23 @@
       </dl>
       <p>
         The <code>orientation</code> attribute MUST return the value
-        representing the orientation of the screen. The returned orientation
-        MUST be in the <a>current orientation</a> list.
+        representing the current screen orientation.
       </p>
       <p>
         The <code>lockOrientation()</code> method, when invoked, MUST run the
-        steps for <a>locking the screen orientation</a> using <i>orientation</i>.
-        The method MUST return the result returned from running previous steps.
+        following steps:
+        <ol>
+          <li>If the <a>user agent</a> does not allow the current <a>browsing
+          context</a> to lock the screen orientation, the steps MUST stop here
+          and return false. For example, a <a>user agent</a> might only allow
+          <a>browsing context</a> in a fullscreen state to lock the screen
+          orientation or <a>browsing context</a> with elevated privileges.</li>
+          <li>Return true and run the remaining steps asynchronously.
+          </li>
+          <li>The <a>user agent</a> MUST <a>apply an orientation lock</a> using
+          <i>orientation</i>.
+          </li>
+        </ol>
       </p>
       <p>
         The <code>unlockOrientation()</code> method, when invoked, MUST
@@ -328,42 +349,6 @@
           to satisfy the lock requirements.
         </p>
       </div>
-      <section>
-        <h2>
-          Locking the screen orientation
-        </h2>
-        <p>
-          The steps for <dfn>locking the screen orientation</dfn> are as
-          follows:
-        </p>
-        <ol>
-          <li>If the <a>user agent</a> does not allow the current <a>browsing
-          context</a> to lock the screen orientation, the steps MUST stop here
-          and return false. For example, a <a>user agent</a> might only allow
-          <a>browsing context</a> in a fullscreen state to lock the screen
-          orientation or <a>browsing context</a> with elevated privileges.</li>
-          <li>Let <i>orientations</i> be the list of locking orientations.
-          </li>
-          <li>For each <i>orientation</i> in the <i>orientations</i> list, run
-          the following sub steps:
-            <ol>
-              <li>If <i>orientation</i> isn't part of the <a>allowed
-              orientations</a>, the steps MUST stop here and return false.
-              </li>
-              <li>If <i>orientation</i> is <i>portrait</i> or <i>landscape</i>
-              the value MUST be removed from <i>orientations</i> and every
-              <a>allowed orientations</a> it is representing MUST be inserted
-              in <i>orientations</i>.
-              </li>
-            </ol>
-          </li>
-          <li>Return true and run the remaining steps asynchronously.
-          </li>
-          <li>The <a>user agent</a> MUST <a>lock the orientation</a> to
-          <i>orientations</i>.
-          </li>
-        </ol>
-      </section>
     </section>
     <section class='informative'>
       <h2>
