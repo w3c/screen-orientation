@@ -136,6 +136,9 @@
         "http://dev.w3.org/html5/spec/browsers.html#active-document">active
         document</a></dfn> are defined in [[!HTML5]].
       </p>
+      <p>
+        Promises objects are defined in [[!ECMASCRIPT]].
+      </p>
       <section>
         <h2>
           Types of orientations
@@ -293,7 +296,7 @@
           readonly attribute OrientationType orientation
         </dt>
         <dt>
-          boolean lockOrientation(OrientationLockType orientation)
+          Promise<OrientationType> lockOrientation(OrientationLockType orientation)
         </dt>
         <dt>
           void unlockOrientation()
@@ -311,22 +314,35 @@
         following steps:
         <ol>
           <li>If the <a>user agent</a> does not allow the current <a>browsing
-          context</a> to lock the screen orientation, the steps MUST stop here
-          and return false. For example, a <a>user agent</a> might only allow
-          <a>browsing context</a> in a fullscreen state to lock the screen
-          orientation or <a>browsing context</a> with elevated privileges.</li>
-          <li>Return true and run the remaining steps asynchronously.
+          context</a> to lock the screen orientation, return a promise rejected
+          with a <code>DOMException</code> whose name is
+          <code>"SecurityError"</code> and stop these steps. For example, a
+          <a>user agent</a> might only allow <a>browsing context</a> in a
+          fullscreen state to lock the screen orientation or <a>browsing
+          context</a> with elevated privileges.</li>
+          <li>Let <i>promise</i> be a newly-created promise and return it.</li>
+          <li>If another promise is currently waiting for an orientation change
+          following an orientation lock, this promise MUST be rejected with a
+          <code>DOMException</code> whose name is <code>"AbortError"</code>.
           </li>
           <li>The <a>user agent</a> MUST <a>apply an orientation lock</a> using
-          <i>orientation</i>.
-          </li>
+          <i>orientation</i>.</li>
+          <li>After applying the orientation lock, if it is not expected that
+          the orientation changes, resolve <i>promise</i> with the current
+          orientation. Otherwise, when the orientation changes, resolve
+          <i>promise</i> with the new orientation. The <a>user agent</a> MUST
+          resolve the promise before firing the <code>orientationchange</code>
+          event.</li>
         </ol>
       </p>
       <p>
         The <code>unlockOrientation()</code> method, when invoked, MUST
         asynchronously <a>lock the orientation</a> to the <a>default
         orientation</a>. The <a>user agent</a> MAY ignore this call if the
-        screen is already locked to the <a>default orientation</a>.
+        screen is already locked to the <a>default orientation</a>. If another
+        promise is currently waiting for an orientation change following an
+        orientation lock, this promise must be rejected with a
+        <code>DOMException</code> whose name is <code>"AbortError"</code>.
       </p>
       <p>
         When the screen orientation changes in the current <a>browsing
