@@ -466,13 +466,13 @@
       </h2>
 
       <p>
-        The [[!DEVICE-ORIENTATION]] specification defines a <code>
-        deviceorientation</code> event that can be used to discover the physical
-        orientation of the device. Such event can be used to draw things on the
-        screen that could point to a specific direction. A basic example being
-        a compass application. Another example would be an application giving
-        direction to the user or an augmented reality game pointing to an
-        objective.
+        The DeviceOrientation specification [[!DEVICE-ORIENTATION]] defines a
+        <code>deviceorientation</code> event that can be used to discover the
+        physical orientation of the device. Such event can be used to draw
+        things on the screen that could point to a specific direction. A basic
+        example being a compass application. Another example would be an
+        application giving direction to the user or an augmented reality game
+        pointing to an objective.
       </p>
 
       <p>
@@ -490,23 +490,23 @@
     </section>
     <section class='informative'>
       <h2>
-        Declarative orientation locking
+        Interaction with Web Application Manifest
       </h2>
+
       <p>
-        This specification doesn't intend to specify a declarative orientation
-        locking. However, other specifications specify ways to do that.
+        The Web Application Manifest specification [[!WEBAPPS-MANIFEST-API]]
+        allows web applications to set the <a>default orientation</a>.
       </p>
+    </section>
+    <section class='informative'>
+      <h2>
+        Interaction with CSS Device Adaptation
+      </h2>
+
       <p>
-        The Web Application Manifest Format and Management APIs
-        [[!WEBAPPS-MANIFEST-API]] specifies a way to declare a default
-        orientation for a web application inside the manifest file. That
-        specification tries to follow this specification regarding orientation
-        keywords.
-      </p>
-      <p>
-        The CSS Device Adaptation specification [[!CSS-ADAPTATION]] specifies a
-        way to declare a default orientation for a web page. That specification
-        isn't yet in sync with this specification.
+        The CSS Device Adaptation specification [[!CSS-ADAPTATION]] defines,
+        independently of this document, a way to lock the screen orientation for
+        a web page using CSS.
       </p>
     </section>
     <section>
