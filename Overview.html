@@ -133,19 +133,71 @@
         The concepts of <dfn><a href=
         "http://dev.w3.org/html5/spec/browsers.html#browsing-context">browsing
         context</a></dfn> and <dfn><a href=
-        "http://dev.w3.org/html5/spec/browsers.html#active-document">active
-        document</a></dfn> are defined in [[!HTML5]].
+        "http://www.w3.org/html/wg/drafts/html/master/browsers.html#top-level-browsing-context">
+        top-level browsing context</a></dfn> are defined in [[!HTML5]].
       </p>
       <p>
         Promises objects are defined in [[!ECMASCRIPT]].
       </p>
+      <p>
+        The term of <dfn><a href=
+        'http://www.w3.org/TR/fullscreen/#fullscreen-element-stack'>fullscreen
+        element stack</a></dfn> is defined in [[!FULLSCREEN]].
+      </p>
+    </section>
+
+    <section>
+      <h2>Concepts</h2>
       <section>
         <h2>
-          Types of orientations
+          Reading the screen orientation
         </h2>
+
         <p>
-          At any given time, the screen orientation type MUST be one of the
-          following values:
+          The screen orientation has two components. The orientation type and
+          the orientation angle. Both can be accessed from an
+          <code>OrientationInformation</code> instance.
+        </p>
+
+        <dl title="interface OrientationInformation" class="idl">
+          <dt>readonly attribute OrientationType type</dt>
+          <dd></dd>
+          <dt>readonly attribute OrientationAngle angle</dt>
+          <dd></dd>
+        </dl>
+
+        <p>
+          The <code>type</code> attribute MUST return the <a>current screen
+          orientation type</a>.
+        </p>
+
+        <p>
+          The <code>angle</code> attribute MUST return the <a>current screen
+          orientation angle</a>.
+        </p>
+
+        <p>
+          For a given <a>browsing context</a>, the values of <code>type</code>
+          and <code>angle</code> will be strongly linked in the sense that for
+          any given type, there will be a specific angle associated. However,
+          the <a>user agent</a> can associate <code>*-primary</code> and <code>
+          *-secondary</code> values at will. For example, if <code>90</code>
+          is associated with <code>landscape-primary</code> and <code>270</code>
+          with <code>landscape-secondary</code> for one browsing context,
+          another one might get the opposite relationship.
+        </p>
+
+        <p>
+          It is also worth noting that even if <code>90</code> and <code>270
+          </code> might be associated with <code>landscape</code> types for one
+          specific devices, they might be associated with <code>portrait</code>
+          types with others.
+        </p>
+
+        <p>
+          It is then considered good practice to never assume any kind of
+          relationship between the screen orientation type and the screen
+          orientation angle.
         </p>
 
         <dl title="enum OrientationType" class="idl">
@@ -160,15 +212,16 @@
         </dl>
 
         <p>
-          When the screen width is higher than the screen height, the current
-          screen orientation MUST be whether <code>landscape-primary</code> or
-          <code>landscape-secondary</code>
-        </p>
-
-        <p>
-          When the screen height is equal or higher than the screen width, the
-          current screen orientation MUST be whether
-          <code>portrait-primary</code> or <code>portrait-secondary</code>.
+          When reading the <dfn>current screen orientation type</dfn>, the <a>
+          user agent</a> MUST follow these steps:
+          <ol>
+            <li>If the screen width is greater than the screen height, these
+            steps MUST return <code>landscape-primary</code> or <code>
+            landscape-secondary</code> and terminate these steps.</li>
+            <li>If the screen width is lower than or equal to the screen height,
+            these steps MUST return <code>portrait-primary</code> or <code>
+            portrait-secondary</code>.</li>
+          </ol>
         </p>
 
         <p>
@@ -178,21 +231,36 @@
           preferred angles, the user's preferred orientations or the current
           orientation when the applications starts. However, a <a>user agent</a>
           MUST keep the screen orientation types and the screen orientation
-          angles relation constant during the lifetime of the
-          <code>Screen</code> object.
+          angles relation consistent for any given <a>browsing context</a>.
         </p>
 
+        <dl title="enum OrientationAngle" class="idl">
+          <dt>0</dt>
+          <dd></dd>
+          <dt>90</dt>
+          <dd></dd>
+          <dt>180</dt>
+          <dd></dd>
+          <dt>270</dt>
+          <dd></dd>
+        </dl>
+
         <p>
-          It is good practice when using this API to not assume any relationship
-          between the screen orientation type and the screen orientation angle.
+          When reading the <dfn>current screen orientation angle</dfn>, the <a>
+          user agent</a> MUST return the clockwise angle between the orientation
+          of the screen as it is drawn and the natural orientation of the device
+          (ie. the top of the physical screen). This is the opposite of the
+          physical rotation. In other words, if you turn a device 90 degrees on
+          the right, screen orientation angle should be 270 degrees.
         </p>
       </section>
       <section>
         <h2>
-          Types of orientation locks
+          Locking the screen orientation
         </h2>
+
         <p>
-          The screen orientation MUST be lockable to all of the following types:
+          The screen orientation MUST be lockable to all of the following values:
         </p>
 
         <dl title="enum OrientationLockType" class="idl">
@@ -210,68 +278,103 @@
           <dd></dd>
           <dt>landscape-secondary</dt>
           <dd></dd>
+          <dt>0</dt>
+          <dd></dd>
+          <dt>90</dt>
+          <dd></dd>
+          <dt>180</dt>
+          <dd></dd>
+          <dt>270</dt>
+          <dd></dd>
         </dl>
 
         <p>
           When the <a>user agent</a> has to <dfn>apply an orientation lock</dfn>
-          using <i>orientation</i>, it MUST follow the following step:
+          using <i>orientation</i>, it MUST run the following step:
         </p>
 
-        <ul>
-          <li>
-            If <i>orientation</I> is of a value that is also part of
-            <code>OrientationType</code>, the <a>user agent</a> MUST <a>lock the
-            orientation</a> to <i>orientation</i>.
-          </li>
-          <li>
-            If <i>orientation</i> is <code>landscape</code>, the
-            <a>user agent</a> MUST <a>lock the orientation</a> to
-            <code>landscape-primary</code> or <code>landscape-secondary</code>
-            and SHOULD allow the user to switch from one to the other depending
-            on the device orientation, unless the platform conventions say
-            otherwise.
-          </li>
-          <li>
-            If <i>orientation</i> is <code>portrait</code>, the
-            <a>user agent</a> MUST <a>lock the orientation</a> to
-            <code>portrait-primary</code> or <code>portrait-secondary</code> and
-            SHOULD allow the user to switch from one to the other depending on
-            the device orientation, unless the platform conventions say
-            otherwise.
-          </li>
-          <li>
-            If <i>orientation</i> is <code>any</code>, the <a>user agent</a>
-            MUST ignore the previous locks and allow the screen orientation to
-            change based on the device orientation and SHOULD change the current
-            screen orientation if it does not match the one associated with the
-            current device orientation, unless the platform conventions say
-            otherwise.
-          </li>
-        </ul>
+        <ol>
+          <li>The <a>user agent</a> MAY require the current <a>top-level
+          browsing context</a> to be fullscreen [[!FULLSCREEN]], in which case,
+          it MUST run the following sub-steps:</li>
+          <ol>
+            <li>Let <i>doc</i> be the <a>top-level browsing context</a>'s
+            document.</i>
+            <li>If <i>doc</i> has an empty <a>fullscreen element stack</a>,
+            return a Promise rejected with a <code>DOMException</code> whose
+            name is <code>SecurityError</code> and abort these steps.</li>
+            <li>The next time <i>doc</i> receives a <code>fullscreenchange
+            </code> event, when fullscreen is exited, the <a>user agent</a> MUST
+            <a>lock the orientation</a> to the <a>default orientation</a>.</li>
+          </ol>
+          <li>Let <i>promise</i> be a newly-created promise and return it.</li>
+          <li>If a promise previously created in these steps is pending, it MUST
+          be rejected with a <code>DOMException</code> whose name is <code>
+          AbortError</code>.</li>
+          <li>One of the following sub-steps MUST be run asynchronously,
+          depending on <i>orientation</i>'s value:</li>
+            <ul>
+              <li>If <i>orientation</i> is <code>landscape</code>, the
+              <a>user agent</a> MUST <a>lock the orientation</a> to
+              <code>landscape-primary</code>, <code>landscape-secondary</code>
+              or both, depending on the platform conventions.</li>
+              <li>If <i>orientation</i> is <code>portrait</code>, the
+              <a>user agent</a> MUST <a>lock the orientation</a> to
+              <code>portrait-primary</code>, <code>portrait-secondary</code>
+              or both, depending on the platform conventions.</li>
+              <li>If <i>orientation</i> is <code>any</code>, the <a>user agent
+              </a> MUST <a>lock the orientation</a> to <code>portrait-primary
+              </code>, <code>portrait-secondary</code>, <code>landscape-primary
+              </code> and <code>landscape-secondary</code>.</li>
+              <li>Otherwise, the <a>user agent</a> MUST <a>lock the orientation
+              </a> to <i>orientation</i>.</li>
+            </ul>
+          <li>Let <i>result</i> be a new instance of <code>
+          OrientationInformation</code>.</li>
+          <li>If locking the orientation should not provoke an orientation
+          change, the <a>user agent</a> MUST resolve <i>promise</i> with <i>
+          result</i> and abort these steps.</li>
+          <li>Otherwise, the next time the orientation changes, before firing
+          the <code>orientationchange</code> event as described below, the
+          <a>user agent</a> MUST resolve <i>promise</i> with <i>result</i>.</li>
+        </ol>
 
         <p>
-          Applying an orientation lock might change the screen orientation, in
-          which case, the <a>user agent</a> MUST fire an event as described
-          below.
-        </p>
-      </section>
-      <section>
-        <h2>
-          Locking the orientation
-        </h2>
-        <p>
-          To <dfn>lock the orientation</dfn> means forcing the rendering of the
-          current <a>browsing context</a> to behave as if the screen was
-          naturally orientated in a given <code>OrientationType</code> even if
-          the device orientation might be different. When locking the
-          orientation, the previous locks are ignored.
-        </p>
-        <p>
-          If the lock allows the user to switch between multiple orientations
-          and the current device orientation is in a state that would normally
-          get the screen orientation to change to one of those, the <a>user
-          agent</a> MUST <a>lock the orientation</a> to this new orientation and
-          allow the user to continue switching orientations.
+          When the <a>user agent</a> has to <dfn>lock the orientation</dfn>
+          using <i>orientations</i>, it MUST run tho following steps:
+          <ol>
+            <li>If the screen is already locked to <i>orientations</i>, abort
+            the steps.</li>
+            <li>If <i>orientations</i> contains only one value, run the
+            following sub-steps:</li>
+              <ol>
+                <li>Let <i>orientation</i> be the value contained in <i>
+                orientations</i>.</li>
+                <li>The <a>user agent</a> MUST change how the viewport is drawn
+                such as the <a>current screen orientation type</a> or the <a>
+                current screen orientation angle</a> will be equal to <i>
+                orientations</a>' value.</li>
+                <li>After the change has happened, the <a>user agent</a> MUST
+                prevent the <a>top-level browsing context</a> screen orientation
+                to change until those steps are run again.</li>
+                <li>Abort these steps.</li>
+              </ol>
+            <li>If neither the <a>current screen orientation type</a> nor the
+            <a>current screen orientation angle</a> values are part of <i>
+            orientations</i>, the <a>user agent</a> MUST change how the viewport
+            is drawn such as the <a>current screen orientation type</a> or the
+            <a>current screen orientation angle</a> will be equal to one of <i>
+            orientations</i>' values.</li>
+            <li>Otherwise, depending on platform conventions, the <a>user agent
+            </a> MAY change how the viewport is drawn in order to make it match
+            another screen orientation type or angle. However, it MUST be part
+            of <i>orientations</i>.</li>
+            <li>The <a>user agent</a> MUST allow the user to change the screen
+            orientation to any value part of <i>orientations</i> and only those
+            values until those steps are run again. The method to define what
+            the current screen orientation should be MUST match the platform
+            conventions.</li>
+          </ol>
         </p>
       </section>
       <section>
@@ -284,6 +387,21 @@
           when it is not explicitly locked by the current <a>browsing
           context</a>.
         </p>
+
+        <p>
+          For the perspective of the current <a>browsing context</a>, locking to
+          the default orientation is equivalent to unlocking because it means
+          that it no longer have any lock applied. However, it does not mean
+          that the <a>default orientation</a> has to be <code>any</code>.
+        </p>
+      </section>
+      <section>
+        <h2>TODO</h2>
+        <ul>
+          <li>Orientation change</li>
+          <li>Lock lifetime</li>
+          <li></li>
+        </ul>
       </section>
     </section>
     <section>
@@ -293,10 +411,10 @@
       [[!CSSOM-VIEW]], which this specification extends:
       <dl class='idl' title='partial interface Screen : EventTarget'>
         <dt>
-          readonly attribute OrientationType orientation
+          readonly attribute OrientationInformation orientation
         </dt>
         <dt>
-          Promise<OrientationType> lockOrientation(OrientationLockType orientation)
+          Promise&lt;OrientationInformation&gt; lockOrientation(OrientationLockType orientation)
         </dt>
         <dt>
           void unlockOrientation()
@@ -305,45 +423,21 @@
           attribute EventHandler onorientationchange
         </dt>
       </dl>
-      <p>
-        The <code>orientation</code> attribute MUST return the value
-        representing the current screen orientation.
-      </p>
+
       <p>
         The <code>lockOrientation()</code> method, when invoked, MUST run the
-        following steps:
-        <ol>
-          <li>If the <a>user agent</a> does not allow the current <a>browsing
-          context</a> to lock the screen orientation, return a promise rejected
-          with a <code>DOMException</code> whose name is
-          <code>"SecurityError"</code> and stop these steps. For example, a
-          <a>user agent</a> might only allow <a>browsing context</a> in a
-          fullscreen state to lock the screen orientation or <a>browsing
-          context</a> with elevated privileges.</li>
-          <li>Let <i>promise</i> be a newly-created promise and return it.</li>
-          <li>If another promise is currently waiting for an orientation change
-          following an orientation lock, this promise MUST be rejected with a
-          <code>DOMException</code> whose name is <code>"AbortError"</code>.
-          </li>
-          <li>The <a>user agent</a> MUST <a>apply an orientation lock</a> using
-          <i>orientation</i>.</li>
-          <li>After applying the orientation lock, if it is not expected that
-          the orientation changes, resolve <i>promise</i> with the current
-          orientation. Otherwise, when the orientation changes, resolve
-          <i>promise</i> with the new orientation. The <a>user agent</a> MUST
-          resolve the promise before firing the <code>orientationchange</code>
-          event.</li>
-        </ol>
+        <a>apply an orientation lock</a> steps using <i>orientation</i> and
+        return the result of those steps.
       </p>
+
       <p>
         The <code>unlockOrientation()</code> method, when invoked, MUST
         asynchronously <a>lock the orientation</a> to the <a>default
-        orientation</a>. The <a>user agent</a> MAY ignore this call if the
-        screen is already locked to the <a>default orientation</a>. If another
-        promise is currently waiting for an orientation change following an
-        orientation lock, this promise must be rejected with a
-        <code>DOMException</code> whose name is <code>"AbortError"</code>.
+        orientation</a>. If a promise created by <a>apply an orientation lock
+        </a> steps is pending, it MUST be rejected with a <code>DOMException
+        </code> whose name is <code>AbortError</code>.
       </p>
+
       <p>
         When the screen orientation changes in the current <a>browsing
         context</a>, the <a>user agent</a> MUST <a>queue a task</a> which
@@ -351,6 +445,7 @@
         event</a> named <code>orientationchange</code> at the
         <code>Screen</code> object.
       </p>
+
       <div class="note">
         <p>
           For example, that means if an application A is locked to
