@@ -108,12 +108,6 @@
         Terminology
       </h2>
       <p>
-        The <dfn><a href=
-        "http://dev.w3.org/html5/spec/webappapis.html#eventhandler">EventHandler</a></dfn>
-        interface represents a callback used for event handlers as defined in
-        [[!HTML5]].
-      </p>
-      <p>
         The concepts <dfn><a href=
         "http://dev.w3.org/html5/spec/webappapis.html#queue-a-task">queue a
         task</a></dfn> and <dfn><a href=
@@ -125,16 +119,35 @@
       <p>
         The terms <dfn><a href=
         "http://dev.w3.org/html5/spec/webappapis.html#event-handlers">event
-        handlers</a></dfn> and <dfn><a href=
+        handler</a></dfn>, <dfn><a href=
         "http://dev.w3.org/html5/spec/webappapis.html#event-handler-event-type">
-        event handler event types</a></dfn> are defined in [[!HTML5]].
+        event handler event type</a></dfn>, <dfn><a href='
+        http://www.w3.org/TR/html5/webappapis.html#event-handler-idl-attributes'
+        >event handler IDL attribute</a></dfn> and <dfn><a href=
+        'http://www.w3.org/TR/html5/webappapis.html#event-handler-content-attributes'
+        >event handler content attribute</a></dfn> are defined in [[!HTML5]].
+      </p>
+      <p>
+        The <dfn><a href='http://www.w3.org/TR/html5/browsers.html#window'>
+        Window</a></dfn>, <dfn><a href='
+        http://www.w3.org/TR/html5/sections.html#the-body-element'>body</a>
+        </dfn> and <dfn><a href='
+        http://www.w3.org/TR/html5/obsolete.html#frameset'>frameset</a></dfn>
+        elements are defined in [[!HTML5]].
+      </p>
+      <p>
+        The concept of <dfn><a href='
+        http://www.w3.org/TR/html5/browsers.html#concept-document-window'>
+        Window object's Documents</a></dfn> is defined in [[!HTML5]].
       </p>
       <p>
         The concepts of <dfn><a href=
         "http://dev.w3.org/html5/spec/browsers.html#browsing-context">browsing
-        context</a></dfn> and <dfn><a href=
+        context</a></dfn>, <dfn><a href=
         "http://www.w3.org/html/wg/drafts/html/master/browsers.html#top-level-browsing-context">
-        top-level browsing context</a></dfn> are defined in [[!HTML5]].
+        top-level browsing context</a></dfn> and browsing context's <dfn><a
+        href='http://www.w3.org/TR/html5/browsers.html#active-document'>active
+        document</a></dfn> are defined in [[!HTML5]].
       </p>
       <p>
         Promises objects are defined in [[!ECMASCRIPT]].
@@ -377,6 +390,32 @@
           </ol>
         </p>
       </section>
+
+      <section>
+        <h2>
+          Handling screen orientation changes
+        </h2>
+
+        <p>
+          Whenever the <a>current screen orientation type</a> and the <a>current
+          screen orientation angle</a> are meant to change for the current <a>
+          browsing context</a>, the <a>user agent</a> MUST run the following
+          steps:
+          <ol>
+            <li>If a Promise created in <a>apply an orientation lock</a> steps
+            is pending, it MUST be resolved with a new instance of <code>
+            OrientationInformation</code>.</li>
+            <li>The <a>user agent</a> MUST <a>queue a task</a> to <a>fire a
+            simple event</a> named <code>orientationchange</code> at the <a>
+            browsing context</a> <a>active document</a>'s <a>Window</a> object and
+            wait until that task begins to continue to the next step.</li>
+            <li>Start returning the new values from the <a>current screen
+            orientation type</a> and <a>current screen orientation angle</a>
+            steps.</li>
+          </ol>
+        </p>
+      </section>
+
       <section>
         <h2>
           Default orientation
@@ -398,17 +437,16 @@
       <section>
         <h2>TODO</h2>
         <ul>
-          <li>Orientation change</li>
           <li>Lock lifetime</li>
         </ul>
       </section>
     </section>
     <section>
       <h2>
-        Extensions to the <a>Screen</a> Interface
+        Extensions to the <a>Screen</a> interface
       </h2>The CSSOM View specification defines a <code>Screen</code> interface
       [[!CSSOM-VIEW]], which this specification extends:
-      <dl class='idl' title='partial interface Screen : EventTarget'>
+      <dl class='idl' title='partial interface Screen'>
         <dt>
           readonly attribute OrientationInformation orientation
         </dt>
@@ -417,9 +455,6 @@
         </dt>
         <dt>
           void unlockOrientation()
-        </dt>
-        <dt>
-          attribute EventHandler onorientationchange
         </dt>
       </dl>
 
@@ -437,14 +472,6 @@
         </code> whose name is <code>AbortError</code>.
       </p>
 
-      <p>
-        When the screen orientation changes in the current <a>browsing
-        context</a>, the <a>user agent</a> MUST <a>queue a task</a> which
-        updates the <code>orientation</code> attribute and <a>fire a simple
-        event</a> named <code>orientationchange</code> at the
-        <code>Screen</code> object.
-      </p>
-
       <div class="note">
         <p>
           For example, that means if an application A is locked to
@@ -460,6 +487,37 @@
         </p>
       </div>
     </section>
+
+    <section>
+      <h2>
+        Extensions to the <a>WindowEventHandlers</a> interface
+      </h2>
+
+      <p>
+        The HTML5 specification defines a <a href='
+        http://www.w3.org/TR/html5/webappapis.html#windoweventhandlers'>
+        WindowEventHandlers</a> interface [[!HTML5]], which this specification
+        extends:
+      </p>
+
+      <dl class='idl' title='partial interface WindowEventHandlers'>
+        <dt>
+          attribute EventHandler onorientationchange
+        </dt>
+      </dl>
+
+      <p>
+        The <code>onorientationchange</code> <a>event handler</a> and its
+        corresponding <code>orientationchange</code> <a>event handler event
+        type</a> MUST be supported by <a>Window</a> objects, as <a>event
+        handler IDL attribute</a> on the <a>Window</a> objects themselves, and with
+        corresponding <a>event handler content attribute</a> and <a>event handler IDL
+        attribute</a> exposed on all <a>body</a> and <a>frameset</a> elements that are owned
+        by that <a>Window object's Documents</a>.
+      </p>
+
+    </section>
+
     <section class='informative'>
       <h2>
         Interaction with DeviceOrientation
@@ -488,6 +546,7 @@
         developer to compensate the screen orientation angle.
       </p>
     </section>
+
     <section class='informative'>
       <h2>
         Interaction with Web Application Manifest
@@ -498,6 +557,7 @@
         allows web applications to set the <a>default orientation</a>.
       </p>
     </section>
+
     <section class='informative'>
       <h2>
         Interaction with CSS Device Adaptation
@@ -509,38 +569,7 @@
         a web page using CSS.
       </p>
     </section>
-    <section>
-      <h2>
-        Event handlers
-      </h2>
-      <p>
-        The following are the <a>event handlers</a> (and their corresponding
-        <a>event handler event types</a>) that MUST be supported as attributes
-        by the <code>Screen</code> object:
-      </p>
-      <table class="simple">
-        <thead>
-          <tr>
-            <th>
-              event handler
-            </th>
-            <th>
-              event handler event type
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>
-              <strong><code>onorientationchange</code></strong>
-            </td>
-            <td>
-              <code>orientationchange</code>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
+
     <section class='appendix'>
       <h2>
         Acknowledgments
