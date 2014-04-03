@@ -353,7 +353,7 @@
                 <li>The <a>user agent</a> MUST change how the viewport is drawn
                 such as the <a>current screen orientation type</a> or the <a>
                 current screen orientation angle</a> will be equal to <i>
-                orientations</a>' value.</li>
+                orientation</i>.</li>
                 <li>After the change has happened, the <a>user agent</a> MUST
                 prevent the <a>top-level browsing context</a> screen orientation
                 to change until those steps are run again.</li>
@@ -400,7 +400,6 @@
         <ul>
           <li>Orientation change</li>
           <li>Lock lifetime</li>
-          <li></li>
         </ul>
       </section>
     </section>
@@ -460,6 +459,34 @@
           to satisfy the lock requirements.
         </p>
       </div>
+    </section>
+    <section class='informative'>
+      <h2>
+        Interaction with DeviceOrientation
+      </h2>
+
+      <p>
+        The [[!DEVICE-ORIENTATION]] specification defines a <code>
+        deviceorientation</code> event that can be used to discover the physical
+        orientation of the device. Such event can be used to draw things on the
+        screen that could point to a specific direction. A basic example being
+        a compass application. Another example would be an application giving
+        direction to the user or an augmented reality game pointing to an
+        objective.
+      </p>
+
+      <p>
+        Drawing on the screen in order to point to a physical location requires
+        to know the device orientation and the orientation of the screen in the
+        device coordinates. Without the APIs defined in this specification, a
+        developer has to assume that the <a>current screen orientation angle</a>
+        is 0. With the help of the APIs described in this specification, the
+        developer can <a>apply an orientation lock</a> using <code>0</code> to
+        make that assumption a certitude. Otherwise, reading the <a>current
+        screen orientation angle</a> via <code>screen.orientation.angle</code>
+        and listening to the <code>orientationchange</code> should help the
+        developer to compensate the screen orientation angle.
+      </p>
     </section>
     <section class='informative'>
       <h2>
