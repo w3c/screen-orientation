@@ -175,7 +175,7 @@
         <dl title="interface OrientationInformation" class="idl">
           <dt>readonly attribute OrientationType type</dt>
           <dd></dd>
-          <dt>readonly attribute OrientationAngle angle</dt>
+          <dt>readonly attribute unsigned short angle</dt>
           <dd></dd>
         </dl>
 
@@ -250,24 +250,14 @@
           angles relation consistent for any given <a>browsing context</a>.
         </p>
 
-        <dl title="enum OrientationAngle" class="idl">
-          <dt>0</dt>
-          <dd></dd>
-          <dt>90</dt>
-          <dd></dd>
-          <dt>180</dt>
-          <dd></dd>
-          <dt>270</dt>
-          <dd></dd>
-        </dl>
-
         <p>
           When reading the <dfn>current screen orientation angle</dfn>, the <a>
-          user agent</a> MUST return the clockwise angle between the orientation
-          of the screen as it is drawn and the natural orientation of the device
-          (ie. the top of the physical screen). This is the opposite of the
-          physical rotation. In other words, if you turn a device 90 degrees on
-          the right, screen orientation angle should be 270 degrees.
+          user agent</a> MUST return the clockwise angle in degrees between the
+          orientation of the screen as it is drawn and the natural orientation
+          of the device (ie. the top of the physical screen). This is the
+          opposite of the physical rotation. In other words, if you turn a
+          device 90 degrees on the right, screen orientation angle should be
+          270 degrees.
         </p>
       </section>
       <section>
