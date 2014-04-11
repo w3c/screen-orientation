@@ -9,7 +9,7 @@
     'remove'>
 </script>
     <script class='remove'>
-  var respecConfig = {
+var respecConfig = {
         specStatus:           "ED",
         shortName:            "screen-orientation",
 
@@ -332,67 +332,88 @@
           </dt>
         </dl>
         <p>
-          When the <a>user agent</a> has to <dfn>apply an orientation
-          lock</dfn> using <i>orientation</i>, it MUST run the following steps:
+          The steps to <dfn>apply an orientation lock</dfn> using
+          <var>orientation</var> are given by the following algorithm:
         </p>
         <ol>
-          <li>The <a>user agent</a> MAY require the current <a>top-level
-          browsing context</a> to be fullscreen [[!FULLSCREEN]], in which case,
-          it MUST run the following sub-steps:
+          <li>If the <a>user agent</a> requires the current <a>top-level
+          browsing context</a> to be fullscreen [[!FULLSCREEN]] to perform an
+          orientation change:
             <ol>
-              <li>Let <i>doc</i> be the <a>top-level browsing context</a>'s
+              <li>Let <var>doc</var> be the <a>top-level browsing context</a>'s
               document.
               </li>
-              <li>If <i>doc</i> has an empty <a>fullscreen element stack</a>,
-              return a Promise rejected with a <code>DOMException</code> whose
-              name is <code>SecurityError</code> and abort these steps.
+              <li>If <var>doc</var> has an empty <a>fullscreen element
+              stack</a>, return a Promise rejected with a
+              <code>DOMException</code> whose name is
+              <code>SecurityError</code> and abort these steps.
               </li>
-              <li>When <i>doc</i> <a>fully exit fullscreen</a>, the <a>user
-              agent</a> MUST <a>lock the orientation</a> to the <a>default
-              orientation</a>.
+              <li>When <var>doc</var> <a>fully exit fullscreen</a>, then
+              <a>lock the orientation</a> to the <a>default orientation</a>.
               </li>
             </ol>
           </li>
-          <li>Let <i>promise</i> be a newly-created promise and return it.
+          <li>Let <var>promise</var> be a newly-created promise and return it.
           </li>
           <li>If a promise previously created in these steps is pending, it
           MUST be rejected with a <code>DOMException</code> whose name is
           <code>AbortError</code>.
           </li>
-          <li>One of the following sub-steps MUST be run asynchronously,
-          depending on <i>orientation</i>'s value:
-            <ul>
-              <li>If <i>orientation</i> is <code>landscape</code>, the <a>user
-              agent</a> MUST <a>lock the orientation</a> to
-              <code>landscape-primary</code>, <code>landscape-secondary</code>
-              or both, depending on the platform conventions.
-              </li>
-              <li>If <i>orientation</i> is <code>portrait</code>, the <a>user
-              agent</a> MUST <a>lock the orientation</a> to
-              <code>portrait-primary</code>, <code>portrait-secondary</code> or
-              both, depending on the platform conventions.
-              </li>
-              <li>If <i>orientation</i> is <code>any</code>, the <a>user
-              agent</a> MUST <a>lock the orientation</a> to
-              <code>portrait-primary</code> , <code>portrait-secondary</code>,
-              <code>landscape-primary</code> and
-              <code>landscape-secondary</code>.
-              </li>
-              <li>Otherwise, the <a>user agent</a> MUST <a>lock the
-              orientation</a> to <i>orientation</i>.
-              </li>
-            </ul>
+          <li>Let <var>orientations</var> be an empty list.
           </li>
-          <li>Let <i>result</i> be a new instance of
-          <code>OrientationInformation</code>.
+          <li>If the value of <var>orientation</var> matches one of the
+          following:
+            <dl>
+              <dt>
+                <code>landscape</code>
+              </dt>
+              <dd>
+                Depending on platform convention, append
+                <code>landscape-primary</code>, or
+                <code>landscape-secondary</code>, or both to
+                <var>orientations</var>.
+              </dd>
+              <dt>
+                <code>portrait</code>
+              </dt>
+              <dd>
+                Depending on platform convention, append
+                <code>portrait-primary</code>, or
+                <code>portrait-secondary</code>, or both to
+                <var>orientations</var>.
+              </dd>
+              <dt>
+                <code>any</code>
+              </dt>
+              <dd>
+                Append <code>portrait-primary</code>,
+                <code>portrait-secondary</code>, <code>landscape-primary</code>
+                and <code>landscape-secondary</code> to
+                <var>orientations</var>.
+              </dd>
+            </dl>
           </li>
-          <li>If locking the orientation does not result in a change of
-          orientation, the <a>user agent</a> MUST resolve <i>promise</i> with
-          <i>result</i> and abort these steps.
+          <li>Otherwise, append <var>orientation</var> to
+          <var>orientations</var>.
+          </li>
+          <li>
+            <a>Queue a task</a> to perform the following substeps:
+            <ol>
+              <li>
+                <a>Lock the orientation</a> to <var>orientations</var>.
+              </li>
+              <li>Let <var>result</var> be a new
+              <code>OrientationInformation</code>.
+              </li>
+              <li>If locking the orientation does not result in a change of
+              orientation, resolve <var>promise</var> with <var>result</var>
+              and abort these steps.
+              </li>
+            </ol>
           </li>
           <li>Otherwise, the next time the orientation changes, before firing
-          the <code>orientationchange</code> event as described below, the <a>
-            user agent</a> MUST resolve <i>promise</i> with <i>result</i>.
+          the <code>orientationchange</code> event, resolve <var>promise</var>
+          with <var>result</var>.
           </li>
         </ol>
         <p>
