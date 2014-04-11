@@ -159,7 +159,9 @@
       <p>
         <dfn><a href=
         'http://www.w3.org/TR/fullscreen/#fullscreen-element-stack'>fullscreen
-        element stack</a></dfn> is defined in [[!FULLSCREEN]].
+        element stack</a></dfn> and <dfn><a
+        href='http://www.w3.org/TR/fullscreen/#fully-exit-fullscreen'>fully exit
+        fullscreen</a></dfn> are defined in [[!FULLSCREEN]].
       </p>
     </section>
 
@@ -317,9 +319,9 @@
             <li>If <i>doc</i> has an empty <a>fullscreen element stack</a>,
             return a Promise rejected with a <code>DOMException</code> whose
             name is <code>SecurityError</code> and abort these steps.</li>
-            <li>The next time <i>doc</i> receives a <code>fullscreenchange
-            </code> event, when fullscreen is exited, the <a>user agent</a> MUST
-            <a>lock the orientation</a> to the <a>default orientation</a>.</li>
+            <li>When <i>doc</i> <a>fully exit fullscreen</a>, the <a>user
+            agent</a> MUST <a>lock the orientation</a> to the <a>default
+            orientation</a>.</li>
           </ol>
           <li>Let <i>promise</i> be a newly-created promise and return it.</li>
           <li>If a promise previously created in these steps is pending, it MUST
