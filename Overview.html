@@ -42,8 +42,9 @@
   <body>
     <section id='abstract'>
       The <cite>Screen Orientation API</cite> provides the ability to read the
-      screen orientation state, to be informed when this state changes, and to
-      be able to lock the screen orientation to a specific state.
+      screen orientation type and angle, to be informed when the screen
+      orientation state changes and be able to lock the screen orientation to a
+      specific state.
     </section>
     <section id='sotd'>
       This document is still in a work in progress state. You can have a look at
@@ -54,14 +55,10 @@
     </section>
     <section class='informative'>
       <h2>
-        Introduction
+        Examples
       </h2>
       <p>
-        The Screen Orientation API provides an interface for web applications
-        to access and lock the device's screen orientation state.
-      </p>
-      <p>
-        This examples is an application that shows the current screen
+        This example is an application that shows the current screen
         orientation to the user every time the screen orientation state
         changes:
       </p>
@@ -105,58 +102,62 @@
     </section>
     <section>
       <h2>
-        Terminology
+        Dependencies
       </h2>
       <p>
-        The concepts <dfn><a href=
-        "http://dev.w3.org/html5/spec/webappapis.html#queue-a-task">queue a
-        task</a></dfn> and <dfn><a href=
-        "http://dev.w3.org/html5/spec/webappapis.html#fire-a-simple-event">fire
-        a simple event</a></dfn> are defined in [[!HTML5]].<br>
-        Unless specified otherwise, when queuing a task, the <dfn>screen
-        orientation task source</dfn> is used.
+        The following concepts, terms and elements are defined in [[!HTML5]]:
+        <ul>
+          <li><dfn><a href=
+          "http://dev.w3.org/html5/spec/webappapis.html#queue-a-task">queue a
+          task</a></dfn></li>
+          <li><dfn><a href=
+          "http://dev.w3.org/html5/spec/webappapis.html#fire-a-simple-event">fire
+          a simple event</a></dfn></li>
+          <li><dfn><a href=
+          "http://dev.w3.org/html5/spec/webappapis.html#event-handlers">event
+          handler</a></dfn></li>
+          <li><dfn><a href=
+          "http://dev.w3.org/html5/spec/webappapis.html#event-handler-event-type">
+          event handler event type</a></dfn></li>
+          <li><dfn><a href='
+          http://www.w3.org/TR/html5/webappapis.html#event-handler-idl-attributes'
+          >event handler IDL attribute</a></dfn></li>
+          <li><dfn><a href=
+          'http://www.w3.org/TR/html5/webappapis.html#event-handler-content-attributes'
+          >event handler content attribute</a></dfn></li>
+          <li><code><dfn><a href='http://www.w3.org/TR/html5/browsers.html#window'>
+          Window</a></dfn></code></li>
+          <li><code><dfn><a href='
+          http://www.w3.org/TR/html5/dom.html#document'>Document</a></dfn>
+          </code></li>
+          <li><code><dfn><a
+          href='http://www.w3.org/TR/html5/sections.html#the-body-element'>body
+          </a></dfn></code></li>
+          <li><code><dfn><a href='
+          http://www.w3.org/TR/html5/obsolete.html#frameset'>frameset</a></dfn>
+          </code></li>
+          <li><dfn><a href='
+          http://www.w3.org/TR/html5/browsers.html#concept-document-window'>
+          Window object's Documents</a></dfn></li>
+          <li><dfn><a href=
+          "http://dev.w3.org/html5/spec/browsers.html#browsing-context">browsing
+          context</a></dfn></li>
+          <li><dfn><a href=
+          "http://www.w3.org/html/wg/drafts/html/master/browsers.html#top-level-browsing-context">
+          top-level browsing context</a></dfn></li>
+          <li>browsing context's <dfn><a
+          href='http://www.w3.org/TR/html5/browsers.html#active-document'>active
+          document</a></dfn></li>
+          <li><dfn><a href='
+          http://www.w3.org/TR/html5/browsers.html#navigate'>navigated</a></dfn>
+          browsing context</li>
+        </ul>
       </p>
       <p>
-        The terms <dfn><a href=
-        "http://dev.w3.org/html5/spec/webappapis.html#event-handlers">event
-        handler</a></dfn>, <dfn><a href=
-        "http://dev.w3.org/html5/spec/webappapis.html#event-handler-event-type">
-        event handler event type</a></dfn>, <dfn><a href='
-        http://www.w3.org/TR/html5/webappapis.html#event-handler-idl-attributes'
-        >event handler IDL attribute</a></dfn> and <dfn><a href=
-        'http://www.w3.org/TR/html5/webappapis.html#event-handler-content-attributes'
-        >event handler content attribute</a></dfn> are defined in [[!HTML5]].
+        <a href='http://people.mozilla.org/~jorendorff/es6-draft.html#sec-promise-objects'>Promise objects</a> are defined in [[!ECMASCRIPT]].
       </p>
       <p>
-        The <dfn><a href='http://www.w3.org/TR/html5/browsers.html#window'>
-        Window</a></dfn>, <dfn><a href='
-        http://www.w3.org/TR/html5/dom.html#document'>Document</a></dfn>, <dfn>
-        <a href='http://www.w3.org/TR/html5/sections.html#the-body-element'>body
-        </a></dfn> and <dfn><a href='
-        http://www.w3.org/TR/html5/obsolete.html#frameset'>frameset</a></dfn>
-        elements are defined in [[!HTML5]].
-      </p>
-      <p>
-        The concept of <dfn><a href='
-        http://www.w3.org/TR/html5/browsers.html#concept-document-window'>
-        Window object's Documents</a></dfn> is defined in [[!HTML5]].
-      </p>
-      <p>
-        The concepts of <dfn><a href=
-        "http://dev.w3.org/html5/spec/browsers.html#browsing-context">browsing
-        context</a></dfn>, <dfn><a href=
-        "http://www.w3.org/html/wg/drafts/html/master/browsers.html#top-level-browsing-context">
-        top-level browsing context</a></dfn>, browsing context's <dfn><a
-        href='http://www.w3.org/TR/html5/browsers.html#active-document'>active
-        document</a></dfn> and <dfn><a href='
-        http://www.w3.org/TR/html5/browsers.html#navigate'>navigated</a></dfn>
-        browsing context are defined in [[!HTML5]].
-      </p>
-      <p>
-        Promises objects are defined in [[!ECMASCRIPT]].
-      </p>
-      <p>
-        The term of <dfn><a href=
+        <dfn><a href=
         'http://www.w3.org/TR/fullscreen/#fullscreen-element-stack'>fullscreen
         element stack</a></dfn> is defined in [[!FULLSCREEN]].
       </p>
@@ -168,12 +169,6 @@
         <h2>
           Reading the screen orientation
         </h2>
-
-        <p>
-          The screen orientation has two components. The orientation type and
-          the orientation angle. Both can be accessed from an
-          <code>OrientationInformation</code> instance.
-        </p>
 
         <dl title="interface OrientationInformation" class="idl">
           <dt>readonly attribute OrientationType type</dt>
@@ -203,18 +198,21 @@
           another one might get the opposite relationship.
         </p>
 
-        <p>
-          It is also worth noting that even if <code>90</code> and <code>270
-          </code> might be associated with <code>landscape</code> types for one
-          specific devices, they might be associated with <code>portrait</code>
-          types with others.
-        </p>
+        <div class='practice'>
+          <span class='practicelab'>
+            orientation.angle and orientation.type relationship
+          </span>
 
-        <p>
-          It is then considered good practice to never assume any kind of
-          relationship between the screen orientation type and the screen
-          orientation angle.
-        </p>
+          <p class='practicedesc'>
+            Never assume any kind of relationship between the screen orientation
+            type and the screen orientation angle. Any assumption would be wrong
+            given that a device might have <code>90</code> and <code>270</code>
+            as the angles for <code>landscape</code> types but another device
+            will have <code>0</code> and <code>180</code>, depending on its
+            native orientation. Instead, it is recommended to check during
+            runtime the relationship between angle and type.
+          </p>
+        </div>
 
         <dl title="enum OrientationType" class="idl">
           <dt>portrait-primary</dt>
@@ -231,11 +229,11 @@
           When reading the <dfn>current screen orientation type</dfn>, the <a>
           user agent</a> MUST follow these steps:
           <ol>
-            <li>If the screen width is greater than the screen height, these
-            steps MUST return <code>landscape-primary</code> or <code>
-            landscape-secondary</code> and terminate these steps.</li>
-            <li>If the screen width is lower than or equal to the screen height,
-            these steps MUST return <code>portrait-primary</code> or <code>
+            <li>If the screen width is greater than the screen height, return
+            <code>landscape-primary</code> or <code>landscape-secondary</code>.
+            </li>
+            <li>Otherwise, if the screen width is lower than or equal to the
+            screen height, return <code>portrait-primary</code> or <code>
             portrait-secondary</code>.</li>
           </ol>
         </p>
@@ -306,7 +304,7 @@
 
         <p>
           When the <a>user agent</a> has to <dfn>apply an orientation lock</dfn>
-          using <i>orientation</i>, it MUST run the following step:
+          using <i>orientation</i>, it MUST run the following steps:
         </p>
 
         <ol>
@@ -347,9 +345,9 @@
             </ul>
           <li>Let <i>result</i> be a new instance of <code>
           OrientationInformation</code>.</li>
-          <li>If locking the orientation should not provoke an orientation
-          change, the <a>user agent</a> MUST resolve <i>promise</i> with <i>
-          result</i> and abort these steps.</li>
+          <li>If locking the orientation does not result in a change of
+          orientation, the <a>user agent</a> MUST resolve <i>promise</i> with
+          <i>result</i> and abort these steps.</li>
           <li>Otherwise, the next time the orientation changes, before firing
           the <code>orientationchange</code> event as described below, the
           <a>user agent</a> MUST resolve <i>promise</i> with <i>result</i>.</li>
@@ -446,6 +444,11 @@
         <h2>
           Handling screen orientation changes
         </h2>
+
+        <p>
+          Unless specified otherwise, when queuing a task, the <dfn>screen
+          orientation task source</dfn> is used.</li>
+        </p>
 
         <p>
           Whenever the <a>current screen orientation type</a> and the <a>current
