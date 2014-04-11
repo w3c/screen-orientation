@@ -7,7 +7,4 @@ for Web applications to be able to:
 
   * lock the screen orientation to a specific state
 
-The latest editor’s draft is at
-[http://dvcs.w3.org/hg/screen-orientation/raw-file/default/Overview.html][1]
-
-   [1]: http://dvcs.w3.org/hg/screen-orientation/raw-file/default/Overview.html
+The latest editor’s draft is at https://w3c.github.io/screen-orientation/Overview.html
