@@ -178,8 +178,13 @@
         </li>
         <li>
           <dfn><a href=
-          '%20http://www.w3.org/TR/html5/browsers.html#navigate'>navigated</a></dfn>
+          'http://www.w3.org/TR/html5/browsers.html#navigate'>navigated</a></dfn>
           browsing context
+        </li>
+        <li>
+          <dfn><a href=
+          'http://www.w3.org/TR/html5/browsers.html#active-sandboxing-flag-set'>
+          active sandboxing flag set</a></dfn>
         </li>
       </ul>
       <p>
@@ -294,6 +299,11 @@
           Locking the screen orientation
         </h2>
         <p>
+          The <a>user agent</a> MAY require a <a>document</a>'s <a>top-level
+          browsing context</a> to be fullscreen [[!FULLSCREEN]] in order to be
+          able to lock the screen orientation.
+        </p>
+        <p>
           The screen orientation MUST be lockable to all of the following
           values:
         </p>
@@ -337,6 +347,11 @@
           <var>orientation</var> are given by the following algorithm:
         </p>
         <ol>
+          <li>If the <a>Document</a>'s <a>active sandboxing flag set</a> has
+          the <a>sandboxed orientation lock browsing context flag</a> set,
+          return a Promise rejected with a <code>DOMException</code> whose name
+          is <code>SecurityError</code> and abort these steps.
+          </li>
           <li>If the <a>user agent</a> requires the current <a>top-level
           browsing context</a> to be fullscreen [[!FULLSCREEN]] to perform an
           orientation change:
@@ -600,7 +615,7 @@
       </h2>
       <p>
         The HTML5 specification defines a <a href=
-        '%20http://www.w3.org/TR/html5/webappapis.html#windoweventhandlers'>WindowEventHandlers</a>
+        'http://www.w3.org/TR/html5/webappapis.html#windoweventhandlers'>WindowEventHandlers</a>
         interface [[!HTML5]], which this specification extends:
       </p>
       <dl class='idl' title='partial interface WindowEventHandlers'>
@@ -617,6 +632,43 @@
         handler IDL attribute</a> exposed on all <a>body</a> and
         <a>frameset</a> elements that are owned by that <a>Window object's
         Documents</a>.
+      </p>
+    </section>
+    <section>
+      <h2>
+        Extension to the HTML sandboxing model
+      </h2>
+      <p>
+        The HTML5 specification defines a <a href=
+        'http://www.w3.org/TR/html5/browsers.html#sandboxing-flag-set'>sandboxing
+        flag set</a> which is extended with this value:
+      </p>
+      <dl>
+        <dt>
+          The <dfn>sandboxed orientation lock browsing context flag</dfn>
+        </dt>
+        <dd>
+          This flag disables the ability to lock the screen orientation.
+        </dd>
+      </dl>
+      <p>
+        The algorithm to <a href=
+        'http://www.w3.org/TR/html5/browsers.html#parse-a-sandboxing-directive'>
+        parse a sandboxing directive</a> is also extended in step 3 such that:
+      </p>
+      <ul>
+        <li>The <a>sandboxed orientation lock browsing context flag</a>, unless
+        <var>tokens</var> contains the <code>allow-orientation-lock</code>
+        keyword.
+        </li>
+      </ul>
+      <p>
+        Finally, the <a href=
+        'http://www.w3.org/TR/html5/embedded-content-0.html#the-iframe-element'>
+        iframe</a>'s <a href=
+        'http://www.w3.org/TR/html5/embedded-content-0.html#attr-iframe-sandbox'>
+        sandbox</a> attribute MUST add <code>allow-pointer-lock</code> amongst
+        its allowed values.
       </p>
     </section>
     <section class='informative'>
