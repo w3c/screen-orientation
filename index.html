@@ -304,8 +304,14 @@
           able to lock the screen orientation.
         </p>
         <p>
-          The screen orientation MUST be lockable to all of the following
-          values:
+          The <a>user agent</a> MAY reject all attempts to lock the screen
+          orientation if the platform conventions do not expect applications to
+          be able to change the screen orientation. For example, on most desktop
+          platforms, applications can not change the screen orientation.
+        </p>
+        <p>
+          If the <a>user agent</a> supports locking the screen orientation, it
+          MUST allow the screen to be locked to all the following states:
         </p>
         <dl title="enum OrientationLockType" class="idl">
           <dt>
@@ -347,6 +353,10 @@
           <var>orientation</var> are given by the following algorithm:
         </p>
         <ol>
+          <li>If the <a>user agent</a> does not support locking the screen
+          orientation, return a Promise rejected with a
+          <code>DOMException</code> whose name is <code>NotSupportedError</code>
+          and abort these steps.</li>
           <li>If the <a>Document</a>'s <a>active sandboxing flag set</a> has
           the <a>sandboxed orientation lock browsing context flag</a> set,
           return a Promise rejected with a <code>DOMException</code> whose name
