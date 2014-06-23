@@ -425,23 +425,18 @@
           <var>orientations</var>.
           </li>
           <li>
-            <a>Queue a task</a> to perform the following substeps:
-            <ol>
-              <li>
-                <a>Lock the orientation</a> to <var>orientations</var>.
-              </li>
-              <li>Let <var>result</var> be a new
-              <code>OrientationInformation</code>.
-              </li>
-              <li>If locking the orientation does not result in a change of
-              orientation, resolve <var>promise</var> with <var>result</var>
-              and abort these steps.
-              </li>
-            </ol>
+            <a>Queue a task</a> to <a>lock the orientation</a> to
+            <var>orientations</var>.
           </li>
-          <li>Otherwise, the next time the orientation changes, before firing
-          the <code>orientationchange</code> event, resolve <var>promise</var>
-          with <var>result</var>.
+          <li>If <var>orientations</var> contains the <a>current screen
+          orientation type</a>, resolve <var>promise</var> with a new
+          <code>OrientationInformation</code>.
+          </li>
+          <li>Otherwise, the next time the orientation changes, if the new <a>
+            current screen orientation type</a> is included in
+            <var>orientations</var>, before firing the
+            <code>orientationchange</code> event, resolve the
+            <var>promise</var> with a new <code>OrientationInformation</code>.
           </li>
         </ol>
         <p>
