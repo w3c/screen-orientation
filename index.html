@@ -346,18 +346,6 @@
           <dt>
             landscape-secondary
           </dt>
-          <dt>
-            0
-          </dt>
-          <dt>
-            90
-          </dt>
-          <dt>
-            180
-          </dt>
-          <dt>
-            270
-          </dt>
         </dl>
         <p>
           The steps to <dfn>apply an orientation lock</dfn> using
@@ -469,9 +457,8 @@
               <i>orientations</i>.
               </li>
               <li>The <a>user agent</a> MUST change how the viewport is drawn
-              such as the <a>current screen orientation type</a> or the
-              <a>current screen orientation angle</a> will be equal to
-              <i>orientation</i>.
+              such as the <a>current screen orientation type</a> will be equal
+              to <i>orientation</i>.
               </li>
               <li>After the change has happened, the <a>user agent</a> MUST
               prevent the <a>top-level browsing context</a> screen orientation
@@ -481,12 +468,10 @@
               </li>
             </ol>
           </li>
-          <li>If neither the <a>current screen orientation type</a> nor the <a>
-            current screen orientation angle</a> values are part of
-            <i>orientations</i>, the <a>user agent</a> MUST change how the
+          <li>If the <a>current screen orientation type</a> is not part of <i>
+            orientations</i>, the <a>user agent</a> MUST change how the
             viewport is drawn such as the <a>current screen orientation
-            type</a> or the <a>current screen orientation angle</a> will be
-            equal to one of <i>orientations</i>' values.
+            type</a> will be equal to one of <i>orientations</i>' values.
           </li>
           <li>Otherwise, depending on platform conventions, the <a>user
           agent</a> MAY change how the viewport is drawn in order to make it
