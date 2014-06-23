@@ -306,8 +306,9 @@
         <p>
           The <a>user agent</a> MAY reject all attempts to lock the screen
           orientation if the platform conventions do not expect applications to
-          be able to change the screen orientation. For example, on most desktop
-          platforms, applications can not change the screen orientation.
+          be able to change the screen orientation. For example, on most
+          desktop platforms, applications can not change the screen
+          orientation.
         </p>
         <p>
           If the <a>user agent</a> supports locking the screen orientation, it
@@ -355,8 +356,9 @@
         <ol>
           <li>If the <a>user agent</a> does not support locking the screen
           orientation, return a Promise rejected with a
-          <code>DOMException</code> whose name is <code>NotSupportedError</code>
-          and abort these steps.</li>
+          <code>DOMException</code> whose name is
+          <code>NotSupportedError</code> and abort these steps.
+          </li>
           <li>If the <a>Document</a>'s <a>active sandboxing flag set</a> has
           the <a>sandboxed orientation lock browsing context flag</a> set,
           return a Promise rejected with a <code>DOMException</code> whose name
@@ -625,8 +627,8 @@
       </h2>
       <p class='note'>
         This section is monkey patching the HTML specification. It is meant to
-        be merged into the HTML specification as soon as this document is stable
-        enough. See <a href=
+        be merged into the HTML specification as soon as this document is
+        stable enough. See <a href=
         'https://www.w3.org/Bugs/Public/show_bug.cgi?id=25310'>bug 25310</a>.
       </p>
       <p>
@@ -656,8 +658,8 @@
       </h2>
       <p class='note'>
         This section is monkey patching the HTML specification. It is meant to
-        be merged into the HTML specification as soon as this document is stable
-        enough. See <a href=
+        be merged into the HTML specification as soon as this document is
+        stable enough. See <a href=
         'https://www.w3.org/Bugs/Public/show_bug.cgi?id=25310'>bug 25310</a>.
       </p>
       <p>
@@ -689,8 +691,8 @@
         'http://www.w3.org/TR/html5/embedded-content-0.html#the-iframe-element'>
         iframe</a>'s <a href=
         'http://www.w3.org/TR/html5/embedded-content-0.html#attr-iframe-sandbox'>
-        sandbox</a> attribute MUST add <code>allow-orientation-lock</code> amongst
-        its allowed values.
+        sandbox</a> attribute MUST add <code>allow-orientation-lock</code>
+        amongst its allowed values.
       </p>
     </section>
     <section class='informative'>
