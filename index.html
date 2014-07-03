@@ -455,20 +455,16 @@
               <li>
                 <a>Lock the orientation</a> to <var>orientations</var>.
               </li>
-              <li>Let <var>result</var> be a new
-              <code>OrientationInformation</code>.
-              </li>
               <li>If locking the orientation does not result in a change of
-              orientation, resolve <var>promise</var> with <var>result</var>.
-              </li>
-              <li>Set <var>pending promise</var> to be <code>null</code>.
+              orientation, resolve <var>pending-promise</var> with
+              <code>undefined</code> and set <var>pending-promise</var> to
+              <code>null</code>.
               </li>
               <li>Otherwise, the next time the orientation changes, if the new
               <a>current screen orientation type</a> is included in
               <var>orientations</var>, before firing the
-              <code>orientationchange</code> event, resolve the
-              <var>promise</var> with a new
-              <code>OrientationInformation</code>.
+              <code>orientationchange</code> event, resolve
+              <var>pending-promise</var> with <code>undefined</code>.
               </li>
             </ol>
           </li>
@@ -585,8 +581,7 @@
           previously did.
           </li>
           <li>If a Promise created in <a>apply an orientation lock</a> steps is
-          pending, it MUST be resolved with a new instance of
-          <code>OrientationInformation</code>.
+          pending, it MUST be resolved with <code>undefined</code>.
           </li>
           <li>The <a>user agent</a> MUST <a>queue a task</a> to <a>fire a
           simple event</a> named <code>orientationchange</code> at the
@@ -627,8 +622,8 @@
           readonly attribute OrientationInformation orientation
         </dt>
         <dt>
-          Promise&lt;OrientationInformation&gt;
-          lockOrientation(OrientationLockType orientation)
+          Promise&lt;undefined&gt; lockOrientation(OrientationLockType
+          orientation)
         </dt>
         <dt>
           void unlockOrientation()
