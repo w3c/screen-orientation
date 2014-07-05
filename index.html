@@ -31,6 +31,11 @@
               companyURL: "http://google.com/",
               note: "previously Mozilla",
             },
+            {
+              name: "Marcos Cáceres",
+              company: "Mozilla",
+              companyURL: "http://mozilla.com/",
+            }
         ],
 
         wg:           "Web Applications Working Group",
@@ -44,8 +49,8 @@
     <section id='abstract'>
       The <cite>Screen Orientation API</cite> provides the ability to read the
       screen orientation type and angle, to be informed when the screen
-      orientation state changes and be able to lock the screen orientation to a
-      specific state.
+      orientation state changes, and be able to lock the screen orientation to
+      a specific state.
     </section>
     <section id='sotd'>
       This document is still in a work in progress state. You can have a look
@@ -66,29 +71,24 @@
         changes:
       </p>
       <pre class='example highlight'>
-        &lt;!DOCTYPE html&gt;
-        &lt;html&gt;
-          &lt;head&gt;
-            &lt;title&gt;Screen Orientation API Example 1&lt;/title&gt;
-            &lt;script&gt;
-              function show() {
-                alert("Screen orientation state is now " + screen.orientation);
-              }
+&lt;script&gt;
+  var show = function() {
+     console.log("Orientation is " + screen.orientation.type);
+  }
+  
+  screen.orientation.addEventListener("change", show);
+  window.onload = show;
+&lt;/script&gt;
 
-              window.addEventListener("orientationchange", show);
-              window.addEventListener("load", show);
-            &lt;/script&gt;
-          &lt;/head&gt;
-          &lt;body&gt;
-            &lt;input type='button' value='Unlock'
-              onclick='screen.unlockOrientation();'&gt;
-            &lt;input type='button' value='Lock to portrait'
-              onclick="screen.lockOrientation('portrait');"&gt;
-            &lt;input type='button' value='Lock to landscape'
-              onclick="screen.lockOrientation('landscape');"&gt;
-          &lt;/body&gt;
-        &lt;/html&gt;
-
+&lt;button onclick='screen.orientation.unlock()'&gt;
+  Unlock
+&lt;/button&gt;
+&lt;button onclick="screen.orientaiton.lock('portrait')"&gt;
+  Lock to portrait
+&lt;/button&gt;
+&lt;button onclick="screen.orientation.lock('landscape')"&gt;
+  Lock to landscape
+&lt;/button&gt;
 </pre>
     </section>
     <section id='conformance'>
@@ -108,38 +108,28 @@
         Dependencies
       </h2>
       <p>
-        The following concepts, terms and elements are defined in [[!HTML5]]:
+        The following concepts and interfaces are defined in [[!HTML5]]:
       </p>
       <ul>
         <li>
           <dfn><a href=
-          "http://dev.w3.org/html5/spec/webappapis.html#queue-a-task">queue a
+          "http://www.w3.org/TR/html5/webappapis.html#queue-a-task">queue a
           task</a></dfn>
         </li>
         <li>
           <dfn><a href=
-          "http://dev.w3.org/html5/spec/webappapis.html#fire-a-simple-event">fire
+          "http://www.w3.org/TR/html5/webappapis.html#fire-a-simple-event">fire
           a simple event</a></dfn>
         </li>
         <li>
           <dfn><a href=
-          "http://dev.w3.org/html5/spec/webappapis.html#event-handlers">event
+          "http://www.w3.org/TR/html5/browsers.html#event-handlers">event
           handler</a></dfn>
         </li>
         <li>
           <dfn><a href=
-          "http://dev.w3.org/html5/spec/webappapis.html#event-handler-event-type">
-          event handler event type</a></dfn>
-        </li>
-        <li>
-          <dfn><a href=
-          '%20http://www.w3.org/TR/html5/webappapis.html#event-handler-idl-attributes'>
-          event handler IDL attribute</a></dfn>
-        </li>
-        <li>
-          <dfn><a href=
-          'http://www.w3.org/TR/html5/webappapis.html#event-handler-content-attributes'>
-          event handler content attribute</a></dfn>
+          "http://www.w3.org/TR/html5/browsers.html#event-handler-event-type">event
+          handler event type</a></dfn>
         </li>
         <li>
           <code><dfn><a href=
@@ -147,29 +137,16 @@
         </li>
         <li>
           <code><dfn><a href=
-          '%20http://www.w3.org/TR/html5/dom.html#document'>Document</a></dfn></code>
-        </li>
-        <li>
-          <code><dfn><a href=
-          'http://www.w3.org/TR/html5/sections.html#the-body-element'>body</a></dfn></code>
-        </li>
-        <li>
-          <code><dfn><a href=
-          '%20http://www.w3.org/TR/html5/obsolete.html#frameset'>frameset</a></dfn></code>
+          'http://www.w3.org/TR/html5/dom.html#document'>Document</a></dfn></code>
         </li>
         <li>
           <dfn><a href=
-          '%20http://www.w3.org/TR/html5/browsers.html#concept-document-window'>
-          Window object's Documents</a></dfn>
-        </li>
-        <li>
-          <dfn><a href=
-          "http://dev.w3.org/html5/spec/browsers.html#browsing-context">browsing
+          "http://www.w3.org/TR/html5/browsers.html#browsing-context">browsing
           context</a></dfn>
         </li>
         <li>
           <dfn><a href=
-          "http://www.w3.org/html/wg/drafts/html/master/browsers.html#top-level-browsing-context">
+          "http://www.w3.org/TR/html5/browsers.html#top-level-browsing-context">
           top-level browsing context</a></dfn>
         </li>
         <li>browsing context's <dfn><a href=
@@ -190,7 +167,7 @@
       <p>
         <a href=
         'http://people.mozilla.org/~jorendorff/es6-draft.html#sec-promise-objects'>
-        Promise objects</a> are defined in [[!ECMASCRIPT]].
+        <dfn>Promise</dfn> objects</a> are defined in [[!ECMASCRIPT]].
       </p>
       <p>
         <dfn><a href=
@@ -202,23 +179,33 @@
     </section>
     <section>
       <h2>
-        Concepts
+        Interface definitions
       </h2>
       <section>
         <h2>
-          Terminology
-        </h2>
-        <p>
-          Unless stated otherwise, the term <dfn>screen</dfn> is equivalent to
-          the screen of the output device associated to the <a>Window</a>, as
-          per [[!CSSOM-VIEW]].
-        </p>
+          Extensions to the <a>Screen</a> interface
+        </h2>The CSSOM View specification defines a <code>Screen</code>
+        interface [[!CSSOM-VIEW]], which this specification extends:
+        <dl class='idl' title='partial interface Screen'>
+          <dt>
+            readonly attribute ScreenOrientation orientation
+          </dt>
+        </dl>
       </section>
       <section>
         <h2>
-          Reading the screen orientation
+          <code>ScreenOrientation</code> interface
         </h2>
-        <dl title="interface OrientationInformation" class="idl">
+        <dl class='idl' title='interface ScreenOrientation : EventTarget'>
+          <dt>
+            Promise&lt;undefined&gt; lock(OrientationLockType orientation)
+          </dt>
+          <dt>
+            void unlock()
+          </dt>
+          <dt>
+            attribute EventHandler onchange
+          </dt>
           <dt>
             readonly attribute OrientationType type
           </dt>
@@ -227,13 +214,111 @@
           </dt>
         </dl>
         <p>
-          The <code>type</code> attribute MUST return the <a>current screen
-          orientation type</a>.
+          When the <code><dfn id=
+          "widl-ScreenOrientation-lock-Promise-undefined--OrientationLockType-orientation">
+          lock()</dfn></code> is method invoked, the <a>user agent</a> MUST run
+          the <a>apply an orientation lock</a> steps using <i>orientation</i>.
         </p>
         <p>
-          The <code>angle</code> attribute MUST return the <a>current screen
-          orientation angle</a>.
+          When the <code><dfn id=
+          "widl-ScreenOrientation-unlock-void">unlock()</dfn></code> is method
+          invoked, the <a>user agent</a> MUST run the steps to <a>lock the
+          orientation</a> to the <a>default orientation</a>.
         </p>
+        <p>
+          When getting the <code><dfn id=
+          "widl-ScreenOrientation-type">type</dfn></code> attribute, the
+          <a>user agent</a> MUST return the <a>current screen orientation
+          type</a>.
+        </p>
+        <p>
+          When getting the <code><dfn id=
+          "widl-ScreenOrientation-angle">angle</dfn></code> attribute, the
+          <a>user agent</a> MUST return the <a>current screen orientation
+          angle</a>.
+        </p>
+        <p>
+          The <code><dfn id=
+          "widl-ScreenOrientation-onchange">onchange</dfn></code> attribute is
+          an <a>event handler</a> whose corresponding <a>event handler event
+          type</a> is <code>change</code>.
+        </p>
+      </section>
+      <section>
+        <h2>
+          <code>OrientationType</code> enum
+        </h2>
+        <dl title="enum OrientationType" class="idl">
+          <dt>
+            portrait-primary
+          </dt>
+          <dt>
+            portrait-secondary
+          </dt>
+          <dt>
+            landscape-primary
+          </dt>
+          <dt>
+            landscape-secondary
+          </dt>
+        </dl>
+      </section>
+      <section>
+        <h2>
+          <code>OrientationLockType</code> enum
+        </h2>
+        <dl title="enum OrientationLockType" class="idl">
+          <dt>
+            any
+          </dt>
+          <dt>
+            natural
+          </dt>
+          <dt>
+            landscape
+          </dt>
+          <dt>
+            portrait
+          </dt>
+          <dt>
+            portrait-primary
+          </dt>
+          <dt>
+            portrait-secondary
+          </dt>
+          <dt>
+            landscape-primary
+          </dt>
+          <dt>
+            landscape-secondary
+          </dt>
+        </dl>
+      </section>
+    </section>
+    <section>
+      <h2>
+        Concepts
+      </h2>
+      <p>
+        Unless stated otherwise, the term <dfn>screen</dfn> is equivalent to
+        the screen of the output device associated to the <a>Window</a>, as per
+        [[!CSSOM-VIEW]].
+      </p>
+      <p>
+        Algorithms defined in this specification assume that for each
+        <a>top-level browsing context</a> there is a <dfn>pending
+        promise</dfn>, which is initially set to <code>null</code>, which is a
+        <a>Promise</a> object whose associated task is to lock the screen
+        orientation.
+      </p>
+      <p>
+        Unless specified otherwise, when <a title="queue a task">queuing a
+        task</a>, the <dfn>screen orientation task source</dfn> is used.
+      </p>
+      <section>
+        <h2>
+          Reading the screen orientation
+        </h2>
         <p>
           For a given <a>browsing context</a>, the values of <code>type</code>
           and <code>angle</code> will be strongly linked in the sense that for
@@ -257,20 +342,6 @@
             check during runtime the relationship between angle and type.
           </p>
         </div>
-        <dl title="enum OrientationType" class="idl">
-          <dt>
-            portrait-primary
-          </dt>
-          <dt>
-            portrait-secondary
-          </dt>
-          <dt>
-            landscape-primary
-          </dt>
-          <dt>
-            landscape-secondary
-          </dt>
-        </dl>
         <p>
           When reading the <dfn>current screen orientation type</dfn>, the
           <a>user agent</a> MUST follow these steps:
@@ -298,10 +369,10 @@
           When reading the <dfn>current screen orientation angle</dfn>, the
           <a>user agent</a> MUST return the clockwise angle in degrees between
           the orientation of the screen as it is drawn and the natural
-          orientation of the device (ie. the top of the physical screen). This
-          is the opposite of the physical rotation. In other words, if you turn
-          a device 90 degrees on the right, screen orientation angle should be
-          270 degrees.
+          orientation of the device (i.e., the top of the physical screen).
+          This is the opposite of the physical rotation. In other words, if you
+          turn a device 90 degrees on the right, screen orientation angle
+          should be 270 degrees.
         </p>
       </section>
       <section>
@@ -310,8 +381,10 @@
         </h2>
         <p>
           The <a>user agent</a> MAY require a <a>document</a>'s <a>top-level
-          browsing context</a> to be fullscreen [[!FULLSCREEN]] in order to be
-          able to lock the screen orientation.
+          browsing context</a> meet one or more <dfn>security conditions</dfn>
+          in order to be able to lock the screen orientation. For example, a
+          user agent might require the top-level browsing context to be
+          fullscreen [[FULLSCREEN]] in order to allow an orientation lock.
         </p>
         <p>
           The <a>user agent</a> MAY reject all attempts to lock the screen
@@ -322,82 +395,37 @@
         </p>
         <p>
           If the <a>user agent</a> supports locking the screen orientation, it
-          MUST allow the screen to be locked to all the following states:
+          MUST allow the screen to be locked to all of the states of the
+          <a><code>OrientationLockType</code></a> enum.
         </p>
-        <dl title="enum OrientationLockType" class="idl">
-          <dt>
-            any
-          </dt>
-          <dt>
-            natural
-          </dt>
-          <dt>
-            landscape
-          </dt>
-          <dt>
-            portrait
-          </dt>
-          <dt>
-            portrait-primary
-          </dt>
-          <dt>
-            portrait-secondary
-          </dt>
-          <dt>
-            landscape-primary
-          </dt>
-          <dt>
-            landscape-secondary
-          </dt>
-        </dl>
         <p>
           The steps to <dfn>apply an orientation lock</dfn> using
-          <var>orientation</var> are given by the following algorithm. The
-          algorithm assumes that for each <a>top-level browsing context</a>
-          there is a <var>pending promise</var>, which is initially set to
-          <var>null</var>, which represents a pending task to lock the screen
-          orientation:
+          <var>orientation</var> are as follows:
         </p>
         <ol>
           <li>If the <a>user agent</a> does not support locking the screen
-          orientation, return a Promise rejected with a
+          orientation, return a <a>Promise</a> rejected with a
           <code>DOMException</code> whose name is
           <code>NotSupportedError</code> and abort these steps.
           </li>
-          <li>If <var>pending promise</var> is not <code>null</code>:
+          <li>If <a>pending promise</a> is not <code>null</code>:
             <ol>
               <li>Cancel all tasks in the <a>screen orientation task
               source</a>.
               </li>
-              <li>Reject <var>pending promise</var> with
-              <code>DOMException</code> whose name is <code>AbortError</code>.
+              <li>Reject <a>pending promise</a> with <code>DOMException</code>
+              whose name is <code>AbortError</code>.
               </li>
-              <li>Set <var>pending promise</var> to be null.
+              <li>Set <a>pending promise</a> to be <code>null</code>.
               </li>
             </ol>
           </li>
           <li>If the <a>Document</a>'s <a>active sandboxing flag set</a> has
-          the <a>sandboxed orientation lock browsing context flag</a> set,
-          return a Promise rejected with a <code>DOMException</code> whose name
-          is <code>SecurityError</code> and abort these steps.
-          </li>
-          <li>If the <a>user agent</a> requires the <a>top-level browsing
-          context</a> to be fullscreen [[!FULLSCREEN]] to perform an
-          orientation change:
-            <ol>
-              <li>Let <var>doc</var> be the <a>top-level browsing context</a>'s
-              <code>document</code>.
-              </li>
-              <li>If <var>doc</var> has an empty <a>fullscreen element
-              stack</a>, return a Promise rejected with a
-              <code>DOMException</code> whose name is
-              <code>SecurityError</code> and abort these steps.
-              </li>
-              <li>When <var>doc</var> <a title="fully exit fullscreen">fully
-              exits fullscreen</a>, then <a>lock the orientation</a> to the <a>
-                default orientation</a>.
-              </li>
-            </ol>
+          the <a>sandboxed orientation lock browsing context flag</a> set, or
+          <a>user agent</a> doesn't meet the <a>security conditions</a> to
+          perform an orientation change, return a <a>Promise</a> rejected with
+          a <code>DOMException</code> whose name is <code>SecurityError</code>
+          and abort these steps.
           </li>
           <li>Let <var>orientations</var> be an empty list.
           </li>
@@ -445,7 +473,8 @@
           <li>Otherwise, append <var>orientation</var> to
           <var>orientations</var>.
           </li>
-          <li>Set <var>pending-promise</var> to be a newly-created Promise.
+          <li>Set <var>pending-promise</var> to be a newly-created
+          <a>Promise</a>.
           </li>
           <li>Return <var>pending-promise</var> and continue asynchronously.
           </li>
@@ -462,16 +491,16 @@
               </li>
               <li>Otherwise, the next time the orientation changes, if the new
               <a>current screen orientation type</a> is included in
-              <var>orientations</var>, before firing the
-              <code>orientationchange</code> event, resolve
-              <var>pending-promise</var> with <code>undefined</code>.
+              <var>orientations</var>, before firing the <code>change</code>
+              event, resolve <var>pending-promise</var> with
+              <code>undefined</code>.
               </li>
             </ol>
           </li>
         </ol>
         <p>
-          When the <a>user agent</a> has to <dfn>lock the orientation</dfn>
-          using <i>orientations</i>, it MUST run tho following steps:
+          The steps to <dfn>lock the orientation</dfn> using
+          <i>orientations</i> are as follows:
         </p>
         <ol>
           <li>Save <i>orientations</i> as the <a>current orientation lock</a>.
@@ -554,19 +583,15 @@
           browsing context</a>.
         </p>
         <p>
-          Whenever a <a>top-level browsing context</a> is <a>navigated</a> to a
-          new resource, the <a>user agent</a> MUST <a>lock the orientation</a>
-          to the <a>default orientation</a> on that <a>browsing context</a>.
+          Whenever a <a>top-level browsing context</a> is <a>navigated</a>, the
+          <a>user agent</a> MUST <a>lock the orientation</a> to the <a>default
+          orientation</a>.
         </p>
       </section>
       <section>
         <h2>
           Handling screen orientation changes
         </h2>
-        <p>
-          Unless specified otherwise, when queuing a task, the <dfn>screen
-          orientation task source</dfn> is used.
-        </p>
         <p>
           Whenever the <a>current screen orientation type</a> and the
           <a>current screen orientation angle</a> are meant to change for the
@@ -575,22 +600,31 @@
         </p>
         <ol>
           <li>If the <a>browsing context</a> <a>active document</a> is not
-          visible per [[!PAGE-VISIBILITY]], these steps have to be aborted and
-          <a>current screen orientation type</a> and <a>current screen
-          orientation angle</a> MUST continue to return the same values as they
-          previously did.
+          visible per [[!PAGE-VISIBILITY]], abort these steps.
           </li>
-          <li>If a Promise created in <a>apply an orientation lock</a> steps is
-          pending, it MUST be resolved with <code>undefined</code>.
-          </li>
-          <li>The <a>user agent</a> MUST <a>queue a task</a> to <a>fire a
-          simple event</a> named <code>orientationchange</code> at the
-          <a>browsing context</a> <a>active document</a>'s <a>Window</a> object
-          and wait until that task begins to continue to the next step.
-          </li>
-          <li>Start returning the new values from the <a>current screen
-          orientation type</a> and <a>current screen orientation angle</a>
-          steps.
+          <li>
+            <a>Queue a task</a> to perform the following actions:
+            <ol>
+              <li>Update the <a>current screen orientation type</a>.
+              </li>
+              <li>Update the <a>current screen orientation angle</a>.
+              </li>
+              <li>
+                <a>Fire a simple event</a> named <code>change</code> at each
+                <a href=
+                "#widl-Screen-orientation"><code>screen.orientation</code></a>
+                object.
+              </li>
+              <li>If <a>pending promise</a> is not <code>null</code>:
+                <ol>
+                  <li>Resolve <a>pending promise</a> with
+                  <code>undefined</code>.
+                  </li>
+                  <li>Set <a>pending promise</a> to be <code>null</code>.
+                  </li>
+                </ol>
+              </li>
+            </ol>
           </li>
         </ol>
       </section>
@@ -607,71 +641,10 @@
         <p>
           For the perspective of the current <a>browsing context</a>, locking
           to the default orientation is equivalent to unlocking because it
-          means that it no longer have any lock applied. However, it does not
-          mean that the <a>default orientation</a> has to be <code>any</code>.
+          means that it no longer has a lock applied. However, it does not mean
+          that the <a>default orientation</a> has to be <code>any</code>.
         </p>
       </section>
-    </section>
-    <section>
-      <h2>
-        Extensions to the <a>Screen</a> interface
-      </h2>The CSSOM View specification defines a <code>Screen</code> interface
-      [[!CSSOM-VIEW]], which this specification extends:
-      <dl class='idl' title='partial interface Screen'>
-        <dt>
-          readonly attribute OrientationInformation orientation
-        </dt>
-        <dt>
-          Promise&lt;undefined&gt; lockOrientation(OrientationLockType
-          orientation)
-        </dt>
-        <dt>
-          void unlockOrientation()
-        </dt>
-      </dl>
-      <p>
-        The <code>lockOrientation()</code> method, when invoked, MUST run the
-        <a>apply an orientation lock</a> steps using <i>orientation</i> and
-        return the result of those steps.
-      </p>
-      <p>
-        The <code>unlockOrientation()</code> method, when invoked, MUST
-        asynchronously <a>lock the orientation</a> to the <a>default
-        orientation</a>. If a promise created by <a>apply an orientation
-        lock</a> steps is pending, it MUST be rejected with a
-        <code>DOMException</code> whose name is <code>AbortError</code>.
-      </p>
-    </section>
-    <section>
-      <h2>
-        Extensions to the <a>WindowEventHandlers</a> interface
-      </h2>
-      <p class='note'>
-        This section is monkey patching the HTML specification. It is meant to
-        be merged into the HTML specification as soon as this document is
-        stable enough. See <a href=
-        'https://www.w3.org/Bugs/Public/show_bug.cgi?id=25310'>bug 25310</a>.
-      </p>
-      <p>
-        The HTML5 specification defines a <a href=
-        'http://www.w3.org/TR/html5/webappapis.html#windoweventhandlers'>WindowEventHandlers</a>
-        interface [[!HTML5]], which this specification extends:
-      </p>
-      <dl class='idl' title='partial interface WindowEventHandlers'>
-        <dt>
-          attribute EventHandler onorientationchange
-        </dt>
-      </dl>
-      <p>
-        The <code>onorientationchange</code> <a>event handler</a> and its
-        corresponding <code>orientationchange</code> <a>event handler event
-        type</a> MUST be supported by <a>Window</a> objects, as <a>event
-        handler IDL attribute</a> on the <a>Window</a> objects themselves, and
-        with corresponding <a>event handler content attribute</a> and <a>event
-        handler IDL attribute</a> exposed on all <a>body</a> and
-        <a>frameset</a> elements that are owned by that <a>Window object's
-        Documents</a>.
-      </p>
     </section>
     <section>
       <h2>
@@ -716,51 +689,74 @@
         amongst its allowed values.
       </p>
     </section>
-    <section class='informative'>
+    <section>
       <h2>
-        Interaction with DeviceOrientation
+        Interactions with other specifications
       </h2>
       <p>
-        The DeviceOrientation specification [[!DEVICE-ORIENTATION]] defines a
-        <code>deviceorientation</code> event that can be used to discover the
-        physical orientation of the device. Such event can be used to draw
-        things on the screen that could point to a specific direction. A basic
-        example being a compass application. Another example would be an
-        application giving direction to the user or an augmented reality game
-        pointing to an objective.
+        This section explains how this specification interacts with other
+        related specifications of the platform.
       </p>
-      <p>
-        Drawing on the screen in order to point to a physical location requires
-        to know the device orientation and the orientation of the screen in the
-        device coordinates. Without the APIs defined in this specification, a
-        developer has to assume that the <a>current screen orientation
-        angle</a> is 0. With the help of the APIs described in this
-        specification, the developer can <a>apply an orientation lock</a> using
-        <code>0</code> to make that assumption a certitude. Otherwise, reading
-        the <a>current screen orientation angle</a> via
-        <code>screen.orientation.angle</code> and listening to the
-        <code>orientationchange</code> should help the developer to compensate
-        the screen orientation angle.
-      </p>
-    </section>
-    <section class='informative'>
-      <h2>
-        Interaction with Web Application Manifest
-      </h2>
-      <p>
-        The Web Application Manifest specification [[!WEBAPPS-MANIFEST-API]]
-        allows web applications to set the <a>default orientation</a>.
-      </p>
-    </section>
-    <section class='informative'>
-      <h2>
-        Interaction with CSS Device Adaptation
-      </h2>
-      <p>
-        The CSS Device Adaptation specification [[!CSS-ADAPTATION]] defines,
-        independently of this document, a way to lock the screen orientation
-        for a web page using CSS.
-      </p>
+      <section>
+        <h2>
+          Interaction with FullScreen API
+        </h2>
+        <p>
+          As a <a title="security conditions">security condition</a>, a user
+          agent MAY restrict locking the screen orientation exclusively to when
+          the top-level browsing document's full-screen enabled flag has been
+          set [[!FULLSCREEN]] (i.e., when the document is in fullscreen). When
+          that security condition applies, whenever the document fully exits
+          fullscreen and a screen orientation lock is applied, the user agent
+          MUST lock the orientation to the default orientation.
+        </p>
+      </section>
+      <section class='informative'>
+        <h2>
+          Interaction with DeviceOrientation
+        </h2>
+        <p>
+          The DeviceOrientation specification [[!DEVICE-ORIENTATION]] defines a
+          <code>deviceorientation</code> event that can be used to discover the
+          physical orientation of the device. Such event can be used to draw
+          things on the screen that could point to a specific direction. A
+          basic example being a compass application. Another example would be
+          an application giving direction to the user or an augmented reality
+          game pointing to an objective.
+        </p>
+        <p>
+          Drawing on the screen in order to point to a physical location
+          requires to know the device orientation and the orientation of the
+          screen in the device coordinates. Without the APIs defined in this
+          specification, a developer has to assume that the <a>current screen
+          orientation angle</a> is 0. With the help of the APIs described in
+          this specification, the developer can <a>apply an orientation
+          lock</a> using <code>natural</code> to make that assumption a
+          certitude. Otherwise, reading the <a>current screen orientation
+          angle</a> via <code>screen.orientation.angle</code> and listening to
+          the <code>change</code> event can help the developer to compensate
+          the screen orientation angle.
+        </p>
+      </section>
+      <section class='informative'>
+        <h2>
+          Interaction with Web Application Manifest
+        </h2>
+        <p>
+          The Web Application Manifest specification [[appmanifest]] allows web
+          applications to set the <a>default orientation</a>.
+        </p>
+      </section>
+      <section class='informative'>
+        <h2>
+          Interaction with CSS Device Adaptation
+        </h2>
+        <p>
+          The CSS Device Adaptation specification [[CSS-ADAPTATION]] defines,
+          independently of this document, a way to lock the screen orientation
+          for a web page using CSS.
+        </p>
+      </section>
     </section>
     <section class='appendix'>
       <h2>
