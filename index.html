@@ -29,7 +29,6 @@
               name: "Mounir Lamouri",
               company: "Google Inc.",
               companyURL: "http://google.com/",
-              note: "previously Mozilla",
             },
             {
               name: "Marcos Cáceres",
@@ -75,7 +74,7 @@
   var show = function() {
      console.log("Orientation is " + screen.orientation.type);
   }
-  
+
   screen.orientation.addEventListener("change", show);
   window.onload = show;
 &lt;/script&gt;
@@ -338,7 +337,7 @@
             would be wrong given that a device might have <code>90</code> and
             <code>270</code> as the angles for <code>landscape</code> types but
             another device will have <code>0</code> and <code>180</code>,
-            depending on its native orientation. Instead, it is recommended to
+            depending on its natural orientation. Instead, it is recommended to
             check during runtime the relationship between angle and type.
           </p>
         </div>
@@ -536,14 +535,13 @@
           </li>
           <li>Otherwise, depending on platform conventions, the <a>user
           agent</a> MAY change how the viewport is drawn in order to make it
-          match another screen orientation type or angle. However, it MUST be
-          part of <i>orientations</i>.
+          match another screen orientation type. However, it MUST be part of
+          <i>orientations</i>.
           </li>
           <li>The <a>user agent</a> MUST allow the user to change the screen
           orientation to any value part of <i>orientations</i> and only those
           values until those steps are run again. The method to define what the
-          current screen orientation should be MUST match the platform
-          conventions.
+          current screen orientation SHOULD match the platform conventions.
           </li>
         </ol>
         <p>
