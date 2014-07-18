@@ -224,6 +224,13 @@
           invoked, the <a>user agent</a> MUST run the steps to <a>lock the
           orientation</a> to the <a>default orientation</a>.
         </p>
+        <p class='note'>
+          <a>unlock()</a> does not return a Promise because it is equivalent to
+          locking to the <a>default orientation</a> which might or might not be
+          known by the <a>user agent</a>. Hence, the <a>user agent</a> can not
+          predict what the new orientation is going to be and even if it is
+          going to change at all.
+        </p>
         <p>
           When getting the <code><dfn id=
           "widl-ScreenOrientation-type">type</dfn></code> attribute, the
