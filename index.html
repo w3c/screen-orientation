@@ -347,11 +347,16 @@
         </p>
         <ol>
           <li>If the screen width is greater than the screen height, return
-          <code>landscape-primary</code> or <code>landscape-secondary</code>.
+          <code><dfn id=
+          'idl-def-OrientationType.landscape-primary'>landscape-primary</dfn></code>
+          or <code><dfn id=
+          'idl-def-OrientationType.landscape-secondary'>landscape-secondary</dfn></code>.
           </li>
           <li>Otherwise, if the screen width is less than or equal to the
-          screen height, return <code>portrait-primary</code> or
-          <code>portrait-secondary</code>.
+          screen height, return <code><dfn id=
+          'idl-def-OrientationType.portrait-primary'>portrait-primary</dfn></code>
+          or <code><dfn id=
+          'idl-def-OrientationType.portrait-secondary'>portrait-secondary</dfn></code>.
           </li>
         </ol>
         <p>
@@ -428,11 +433,24 @@
           </li>
           <li>Let <var>orientations</var> be an empty list.
           </li>
-          <li>If the value of <var>orientation</var> matches one of the
-          following:
+          <li>Depending on <var>orientation</var> value, do the following:
             <dl>
               <dt>
-                <code>landscape</code>
+                <code><dfn id=
+                'idl-def-OrientationLockType.portrait-primary'>portrait-primary</dfn></code>
+                or <code><dfn id=
+                'idl-def-OrientationLockType.portrait-secondary'>portrait-secondary</dfn></code>
+                or <code><dfn id=
+                'idl-def-OrientationLockType.landscape-primary'>landscape-primary</dfn></code>
+                or <code><dfn id=
+                'idl-def-OrientationLockType.landscape-secondary'>landscape-secondary</dfn></code>
+              </dt>
+              <dd>
+                Append <var>orientation</var> to <var>orientations</var>.
+              </dd>
+              <dt>
+                <code><dfn id=
+                'idl-def-OrientationLockType.landscape'>landscape</dfn></code>
               </dt>
               <dd>
                 Depending on platform convention, append
@@ -441,7 +459,8 @@
                 <var>orientations</var>.
               </dd>
               <dt>
-                <code>portrait</code>
+                <code><dfn id=
+                'idl-def-OrientationLockType.portrait'>portrait</dfn></code>
               </dt>
               <dd>
                 Depending on platform convention, append
@@ -450,7 +469,8 @@
                 <var>orientations</var>.
               </dd>
               <dt>
-                <code>natural</code>
+                <code><dfn id=
+                'idl-def-OrientationLockType.natural'>natural</dfn></code>
               </dt>
               <dd>
                 Append <code>portrait-primary</code>,
@@ -459,7 +479,8 @@
                 such as the associated screen orientation angle is 0.
               </dd>
               <dt>
-                <code>any</code>
+                <code><dfn id=
+                'idl-def-OrientationLockType.any'>any</dfn></code>
               </dt>
               <dd>
                 Append <code>portrait-primary</code>,
@@ -468,9 +489,6 @@
                 <var>orientations</var>.
               </dd>
             </dl>
-          </li>
-          <li>Otherwise, append <var>orientation</var> to
-          <var>orientations</var>.
           </li>
           <li>Set <var>pending-promise</var> to be a newly-created
           <a>Promise</a>.
