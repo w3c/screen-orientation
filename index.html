@@ -170,9 +170,9 @@
       </p>
       <p>
         <dfn><a href=
-        'http://www.w3.org/TR/fullscreen/#fullscreen-element-stack'>fullscreen
-        element stack</a></dfn> and <dfn><a href=
-        'http://www.w3.org/TR/fullscreen/#fully-exit-fullscreen'>fully exit
+        'http://fullscreen.spec.whatwg.org/#fullscreen-enabled-flag'>fullscreen
+        enabled flag</a></dfn> and <dfn><a href=
+        'http://fullscreen.spec.whatwg.org/#fully-exit-fullscreen'>fully exits
         fullscreen</a></dfn> are defined in [[!FULLSCREEN]].
       </p>
     </section>
@@ -395,7 +395,8 @@
           browsing context</a> meet one or more <dfn>security conditions</dfn>
           in order to be able to lock the screen orientation. For example, a
           user agent might require the top-level browsing context to be
-          fullscreen [[FULLSCREEN]] in order to allow an orientation lock.
+          fullscreen (see <a href='#interaction-with-fullscreen-api'>7.1</a>)
+          in order to allow an orientation lock.
         </p>
         <p>
           The <a>user agent</a> MAY reject all attempts to lock the screen
@@ -727,11 +728,11 @@
         <p>
           As a <a title="security conditions">security condition</a>, a user
           agent MAY restrict locking the screen orientation exclusively to when
-          the top-level browsing document's full-screen enabled flag has been
-          set [[!FULLSCREEN]] (i.e., when the document is in fullscreen). When
-          that security condition applies, whenever the document fully exits
-          fullscreen and a screen orientation lock is applied, the user agent
-          MUST lock the orientation to the default orientation.
+          the top-level browsing document's <a>fullscreen enabled flag</a> has
+          been set (i.e., when the document is in fullscreen). When that
+          security condition applies, whenever the document <a>fully exits
+          fullscreen</a> and a screen orientation lock is applied, the <a>user
+          agent</a> MUST lock the orientation to the default orientation.
         </p>
       </section>
       <section class='informative'>
