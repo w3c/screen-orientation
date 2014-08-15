@@ -524,50 +524,46 @@
           </li>
         </ol>
         <p>
-          The steps to <dfn>lock the orientation</dfn> using
-          <i>orientations</i> are as follows:
+          When the <a>user agent</a> has to <dfn>lock the orientation</dfn>
+          using <var>orientations</var>, it MUST run the following steps:
         </p>
         <ol>
-          <li>Save <i>orientations</i> as the <a>current orientation lock</a>.
-          </li>
+          <li>Save <var>orientations</var> as the <a>current orientation
+          lock</a>.</li>
           <li>If the <a>active orientation lock</a> is not the <a>current
           orientation lock</a>, abort these steps.
           </li>
-          <li>If the screen is already locked to <i>orientations</i>, abort the
-          steps.
-          </li>
-          <li>If <i>orientations</i> contains only one value, run the following
-          sub-steps:
+          <li>If the screen is already locked to <var>orientations</var>, abort
+          these steps.</li>
+          <li>If <var>orientations</var> contains only one value, run the
+          following sub-steps:
             <ol>
-              <li>Let <i>orientation</i> be the value contained in
-              <i>orientations</i>.
+              <li>Let <var>orientation</var> be the value contained in
+              <var>orientations</var>.
               </li>
-              <li>The <a>user agent</a> MUST change how the viewport is drawn
-              so that the <a>current screen orientation type</a> will be equal
-              to <i>orientation</i>.
+              <li>Change how the viewport is drawn so that the <a>current screen
+              orientation type</a> will be equal to <i>orientation</i>.
               </li>
-              <li>After the change has happened, the <a>user agent</a> MUST
-              prevent the <a>top-level browsing context</a> screen orientation
-              to change until those steps are run again.
+              <li>After the change has happened, prevent the <a>top-level
+              browsing context</a> screen orientation to change until those
+              steps are run again.
               </li>
               <li>Abort these steps.
               </li>
             </ol>
           </li>
-          <li>If the <a>current screen orientation type</a> is not part of <i>
-            orientations</i>, the <a>user agent</a> MUST change how the
-            viewport is drawn such as the <a>current screen orientation
-            type</a> will be equal to one of <i>orientations</i>' values.
+          <li>If the <a>current screen orientation type</a> is not part of <var>
+          orientations</var>, change how the viewport is drawn such as the
+          <a>current screen orientation type</a> will be equal to one of <var>
+          orientations</var>' values.</li>
+          <li>Otherwise, depending on platform conventions, change how the
+          viewport is drawn in order to make it match another screen orientation
+          type. However, it has to be part of <var>orientations</var>.
           </li>
-          <li>Otherwise, depending on platform conventions, the <a>user
-          agent</a> MAY change how the viewport is drawn in order to make it
-          match another screen orientation type. However, it MUST be part of
-          <i>orientations</i>.
-          </li>
-          <li>The <a>user agent</a> MUST allow the user to change the screen
-          orientation to any value part of <i>orientations</i> and only those
-          values until those steps are run again. The method to define what the
-          current screen orientation SHOULD match the platform conventions.
+          <li>Allow the user to change the screen orientation to any value part
+          of <var>orientations</var> and only those values until those steps are
+          run again. The method to define the <a>current screen orientation</a>
+          has to match the platform conventions.
           </li>
         </ol>
         <p>
