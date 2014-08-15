@@ -197,7 +197,7 @@
         </h2>
         <dl class='idl' title='interface ScreenOrientation : EventTarget'>
           <dt>
-            Promise&lt;undefined&gt; lock(OrientationLockType orientation)
+            Promise&lt;void&gt; lock(OrientationLockType orientation)
           </dt>
           <dt>
             void unlock()
@@ -214,7 +214,7 @@
         </dl>
         <p>
           When the <code><dfn id=
-          "widl-ScreenOrientation-lock-Promise-undefined--OrientationLockType-orientation">
+          "widl-ScreenOrientation-lock-Promise-void--OrientationLockType-orientation">
           lock()</dfn></code> is method invoked, the <a>user agent</a> MUST run
           the <a>apply an orientation lock</a> steps using <i>orientation</i>.
         </p>
