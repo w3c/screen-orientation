@@ -382,8 +382,8 @@
           the orientation of the screen as it is drawn and the natural
           orientation of the device (i.e., the top of the physical screen).
           This is the opposite of the physical rotation. In other words, if you
-          turn a device 90 degrees on the right, screen orientation angle
-          would be 270 degrees.
+          turn a device 90 degrees on the right, screen orientation angle would
+          be 270 degrees.
         </p>
       </section>
       <section>
@@ -428,7 +428,7 @@
               <li>Reject <a>pending promise</a> with <code>DOMException</code>
               whose name is <code>AbortError</code>.
               </li>
-	      <li>Set <a>pending promise</a> to <code>null</code>.
+              <li>Set <a>pending promise</a> to <code>null</code>.
               </li>
             </ol>
           </li>
@@ -529,20 +529,22 @@
         </p>
         <ol>
           <li>Save <var>orientations</var> as the <a>current orientation
-          lock</a>.</li>
+          lock</a>.
+          </li>
           <li>If the <a>active orientation lock</a> is not the <a>current
           orientation lock</a>, abort these steps.
           </li>
           <li>If the screen is already locked to <var>orientations</var>, abort
-          these steps.</li>
+          these steps.
+          </li>
           <li>If <var>orientations</var> contains only one value, run the
           following sub-steps:
             <ol>
               <li>Let <var>orientation</var> be the value contained in
               <var>orientations</var>.
               </li>
-              <li>Change how the viewport is drawn so that the <a>current screen
-              orientation type</a> will be equal to <i>orientation</i>.
+              <li>Change how the viewport is drawn so that the <a>current
+              screen orientation type</a> will be equal to <i>orientation</i>.
               </li>
               <li>After the change has happened, prevent the <a>top-level
               browsing context</a> screen orientation to change until those
@@ -552,18 +554,20 @@
               </li>
             </ol>
           </li>
-          <li>If the <a>current screen orientation type</a> is not part of <var>
-          orientations</var>, change how the viewport is drawn such as the
+          <li>If the <a>current screen orientation type</a> is not part of
+          <var>orientations</var>, change how the viewport is drawn such as the
           <a>current screen orientation type</a> will be equal to one of <var>
-          orientations</var>' values.</li>
+            orientations</var>' values.
+          </li>
           <li>Otherwise, depending on platform conventions, change how the
-          viewport is drawn in order to make it match another screen orientation
-          type. However, it has to be part of <var>orientations</var>.
+          viewport is drawn in order to make it match another screen
+          orientation type. However, it has to be part of
+          <var>orientations</var>.
           </li>
           <li>Allow the user to change the screen orientation to any value part
-          of <var>orientations</var> and only those values until those steps are
-          run again. The method to define the <a>current screen orientation</a>
-          has to match the platform conventions.
+          of <var>orientations</var> and only those values until those steps
+          are run again. The method to define the <a>current screen
+          orientation</a> has to match the platform conventions.
           </li>
         </ol>
         <p>
@@ -640,7 +644,7 @@
                   <li>Resolve <a>pending promise</a> with
                   <code>undefined</code>.
                   </li>
-		  <li>Set <a>pending promise</a> to <code>null</code>.
+                  <li>Set <a>pending promise</a> to <code>null</code>.
                   </li>
                 </ol>
               </li>
