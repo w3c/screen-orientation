@@ -170,8 +170,8 @@
       </p>
       <p>
         <dfn><a href=
-        'http://fullscreen.spec.whatwg.org/#fullscreen-enabled-flag'>fullscreen
-        enabled flag</a></dfn> and <dfn><a href=
+        'http://fullscreen.spec.whatwg.org/#fullscreen-element-stack'>fullscreen
+        element stack</a></dfn> and <dfn><a href=
         'http://fullscreen.spec.whatwg.org/#fully-exit-fullscreen'>fully exits
         fullscreen</a></dfn> are defined in [[!FULLSCREEN]].
       </p>
@@ -728,11 +728,11 @@
         <p>
           As a <a title="security conditions">security condition</a>, a user
           agent MAY restrict locking the screen orientation exclusively to when
-          the top-level browsing document's <a>fullscreen enabled flag</a> has
-          been set. When that security condition applies, whenever the document
-          <a>fully exits fullscreen</a> and a screen orientation lock is
-          applied, the <a>user agent</a> MUST lock the orientation to the
-          default orientation.
+          the <a>top-level browsing context</a>'s <a>document</a>'s
+          <a>fullscreen element stack</a> is not empty. When that security
+          condition applies, whenever the document <a>fully exits fullscreen</a>
+          and a screen orientation lock is applied, the <a>user agent</a> MUST
+          lock the orientation to the <a>default orientation</a>.
         </p>
       </section>
       <section class='informative'>
