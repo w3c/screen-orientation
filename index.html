@@ -494,14 +494,14 @@
           using <var>orientations</var>, it MUST run the following steps:
         </p>
         <ol>
-          <li>Save <var>orientations</var> as the <a>document</a>'s
-          <a>orientation lock</a>.
+          <li>Set the <a>document</a>'s <a>orientation lock</a> to
+          <var>orientations</var>.
           </li>
           <li>If the <a>active orientation lock</a> is not the <a>document</a>'s
           <a>orientation lock</a>, abort these steps.
           </li>
-          <li>If the screen is already locked to <var>orientations</var>, abort
-          these steps.
+          <li>If the <a>active orientation lock</a> value is equivalent to
+          <var>orientations</var>, abort these steps.
           </li>
           <li>If <var>orientations</var> contains only one value, run the
           following sub-steps:
