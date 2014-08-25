@@ -60,36 +60,6 @@
       'https://www.w3.org/Bugs/Public/enter_bug.cgi?product=WebAppsWG&amp;component=Screen%20Orientation'>
       open a new bug</a>.
     </section>
-    <section class='informative'>
-      <h2>
-        Examples
-      </h2>
-      <p>
-        This example is an application that shows the current screen
-        orientation to the user every time the screen orientation state
-        changes:
-      </p>
-      <pre class='example highlight'>
-&lt;script&gt;
-  var show = function() {
-     console.log("Orientation is " + screen.orientation.type);
-  }
-
-  screen.orientation.addEventListener("change", show);
-  window.onload = show;
-&lt;/script&gt;
-
-&lt;button onclick='screen.orientation.unlock()'&gt;
-  Unlock
-&lt;/button&gt;
-&lt;button onclick="screen.orientation.lock('portrait')"&gt;
-  Lock to portrait
-&lt;/button&gt;
-&lt;button onclick="screen.orientation.lock('landscape')"&gt;
-  Lock to landscape
-&lt;/button&gt;
-</pre>
-    </section>
     <section id='conformance'>
       <p>
         This specification defines conformance criteria that apply to a single
@@ -781,6 +751,79 @@
           for a web page using CSS.
         </p>
       </section>
+    </section>
+    <section class='informative'>
+      <h2>
+        Examples
+      </h2>
+      <p>
+        This example shows the current screen orientation to the console every
+        time the screen orientation state changes.
+      </p>
+      <pre class='example highlight'>
+&lt;script&gt;
+  var show = function() {
+     console.log("Orientation type is " + screen.orientation.type);
+     console.log("Orientation angle is " + screen.orientation.angle);
+  }
+
+  screen.orientation.addEventListener("change", show);
+  window.onload = show;
+&lt;/script&gt;
+
+&lt;button onclick='screen.orientation.unlock()'&gt;
+  Unlock
+&lt;/button&gt;
+&lt;button onclick="screen.orientation.lock('portrait')"&gt;
+  Lock to portrait
+&lt;/button&gt;
+&lt;button onclick="screen.orientation.lock('landscape')"&gt;
+  Lock to landscape
+&lt;/button&gt;
+</pre>
+      <p>
+        This example waits to be fullscreen before locking the screen
+        orientation and starting.
+      </p>
+      <pre class='example highlight'>
+&lt;script&gt;
+  var start = function() {
+    document.onfullscreenchange = function() {
+      screen.orientation.lock('natural').then(startInternal);
+    }
+    document.documentElement.requestFullscreen();
+  }
+&lt;/script&gt;
+&lt;button onclick='start();'&gt;
+  Start
+&lt;/button&gt;
+      </pre>
+      <p>
+        This example asks the user to manually rotate the device if the Screen
+        Orientation API is not available.
+      </p>
+      <pre class='example highlight'>
+&lt;script&gt;
+  var start = function() {
+    screen.orientation.lock('landscape-primary').then(
+      startInternal,
+      function() {
+        alert('To start, rotate your screen to landscape.');
+
+        var orientationChangeHandler = function() {
+          if (!screen.orientation.type.startsWith('landscape')) {
+            return;
+          }
+          screen.orientation.removeEventListener('change', orientationChangeHandler);
+          startInternal();
+        }
+
+        screen.orientation.addEventListener('change', orientationChangeHandler);
+      });
+  }
+  window.onload = start;
+&lt;/script&gt;
+      </pre>
     </section>
     <section class='appendix'>
       <h2>
