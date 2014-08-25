@@ -373,8 +373,8 @@
           <a><code>OrientationLockType</code></a> enum.
         </p>
         <p>
-          The <dfn>current orientation lock</dfn> is the orientation lock that
-          applies on a <a>top-level browsing context</a>.
+          A <a>document</a>'s <dfn>orientation lock</dfn> is the orientation
+          lock that applies on its <a>top-level browsing context</a>.
         </p>
         <p>
           The steps to <dfn>apply an orientation lock</dfn> using
@@ -494,11 +494,11 @@
           using <var>orientations</var>, it MUST run the following steps:
         </p>
         <ol>
-          <li>Save <var>orientations</var> as the <a>current orientation
-          lock</a>.
+          <li>Save <var>orientations</var> as the <a>document</a>'s
+          <a>orientation lock</a>.
           </li>
-          <li>If the <a>active orientation lock</a> is not the <a>current
-          orientation lock</a>, abort these steps.
+          <li>If the <a>active orientation lock</a> is not the <a>document</a>'s
+          <a>orientation lock</a>, abort these steps.
           </li>
           <li>If the screen is already locked to <var>orientations</var>, abort
           these steps.
@@ -547,27 +547,25 @@
         </p>
         <ol>
           <li>If there is only one <a>top-level browsing context</a> with a <a>
-            Document</a> that is visible per [[!PAGE-VISIBILITY]], the
-            <a>active orientation lock</a> is the orientation lock that applies
-            to that <a>browsing context</a>.
+          document</a> that is visible per [[!PAGE-VISIBILITY]], the
+          <a>active orientation lock</a> is the <a>document</a>'s <a>orientation
+          lock</a>.
           </li>
           <li>Otherwise, if there are more than one <a>top-level browsing
-          context</a> with a <a>Document</a> that is visible per
-          [[!PAGE-VISIBILITY]] but only one of those <a>Document</a>s is
-          focused, the <a>active orientation lock</a> is the orientation lock
-          that applies to that <a>Document</a>'s <a>browsing context</a>.
+          context</a> with a <a>document</a> that is visible per
+          [[!PAGE-VISIBILITY]] but only one of those <a>document</a>s is
+          focused, the <a>active orientation lock</a> is the focused
+          <a>document</a>'s <a>orientation lock</a>.
           </li>
           <li>Otherwise, the <a>active orientation lock</a> SHOULD be the
-          orientation lock of the latest focused <a>Document</a>'s <a>top-level
-          browsing context</a>, unless stated otherwise by the platform
-          conventions.
+          latest focused <a>document</a>'s <a>orientation lock</a>,
+          unless stated otherwise by the platform conventions.
           </li>
         </ol>
         <p>
           Whenever the <a>active orientation lock</a> changes, the <a>user
           agent</a> MUST run the steps to <a>lock the orientation</a> using the
-          <a>current orientation lock</a> associated with the <a>top-level
-          browsing context</a>.
+          <a>document</a>'s <a>orientation lock</a>.
         </p>
         <p>
           Whenever a <a>top-level browsing context</a> is <a>navigated</a>, the
