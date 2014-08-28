@@ -613,6 +613,16 @@
             </ol>
           </li>
         </ol>
+        <div class="note">
+          <p>
+            Developers need to be aware that a <a href=
+            "#widl-Screen-orientation"><code>screen.orientation</code></a>
+            object <a>from a document that is not</a> "visible" as per
+            [[!PAGE-VISIBILITY]], will not receive an orientation change event.
+            This is to prevent unnecessary changes to layout, etc. in the
+            non-visible web application.
+          </p>
+        </div>
       </section>
       <section>
         <h2>
@@ -790,7 +800,8 @@
 &lt;button onclick='start();'&gt;
   Start
 &lt;/button&gt;
-      </pre>
+      
+</pre>
       <p>
         This example asks the user to manually rotate the device if the Screen
         Orientation API is not available.
@@ -816,7 +827,8 @@
   }
   window.onload = start;
 &lt;/script&gt;
-      </pre>
+      
+</pre>
     </section>
     <section class='appendix'>
       <h2>
