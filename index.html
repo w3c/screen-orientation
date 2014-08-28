@@ -471,21 +471,34 @@
           <li>Return <var>pending-promise</var> and continue asynchronously.
           </li>
           <li>
+            <a>Lock the orientation</a> to <var>orientations</var>.
+          </li>
+          <li>
             <a>Queue a task</a> to perform the following sub-steps:
             <ol>
-              <li>
-                <a>Lock the orientation</a> to <var>orientations</var>.
-              </li>
-              <li>If locking the orientation does not result in a change of
+              <li>If locking the orientation did not result in a change of
               orientation, resolve <var>pending-promise</var> with
               <code>undefined</code> and set <var>pending-promise</var> to
               <code>null</code>.
               </li>
               <li>Otherwise, the next time the orientation changes, if the new
               <a>current screen orientation type</a> is included in
-              <var>orientations</var>, before firing the <code>change</code>
-              event, resolve <var>pending-promise</var> with
-              <code>undefined</code>.
+              <var>orientations</var>:
+                <ol>
+                  <li>Update the <a>current screen orientation type</a>.
+                  </li>
+                  <li>Update the <a>current screen orientation angle</a>.
+                  </li>
+                  <li>Resolve <var>pending-promise</var> with
+                  <code>undefined</code>.
+                  </li>
+                  <li>
+                    <a>Fire a simple event</a> named <code>change</code> at
+                    each <a href=
+                    "#widl-Screen-orientation"><code>screen.orientation</code></a>
+                    object.
+                  </li>
+                </ol>
               </li>
             </ol>
           </li>
@@ -514,8 +527,8 @@
               screen orientation type</a> will be equal to <i>orientation</i>.
               </li>
               <li>After the change has happened, prevent the <a>top-level
-              browsing context</a> screen orientation to change until those
-              steps are run again.
+              browsing context</a>'s screen orientation from changing until
+              those steps are run again.
               </li>
               <li>Abort these steps.
               </li>
