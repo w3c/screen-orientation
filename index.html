@@ -483,7 +483,7 @@
               </li>
               <li>Otherwise, the next time the orientation changes, if the new
               <a>current screen orientation type</a> is included in
-              <var>orientations</var>:
+              <var>orientations</var>, run the following sub-steps:
                 <ol>
                   <li>Update the <a>current screen orientation type</a>.
                   </li>
@@ -511,8 +511,8 @@
           <li>Set the <a>document</a>'s <a>orientation lock</a> to
           <var>orientations</var>.
           </li>
-          <li>If the <a>active orientation lock</a> is not the <a>document</a>'s
-          <a>orientation lock</a>, abort these steps.
+          <li>If the <a>active orientation lock</a> is not the
+          <a>document</a>'s <a>orientation lock</a>, abort these steps.
           </li>
           <li>If the <a>active orientation lock</a> value is equal to
           <var>orientations</var> value, abort these steps.
@@ -561,9 +561,9 @@
         </p>
         <ol>
           <li>If there is only one <a>top-level browsing context</a> with a <a>
-          document</a> that is visible per [[!PAGE-VISIBILITY]], the
-          <a>active orientation lock</a> is the <a>document</a>'s <a>orientation
-          lock</a>.
+            document</a> that is visible per [[!PAGE-VISIBILITY]], the
+            <a>active orientation lock</a> is the <a>document</a>'s
+            <a>orientation lock</a>.
           </li>
           <li>Otherwise, if there are more than one <a>top-level browsing
           context</a> with a <a>document</a> that is visible per
@@ -572,8 +572,8 @@
           <a>document</a>'s <a>orientation lock</a>.
           </li>
           <li>Otherwise, the <a>active orientation lock</a> SHOULD be the
-          latest focused <a>document</a>'s <a>orientation lock</a>,
-          unless stated otherwise by the platform conventions.
+          latest focused <a>document</a>'s <a>orientation lock</a>, unless
+          stated otherwise by the platform conventions.
           </li>
         </ol>
         <p>
@@ -630,10 +630,10 @@
           <p>
             Developers need to be aware that a <a href=
             "#widl-Screen-orientation"><code>screen.orientation</code></a>
-            object <a>from a document that is not</a> "visible" as per
-            [[!PAGE-VISIBILITY]], will not receive an orientation change event.
-            This is to prevent unnecessary changes to layout, etc. in the
-            non-visible web application.
+            object from a <a><code>Document</code></a> that is not visible, as
+            per [[!PAGE-VISIBILITY]], will not receive an orientation change
+            event. This is to prevent unnecessary changes to layout, etc. in
+            the non-visible web application.
           </p>
         </div>
       </section>
