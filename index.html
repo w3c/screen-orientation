@@ -374,7 +374,8 @@
         </p>
         <p>
           A <a>document</a>'s <dfn>orientation lock</dfn> is the orientation
-          lock that applies on its <a>top-level browsing context</a>.
+          lock that applies on its <a>top-level browsing context</a>. An
+          orientation lock is a set of <a>OrientationType</a>.
         </p>
         <p>
           The steps to <dfn>apply an orientation lock</dfn> using
@@ -500,8 +501,8 @@
           <li>If the <a>active orientation lock</a> is not the <a>document</a>'s
           <a>orientation lock</a>, abort these steps.
           </li>
-          <li>If the <a>active orientation lock</a> value is equivalent to
-          <var>orientations</var>, abort these steps.
+          <li>If the <a>active orientation lock</a> value is equal to
+          <var>orientations</var> value, abort these steps.
           </li>
           <li>If <var>orientations</var> contains only one value, run the
           following sub-steps:
