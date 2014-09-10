@@ -195,7 +195,8 @@
           When the <code><dfn id=
           "widl-ScreenOrientation-unlock-void">unlock()</dfn></code> method is
           invoked, the <a>user agent</a> MUST run the steps to <a>lock the
-          orientation</a> to the <a>default orientation</a>.
+          orientation</a> of the <a>responsible document</a> to the <a>default
+          orientation</a>.
         </p>
         <p class='note'>
           <a>unlock()</a> does not return a Promise because it is equivalent to
@@ -476,7 +477,8 @@
           <li>Return <var>pending-promise</var> and continue asynchronously.
           </li>
           <li>
-            <a>Lock the orientation</a> to <var>orientations</var>.
+            <a>Lock the orientation</a> of the <a>document<a> to <var>
+            orientations</var>.
           </li>
           <li>
             <a>Queue a task</a> to perform the following sub-steps:
@@ -509,8 +511,9 @@
           </li>
         </ol>
         <p>
-          When the <a>user agent</a> has to <dfn>lock the orientation</dfn>
-          using <var>orientations</var>, it MUST run the following steps:
+          When the <a>user agent</a> has to <dfn>lock the orientation</dfn> of a
+          <a>document</a> to <var>orientations</var>, it MUST run the
+          following steps:
         </p>
         <ol>
           <li>Set the <a>document</a>'s <a>orientation lock</a> to
@@ -531,9 +534,9 @@
               <li>Change how the viewport is drawn so that the <a>current
               screen orientation type</a> will be equal to <i>orientation</i>.
               </li>
-              <li>After the change has happened, prevent the <a>top-level
-              browsing context</a>'s screen orientation from changing until
-              those steps are run again.
+              <li>After the change has happened, prevent the <a>document</a>'s
+              <a>top-level browsing context</a>'s screen orientation from
+              changing until those steps are run again.
               </li>
               <li>Abort these steps.
               </li>
@@ -583,13 +586,13 @@
         </ol>
         <p>
           Whenever the <a>active orientation lock</a> changes, the <a>user
-          agent</a> MUST run the steps to <a>lock the orientation</a> using the
-          <a>document</a>'s <a>orientation lock</a>.
+          agent</a> MUST run the steps to <a>lock the orientation</a> of the
+          <a>document</a> to the <a>document</a>'s <a>orientation lock</a>.
         </p>
         <p>
           Whenever a <a>top-level browsing context</a> is <a>navigated</a>, the
-          <a>user agent</a> MUST <a>lock the orientation</a> to the <a>default
-          orientation</a>.
+          <a>user agent</a> MUST <a>lock the orientation</a> of the <a>
+          document</a> to the <a>default orientation</a>.
         </p>
       </section>
       <section>
@@ -720,10 +723,10 @@
           agent MAY restrict locking the screen orientation exclusively to when
           the <a>top-level browsing context</a>'s <a>document</a>'s
           <a>fullscreen element stack</a> is not empty. When that security
-          condition applies, whenever the document's <a>fullscreen element
-          stack</a> is empty and a screen orientation lock is applied, the
-          <a>user agent</a> MUST lock the orientation to the <a>default
-          orientation</a>.
+          condition applies, whenever the <a>document</a>'s <a>fullscreen
+          element stack</a> is empty and a screen orientation lock is applied,
+          the <a>user agent</a> MUST <a>lock the orientation</a> of the <a>
+          document</a> to the <a>default orientation</a>.
         </p>
       </section>
       <section class='informative'>
