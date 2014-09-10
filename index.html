@@ -132,6 +132,10 @@
           'http://www.w3.org/TR/html5/browsers.html#active-sandboxing-flag-set'>
           active sandboxing flag set</a></dfn>
         </li>
+        <li>
+          <dfn><a href=
+          'http://www.w3.org/TR/html5/webappapis.html#responsible-document'>
+          responsible document</a></dfn>
       </ul>
       <p>
         <a href=
@@ -184,13 +188,15 @@
           When the <code><dfn id=
           "widl-ScreenOrientation-lock-Promise-void--OrientationLockType-orientation">
           lock()</dfn></code> method is invoked, the <a>user agent</a> MUST run
-          the <a>apply an orientation lock</a> steps using <i>orientation</i>.
+          the <a>apply an orientation lock</a> steps to the <a>responsible
+          document</a> using <i>orientation</i>.
         </p>
         <p>
           When the <code><dfn id=
           "widl-ScreenOrientation-unlock-void">unlock()</dfn></code> method is
           invoked, the <a>user agent</a> MUST run the steps to <a>lock the
-          orientation</a> to the <a>default orientation</a>.
+          orientation</a> of the <a>responsible document</a> to the <a>default
+          orientation</a>.
         </p>
         <p class='note'>
           <a>unlock()</a> does not return a Promise because it is equivalent to
@@ -378,8 +384,8 @@
           orientation lock is a set of <a>OrientationType</a>.
         </p>
         <p>
-          The steps to <dfn>apply an orientation lock</dfn> using
-          <var>orientation</var> are as follows:
+          The steps to <dfn>apply an orientation lock</dfn> to a <a>document</a>
+          using <var>orientation</var> are as follows:
         </p>
         <ol>
           <li>If the <a>user agent</a> does not support locking the screen
@@ -399,7 +405,7 @@
               </li>
             </ol>
           </li>
-          <li>If the <a>Document</a>'s <a>active sandboxing flag set</a> has
+          <li>If the <a>document</a>'s <a>active sandboxing flag set</a> has
           the <a>sandboxed orientation lock browsing context flag</a> set, or
           <a>user agent</a> doesn't meet the <a>security conditions</a> to
           perform an orientation change, return a <a>Promise</a> rejected with
@@ -471,7 +477,8 @@
           <li>Return <var>pending-promise</var> and continue asynchronously.
           </li>
           <li>
-            <a>Lock the orientation</a> to <var>orientations</var>.
+            <a>Lock the orientation</a> of the <a>document<a> to <var>
+            orientations</var>.
           </li>
           <li>
             <a>Queue a task</a> to perform the following sub-steps:
@@ -504,8 +511,9 @@
           </li>
         </ol>
         <p>
-          When the <a>user agent</a> has to <dfn>lock the orientation</dfn>
-          using <var>orientations</var>, it MUST run the following steps:
+          When the <a>user agent</a> has to <dfn>lock the orientation</dfn> of a
+          <a>document</a> to <var>orientations</var>, it MUST run the
+          following steps:
         </p>
         <ol>
           <li>Set the <a>document</a>'s <a>orientation lock</a> to
@@ -526,9 +534,9 @@
               <li>Change how the viewport is drawn so that the <a>current
               screen orientation type</a> will be equal to <i>orientation</i>.
               </li>
-              <li>After the change has happened, prevent the <a>top-level
-              browsing context</a>'s screen orientation from changing until
-              those steps are run again.
+              <li>After the change has happened, prevent the <a>document</a>'s
+              <a>top-level browsing context</a>'s screen orientation from
+              changing until those steps are run again.
               </li>
               <li>Abort these steps.
               </li>
@@ -578,13 +586,13 @@
         </ol>
         <p>
           Whenever the <a>active orientation lock</a> changes, the <a>user
-          agent</a> MUST run the steps to <a>lock the orientation</a> using the
-          <a>document</a>'s <a>orientation lock</a>.
+          agent</a> MUST run the steps to <a>lock the orientation</a> of the
+          <a>document</a> to the <a>document</a>'s <a>orientation lock</a>.
         </p>
         <p>
           Whenever a <a>top-level browsing context</a> is <a>navigated</a>, the
-          <a>user agent</a> MUST <a>lock the orientation</a> to the <a>default
-          orientation</a>.
+          <a>user agent</a> MUST <a>lock the orientation</a> of the <a>
+          document</a> to the <a>default orientation</a>.
         </p>
       </section>
       <section>
@@ -630,7 +638,7 @@
           <p>
             Developers need to be aware that a <a href=
             "#widl-Screen-orientation"><code>screen.orientation</code></a>
-            object from a <a><code>Document</code></a> that is not visible, as
+            object from a <a>document</a> that is not visible, as
             per [[!PAGE-VISIBILITY]], will not receive an orientation change
             event. This is to prevent unnecessary changes to layout, etc. in
             the non-visible web application.
@@ -715,10 +723,10 @@
           agent MAY restrict locking the screen orientation exclusively to when
           the <a>top-level browsing context</a>'s <a>document</a>'s
           <a>fullscreen element stack</a> is not empty. When that security
-          condition applies, whenever the document's <a>fullscreen element
-          stack</a> is empty and a screen orientation lock is applied, the
-          <a>user agent</a> MUST lock the orientation to the <a>default
-          orientation</a>.
+          condition applies, whenever the <a>document</a>'s <a>fullscreen
+          element stack</a> is empty and a screen orientation lock is applied,
+          the <a>user agent</a> MUST <a>lock the orientation</a> of the <a>
+          document</a> to the <a>default orientation</a>.
         </p>
       </section>
       <section class='informative'>
@@ -741,11 +749,11 @@
           specification, a developer has to assume that the <a>current screen
           orientation angle</a> is 0. With the help of the APIs described in
           this specification, the developer can <a>apply an orientation
-          lock</a> using <code>natural</code> to make that assumption a
-          certitude. Otherwise, reading the <a>current screen orientation
-          angle</a> via <code>screen.orientation.angle</code> and listening to
-          the <code>change</code> event can help the developer to compensate
-          the screen orientation angle.
+          lock</a> to a <a>document</a> using <code>natural</code> to make that
+          assumption a certitude. Otherwise, reading the <a>current screen
+          orientation angle</a> via <code>screen.orientation.angle</code> and
+          listening to the <code>change</code> event can help the developer to
+          compensate the screen orientation angle.
         </p>
       </section>
       <section class='informative'>
@@ -813,7 +821,7 @@
 &lt;button onclick='start();'&gt;
   Start
 &lt;/button&gt;
-      
+
 </pre>
       <p>
         This example asks the user to manually rotate the device if the Screen
@@ -840,7 +848,7 @@
   }
   window.onload = start;
 &lt;/script&gt;
-      
+
 </pre>
     </section>
     <section class='appendix'>
