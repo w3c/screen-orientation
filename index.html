@@ -309,7 +309,7 @@
           SHOULD be initialized when the <a>document</a> is created, otherwise
           they MUST be initialized the first time they are accessed and before
           their value is read. The <a>user agent</a> MUST <a>update the
-          orientation information</a> to initialize them.
+          orientation information</a> of the <a>document</a> to initialize them.
         </p>
         <p>
           For a given <a>document</a>, the <a>current orientation type</a> and
@@ -519,24 +519,10 @@
               <code>undefined</code> and set <var>pending-promise</var> to
               <code>null</code>.
               </li>
-              <li>Otherwise, the next time the orientation changes, if the new
-              <a>current orientation type</a> is included in
-              <var>orientations</var>, run the following sub-steps:
-                <ol>
-                  <li>Update the <a>current orientation type</a>.
-                  </li>
-                  <li>Update the <a>current orientation angle</a>.
-                  </li>
-                  <li>Resolve <var>pending-promise</var> with
-                  <code>undefined</code>.
-                  </li>
-                  <li>
-                    <a>Fire a simple event</a> named <code>change</code> at
-                    each <a href=
-                    "#widl-Screen-orientation"><code>screen.orientation</code></a>
-                    object.
-                  </li>
-                </ol>
+              <li>Otherwise, the next time the orientation changes, a <code>
+              change</code> event will be fired and the <var>pending-promise
+              </var> resolved as described in <a href=
+              '#handling-screen-orientation-changes'>4.4</a>.
               </li>
             </ol>
           </li>
@@ -632,39 +618,82 @@
           Handling screen orientation changes
         </h2>
         <p>
-          Whenever the <a>current orientation type</a> and the <a>current
-          orientation angle</a> are meant to change for the current <a>browsing
-          context</a>, the <a>user agent</a> MUST run the following steps:
+          Whenever the viewport is drawn at a different angle compared to the
+          device's natural orientation, the <a>user agent</a> MUST run
+          the following steps:
         </p>
         <ol>
-          <li>If the <a>browsing context</a> <a>active document</a> is not
-          visible per [[!PAGE-VISIBILITY]], abort these steps.
+          <li>Let <var>browsing contexts</var> be the <a>list of the descendant
+          browsing contexts</a> of the <a>top-level browsing context</a>'s
+          <a>document</a>.
           </li>
-          <li>
-            <a>Queue a task</a> to perform the following actions:
+          <li>For every <a>browsing context</a> in <var>browsing contexts</var>,
+          run the following sub-steps:
+          </li>
+          <ol>
+            <li>Let <var>doc</var> be the <a>browsing context</a>'s <a>active
+            document</a>.
+            </li>
+            <li>If <var>doc</var> is not visible per [[!PAGE-VISIBILITY]], abort
+            these steps.
+            </li>
+            <li><a title="update the orientation information">Update the
+            orientation information</a> of <var>doc</var>.
+            </li>
+            <li>If <var>doc</var>'s <a>pending promise</a> is not <code>
+            null</code>:
+              <ol>
+                <li>Resolve <var>doc</var>'s <a>pending promise</a> with <code>
+                undefined</code>.</li>
+                <li>Set <var>doc</var>'s <a>pending promise</a> to <code>null
+                </code>.
+                </li>
+              </ol>
+            </li>
+            <li>
+              <a>Fire a simple event</a> named <code>change</code> at <var>doc
+              </var>'s <a href="#widl-Screen-orientation"><code>
+              screen.orientation</code></a> object.
+            </li>
+          </ol>
+        </ol>
+
+        <p>
+          Whenever a <a>document</a> becomes visible per [[!PAGE-VISIBILITY]],
+          when the <code>visibilitychange</code> has been received and that the
+          new <code>visibilityState</code> is <code>visible</code>, the <a>user
+          agent</a> MUST run the following steps:
+        </p>
+        <ol>
+          <li>Let <var>type</var> and <var>angle</var> be respectively the <a>
+          document</a>'s <a>current orientation type</a> and <a>current
+          orientation angle</a>.
+          </li>
+          <li><a title="update the orientation information">Update the
+          orientation information</a> of the <a>document</a>.
+          </li>
+          <li>If <var>type</var> is different from the <a>document</a>'s <a>
+          current orientation type</a> or <var>angle</var> from the <a>document
+          </a>'s <a>current orientation angle</a>, run the following sub-steps:
             <ol>
-              <li>Update the <a>current orientation type</a>.
-              </li>
-              <li>Update the <a>current orientation angle</a>.
+              <li>If the <a>document</a>'s <a>pending promise</a> is not <code>
+              null</code>:
+                <ol>
+                  <li>Resolve the <a>document</a>'s <a>pending promise</a> with
+                  <code>undefined</code>.</li>
+                  <li>Set the <a>document</a>'s <a>pending promise</a> to <code>
+                  null</code>.
+                  </li>
               </li>
               <li>
-                <a>Fire a simple event</a> named <code>change</code> at each
-                <a href=
-                "#widl-Screen-orientation"><code>screen.orientation</code></a>
-                object.
-              </li>
-              <li>If <a>pending promise</a> is not <code>null</code>:
-                <ol>
-                  <li>Resolve <a>pending promise</a> with
-                  <code>undefined</code>.
-                  </li>
-                  <li>Set <a>pending promise</a> to <code>null</code>.
-                  </li>
-                </ol>
+                <a>Fire a simple event</a> named <code>change</code> at the <a>
+                document</a>'s <a href="#widl-Screen-orientation"><code>
+                screen.orientation</code></a> object.
               </li>
             </ol>
           </li>
         </ol>
+
         <div class="note">
           <p>
             Developers need to be aware that a <a href=
