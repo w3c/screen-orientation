@@ -471,21 +471,34 @@
           <li>Return <var>pending-promise</var> and continue asynchronously.
           </li>
           <li>
+            <a>Lock the orientation</a> to <var>orientations</var>.
+          </li>
+          <li>
             <a>Queue a task</a> to perform the following sub-steps:
             <ol>
-              <li>
-                <a>Lock the orientation</a> to <var>orientations</var>.
-              </li>
-              <li>If locking the orientation does not result in a change of
+              <li>If locking the orientation did not result in a change of
               orientation, resolve <var>pending-promise</var> with
               <code>undefined</code> and set <var>pending-promise</var> to
               <code>null</code>.
               </li>
               <li>Otherwise, the next time the orientation changes, if the new
               <a>current screen orientation type</a> is included in
-              <var>orientations</var>, before firing the <code>change</code>
-              event, resolve <var>pending-promise</var> with
-              <code>undefined</code>.
+              <var>orientations</var>, run the following sub-steps:
+                <ol>
+                  <li>Update the <a>current screen orientation type</a>.
+                  </li>
+                  <li>Update the <a>current screen orientation angle</a>.
+                  </li>
+                  <li>Resolve <var>pending-promise</var> with
+                  <code>undefined</code>.
+                  </li>
+                  <li>
+                    <a>Fire a simple event</a> named <code>change</code> at
+                    each <a href=
+                    "#widl-Screen-orientation"><code>screen.orientation</code></a>
+                    object.
+                  </li>
+                </ol>
               </li>
             </ol>
           </li>
@@ -498,8 +511,8 @@
           <li>Set the <a>document</a>'s <a>orientation lock</a> to
           <var>orientations</var>.
           </li>
-          <li>If the <a>active orientation lock</a> is not the <a>document</a>'s
-          <a>orientation lock</a>, abort these steps.
+          <li>If the <a>active orientation lock</a> is not the
+          <a>document</a>'s <a>orientation lock</a>, abort these steps.
           </li>
           <li>If the <a>active orientation lock</a> value is equal to
           <var>orientations</var> value, abort these steps.
@@ -514,8 +527,8 @@
               screen orientation type</a> will be equal to <i>orientation</i>.
               </li>
               <li>After the change has happened, prevent the <a>top-level
-              browsing context</a> screen orientation to change until those
-              steps are run again.
+              browsing context</a>'s screen orientation from changing until
+              those steps are run again.
               </li>
               <li>Abort these steps.
               </li>
@@ -548,9 +561,9 @@
         </p>
         <ol>
           <li>If there is only one <a>top-level browsing context</a> with a <a>
-          document</a> that is visible per [[!PAGE-VISIBILITY]], the
-          <a>active orientation lock</a> is the <a>document</a>'s <a>orientation
-          lock</a>.
+            document</a> that is visible per [[!PAGE-VISIBILITY]], the
+            <a>active orientation lock</a> is the <a>document</a>'s
+            <a>orientation lock</a>.
           </li>
           <li>Otherwise, if there are more than one <a>top-level browsing
           context</a> with a <a>document</a> that is visible per
@@ -559,8 +572,8 @@
           <a>document</a>'s <a>orientation lock</a>.
           </li>
           <li>Otherwise, the <a>active orientation lock</a> SHOULD be the
-          latest focused <a>document</a>'s <a>orientation lock</a>,
-          unless stated otherwise by the platform conventions.
+          latest focused <a>document</a>'s <a>orientation lock</a>, unless
+          stated otherwise by the platform conventions.
           </li>
         </ol>
         <p>
@@ -613,6 +626,16 @@
             </ol>
           </li>
         </ol>
+        <div class="note">
+          <p>
+            Developers need to be aware that a <a href=
+            "#widl-Screen-orientation"><code>screen.orientation</code></a>
+            object from a <a><code>Document</code></a> that is not visible, as
+            per [[!PAGE-VISIBILITY]], will not receive an orientation change
+            event. This is to prevent unnecessary changes to layout, etc. in
+            the non-visible web application.
+          </p>
+        </div>
       </section>
       <section>
         <h2>
@@ -790,7 +813,8 @@
 &lt;button onclick='start();'&gt;
   Start
 &lt;/button&gt;
-      </pre>
+      
+</pre>
       <p>
         This example asks the user to manually rotate the device if the Screen
         Orientation API is not available.
@@ -816,7 +840,8 @@
   }
   window.onload = start;
 &lt;/script&gt;
-      </pre>
+      
+</pre>
     </section>
     <section class='appendix'>
       <h2>
