@@ -369,12 +369,13 @@
           Locking the screen orientation
         </h2>
         <p>
-          The <a>user agent</a> MAY require a <a>document</a>'s <a>top-level
-          browsing context</a> meet one or more <dfn>security conditions</dfn>
-          in order to be able to lock the screen orientation. For example, a
-          user agent might require the top-level browsing context to be
-          fullscreen (see <a href='#interaction-with-fullscreen-api'>7.1</a>)
-          in order to allow an orientation lock.
+          The <a>user agent</a> MAY require a <a>document</a> and its associated
+          <a>browsing context</a> to meet one or more <dfn>security conditions
+          </dfn> in order to be able to lock the screen orientation. For
+          example, a <a>user agent</a> might require a <a>document</a>'s <a>
+          top-level browsing context</a> to be fullscreen (see
+          <a href='#interaction-with-fullscreen-api'>7.1</a>) in order to allow
+          an orientation lock.
         </p>
         <p>
           The <a>user agent</a> MAY reject all attempts to lock the screen
@@ -541,8 +542,9 @@
               <li>Let <var>orientation</var> be the value contained in
               <var>orientations</var>.
               </li>
-              <li>Change how the viewport is drawn so that the <a>current
-              orientation type</a> will be equal to <i>orientation</i>.
+              <li>Change how the viewport is drawn so that the <a>document</a>'s
+              <a>current orientation type</a> will be equal to <i>
+              orientation</i>.
               </li>
               <li>After the change has happened, prevent the <a>document</a>'s
               <a>top-level browsing context</a>'s screen orientation from
@@ -552,10 +554,10 @@
               </li>
             </ol>
           </li>
-          <li>If the <a>current orientation type</a> is not part of
-          <var>orientations</var>, change how the viewport is drawn such as the
-          <a>current orientation type</a> will be equal to one of <var>
-            orientations</var>' values.
+          <li>If the <a>document</a>'s <a>current orientation type</a> is not
+          part of <var>orientations</var>, change how the viewport is drawn such
+          as the <a>current orientation type</a> will be equal to one of <var>
+          orientations</var>' values.
           </li>
           <li>Otherwise, depending on platform conventions, change how the
           viewport is drawn in order to make it match another screen
