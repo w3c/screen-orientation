@@ -136,6 +136,12 @@
           <dfn><a href=
           'http://www.w3.org/TR/html5/webappapis.html#responsible-document'>
           responsible document</a></dfn>
+        </li>
+        <li>
+          <dfn><a href=
+          'http://www.w3.org/TR/html5/browsers.html#list-of-the-descendant-browsing-contexts'>
+          list of the descendant browsing contexts</a></dfn>
+        </li>
       </ul>
       <p>
         <a href=
@@ -285,10 +291,9 @@
       </p>
       <p>
         Algorithms defined in this specification assume that for each
-        <a>top-level browsing context</a> there is a <dfn>pending
-        promise</dfn>, which is initially set to <code>null</code>, which is a
-        <a>Promise</a> object whose associated operation is to lock the screen
-        orientation.
+        <a>document</a> there is a <dfn>pending promise</dfn>, which is
+        initially set to <code>null</code>, which is a <a>Promise</a> object
+        whose associated operation is to lock the screen orientation.
       </p>
       <p>
         When <a title="queue a task">queuing a task</a>, the <dfn>screen
@@ -404,16 +409,31 @@
           <code>DOMException</code> whose name is
           <code>NotSupportedError</code> and abort these steps.
           </li>
-          <li>If <a>pending promise</a> is not <code>null</code>:
-            <ol>
-              <li>Cancel all tasks in the <a>screen orientation task
-              source</a>.
-              </li>
-              <li>Reject <a>pending promise</a> with <code>DOMException</code>
-              whose name is <code>AbortError</code>.
-              </li>
-              <li>Set <a>pending promise</a> to <code>null</code>.
-              </li>
+          <li>The following sub-steps MAY be run asynchronously for performance
+          reasons, for example, if the <a>user agent</a> has
+          <a title='browsing context'>browsing contexts</a> living in different
+          processes:</li>
+          <ol>
+            <li>Let <var>browsing contexts</var> be the <a>list of the
+            descendant browsing contexts</a> of the <a>top-level browsing
+            context</a>'s <a>document</a>.
+            </li>
+            <li>If one of the <var>browsing contexts</var>'s <a>document</a>'s
+            <a>pending promise</a> is not <code>null</code>:
+              <ol>
+                <li>Let <var>doc</var> be the <a>document</a> which has a not
+                <code>null</code> <a>pending promise</a>.
+                </li>
+                <li>Cancel all tasks in the <a>screen orientation task
+                source</a>.
+                </li>
+                <li>Reject <var>doc</var>'s <a>pending promise</a> with
+                <code>DOMException</code> whose name is <code>AbortError</code>.
+                </li>
+                <li>Set <var>doc</var>'s <a>pending promise</a> to <code>null
+                </code>.
+                </li>
+              </ol>
             </ol>
           </li>
           <li>If the <a>document</a>'s <a>active sandboxing flag set</a> has
