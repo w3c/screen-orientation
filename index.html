@@ -208,14 +208,14 @@
         <p>
           When getting the <code><dfn id=
           "widl-ScreenOrientation-type">type</dfn></code> attribute, the
-          <a>user agent</a> MUST return the <a>current screen orientation
-          type</a>.
+          <a>user agent</a> MUST return the <a>responsible document</a>'s <a>
+          current orientation type</a>.
         </p>
         <p>
           When getting the <code><dfn id=
           "widl-ScreenOrientation-angle">angle</dfn></code> attribute, the
-          <a>user agent</a> MUST return the <a>current screen orientation
-          angle</a>.
+          <a>user agent</a> MUST return the <a>responsible document</a>'s <a>
+          current orientation angle</a>.
         </p>
         <p>
           The <code><dfn id=
@@ -299,14 +299,23 @@
           Reading the screen orientation
         </h2>
         <p>
-          For a given <a>browsing context</a>, the values of <code>type</code>
-          and <code>angle</code> will be strongly linked in the sense that for
-          any given type, there will be a specific angle associated. However,
-          the <a>user agent</a> can associate <code>*-primary</code> and
-          <code>*-secondary</code> values at will. For example, if
-          <code>90</code> is associated with <code>landscape-primary</code> and
-          <code>270</code> with <code>landscape-secondary</code> for one
-          browsing context, another one might get the opposite relationship.
+          All <a title='document'>documents</a> have a <dfn>current orientation
+          type</dfn> and a <dfn>current orientation angle</dfn>. Both of them
+          SHOULD be initialized when the <a>document</a> is created, otherwise
+          they MUST be initialized the first time they are accessed and before
+          their value is read. The <a>user agent</a> MUST <a>update the
+          orientation information</a> to initialize them.
+        </p>
+        <p>
+          For a given <a>document</a>, the <a>current orientation type</a> and
+          the <a>current orientation angle</a> MUST be strongly linked in the
+          sense that for any given type, there will be a specific angle
+          associated. However, the <a>user agent</a> can associate
+          <code>*-primary</code> and <code>*-secondary</code> values at will.
+          For example, if <code>90</code> is associated with
+          <code>landscape-primary</code> and <code>270</code> with
+          <code>landscape-secondary</code> for one <a>document</a>, another one
+          MAY get the opposite relationship.
         </p>
         <div class='practice'>
           <span class='practicelab'>orientation.angle and orientation.type
@@ -322,36 +331,37 @@
           </p>
         </div>
         <p>
-          When reading the <dfn>current screen orientation type</dfn>, the
-          <a>user agent</a> MUST follow these steps:
+          The steps to <dfn>update the orientation information</dfn> of a
+          <a>document</a> are as follows:
         </p>
         <ol>
-          <li>If the screen width is greater than the screen height, return
-          <code>landscape-primary</code> or <code>landscape-secondary</code>.
+          <li>If the screen width is greater than the screen height, set the
+          <a>document</a>'s <a>current orientation type</a> to <code>
+          landscape-primary</code> or <code>landscape-secondary</code>.
           </li>
           <li>Otherwise, if the screen width is less than or equal to the
-          screen height, return <code>portrait-primary</code> or
-          <code>portrait-secondary</code>.
+          screen height, set the <a>document</a>'s <a>current orientation
+          type</a> to <code>portrait-primary</code> or <code>portrait-secondary
+          </code>.
+          </li>
+          <li>Set the <a>current orientation angle</a> to the clockwise angle in
+          degrees between the orientation of the viewport as it is drawn and the
+          natural orientation of the device (i.e., the top of the physical
+          screen). This is the opposite of the physical rotation. In other
+          words, if you turn a device 90 degrees on the right, screen
+          orientation angle would be 270 degrees.
           </li>
         </ol>
         <p>
-          The decision whether the screen orientation type is
-          <code>*-primary</code> or <code>*-secondary</code> is up to the
+          The decision whether the <a>current orientation type</a> should be set
+          to <code>*-primary</code> or <code>*-secondary</code> is up to the
           <a>user agent</a>. For example, it can be based on the device
           preferred angles, the user's preferred orientations or the current
-          orientation when the applications starts. However, a <a>user
-          agent</a> MUST keep the screen orientation types and the screen
-          orientation angles relation consistent for any given <a>browsing
-          context</a>.
+          orientation when the application starts. However, a <a>user agent</a>
+          MUST keep the screen orientation types and the screen orientation
+          angles relation consistent for any given <a>document</a>.
         </p>
         <p>
-          When reading the <dfn>current screen orientation angle</dfn>, the
-          <a>user agent</a> MUST return the clockwise angle in degrees between
-          the orientation of the viewport as it is drawn and the natural
-          orientation of the device (i.e., the top of the physical screen).
-          This is the opposite of the physical rotation. In other words, if you
-          turn a device 90 degrees on the right, screen orientation angle would
-          be 270 degrees.
         </p>
       </section>
       <section>
@@ -489,12 +499,12 @@
               <code>null</code>.
               </li>
               <li>Otherwise, the next time the orientation changes, if the new
-              <a>current screen orientation type</a> is included in
+              <a>current orientation type</a> is included in
               <var>orientations</var>, run the following sub-steps:
                 <ol>
-                  <li>Update the <a>current screen orientation type</a>.
+                  <li>Update the <a>current orientation type</a>.
                   </li>
-                  <li>Update the <a>current screen orientation angle</a>.
+                  <li>Update the <a>current orientation angle</a>.
                   </li>
                   <li>Resolve <var>pending-promise</var> with
                   <code>undefined</code>.
@@ -532,7 +542,7 @@
               <var>orientations</var>.
               </li>
               <li>Change how the viewport is drawn so that the <a>current
-              screen orientation type</a> will be equal to <i>orientation</i>.
+              orientation type</a> will be equal to <i>orientation</i>.
               </li>
               <li>After the change has happened, prevent the <a>document</a>'s
               <a>top-level browsing context</a>'s screen orientation from
@@ -542,9 +552,9 @@
               </li>
             </ol>
           </li>
-          <li>If the <a>current screen orientation type</a> is not part of
+          <li>If the <a>current orientation type</a> is not part of
           <var>orientations</var>, change how the viewport is drawn such as the
-          <a>current screen orientation type</a> will be equal to one of <var>
+          <a>current orientation type</a> will be equal to one of <var>
             orientations</var>' values.
           </li>
           <li>Otherwise, depending on platform conventions, change how the
@@ -600,10 +610,9 @@
           Handling screen orientation changes
         </h2>
         <p>
-          Whenever the <a>current screen orientation type</a> and the
-          <a>current screen orientation angle</a> are meant to change for the
-          current <a>browsing context</a>, the <a>user agent</a> MUST run the
-          following steps:
+          Whenever the <a>current orientation type</a> and the <a>current
+          orientation angle</a> are meant to change for the current <a>browsing
+          context</a>, the <a>user agent</a> MUST run the following steps:
         </p>
         <ol>
           <li>If the <a>browsing context</a> <a>active document</a> is not
@@ -612,9 +621,9 @@
           <li>
             <a>Queue a task</a> to perform the following actions:
             <ol>
-              <li>Update the <a>current screen orientation type</a>.
+              <li>Update the <a>current orientation type</a>.
               </li>
-              <li>Update the <a>current screen orientation angle</a>.
+              <li>Update the <a>current orientation angle</a>.
               </li>
               <li>
                 <a>Fire a simple event</a> named <code>change</code> at each
@@ -746,14 +755,15 @@
           Drawing on the screen in order to point to a physical location
           requires to know the device orientation and the orientation of the
           screen in the device coordinates. Without the APIs defined in this
-          specification, a developer has to assume that the <a>current screen
-          orientation angle</a> is 0. With the help of the APIs described in
-          this specification, the developer can <a>apply an orientation
-          lock</a> to a <a>document</a> using <code>natural</code> to make that
-          assumption a certitude. Otherwise, reading the <a>current screen
-          orientation angle</a> via <code>screen.orientation.angle</code> and
-          listening to the <code>change</code> event can help the developer to
-          compensate the screen orientation angle.
+          specification, a developer has to assume that the <a>document</a>'s
+          <a>current orientation angle</a> is <code>0</code>. With the help of
+          the APIs described in this specification, the developer can <a>apply
+          an orientation lock</a> to a <a>document</a> using <code>
+          natural</code> to make that assumption a certitude. Otherwise, reading
+          the <a>current orientation angle</a> via <code>
+          screen.orientation.angle</code> and listening to the <code>
+          change</code> event can help the developer to compensate the screen
+          orientation angle.
         </p>
       </section>
       <section class='informative'>
