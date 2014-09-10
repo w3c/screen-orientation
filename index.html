@@ -201,8 +201,8 @@
           When the <code><dfn id=
           "widl-ScreenOrientation-unlock-void">unlock()</dfn></code> method is
           invoked, the <a>user agent</a> MUST run the steps to <a>lock the
-          orientation</a> of the <a>responsible document</a> to the <a>default
-          orientation</a>.
+          orientation</a> of the <a>responsible document</a> to the <a>
+          responsible document</a>'s <a>default orientation</a>.
         </p>
         <p class='note'>
           <a>unlock()</a> does not return a Promise because it is equivalent to
@@ -610,7 +610,7 @@
         <p>
           Whenever a <a>top-level browsing context</a> is <a>navigated</a>, the
           <a>user agent</a> MUST <a>lock the orientation</a> of the <a>
-          document</a> to the <a>default orientation</a>.
+          document</a> to the <a>document</a>'s <a>default orientation</a>.
         </p>
       </section>
       <section>
@@ -710,16 +710,15 @@
           Default orientation
         </h2>
         <p>
-          The <a>browsing context</a>'s <dfn>default orientation</dfn> is the
-          set of orientations to which the screen orientation would be locked
-          when it is not explicitly locked by the current <a>browsing
-          context</a>.
+          A <a>document</a>'s <dfn>default orientation</dfn> is the set of
+          orientations to which the screen orientation is locked when it is not
+          explicitly locked by this API or any other means.
         </p>
         <p>
-          For the perspective of the current <a>browsing context</a>, locking
-          to the default orientation is equivalent to unlocking because it
-          means that it no longer has a lock applied. However, it does not mean
-          that the <a>default orientation</a> has to be <code>any</code>.
+          For the perspective of a <a>document</a>, locking to the <a>default
+          orientation</a> is equivalent to unlocking because it means that it no
+          longer has a lock applied. However, it does not mean that the <a>
+          default orientation</a> has to be <code>any</code>.
         </p>
       </section>
     </section>
@@ -786,7 +785,7 @@
           condition applies, whenever the <a>document</a>'s <a>fullscreen
           element stack</a> is empty and a screen orientation lock is applied,
           the <a>user agent</a> MUST <a>lock the orientation</a> of the <a>
-          document</a> to the <a>default orientation</a>.
+          document</a> to the <a>document</a>'s <a>default orientation</a>.
         </p>
       </section>
       <section class='informative'>
@@ -823,7 +822,7 @@
         </h2>
         <p>
           The Web Application Manifest specification [[appmanifest]] allows web
-          applications to set the <a>default orientation</a>.
+          applications to set the <a>document</a>'s <a>default orientation</a>.
         </p>
       </section>
       <section class='informative'>
