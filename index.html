@@ -195,7 +195,7 @@
           "widl-ScreenOrientation-lock-Promise-void--OrientationLockType-orientation">
           lock()</dfn></code> method is invoked, the <a>user agent</a> MUST run
           the <a>apply an orientation lock</a> steps to the <a>responsible
-          document</a> using <i>orientation</i>.
+          document</a> using <var>orientation</var>.
         </p>
         <p>
           When the <code><dfn id=
@@ -313,14 +313,13 @@
         </p>
         <p>
           For a given <a>document</a>, the <a>current orientation type</a> and
-          the <a>current orientation angle</a> MUST be strongly linked in the
-          sense that for any given type, there will be a specific angle
-          associated. However, the <a>user agent</a> can associate
-          <code>*-primary</code> and <code>*-secondary</code> values at will.
-          For example, if <code>90</code> is associated with
-          <code>landscape-primary</code> and <code>270</code> with
-          <code>landscape-secondary</code> for one <a>document</a>, another one
-          MAY get the opposite relationship.
+          the <a>current orientation angle</a> are strongly linked in the sense
+          that for any given type, there will be a specific angle associated.
+          However, the <a>user agent</a> can associate <code>*-primary</code>
+          and <code>*-secondary</code> values at will. For example, if <code>90
+          </code> is associated with <code>landscape-primary</code> and <code>
+          270</code> with <code>landscape-secondary</code> for one <a>document
+          </a>, another one MAY get the opposite relationship.
         </p>
         <div class='practice'>
           <span class='practicelab'>orientation.angle and orientation.type
@@ -379,8 +378,8 @@
           </dfn> in order to be able to lock the screen orientation. For
           example, a <a>user agent</a> might require a <a>document</a>'s <a>
           top-level browsing context</a> to be fullscreen (see
-          <a href='#interaction-with-fullscreen-api'>7.1</a>) in order to allow
-          an orientation lock.
+          <a href='#interaction-with-fullscreen-api'>Interaction with FullScreen
+          API</a>) in order to allow an orientation lock.
         </p>
         <p>
           The <a>user agent</a> MAY reject all attempts to lock the screen
@@ -511,22 +510,19 @@
             <a>Lock the orientation</a> of the <a>document<a> to <var>
             orientations</var>.
           </li>
-          <li>
-            <a>Queue a task</a> to perform the following sub-steps:
-            <ol>
-              <li>If locking the orientation did not result in a change of
-              orientation, resolve <var>pending-promise</var> with
-              <code>undefined</code> and set <var>pending-promise</var> to
-              <code>null</code>.
-              </li>
-              <li>Otherwise, the next time the orientation changes, a <code>
-              change</code> event will be fired and the <var>pending-promise
-              </var> resolved as described in <a href=
-              '#handling-screen-orientation-changes'>4.4</a>.
-              </li>
-            </ol>
+          <li>If locking the orientation did not result in a change of
+          orientation, <a>queue a task</a> to resolve <var>pending-promise</var>
+          with <code>undefined</code> and set <var>pending-promise</var> to
+          <code>null</code>.
           </li>
         </ol>
+        <div class='note'>
+          If locking the orientation results in an orientation change, the
+          promise will be resolved when the orientation will change as described
+          in the <a href='#handling-screen-orientation-changes'>Handling screen
+          orientation changes</a> section.
+        </div>
+
         <p>
           When the <a>user agent</a> has to <dfn>lock the orientation</dfn> of a
           <a>document</a> to <var>orientations</var>, it MUST run the
@@ -549,8 +545,8 @@
               <var>orientations</var>.
               </li>
               <li>Change how the viewport is drawn so that the <a>document</a>'s
-              <a>current orientation type</a> will be equal to <i>
-              orientation</i>.
+              <a>current orientation type</a> will be equal to <var>
+              orientation</var>.
               </li>
               <li>After the change has happened, prevent the <a>document</a>'s
               <a>top-level browsing context</a>'s screen orientation from
@@ -627,7 +623,7 @@
           browsing contexts</a> of the <a>top-level browsing context</a>'s
           <a>document</a>.
           </li>
-          <li>For every <a>browsing context</a> in <var>browsing contexts</var>,
+          <li>For each <a>browsing context</a> in <var>browsing contexts</var>,
           run the following sub-steps:
           </li>
           <ol>
@@ -637,8 +633,7 @@
             <li>If <var>doc</var> is not visible per [[!PAGE-VISIBILITY]], abort
             these steps.
             </li>
-            <li><a title="update the orientation information">Update the
-            orientation information</a> of <var>doc</var>.
+            <li><a>Update the orientation information</a> of <var>doc</var>.
             </li>
             <li>If <var>doc</var>'s <a>pending promise</a> is not <code>
             null</code>:
@@ -669,8 +664,7 @@
           document</a>'s <a>current orientation type</a> and <a>current
           orientation angle</a>.
           </li>
-          <li><a title="update the orientation information">Update the
-          orientation information</a> of the <a>document</a>.
+          <li><a>Update the orientation information</a> of the <a>document</a>.
           </li>
           <li>If <var>type</var> is different from the <a>document</a>'s <a>
           current orientation type</a> or <var>angle</var> from the <a>document
