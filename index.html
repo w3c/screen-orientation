@@ -151,6 +151,11 @@
         'http://fullscreen.spec.whatwg.org/#fullscreen-element-stack'>fullscreen
         element stack</a></dfn> is defined in [[!FULLSCREEN]].
       </p>
+      <p>
+        <dfn><a href='
+        http://www.w3.org/TR/page-visibility/#now-visible-algorithm'>now visible
+        algorithm</a></dfn> is defined in [[!PAGE-VISIBILITY]].
+      </p>
     </section>
     <section>
       <h2>
@@ -655,9 +660,8 @@
         </ol>
         <p>
           Whenever a <a>document</a> becomes visible per [[!PAGE-VISIBILITY]],
-          when the <code>visibilitychange</code> has been received and that the
-          new <code>visibilityState</code> is <code>visible</code>, the <a>user
-          agent</a> MUST asynchronously run the following steps:
+          in other words after the <a>now visible algorithm</a> is run, the <a>
+          user agent</a> MUST asynchronously run the following steps:
         </p>
         <ol>
           <li>Let <var>type</var> and <var>angle</var> be respectively the <a>
