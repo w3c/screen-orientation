@@ -422,9 +422,6 @@
                   <li>Let <var>doc</var> be the <a>document</a> which has a not
                   <code>null</code> <a>pending promise</a>.
                   </li>
-                  <li>Cancel all tasks in the <a>screen orientation task
-                  source</a>.
-                  </li>
                   <li>Reject <var>doc</var>'s <a>pending promise</a> with
                   <code>DOMException</code> whose name is
                   <code>AbortError</code>.
@@ -616,8 +613,8 @@
         </h2>
         <p>
           Whenever the viewport is drawn at a different angle compared to the
-          device's natural orientation, the <a>user agent</a> MUST run the
-          following steps:
+          device's natural orientation, the <a>user agent</a> MUST
+          asynchronously run the following steps:
         </p>
         <ol>
           <li>Let <var>browsing contexts</var> be the <a>list of the descendant
@@ -639,8 +636,8 @@
               <li>If <var>doc</var>'s <a>pending promise</a> is not
               <code>null</code>:
                 <ol>
-                  <li>Resolve <var>doc</var>'s <a>pending promise</a> with
-                  <code>undefined</code>.
+                  <li><a>Queue a task</a> to resolve <var>doc</var>'s <a>pending
+                  promise</a> with <code>undefined</code>.
                   </li>
                   <li>Set <var>doc</var>'s <a>pending promise</a> to
                   <code>null</code> .
@@ -648,8 +645,8 @@
                 </ol>
               </li>
               <li>
-                <a>Fire a simple event</a> named <code>change</code> at
-                <var>doc</var> 's <a href=
+                <a>Queue a task</a> to <a>fire a simple event</a> named <code>
+                change</code> at <var>doc</var> 's <a href=
                 "#widl-Screen-orientation"><code>screen.orientation</code></a>
                 object.
               </li>
@@ -660,7 +657,7 @@
           Whenever a <a>document</a> becomes visible per [[!PAGE-VISIBILITY]],
           when the <code>visibilitychange</code> has been received and that the
           new <code>visibilityState</code> is <code>visible</code>, the <a>user
-          agent</a> MUST run the following steps:
+          agent</a> MUST asynchronously run the following steps:
         </p>
         <ol>
           <li>Let <var>type</var> and <var>angle</var> be respectively the <a>
@@ -678,8 +675,8 @@
               <li>If the <a>document</a>'s <a>pending promise</a> is not <code>
                 null</code>:
                 <ol>
-                  <li>Resolve the <a>document</a>'s <a>pending promise</a> with
-                  <code>undefined</code>.
+                  <li><a>Queue a task</a> to resolve the <a>document</a>'s <a>
+                  pending promise</a> with <code>undefined</code>.
                   </li>
                   <li>Set the <a>document</a>'s <a>pending promise</a> to
                   <code>null</code>.
@@ -687,8 +684,8 @@
                 </ol>
               </li>
               <li>
-                <a>Fire a simple event</a> named <code>change</code> at the
-                <a>document</a>'s <a href=
+                <a>Queue a task</a> to <a>fire a simple event</a> named <code>
+                change</code> at the <a>document</a>'s <a href=
                 "#widl-Screen-orientation"><code>screen.orientation</code></a>
                 object.
               </li>
