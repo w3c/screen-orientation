@@ -195,6 +195,11 @@
             readonly attribute ScreenOrientation orientation
           </dt>
         </dl>
+        <p>
+          The <code><dfn id='widl-Screen-orientation'>orientation</dfn></code>
+          object is an instance of <a>ScreenOrientation</a>, which is described
+          below.
+        </p>
       </section>
       <section>
         <h2>
@@ -368,13 +373,16 @@
         </p>
         <ol>
           <li>If the screen width is greater than the screen height, set the
-          <a>document</a>'s <a>current orientation type</a> to
-          <code>landscape-primary</code> or <code>landscape-secondary</code>.
+          <a>document</a>'s <a>current orientation type</a> to <code><dfn id=
+          'idl-def-OrientationType.landscape-primary'>landscape-primary</dfn></code>
+          or <code><dfn id=
+          'idl-def-OrientationType.landscape-secondary'>landscape-secondary</dfn></code>.
           </li>
           <li>Otherwise, if the screen width is less than or equal to the
           screen height, set the <a>document</a>'s <a>current orientation
-          type</a> to <code>portrait-primary</code> or
-          <code>portrait-secondary</code> .
+          type</a> to <code><dfn id='idl-def-OrientationType.portrait-primary'>
+            portrait-primary</dfn></code> or <code><dfn id=
+            'idl-def-OrientationType.portrait-secondary'>portrait-secondary</dfn></code>.
           </li>
           <li>Set the <a>document</a>'s <a>current orientation angle</a> to the
           clockwise angle in degrees between the orientation of the viewport as
