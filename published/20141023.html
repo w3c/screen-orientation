@@ -5,15 +5,15 @@
       The Screen Orientation API
     </title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    
-    
+
+
   <style>/*****************************************************************
  * ReSpec 3 CSS
  * Robin Berjon - http://berjon.com/
  *****************************************************************/
 
 /* --- INLINES --- */
-em.rfc2119 { 
+em.rfc2119 {
     text-transform:     lowercase;
     font-variant:       small-caps;
     font-style:         normal;
@@ -128,7 +128,7 @@ div.example-title {
     color: #b9ab2d;
 }
 div.example-title span {
-    text-transform: uppercase;   
+    text-transform: uppercase;
 }
 aside.example, div.example, div.illegal-example {
     padding: 0.5em;
@@ -143,7 +143,7 @@ aside.example, div.example {
     border-left-width: .5em;
     border-left-style: solid;
     border-color: #e0cb52;
-    background: #fcfaee;    
+    background: #fcfaee;
 }
 
 aside.example div.example {
@@ -460,110 +460,110 @@ table.exceptions table {
 </style><link rel="stylesheet" href="https://www.w3.org/StyleSheets/TR/W3C-WD"><!--[if lt IE 9]><script src='https://www.w3.org/2008/site/js/html5shiv.js'></script><![endif]--></head>
   <body class="h-entry" role="document" id="respecDocument"><div class="head" role="contentinfo" id="respecHeader">
   <p>
-      
-        
+
+
             <a href="http://www.w3.org/"><img width="72" height="48" src="https://www.w3.org/Icons/w3c_home" alt="W3C"></a>
-        
-      
+
+
   </p>
   <h1 class="title p-name" id="title" property="dcterms:title">The Screen Orientation API</h1>
-  
+
   <h2 property="dcterms:issued" datatype="xsd:dateTime" content="2014-10-22T22:00:00.000Z" id="w3c-working-draft-23-october-2014"><abbr title="World Wide Web Consortium">W3C</abbr> Working Draft <time class="dt-published" datetime="2014-10-23">23 October 2014</time></h2>
   <dl>
-    
+
       <dt>This version:</dt>
       <dd><a class="u-url" href="http://www.w3.org/TR/2014/WD-screen-orientation-20141023/">http://www.w3.org/TR/2014/WD-screen-orientation-20141023/</a></dd>
       <dt>Latest published version:</dt>
       <dd><a href="http://www.w3.org/TR/screen-orientation/">http://www.w3.org/TR/screen-orientation/</a></dd>
-    
-    
+
+
       <dt>Latest editor's draft:</dt>
       <dd><a href="https://w3c.github.io/screen-orientation/">https://w3c.github.io/screen-orientation/</a></dd>
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
       <dt>Previous version:</dt>
       <dd><a rel="dcterms:replaces" href="http://www.w3.org/TR/2014/WD-screen-orientation-20140220/">http://www.w3.org/TR/2014/WD-screen-orientation-20140220/</a></dd>
-    
-    
+
+
     <dt>Editors:</dt>
     <dd class="p-author h-card vcard" rel="bibo:editor" inlist=""><span typeof="foaf:Person"><span property="foaf:name" class="p-name fn">Mounir Lamouri</span>, <a rel="foaf:workplaceHomepage" class="p-org org h-org h-card" href="http://google.com/">Google Inc.</a></span>
 </dd>
 <dd class="p-author h-card vcard" rel="bibo:editor" inlist=""><span typeof="foaf:Person"><span property="foaf:name" class="p-name fn">Marcos Cáceres</span>, <a rel="foaf:workplaceHomepage" class="p-org org h-org h-card" href="http://mozilla.com/">Mozilla</a></span>
 </dd>
 
-    
-    
-      
-        
+
+
+
+
           <dt>Participate:</dt>
-          
-             
-                
+
+
+
                   <dd>
                     <a href="https://github.com/w3c/screen-orientation">
                       We are on Github.
                     </a>
                   </dd>
-                
-             
-                
+
+
+
                   <dd>
                     <a href="https://github.com/w3c/screen-orientation/issues">
                       File a bug.
                     </a>
                   </dd>
-                
-             
-                
+
+
+
                   <dd>
                     <a href="https://github.com/w3c/screen-orientation/commits/gh-pages">
                       Commit history.
                     </a>
                   </dd>
-                
-             
-                
+
+
+
                   <dd>
                     <a href="http://lists.w3.org/Archives/Public/public-webapps/">
                       Mailing list.
                     </a>
                   </dd>
-                
-             
-          
-        
-      
-    
+
+
+
+
+
+
   </dl>
-  
-  
-  
-  
-    
+
+
+
+
+
       <p class="copyright">
         <a href="http://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> ©
         2014
-        
+
         <a href="http://www.w3.org/"><abbr title="World Wide Web Consortium">W3C</abbr></a><sup>®</sup>
         (<a href="http://www.csail.mit.edu/"><abbr title="Massachusetts Institute of Technology">MIT</abbr></a>,
         <a href="http://www.ercim.eu/"><abbr title="European Research Consortium for Informatics and Mathematics">ERCIM</abbr></a>,
-        <a href="http://www.keio.ac.jp/">Keio</a>, <a href="http://ev.buaa.edu.cn/">Beihang</a>), 
-        
+        <a href="http://www.keio.ac.jp/">Keio</a>, <a href="http://ev.buaa.edu.cn/">Beihang</a>),
+
         All Rights Reserved.
-        
+
         <abbr title="World Wide Web Consortium">W3C</abbr> <a href="http://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer">liability</a>,
         <a href="http://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks">trademark</a> and
-        
+
           <a href="http://www.w3.org/Consortium/Legal/copyright-documents">document use</a>
-        
+
         rules apply.
       </p>
-    
-  
+
+
   <hr>
 </div>
     <section id="abstract" class="introductory" property="dcterms:abstract" datatype="" typeof="bibo:Chapter" resource="#abstract" rel="bibo:Chapter"><h2 role="heading" id="h2_abstract">Abstract</h2>
@@ -574,16 +574,16 @@ table.exceptions table {
         to a specific state.
       </p>
     </section><section id="sotd" class="introductory" typeof="bibo:Chapter" resource="#sotd" rel="bibo:Chapter"><h2 role="heading" id="h2_sotd">Status of This Document</h2>
-  
-    
-      
+
+
+
         <p>
           <em>This section describes the status of this document at the time of its publication.
           Other documents may supersede this document. A list of current <abbr title="World Wide Web Consortium">W3C</abbr> publications and the
           latest revision of this technical report can be found in the <a href="http://www.w3.org/TR/"><abbr title="World Wide Web Consortium">W3C</abbr> technical reports index</a> at
           http://www.w3.org/TR/.</em>
         </p>
-        
+
       <p>
         This document is still in a work in progress state. You can have a look
         at the <a href="https://github.com/w3c/screen-orientation/issues">opened issues</a>.
@@ -592,47 +592,47 @@ table.exceptions table {
         or <a href="https://github.com/w3c/screen-orientation/issues/new">file
         an issue</a> .
       </p>
-    
+
         <p>
           This document was published by the <a href="http://www.w3.org/2008/webapps/">Web Applications Working Group</a> as a Working Draft.
-          
+
             This document is intended to become a <abbr title="World Wide Web Consortium">W3C</abbr> Recommendation.
-          
-          
-            If you wish to make comments regarding this document, please send them to 
-            <a href="mailto:public-webapps@w3.org">public-webapps@w3.org</a> 
+
+
+            If you wish to make comments regarding this document, please send them to
+            <a href="mailto:public-webapps@w3.org">public-webapps@w3.org</a>
             (<a href="mailto:public-webapps-request@w3.org?subject=subscribe">subscribe</a>,
             <a href="http://lists.w3.org/Archives/Public/public-webapps/">archives</a>).
-          
-          
-          
-          
+
+
+
+
             All comments are welcome.
-          
+
         </p>
-        
-        
+
+
           <p>
             Publication as a Working Draft does not imply endorsement by the <abbr title="World Wide Web Consortium">W3C</abbr>
             Membership. This is a draft document and may be updated, replaced or obsoleted by other
             documents at any time. It is inappropriate to cite this document as other than work in
             progress.
           </p>
-        
-        
-        
+
+
+
         <p>
-          
-            This document was produced by a group operating under the 
+
+            This document was produced by a group operating under the
             <a id="sotd_patent" about="" rel="w3p:patentRules" href="http://www.w3.org/Consortium/Patent-Policy-20040205/">5 February 2004 <abbr title="World Wide Web Consortium">W3C</abbr> Patent
             Policy</a>.
-          
-          
-          
-            
+
+
+
+
               <abbr title="World Wide Web Consortium">W3C</abbr> maintains a <a href="http://www.w3.org/2004/01/pp-impl/42538/status" rel="disclosure">public list of any patent
-              disclosures</a> 
-            
+              disclosures</a>
+
             made in connection with the deliverables of the group; that page also includes
             instructions for disclosing a patent. An individual who has actual knowledge of a patent
             which the individual believes contains
@@ -640,17 +640,17 @@ table.exceptions table {
             Claim(s)</a> must disclose the information in accordance with
             <a href="http://www.w3.org/Consortium/Patent-Policy-20040205/#sec-Disclosure">section
             6 of the <abbr title="World Wide Web Consortium">W3C</abbr> Patent Policy</a>.
-          
-          
+
+
         </p>
-        
+
           <p>This document is governed by the <a id="w3c_process_revision" href="http://www.w3.org/2014/Process-20140801/">1 August 2014 <abbr title="World Wide Web Consortium">W3C</abbr> Process Document</a>.
           </p>
-        
-        
-      
-    
-  
+
+
+
+
+
 </section><section id="toc"><h2 class="introductory" role="heading" id="h2_toc">Table of Contents</h2><ul class="toc" role="directory" id="respecContents"><li class="tocline"><a href="#conformance" class="tocxref"><span class="secno">1. </span>Conformance</a></li><li class="tocline"><a href="#dependencies" class="tocxref"><span class="secno">2. </span>
         Dependencies
       </a></li><li class="tocline"><a href="#interface-definitions" class="tocxref"><span class="secno">3. </span>
@@ -692,14 +692,14 @@ table.exceptions table {
       </a></li><li class="tocline"><a href="#acknowledgments" class="tocxref"><span class="secno">A. </span>
         Acknowledgments
       </a></li><li class="tocline"><a href="#references" class="tocxref"><span class="secno">B. </span>References</a><ul class="toc"><li class="tocline"><a href="#normative-references" class="tocxref"><span class="secno">B.1 </span>Normative references</a></li><li class="tocline"><a href="#informative-references" class="tocxref"><span class="secno">B.2 </span>Informative references</a></li></ul></li></ul></section>
-    
+
     <section id="conformance" typeof="bibo:Chapter" resource="#conformance" rel="bibo:Chapter"><!--OddPage--><h2 role="heading" id="h2_conformance"><span class="secno">1. </span>Conformance</h2>
 <p>
   As well as sections marked as non-normative, all authoring guidelines, diagrams, examples,
   and notes in this specification are non-normative. Everything else in this specification is
   normative.
 </p>
-<p id="respecRFC2119">The key words <em class="rfc2119" title="MAY">MAY</em>, <em class="rfc2119" title="MUST">MUST</em>, and <em class="rfc2119" title="SHOULD">SHOULD</em> are 
+<p id="respecRFC2119">The key words <em class="rfc2119" title="MAY">MAY</em>, <em class="rfc2119" title="MUST">MUST</em>, and <em class="rfc2119" title="SHOULD">SHOULD</em> are
   to be interpreted as described in [<cite><a class="bibref" href="#bib-RFC2119">RFC2119</a></cite>].
 </p>
 
@@ -731,11 +731,11 @@ table.exceptions table {
           a simple event</a></dfn>
         </li>
         <li>
-          <dfn id="dfn-event-handler"><a href="http://www.w3.org/TR/html5/browsers.html#event-handlers">event
+          <dfn id="dfn-event-handler"><a href="http://www.w3.org/TR/html5/webappapis.html#event-handlers">event
           handler</a></dfn>
         </li>
         <li>
-          <dfn id="dfn-event-handler-event-type"><a href="http://www.w3.org/TR/html5/browsers.html#event-handler-event-type">event
+          <dfn id="dfn-event-handler-event-type"><a href="http://www.w3.org/TR/html5/webappapis.html#event-handler-event-type">event
           handler event type</a></dfn>
         </li>
         <li>
@@ -1506,7 +1506,7 @@ table.exceptions table {
         to the initial design of this API.
       </p>
     </section>
-  
+
 
 <section id="references" class="appendix" typeof="bibo:Chapter" resource="#references" rel="bibo:Chapter"><!--OddPage--><h2 role="heading" id="h2_references"><span class="secno">B. </span>References</h2><section id="normative-references" typeof="bibo:Chapter" resource="#normative-references" rel="bibo:Chapter"><h3 role="heading" id="h3_normative-references"><span class="secno">B.1 </span>Normative references</h3><dl class="bibliography" about=""><dt id="bib-CSSOM-VIEW">[CSSOM-VIEW]</dt><dd rel="dcterms:requires">Simon Pieters; Glenn Adams. <a href="http://www.w3.org/TR/cssom-view/"><cite>CSSOM View Module</cite></a>. 17 December 2013. W3C Working Draft. URL: <a href="http://www.w3.org/TR/cssom-view/">http://www.w3.org/TR/cssom-view/</a>
 </dd><dt id="bib-ECMASCRIPT">[ECMASCRIPT]</dt><dd rel="dcterms:requires">Allen Wirfs-Brock. <a href="http://people.mozilla.org/~jorendorff/es6-draft.html"><cite>ECMA-262 ECMAScript Language Specification, Edition 6</cite></a>. Draft. URL: <a href="http://people.mozilla.org/~jorendorff/es6-draft.html">http://people.mozilla.org/~jorendorff/es6-draft.html</a>
