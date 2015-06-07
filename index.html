@@ -119,8 +119,8 @@
         </li>
         <li>
           <dfn><a href=
-          "http://www.w3.org/TR/html5/webappapis.html#event-handler-event-type">event
-          handler event type</a></dfn>
+          "http://www.w3.org/TR/html5/webappapis.html#event-handler-event-type">
+          event handler event type</a></dfn>
         </li>
         <li>
           <code><dfn><a href=
@@ -388,8 +388,8 @@
           clockwise angle in degrees between the orientation of the viewport as
           it is drawn and the natural orientation of the device (i.e., the top
           of the physical screen). This is the opposite of the physical
-          rotation. In other words, if you turn a device 90 degrees on the
-          right, screen orientation angle would be 270 degrees.
+          rotation. In other words, if a device is turned 90 degrees on the
+          right, the <a>current orientation angle</a> would be 270 degrees.
           </li>
         </ol>
         <p>
@@ -398,9 +398,9 @@
           <code>*-secondary</code> is up to the <a>user agent</a>. For example,
           it can be based on the device preferred angles, the user's preferred
           orientations or the current orientation when the application starts.
-          However, a <a>user agent</a> MUST keep the screen orientation types
-          and the screen orientation angles relation consistent for any given
-          <a>document</a>.
+          However, a <a>user agent</a> MUST keep the <a>current orientation
+          type</a> and the <a>current orientation angle</a> relation consistent
+          for any given <a>document</a>.
         </p>
       </section>
       <section>
@@ -521,7 +521,7 @@
               <dd>
                 Append <code>portrait-primary</code> or
                 <code>landscape-primary</code> to <var>orientations</var> such
-                as the associated screen orientation angle is 0.
+                as the associated <a>current orientation angle</a> is 0.
               </dd>
               <dt>
                 <code><dfn id=
