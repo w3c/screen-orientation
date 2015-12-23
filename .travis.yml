@@ -1,0 +1,15 @@
+language: node_js
+sudo: false
+branches:
+  only:
+  - gh-pages
+env:
+  global:
+  - URL="http://w3c.github.io/screen-orientation/W3CTRMANIFEST"
+  - DECISION="https://lists.w3.org/Archives/Public/public-webapps/2014JulSep/0627.html"
+  - secure: "dJTE91QLWps4EXBHoQinGu4RdO6YSjk6KU/GZRFxWXyckDtOJJKu6IoB5bFtYvf6re2yh4oX5+CxuT/6trMJyVjO96cfC3OPzBgQNgwHr7ZzuP+VubLuQ6NG81ZKctqRiph1848xTq0h1hvpjWDgKTWV0uvTJWFJKU5iLzfJsZA="
+script:
+- echo "ok"
+after_success:
+- curl "https://labs.w3.org/echidna/api/request" --data "url=$URL" --data "decision=$DECISION"
+  --data "token=$TOKEN"
