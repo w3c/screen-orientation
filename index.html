@@ -157,6 +157,11 @@
         </li>
         <li>
           <dfn><a href=
+          'https://html.spec.whatwg.org/multipage/browsers.html#sandboxed-orientation-lock-browsing-context-flag'>
+          sandboxed orientation lock browsing context flag</a></dfn>
+        </li>
+        <li>
+          <dfn><a href=
           'http://www.w3.org/TR/html5/webappapis.html#responsible-document'>responsible
           document</a></dfn>
         </li>
@@ -767,49 +772,6 @@
           <a>default orientation</a> has to be <code>any</code>.
         </p>
       </section>
-    </section>
-    <section>
-      <h2>
-        Extension to the HTML sandboxing model
-      </h2>
-      <div class='issue'>
-        This section is monkey patching the [[!HTML]] specification. It is
-        meant to be merged into the [[!HTML]] specification as soon as this
-        document is stable enough. See <a href=
-        'https://github.com/w3c/screen-orientation/issues/69'>issue 69</a>.
-      </div>
-      <p>
-        The [[!HTML]] specification defines a <a href=
-        'http://www.w3.org/TR/html5/browsers.html#sandboxing-flag-set'>sandboxing
-        flag set</a> which is extended with this value:
-      </p>
-      <dl>
-        <dt>
-          The <dfn>sandboxed orientation lock browsing context flag</dfn>
-        </dt>
-        <dd>
-          This flag disables the ability to lock the screen orientation.
-        </dd>
-      </dl>
-      <p>
-        The algorithm to <a href=
-        'http://www.w3.org/TR/html5/browsers.html#parse-a-sandboxing-directive'>
-        parse a sandboxing directive</a> is also extended in step 3 such that:
-      </p>
-      <ul>
-        <li>The <a>sandboxed orientation lock browsing context flag</a>, unless
-        <var>tokens</var> contains the <code>allow-orientation-lock</code>
-        keyword.
-        </li>
-      </ul>
-      <p>
-        Finally, the <a href=
-        'http://www.w3.org/TR/html5/embedded-content-0.html#the-iframe-element'>
-        iframe</a>'s <a href=
-        'http://www.w3.org/TR/html5/embedded-content-0.html#attr-iframe-sandbox'>
-        sandbox</a> attribute MUST add <code>allow-orientation-lock</code>
-        amongst its allowed values.
-      </p>
     </section>
     <section>
       <h2>
