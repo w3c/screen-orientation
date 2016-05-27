@@ -7,9 +7,9 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <script src='https://www.w3.org/Tools/respec/respec-w3c-common' class=
     'remove'>
-</script>
+    </script>
     <script class='remove'>
-// (this is to make tidy happy)
+    // (this is to make tidy happy)
     var respecConfig = {
         specStatus:           "ED",
         shortName:            "screen-orientation",
@@ -202,9 +202,8 @@
           };
         </pre>
         <p>
-          The <code><dfn for='Screen'>orientation</dfn></code>
-          object is an instance of <a>ScreenOrientation</a>, which is described
-          below.
+          The <code><dfn for='Screen'>orientation</dfn></code> object is an
+          instance of <a>ScreenOrientation</a>, which is described below.
         </p>
       </section>
       <section>
@@ -221,37 +220,40 @@
           };
         </pre>
         <p>
-          When the <code><dfn for='ScreenOrientation'>lock</dfn>()</code> method is invoked, the <a>user agent</a> MUST run
-          the <a>apply an orientation lock</a> steps to the <a>responsible
-          document</a> using <var>orientation</var>.
+          When the <code><dfn for='ScreenOrientation'>lock</dfn>()</code>
+          method is invoked, the <a>user agent</a> MUST run the <a>apply an
+          orientation lock</a> steps to the <a>responsible document</a> using
+          <var>orientation</var>.
         </p>
         <p>
-          When the <code><dfn for='ScreenOrientation'>unlock</dfn>()</code> method is
-          invoked, the <a>user agent</a> MUST run the steps to <a>lock the
-          orientation</a> of the <a>responsible document</a> to the
+          When the <code><dfn for='ScreenOrientation'>unlock</dfn>()</code>
+          method is invoked, the <a>user agent</a> MUST run the steps to
+          <a>lock the orientation</a> of the <a>responsible document</a> to the
           <a>responsible document</a>'s <a>default orientation</a>.
         </p>
         <p class='note'>
-          <a for='ScreenOrientation' data-lt='unlock'>unlock()</a> does not return a Promise because it is equivalent to
-          locking to the <a>default orientation</a> which might or might not be
-          known by the <a>user agent</a>. Hence, the <a>user agent</a> can not
-          predict what the new orientation is going to be and even if it is
-          going to change at all.
+          <a for='ScreenOrientation' data-lt='unlock'>unlock()</a> does not
+          return a Promise because it is equivalent to locking to the
+          <a>default orientation</a> which might or might not be known by the
+          <a>user agent</a>. Hence, the <a>user agent</a> can not predict what
+          the new orientation is going to be and even if it is going to change
+          at all.
         </p>
         <p>
-          When getting the <code><dfn for='ScreenOrientation'>type</dfn></code> attribute, the
-          <a>user agent</a> MUST return the <a>responsible document</a>'s
-          <a>current orientation type</a>.
+          When getting the <code><dfn for='ScreenOrientation'>type</dfn></code>
+          attribute, the <a>user agent</a> MUST return the <a>responsible
+          document</a>'s <a>current orientation type</a>.
         </p>
         <p>
-          When getting the <code><dfn for='ScreenOrientation'>angle</dfn></code> attribute, the
-          <a>user agent</a> MUST return the <a>responsible document</a>'s
-          <a>current orientation angle</a>.
+          When getting the <code><dfn for=
+          'ScreenOrientation'>angle</dfn></code> attribute, the <a>user
+          agent</a> MUST return the <a>responsible document</a>'s <a>current
+          orientation angle</a>.
         </p>
         <p>
-          The <code><dfn for='ScreenOrientation'>onchange</dfn></code> attribute is
-          an <a>event handler</a> whose corresponding <a>event handler event
-          type</a> is <code>change</code>.
+          The <code><dfn for='ScreenOrientation'>onchange</dfn></code>
+          attribute is an <a>event handler</a> whose corresponding <a>event
+          handler event type</a> is <code>change</code>.
         </p>
       </section>
       <section>
@@ -308,13 +310,13 @@
           Reading the screen orientation
         </h2>
         <p>
-          All <a data-lt='document'>documents</a> have a <dfn>current orientation
-          type</dfn> and a <dfn>current orientation angle</dfn>. Both of them
-          SHOULD be initialized when the <a>document</a> is created, otherwise
-          they MUST be initialized the first time they are accessed and before
-          their value is read. The <a>user agent</a> MUST <a>update the
-          orientation information</a> of the <a>document</a> to initialize
-          them.
+          All <a data-lt='document'>documents</a> have a <dfn>current
+          orientation type</dfn> and a <dfn>current orientation angle</dfn>.
+          Both of them SHOULD be initialized when the <a>document</a> is
+          created, otherwise they MUST be initialized the first time they are
+          accessed and before their value is read. The <a>user agent</a> MUST
+          <a>update the orientation information</a> of the <a>document</a> to
+          initialize them.
         </p>
         <p>
           For a given <a>document</a>, the <a>current orientation type</a> and
@@ -345,12 +347,16 @@
         </p>
         <ol>
           <li>If the screen width is greater than the screen height, set the
-          <a>document</a>'s <a>current orientation type</a> to <code><dfn for='OrientationTypelandscape'>landscape-primary</dfn></code>
-          or <code><dfn for='OrientationType'>landscape-secondary</dfn></code>.
+          <a>document</a>'s <a>current orientation type</a> to
+            <code><dfn for='OrientationTypelandscape'>landscape-primary</dfn></code>
+            or <code><dfn for=
+            'OrientationType'>landscape-secondary</dfn></code>.
           </li>
           <li>Otherwise, if the screen width is less than or equal to the
           screen height, set the <a>document</a>'s <a>current orientation
-          type</a> to <code><dfn for='OrientationType'>portrait-primary</dfn></code> or <code><dfn for='OrientationType'>portrait-secondary</dfn></code>.
+          type</a> to <code><dfn for=
+          'OrientationType'>portrait-primary</dfn></code> or <code><dfn for=
+          'OrientationType'>portrait-secondary</dfn></code>.
           </li>
           <li>Set the <a>document</a>'s <a>current orientation angle</a> to the
           clockwise angle in degrees between the orientation of the viewport as
@@ -450,10 +456,14 @@
           <li>Depending on <var>orientation</var> value, do the following:
             <dl>
               <dt>
-                <code><dfn for='OrientationLockType'>portrait-primary</dfn></code>
-                or <code><dfn for='OrientationLockType'>portrait-secondary</dfn></code>
-                or <code><dfn for='OrientationLockType'>landscape-primary</dfn></code>
-                or <code><dfn for='OrientationLockType'>landscape-secondary</dfn></code>
+                <code><dfn for=
+                'OrientationLockType'>portrait-primary</dfn></code> or
+                <code><dfn for=
+                'OrientationLockType'>portrait-secondary</dfn></code> or
+                <code><dfn for=
+                'OrientationLockType'>landscape-primary</dfn></code> or
+                <code><dfn for=
+                'OrientationLockType'>landscape-secondary</dfn></code>
               </dt>
               <dd>
                 Append <var>orientation</var> to <var>orientations</var>.
