@@ -196,13 +196,13 @@
           Extensions to the <a>Screen</a> interface
         </h2>The CSSOM View specification defines a <code>Screen</code>
         interface [[!CSSOM-VIEW]], which this specification extends:
-        <dl class='idl' title='partial interface Screen'>
-          <dt>
-            readonly attribute ScreenOrientation orientation
-          </dt>
-        </dl>
+        <pre class='idl'>
+          partial interface Screen {
+            readonly attribute ScreenOrientation orientation;
+          };
+        </pre>
         <p>
-          The <code><dfn id='widl-Screen-orientation'>orientation</dfn></code>
+          The <code><dfn for='Screen'>orientation</dfn></code>
           object is an instance of <a>ScreenOrientation</a>, which is described
           below.
         </p>
@@ -211,59 +211,45 @@
         <h2>
           <code>ScreenOrientation</code> interface
         </h2>
-        <dl class='idl' title='interface ScreenOrientation : EventTarget'>
-          <dt>
-            Promise&lt;void&gt; lock(OrientationLockType orientation)
-          </dt>
-          <dt>
-            void unlock()
-          </dt>
-          <dt>
-            readonly attribute OrientationType type
-          </dt>
-          <dt>
-            readonly attribute unsigned short angle
-          </dt>
-          <dt>
-            attribute EventHandler onchange
-          </dt>
-        </dl>
+        <pre class='idl'>
+          interface ScreenOrientation : EventTarget {
+            Promise&lt;void&gt; lock(OrientationLockType orientation);
+            void unlock();
+            readonly attribute OrientationType type;
+            readonly attribute unsigned short angle;
+            attribute EventHandler onchange;
+          };
+        </pre>
         <p>
-          When the <code><dfn id=
-          "widl-ScreenOrientation-lock-Promise-void--OrientationLockType-orientation">
-          lock()</dfn></code> method is invoked, the <a>user agent</a> MUST run
+          When the <code><dfn for='ScreenOrientation'>lock</dfn>()</code> method is invoked, the <a>user agent</a> MUST run
           the <a>apply an orientation lock</a> steps to the <a>responsible
           document</a> using <var>orientation</var>.
         </p>
         <p>
-          When the <code><dfn id=
-          "widl-ScreenOrientation-unlock-void">unlock()</dfn></code> method is
+          When the <code><dfn for='ScreenOrientation'>unlock</dfn>()</code> method is
           invoked, the <a>user agent</a> MUST run the steps to <a>lock the
           orientation</a> of the <a>responsible document</a> to the
           <a>responsible document</a>'s <a>default orientation</a>.
         </p>
         <p class='note'>
-          <a>unlock()</a> does not return a Promise because it is equivalent to
+          <a for='ScreenOrientation' data-lt='unlock'>unlock()</a> does not return a Promise because it is equivalent to
           locking to the <a>default orientation</a> which might or might not be
           known by the <a>user agent</a>. Hence, the <a>user agent</a> can not
           predict what the new orientation is going to be and even if it is
           going to change at all.
         </p>
         <p>
-          When getting the <code><dfn id=
-          "widl-ScreenOrientation-type">type</dfn></code> attribute, the
+          When getting the <code><dfn for='ScreenOrientation'>type</dfn></code> attribute, the
           <a>user agent</a> MUST return the <a>responsible document</a>'s
           <a>current orientation type</a>.
         </p>
         <p>
-          When getting the <code><dfn id=
-          "widl-ScreenOrientation-angle">angle</dfn></code> attribute, the
+          When getting the <code><dfn for='ScreenOrientation'>angle</dfn></code> attribute, the
           <a>user agent</a> MUST return the <a>responsible document</a>'s
           <a>current orientation angle</a>.
         </p>
         <p>
-          The <code><dfn id=
-          "widl-ScreenOrientation-onchange">onchange</dfn></code> attribute is
+          The <code><dfn for='ScreenOrientation'>onchange</dfn></code> attribute is
           an <a>event handler</a> whose corresponding <a>event handler event
           type</a> is <code>change</code>.
         </p>
@@ -272,51 +258,31 @@
         <h2>
           <code>OrientationType</code> enum
         </h2>
-        <dl title="enum OrientationType" class="idl">
-          <dt>
-            portrait-primary
-          </dt>
-          <dt>
-            portrait-secondary
-          </dt>
-          <dt>
-            landscape-primary
-          </dt>
-          <dt>
-            landscape-secondary
-          </dt>
-        </dl>
+        <pre class='idl'>
+          enum OrientationType {
+            "portrait-primary",
+            "portrait-secondary",
+            "landscape-primary",
+            "landscape-secondary"
+          };
+        </pre>
       </section>
       <section>
         <h2>
           <code>OrientationLockType</code> enum
         </h2>
-        <dl title="enum OrientationLockType" class="idl">
-          <dt>
-            any
-          </dt>
-          <dt>
-            natural
-          </dt>
-          <dt>
-            landscape
-          </dt>
-          <dt>
-            portrait
-          </dt>
-          <dt>
-            portrait-primary
-          </dt>
-          <dt>
-            portrait-secondary
-          </dt>
-          <dt>
-            landscape-primary
-          </dt>
-          <dt>
-            landscape-secondary
-          </dt>
-        </dl>
+        <pre class='idl'>
+          enum OrientationLockType {
+            "any",
+            "natural",
+            "landscape",
+            "portrait",
+            "portrait-primary",
+            "portrait-secondary",
+            "landscape-primary",
+            "landscape-secondary"
+          };
+        </pre>
       </section>
     </section>
     <section>
@@ -334,7 +300,7 @@
         whose associated operation is to lock the screen orientation.
       </p>
       <p>
-        When <a title="queue a task">queuing a task</a>, the <dfn>screen
+        When <a data-lt="queue a task">queuing a task</a>, the <dfn>screen
         orientation task source</dfn> is used.
       </p>
       <section>
@@ -342,7 +308,7 @@
           Reading the screen orientation
         </h2>
         <p>
-          All <a title='document'>documents</a> have a <dfn>current orientation
+          All <a data-lt='document'>documents</a> have a <dfn>current orientation
           type</dfn> and a <dfn>current orientation angle</dfn>. Both of them
           SHOULD be initialized when the <a>document</a> is created, otherwise
           they MUST be initialized the first time they are accessed and before
@@ -379,16 +345,12 @@
         </p>
         <ol>
           <li>If the screen width is greater than the screen height, set the
-          <a>document</a>'s <a>current orientation type</a> to <code><dfn id=
-          'idl-def-OrientationType.landscape-primary'>landscape-primary</dfn></code>
-          or <code><dfn id=
-          'idl-def-OrientationType.landscape-secondary'>landscape-secondary</dfn></code>.
+          <a>document</a>'s <a>current orientation type</a> to <code><dfn for='OrientationTypelandscape'>landscape-primary</dfn></code>
+          or <code><dfn for='OrientationType'>landscape-secondary</dfn></code>.
           </li>
           <li>Otherwise, if the screen width is less than or equal to the
           screen height, set the <a>document</a>'s <a>current orientation
-          type</a> to <code><dfn id='idl-def-OrientationType.portrait-primary'>
-            portrait-primary</dfn></code> or <code><dfn id=
-            'idl-def-OrientationType.portrait-secondary'>portrait-secondary</dfn></code>.
+          type</a> to <code><dfn for='OrientationType'>portrait-primary</dfn></code> or <code><dfn for='OrientationType'>portrait-secondary</dfn></code>.
           </li>
           <li>Set the <a>document</a>'s <a>current orientation angle</a> to the
           clockwise angle in degrees between the orientation of the viewport as
@@ -450,7 +412,7 @@
           <code>NotSupportedError</code> and abort these steps.
           </li>
           <li>The following sub-steps MAY be run asynchronously for performance
-          reasons, for example, if the <a>user agent</a> has <a title=
+          reasons, for example, if the <a>user agent</a> has <a data-lt=
           'browsing context'>browsing contexts</a> living in different
           processes:
             <ol>
@@ -488,21 +450,16 @@
           <li>Depending on <var>orientation</var> value, do the following:
             <dl>
               <dt>
-                <code><dfn id=
-                'idl-def-OrientationLockType.portrait-primary'>portrait-primary</dfn></code>
-                or <code><dfn id=
-                'idl-def-OrientationLockType.portrait-secondary'>portrait-secondary</dfn></code>
-                or <code><dfn id=
-                'idl-def-OrientationLockType.landscape-primary'>landscape-primary</dfn></code>
-                or <code><dfn id=
-                'idl-def-OrientationLockType.landscape-secondary'>landscape-secondary</dfn></code>
+                <code><dfn for='OrientationLockType'>portrait-primary</dfn></code>
+                or <code><dfn for='OrientationLockType'>portrait-secondary</dfn></code>
+                or <code><dfn for='OrientationLockType'>landscape-primary</dfn></code>
+                or <code><dfn for='OrientationLockType'>landscape-secondary</dfn></code>
               </dt>
               <dd>
                 Append <var>orientation</var> to <var>orientations</var>.
               </dd>
               <dt>
-                <code><dfn id=
-                'idl-def-OrientationLockType.landscape'>landscape</dfn></code>
+                <code><dfn for='OrientationLockType'>landscape</dfn></code>
               </dt>
               <dd>
                 Depending on platform convention, append
@@ -511,8 +468,7 @@
                 <var>orientations</var>.
               </dd>
               <dt>
-                <code><dfn id=
-                'idl-def-OrientationLockType.portrait'>portrait</dfn></code>
+                <code><dfn for='OrientationLockType'>portrait</dfn></code>
               </dt>
               <dd>
                 Depending on platform convention, append
@@ -521,8 +477,7 @@
                 <var>orientations</var>.
               </dd>
               <dt>
-                <code><dfn id=
-                'idl-def-OrientationLockType.natural'>natural</dfn></code>
+                <code><dfn for='OrientationLockType'>natural</dfn></code>
               </dt>
               <dd>
                 Append <code>portrait-primary</code> or
@@ -530,8 +485,7 @@
                 as the associated <a>current orientation angle</a> is 0.
               </dd>
               <dt>
-                <code><dfn id=
-                'idl-def-OrientationLockType.any'>any</dfn></code>
+                <code><dfn for='OrientationLockType'>any</dfn></code>
               </dt>
               <dd>
                 Append <code>portrait-primary</code>,
@@ -786,7 +740,7 @@
           Interaction with FullScreen API
         </h2>
         <p>
-          As a <a title="security conditions">security condition</a>, a user
+          As a <a data-lt="security conditions">security condition</a>, a user
           agent MAY restrict locking the screen orientation exclusively to when
           the <a>top-level browsing context</a>'s <a>document</a>'s
           <a>fullscreen element stack</a> is not empty. When that security
