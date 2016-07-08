@@ -186,6 +186,14 @@
         'http://www.w3.org/TR/page-visibility/#now-visible-algorithm'>now
         visible algorithm</a></dfn> is defined in [[!PAGE-VISIBILITY]].
       </p>
+      <p>
+        <dfn><a href='https://github.com/whatwg/fullscreen/issues/16'
+        >animation frame task</a></dfn> is not defined but used in
+        [[!FULLSCREEN]].
+      </p>
+      <div class='issue'>
+        This should be updated when <a>animation frame task</a> gets defined.
+      </div>
     </section>
     <section>
       <h2>
@@ -300,10 +308,6 @@
         <a>document</a> there is a <dfn>pending promise</dfn>, which is
         initially set to <code>null</code>, which is a <a>Promise</a> object
         whose associated operation is to lock the screen orientation.
-      </p>
-      <p>
-        When <a data-lt="queue a task">queuing a task</a>, the <dfn>screen
-        orientation task source</dfn> is used.
       </p>
       <section>
         <h2>
@@ -515,9 +519,9 @@
             <var>orientations</var>.
           </li>
           <li>If locking the orientation did not result in a change of
-          orientation, <a>queue a task</a> to resolve
+          orientation, as part of the next <a>animation frame task</a>, resolve
           <var>pending-promise</var> with <code>undefined</code> and set <var>
-            pending-promise</var> to <code>null</code>.
+          pending-promise</var> to <code>null</code>.
           </li>
         </ol>
         <div class='note'>
@@ -618,9 +622,8 @@
           Handling screen orientation changes
         </h2>
         <p>
-          Whenever the viewport is drawn at a different angle compared to the
-          device's natural orientation, the <a>user agent</a> MUST
-          asynchronously run the following steps:
+          Whenever the viewport's angle changes, the <a>user agent</a> MUST run
+          the following steps as part of the next <a>animation frame task</a>:
         </p>
         <ol>
           <li>Let <var>browsing contexts</var> be the <a>list of the descendant
@@ -651,8 +654,8 @@
                 </ol>
               </li>
               <li>
-                <a>Queue a task</a> to <a>fire a simple event</a> named
-                <code>change</code> at <var>doc</var> 's <a href=
+                <a>Fire a simple event</a> named <code>change</code> at
+                <var>doc</var> 's <a href=
                 "#widl-Screen-orientation"><code>screen.orientation</code></a>
                 object.
               </li>
@@ -662,7 +665,8 @@
         <p>
           Whenever a <a>document</a> becomes visible per [[!PAGE-VISIBILITY]],
           in other words after the <a>now visible algorithm</a> is run, the
-          <a>user agent</a> MUST asynchronously run the following steps:
+          <a>user agent</a> MUST run the following substeps as part of the next
+          <a>animation frame task</a>:
         </p>
         <ol>
           <li>Let <var>type</var> and <var>angle</var> be respectively the <a>
@@ -689,8 +693,8 @@
                 </ol>
               </li>
               <li>
-                <a>Queue a task</a> to <a>fire a simple event</a> named
-                <code>change</code> at the <a>document</a>'s <a href=
+                <a>Fire a simple event</a> named <code>change</code> at the
+                <a>document</a>'s <a href=
                 "#widl-Screen-orientation"><code>screen.orientation</code></a>
                 object.
               </li>
@@ -712,12 +716,6 @@
           specification had a hook for when the document becomes visible and
           hidden. <a href=
           'https://github.com/w3c/screen-orientation/issues/77'>issue 77</a>.
-        </div>
-        <div class='issue'>
-          This section could use the <a href=
-          'https://www.w3.org/Bugs/Public/show_bug.cgi?id=26440'>animation
-          frame task</a>a if and when it is ready. <a href=
-          'https://github.com/w3c/screen-orientation/issues/40'>issue 40</a>.
         </div>
       </section>
       <section>
