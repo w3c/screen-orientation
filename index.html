@@ -124,6 +124,11 @@
           event handler event type</a></dfn>
         </li>
         <li>
+          <dfn><a href=
+          'https://html.spec.whatwg.org/multipage/webappapis.html#concept-task'>
+          task</a></dfn>
+        </li>
+        <li>
           <code><dfn><a href=
           'https://html.spec.whatwg.org/multipage/browsers.html#window'>Window</a></dfn></code>
         </li>
@@ -653,6 +658,13 @@
                   </li>
                 </ol>
               </li>
+              <li>If the orientation change was triggered by a user gesture such
+              as the user turning the device, as opposed to a call to <a for=
+              'ScreenOrientation'>lock</a>, the <a>task</a> MUST be annotated
+              with <code>process user orientation change</code> when running the
+              next step.
+              </li>
+            </li>
               <li>
                 <a>Fire a simple event</a> named <code>change</code> at
                 <var>doc</var> 's <a href=
@@ -692,6 +704,11 @@
                   </li>
                 </ol>
               </li>
+              <li>If the orientation change was triggered by a user gesture such
+              as the user turning the device, as opposed to a call to <a for=
+              'ScreenOrientation'>lock</a>, the <a>task</a> MUST be annotated
+              with <code>process user orientation change</code> when running the
+              next step.</li>
               <li>
                 <a>Fire a simple event</a> named <code>change</code> at the
                 <a>document</a>'s <a href=
@@ -701,6 +718,11 @@
             </ol>
           </li>
         </ol>
+        <p>
+          An algorithm is <dfn>triggered by a user generated orientation
+          change</dfn> if the <a>task</a> in which the algorithm is running is
+          annotated with <code>process user orientation change</code>.
+        </p>
         <div class="note">
           <p>
             Developers need to be aware that a <a href=
