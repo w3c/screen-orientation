@@ -226,6 +226,7 @@
           <code>ScreenOrientation</code> interface
         </h2>
         <pre class='idl'>
+          [Exposed=Window]
           interface ScreenOrientation : EventTarget {
             Promise&lt;void&gt; lock(OrientationLockType orientation);
             void unlock();
