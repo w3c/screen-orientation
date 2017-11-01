@@ -179,11 +179,6 @@
         </li>
       </ul>
       <p>
-        <a href=
-        'http://people.mozilla.org/~jorendorff/es6-draft.html#sec-promise-objects'>
-        <dfn>Promise</dfn> objects</a> are defined in [[!ECMASCRIPT]].
-      </p>
-      <p>
         <dfn><a href=
         'https://fullscreen.spec.whatwg.org/#fullscreen-element'>fullscreen
         element</a></dfn> is defined in [[!FULLSCREEN]].
@@ -249,7 +244,7 @@
         </p>
         <p class='note'>
           <a data-link-for='ScreenOrientation' data-lt='unlock'>unlock()</a> does not
-          return a Promise because it is equivalent to locking to the
+          return a promise because it is equivalent to locking to the
           <a>default orientation</a> which might or might not be known by the
           <a>user agent</a>. Hence, the <a>user agent</a> can not predict what
           the new orientation is going to be and even if it is going to change
@@ -314,8 +309,8 @@
       <p>
         Algorithms defined in this specification assume that for each
         <a>document</a> there is a <dfn>pending promise</dfn>, which is
-        initially set to <code>null</code>, which is a <a>Promise</a> object
-        whose associated operation is to lock the screen orientation.
+        initially set to <code>null</code>, which is a promise whose
+        associated operation is to lock the screen orientation.
       </p>
       <section>
         <h2>
@@ -425,7 +420,7 @@
         </p>
         <ol>
           <li>If the <a>user agent</a> does not support locking the screen
-          orientation, return a <a>Promise</a> rejected with a
+          orientation, return a promise rejected with a
           <code>DOMException</code> whose name is
           <code>NotSupportedError</code> and abort these steps.
           </li>
@@ -459,8 +454,8 @@
           <li>If the <a>document</a>'s <a>active sandboxing flag set</a> has
           the <a>sandboxed orientation lock browsing context flag</a> set, or
           <a>user agent</a> doesn't meet the <a>security conditions</a> to
-          perform an orientation change, return a <a>Promise</a> rejected with
-          a <code>DOMException</code> whose name is <code>SecurityError</code>
+          perform an orientation change, return a promise rejected with a
+          <code>DOMException</code> whose name is <code>SecurityError</code>
           and abort these steps.
           </li>
           <li>Let <var>orientations</var> be an empty list.
@@ -517,8 +512,7 @@
               </dd>
             </dl>
           </li>
-          <li>Set <var>pending-promise</var> to be a newly-created
-          <a>Promise</a>.
+          <li>Set <var>pending-promise</var> to be a newly-create a promise.
           </li>
           <li>Return <var>pending-promise</var> and continue asynchronously.
           </li>
