@@ -223,7 +223,7 @@
       </section>
       <section>
         <h2>
-          <code>ScreenOrientation</code> interface
+          <code><dfn>ScreenOrientation</dfn></code> interface
         </h2>
         <pre class='idl'>
           [Exposed=Window]
@@ -248,7 +248,7 @@
           <a>responsible document</a>'s <a>default orientation</a>.
         </p>
         <p class='note'>
-          <a for='ScreenOrientation' data-lt='unlock'>unlock()</a> does not
+          <a data-link-for='ScreenOrientation' data-lt='unlock'>unlock()</a> does not
           return a Promise because it is equivalent to locking to the
           <a>default orientation</a> which might or might not be known by the
           <a>user agent</a>. Hence, the <a>user agent</a> can not predict what
@@ -274,7 +274,7 @@
       </section>
       <section>
         <h2>
-          <code>OrientationType</code> enum
+          <code><dfn>OrientationType</dfn></code> enum
         </h2>
         <pre class='idl'>
           enum OrientationType {
@@ -287,7 +287,7 @@
       </section>
       <section>
         <h2>
-          <code>OrientationLockType</code> enum
+          <code><dfn>OrientationLockType</dfn></code> enum
         </h2>
         <pre class='idl'>
           enum OrientationLockType {
@@ -360,7 +360,7 @@
         <ol>
           <li>If the screen width is greater than the screen height, set the
           <a>document</a>'s <a>current orientation type</a> to
-            <code><dfn for='OrientationTypelandscape'>landscape-primary</dfn></code>
+            <code><dfn for='OrientationType'>landscape-primary</dfn></code>
             or <code><dfn for=
             'OrientationType'>landscape-secondary</dfn></code>.
           </li>
@@ -662,12 +662,11 @@
                 </ol>
               </li>
               <li>If the orientation change was triggered by a user gesture such
-              as the user turning the device, as opposed to a call to <a for=
-              'ScreenOrientation'>lock</a>, the <a>task</a> MUST be annotated
-              with <code>process user orientation change</code> when running the
-              next step.
+              as the user turning the device, as opposed to a call to
+              <a data-link-for='ScreenOrientation' data-lt='lock'>lock</a>, the
+              <a>task</a> MUST be annotated with <code>process user orientation
+              change</code> when running the next step.
               </li>
-            </li>
               <li>
                 <a>Fire a simple event</a> named <code>change</code> at
                 <var>doc</var> 's <a href=
@@ -707,11 +706,12 @@
                   </li>
                 </ol>
               </li>
-              <li>If the orientation change was triggered by a user gesture such
-              as the user turning the device, as opposed to a call to <a for=
-              'ScreenOrientation'>lock</a>, the <a>task</a> MUST be annotated
-              with <code>process user orientation change</code> when running the
-              next step.</li>
+              <li>If the orientation change was triggered by a user gesture
+              such as the user turning the device, as opposed to a call to
+              <a data-link-for='ScreenOrientation'>lock</a>, the <a>task</a>
+              MUST be annotated with <code>process user orientation change
+              </code> when running the next step.
+              </li>
               <li>
                 <a>Fire a simple event</a> named <code>change</code> at the
                 <a>document</a>'s <a href=
