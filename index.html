@@ -126,12 +126,12 @@
           task</a></dfn>
         </li>
         <li>
-          <code><dfn><a href=
-          'https://html.spec.whatwg.org/multipage/browsers.html#window'>Window</a></dfn></code>
+          <dfn><a href=
+          'https://html.spec.whatwg.org/multipage/browsers.html#window'>Window</a></dfn>
         </li>
         <li>
-          <code><dfn><a href=
-          'https://html.spec.whatwg.org/multipage/dom.html#document'>Document</a></dfn></code>
+          <dfn><a href=
+          'https://html.spec.whatwg.org/multipage/dom.html#document'>Document</a></dfn>
         </li>
         <li>
           <dfn><a href=
@@ -212,13 +212,13 @@
           };
         </pre>
         <p>
-          The <code><dfn for='Screen'>orientation</dfn></code> object is an
+          The <dfn for='Screen'>orientation</dfn> object is an
           instance of <a>ScreenOrientation</a>, which is described below.
         </p>
       </section>
-      <section>
+      <section data-dfn-for='ScreenOrientation' data-link-for='ScreenOrientation'>
         <h2>
-          <code><dfn>ScreenOrientation</dfn></code> interface
+          <dfn>ScreenOrientation</dfn> interface
         </h2>
         <pre class='idl'>
           [Exposed=Window]
@@ -231,45 +231,44 @@
           };
         </pre>
         <p>
-          When the <code><dfn for='ScreenOrientation'>lock</dfn>()</code>
-          method is invoked, the <a>user agent</a> MUST run the <a>apply an
-          orientation lock</a> steps to the <a>responsible document</a> using
+          When the <dfn>lock</dfn>() method is invoked,
+          the <a>user agent</a> MUST run the <a>apply an orientation lock</a>
+          steps to the <a>responsible document</a> using
           <var>orientation</var>.
         </p>
         <p>
-          When the <code><dfn for='ScreenOrientation'>unlock</dfn>()</code>
-          method is invoked, the <a>user agent</a> MUST run the steps to
-          <a>lock the orientation</a> of the <a>responsible document</a> to the
+          When the <dfn>unlock</dfn>() method is
+          invoked, the <a>user agent</a> MUST run the steps to <a>lock the
+          orientation</a> of the <a>responsible document</a> to the
           <a>responsible document</a>'s <a>default orientation</a>.
         </p>
         <p class='note'>
-          <a data-link-for='ScreenOrientation' data-lt='unlock'>unlock()</a> does not
-          return a promise because it is equivalent to locking to the
+          <a data-lt='unlock'>unlock()</a>
+          does not return a promise because it is equivalent to locking to the
           <a>default orientation</a> which might or might not be known by the
           <a>user agent</a>. Hence, the <a>user agent</a> can not predict what
           the new orientation is going to be and even if it is going to change
           at all.
         </p>
         <p>
-          When getting the <code><dfn for='ScreenOrientation'>type</dfn></code>
-          attribute, the <a>user agent</a> MUST return the <a>responsible
-          document</a>'s <a>current orientation type</a>.
+          When getting the <dfn>type</dfn> attribute,
+          the <a>user agent</a> MUST return the <a>responsible document</a>'s
+          <a>current orientation type</a>.
         </p>
         <p>
-          When getting the <code><dfn for=
-          'ScreenOrientation'>angle</dfn></code> attribute, the <a>user
-          agent</a> MUST return the <a>responsible document</a>'s <a>current
-          orientation angle</a>.
+          When getting the <dfn>angle</dfn> attribute,
+          the <a>user agent</a> MUST return the <a>responsible document</a>'s
+          <a>current orientation angle</a>.
         </p>
         <p>
-          The <code><dfn for='ScreenOrientation'>onchange</dfn></code>
-          attribute is an <a>event handler</a> whose corresponding <a>event
-          handler event type</a> is <code>change</code>.
+          The <dfn>onchange</dfn> attribute is an
+          <a>event handler</a> whose corresponding <a>event handler event type</a>
+          is <code>change</code>.
         </p>
       </section>
       <section>
         <h2>
-          <code><dfn>OrientationType</dfn></code> enum
+          <dfn>OrientationType</dfn> enum
         </h2>
         <pre class='idl'>
           enum OrientationType {
@@ -282,7 +281,7 @@
       </section>
       <section>
         <h2>
-          <code><dfn>OrientationLockType</dfn></code> enum
+          <dfn>OrientationLockType</dfn> enum
         </h2>
         <pre class='idl'>
           enum OrientationLockType {
@@ -355,15 +354,13 @@
         <ol>
           <li>If the screen width is greater than the screen height, set the
           <a>document</a>'s <a>current orientation type</a> to
-            <code><dfn for='OrientationType'>landscape-primary</dfn></code>
-            or <code><dfn for=
-            'OrientationType'>landscape-secondary</dfn></code>.
+          <dfn data-dfn-for='OrientationType'>landscape-primary</dfn> or
+          <dfn data-dfn-for='OrientationType'>landscape-secondary</dfn>.
           </li>
           <li>Otherwise, if the screen width is less than or equal to the
           screen height, set the <a>document</a>'s <a>current orientation
-          type</a> to <code><dfn for=
-          'OrientationType'>portrait-primary</dfn></code> or <code><dfn for=
-          'OrientationType'>portrait-secondary</dfn></code>.
+          type</a> to <dfn data-dfn-for='OrientationType'>portrait-primary</dfn> or
+          <dfn data-dfn-for='OrientationType'>portrait-secondary</dfn>.
           </li>
           <li>Set the <a>document</a>'s <a>current orientation angle</a> to the
           clockwise angle in degrees between the orientation of the viewport as
@@ -463,20 +460,20 @@
           <li>Depending on <var>orientation</var> value, do the following:
             <dl>
               <dt>
-                <code><dfn for=
-                'OrientationLockType'>portrait-primary</dfn></code> or
-                <code><dfn for=
-                'OrientationLockType'>portrait-secondary</dfn></code> or
-                <code><dfn for=
-                'OrientationLockType'>landscape-primary</dfn></code> or
-                <code><dfn for=
-                'OrientationLockType'>landscape-secondary</dfn></code>
+                <dfn data-dfn-for=
+                'OrientationLockType'>portrait-primary</dfn> or
+                <dfn data-dfn-for=
+                'OrientationLockType'>portrait-secondary</dfn> or
+                <dfn data-dfn-for=
+                'OrientationLockType'>landscape-primary</dfn> or
+                <dfn data-dfn-for=
+                'OrientationLockType'>landscape-secondary</dfn>
               </dt>
               <dd>
                 Append <var>orientation</var> to <var>orientations</var>.
               </dd>
               <dt>
-                <code><dfn for='OrientationLockType'>landscape</dfn></code>
+                <dfn data-dfn-for='OrientationLockType'>landscape</dfn>
               </dt>
               <dd>
                 Depending on platform convention, append
@@ -485,7 +482,7 @@
                 <var>orientations</var>.
               </dd>
               <dt>
-                <code><dfn for='OrientationLockType'>portrait</dfn></code>
+                <dfn data-dfn-for='OrientationLockType'>portrait</dfn>
               </dt>
               <dd>
                 Depending on platform convention, append
@@ -494,7 +491,7 @@
                 <var>orientations</var>.
               </dd>
               <dt>
-                <code><dfn for='OrientationLockType'>natural</dfn></code>
+                <dfn data-dfn-for='OrientationLockType'>natural</dfn>
               </dt>
               <dd>
                 Append <code>portrait-primary</code> or
@@ -502,7 +499,7 @@
                 as the associated <a>current orientation angle</a> is 0.
               </dd>
               <dt>
-                <code><dfn for='OrientationLockType'>any</dfn></code>
+                <dfn data-dfn-for='OrientationLockType'>any</dfn>
               </dt>
               <dd>
                 Append <code>portrait-primary</code>,
@@ -619,7 +616,7 @@
           <a>document</a> to the <a>document</a>'s <a>default orientation</a>.
         </p>
       </section>
-      <section>
+      <section data-link-for='ScreenOrientation'>
         <h2>
           Handling screen orientation changes
         </h2>
@@ -657,9 +654,8 @@
               </li>
               <li>If the orientation change was triggered by a user gesture such
               as the user turning the device, as opposed to a call to
-              <a data-link-for='ScreenOrientation' data-lt='lock'>lock</a>, the
-              <a>task</a> MUST be annotated with <code>process user orientation
-              change</code> when running the next step.
+              <a>lock</a>, the <a>task</a> MUST be annotated with <code>process
+              user orientation change</code> when running the next step.
               </li>
               <li>
                 <a>Fire an event</a> named <code>change</code> at
@@ -702,9 +698,9 @@
               </li>
               <li>If the orientation change was triggered by a user gesture
               such as the user turning the device, as opposed to a call to
-              <a data-link-for='ScreenOrientation'>lock</a>, the <a>task</a>
-              MUST be annotated with <code>process user orientation change
-              </code> when running the next step.
+              <a>lock</a>, the <a>task</a> MUST be annotated with
+              <code>process user orientation change</code> when running the
+              next step.
               </li>
               <li>
                 <a>Fire an event</a> named <code>change</code> at the
