@@ -106,87 +106,73 @@
       </p>
       <ul>
         <li>
-          <dfn><a href=
-          "https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-task">queue a
-          task</a></dfn>
+          <dfn data-cite="!HTML/webappapis.html#queue-a-task">queue a
+          task</dfn>
         </li>
         <li>
-          <dfn><a href=
-          "https://html.spec.whatwg.org/multipage/webappapis.html#event-handlers">event
-          handler</a></dfn>
+          <dfn data-cite="!HTML/webappapis.html#event-handlers">event
+          handler</dfn>
         </li>
         <li>
-          <dfn><a href=
-          "https://html.spec.whatwg.org/multipage/webappapis.html#event-handler-event-type">
-          event handler event type</a></dfn>
+          <dfn data-cite="!HTML/webappapis.html#event-handler-event-type">
+          event handler event type</dfn>
         </li>
         <li>
-          <dfn><a href=
-          'https://html.spec.whatwg.org/multipage/webappapis.html#concept-task'>
-          task</a></dfn>
+          <dfn data-cite="!HTML/webappapis.html#concept-task">
+          task</dfn>
         </li>
         <li>
-          <dfn><a href=
-          'https://html.spec.whatwg.org/multipage/browsers.html#window'>Window</a></dfn>
+          <code><dfn data-cite="!HTML/window-object.html#window">Window</dfn>
+          </code>
         </li>
         <li>
-          <dfn><a href=
-          'https://html.spec.whatwg.org/multipage/dom.html#document'>Document</a></dfn>
+          <code><dfn data-cite="!HTML/dom.html#document">Document</dfn></code>
         </li>
         <li>
-          <dfn><a href=
-          "https://html.spec.whatwg.org/multipage/browsers.html#browsing-context">browsing
-          context</a></dfn>
+          <dfn data-cite="!HTML/browsers.html#browsing-context">browsing
+          context</dfn>
         </li>
         <li>
-          <dfn><a href=
-          "https://html.spec.whatwg.org/multipage/browsers.html#top-level-browsing-context">
-          top-level browsing context</a></dfn>
+          <dfn data-cite="!HTML/browsers.html#top-level-browsing-context">
+          top-level browsing context</dfn>
         </li>
-        <li>browsing context's <dfn><a href=
-        'https://html.spec.whatwg.org/multipage/browsers.html#active-document'>active
-        document</a></dfn>
+        <li>browsing context's <dfn data-cite=
+        "!HTML/browsers.html#active-document">active document</dfn>
         </li>
         <li>
-          <dfn><a href=
-          'https://html.spec.whatwg.org/multipage/browsers.html#navigate'>navigated</a></dfn>
+          <dfn data-cite="!HTML/browsers.html#navigate">navigated</dfn>
           browsing context
         </li>
         <li>
-          <dfn><a href=
-          'https://html.spec.whatwg.org/multipage/browsers.html#active-sandboxing-flag-set'>
-          active sandboxing flag set</a></dfn>
+          <dfn data-cite="!HTML/browsers.html#active-sandboxing-flag-set">
+          active sandboxing flag set</dfn>
         </li>
         <li>
-          <dfn><a href=
-          'https://html.spec.whatwg.org/multipage/browsers.html#sandboxed-orientation-lock-browsing-context-flag'>
-          sandboxed orientation lock browsing context flag</a></dfn>
+          <dfn data-cite=
+          "!HTML/browsers.html#sandboxed-orientation-lock-browsing-context-flag">
+          sandboxed orientation lock browsing context flag</dfn>
         </li>
         <li>
-          <dfn><a href=
-          'https://html.spec.whatwg.org/multipage/webappapis.html#responsible-document'>responsible
-          document</a></dfn>
+          <dfn data-cite="!HTML/webappapis.html#responsible-document">responsible
+          document</dfn>
         </li>
         <li>
-          <dfn><a href=
-          'https://html.spec.whatwg.org/multipage/browsers.html#list-of-the-descendant-browsing-contexts'>
-          list of the descendant browsing contexts</a></dfn>
+          <dfn data-cite=
+          "!HTML/browsers.html#list-of-the-descendant-browsing-contexts">
+          list of the descendant browsing contexts</dfn>
         </li>
       </ul>
       <p>
-        <dfn><a href=
-        'https://fullscreen.spec.whatwg.org/#fullscreen-element'>fullscreen
-        element</a></dfn> is defined in [[!FULLSCREEN]].
+        <dfn data-cite="!FULLSCREEN/#fullscreen-element">fullscreen
+        element</dfn> is defined in [[!FULLSCREEN]].
       </p>
       <p>
-        <dfn><a href=
-        'https://www.w3.org/TR/page-visibility/#now-visible-algorithm'>now
-        visible algorithm</a></dfn> is defined in [[!PAGE-VISIBILITY]].
+        <dfn data-cite="!PAGE-VISIBILITY/#dfn-now-visible-algorithm">now
+        visible algorithm</dfn> is defined in [[!PAGE-VISIBILITY]].
       </p>
       <p>
-        <dfn><a href=
-        'https://dom.spec.whatwg.org/#concept-event-fire'>fire
-        an event</a></dfn> is defined in [[!DOM]].
+        <dfn data-cite="!DOM/#concept-event-fire">fire
+        an event</dfn> is defined in [[!DOM]].
       </p>
       <p>
         <dfn><a href='https://github.com/whatwg/fullscreen/issues/16'
@@ -212,7 +198,7 @@
           };
         </pre>
         <p>
-          The <dfn for='Screen'>orientation</dfn> object is an
+          The <dfn data-dfn-for='Screen'>orientation</dfn> object is an
           instance of <a>ScreenOrientation</a>, which is described below.
         </p>
       </section>
@@ -231,19 +217,19 @@
           };
         </pre>
         <p>
-          When the <dfn>lock</dfn>() method is invoked,
+          When the <dfn>lock()</dfn> method is invoked,
           the <a>user agent</a> MUST run the <a>apply an orientation lock</a>
           steps to the <a>responsible document</a> using
           <var>orientation</var>.
         </p>
         <p>
-          When the <dfn>unlock</dfn>() method is
+          When the <dfn>unlock()</dfn> method is
           invoked, the <a>user agent</a> MUST run the steps to <a>lock the
           orientation</a> of the <a>responsible document</a> to the
           <a>responsible document</a>'s <a>default orientation</a>.
         </p>
         <p class='note'>
-          <a data-lt='unlock'>unlock()</a>
+          <a>unlock()</a>
           does not return a promise because it is equivalent to locking to the
           <a>default orientation</a> which might or might not be known by the
           <a>user agent</a>. Hence, the <a>user agent</a> can not predict what
@@ -263,7 +249,7 @@
         <p>
           The <dfn>onchange</dfn> attribute is an
           <a>event handler</a> whose corresponding <a>event handler event type</a>
-          is <code>change</code>.
+          is <code>"change"</code>.
         </p>
       </section>
       <section>
@@ -279,7 +265,7 @@
           };
         </pre>
       </section>
-      <section>
+      <section data-link-for="OrientationLockType" data-dfn-for="OrientationLockType">
         <h2>
           <dfn>OrientationLockType</dfn> enum
         </h2>
@@ -311,7 +297,7 @@
         initially set to <code>null</code>, which is a promise whose
         associated operation is to lock the screen orientation.
       </p>
-      <section>
+      <section data-dfn-for='OrientationType'>
         <h2>
           Reading the screen orientation
         </h2>
@@ -354,13 +340,13 @@
         <ol>
           <li>If the screen width is greater than the screen height, set the
           <a>document</a>'s <a>current orientation type</a> to
-          <dfn data-dfn-for='OrientationType'>landscape-primary</dfn> or
-          <dfn data-dfn-for='OrientationType'>landscape-secondary</dfn>.
+          <dfn>landscape-primary</dfn> or
+          <dfn>landscape-secondary</dfn>.
           </li>
           <li>Otherwise, if the screen width is less than or equal to the
           screen height, set the <a>document</a>'s <a>current orientation
-          type</a> to <dfn data-dfn-for='OrientationType'>portrait-primary</dfn> or
-          <dfn data-dfn-for='OrientationType'>portrait-secondary</dfn>.
+          type</a> to <dfn>portrait-primary</dfn> or
+          <dfn>portrait-secondary</dfn>.
           </li>
           <li>Set the <a>document</a>'s <a>current orientation angle</a> to the
           clockwise angle in degrees between the orientation of the viewport as
@@ -381,7 +367,7 @@
           for any given <a>document</a>.
         </p>
       </section>
-      <section>
+      <section data-dfn-for='OrientationLockType'>
         <h2>
           Locking the screen orientation
         </h2>
@@ -460,14 +446,10 @@
           <li>Depending on <var>orientation</var> value, do the following:
             <dl>
               <dt>
-                <dfn data-dfn-for=
-                'OrientationLockType'>portrait-primary</dfn> or
-                <dfn data-dfn-for=
-                'OrientationLockType'>portrait-secondary</dfn> or
-                <dfn data-dfn-for=
-                'OrientationLockType'>landscape-primary</dfn> or
-                <dfn data-dfn-for=
-                'OrientationLockType'>landscape-secondary</dfn>
+                <dfn>portrait-primary</dfn> or
+                <dfn>portrait-secondary</dfn> or
+                <dfn>landscape-primary</dfn> or
+                <dfn>landscape-secondary</dfn>
               </dt>
               <dd>
                 Append <var>orientation</var> to <var>orientations</var>.
@@ -803,7 +785,7 @@
           <code>natural</code> to make that assumption a certitude. Otherwise,
           reading the <a>document</a>'s <a>current orientation angle</a> via
           <code>screen.orientation.angle</code> and listening to the
-          <code>change</code> event can help the developer to compensate the
+          <code>"change"</code> event can help the developer to compensate the
           screen orientation angle.
         </p>
       </section>
