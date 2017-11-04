@@ -6,8 +6,7 @@
     </title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <script src='https://www.w3.org/Tools/respec/respec-w3c-common' class=
-    'remove'>
-    </script>
+    'remove'></script>
     <script class='remove'>
     // (this is to make tidy happy)
     var respecConfig = {
@@ -114,16 +113,15 @@
           handler</dfn>
         </li>
         <li>
-          <dfn data-cite="!HTML/webappapis.html#event-handler-event-type">
-          event handler event type</dfn>
+          <dfn data-cite="!HTML/webappapis.html#event-handler-event-type">event
+          handler event type</dfn>
         </li>
         <li>
-          <dfn data-cite="!HTML/webappapis.html#concept-task">
-          task</dfn>
+          <dfn data-cite="!HTML/webappapis.html#concept-task">task</dfn>
         </li>
         <li>
-          <code><dfn data-cite="!HTML/window-object.html#window">Window</dfn>
-          </code>
+          <code><dfn data-cite=
+          "!HTML/window-object.html#window">Window</dfn></code>
         </li>
         <li>
           <code><dfn data-cite="!HTML/dom.html#document">Document</dfn></code>
@@ -133,8 +131,9 @@
           context</dfn>
         </li>
         <li>
-          <dfn data-cite="!HTML/browsers.html#top-level-browsing-context">
-          top-level browsing context</dfn>
+          <dfn data-cite=
+          "!HTML/browsers.html#top-level-browsing-context">top-level browsing
+          context</dfn>
         </li>
         <li>browsing context's <dfn data-cite=
         "!HTML/browsers.html#active-document">active document</dfn>
@@ -144,8 +143,9 @@
           browsing context
         </li>
         <li>
-          <dfn data-cite="!HTML/browsers.html#active-sandboxing-flag-set">
-          active sandboxing flag set</dfn>
+          <dfn data-cite=
+          "!HTML/browsers.html#active-sandboxing-flag-set">active sandboxing
+          flag set</dfn>
         </li>
         <li>
           <dfn data-cite=
@@ -153,13 +153,14 @@
           sandboxed orientation lock browsing context flag</dfn>
         </li>
         <li>
-          <dfn data-cite="!HTML/webappapis.html#responsible-document">responsible
+          <dfn data-cite=
+          "!HTML/webappapis.html#responsible-document">responsible
           document</dfn>
         </li>
         <li>
           <dfn data-cite=
-          "!HTML/browsers.html#list-of-the-descendant-browsing-contexts">
-          list of the descendant browsing contexts</dfn>
+          "!HTML/browsers.html#list-of-the-descendant-browsing-contexts">list
+          of the descendant browsing contexts</dfn>
         </li>
       </ul>
       <p>
@@ -171,13 +172,12 @@
         visible algorithm</dfn> is defined in [[!PAGE-VISIBILITY]].
       </p>
       <p>
-        <dfn data-cite="!DOM/#concept-event-fire">fire
-        an event</dfn> is defined in [[!DOM]].
+        <dfn data-cite="!DOM/#concept-event-fire">fire an event</dfn> is
+        defined in [[!DOM]].
       </p>
       <p>
-        <dfn><a href='https://github.com/whatwg/fullscreen/issues/16'
-        >animation frame task</a></dfn> is not defined but used in
-        [[!FULLSCREEN]].
+        <dfn><a href='https://github.com/whatwg/fullscreen/issues/16'>animation
+        frame task</a></dfn> is not defined but used in [[!FULLSCREEN]].
       </p>
       <div class='issue'>
         This should be updated when <a>animation frame task</a> gets defined.
@@ -202,7 +202,8 @@
           instance of <a>ScreenOrientation</a>, which is described below.
         </p>
       </section>
-      <section data-dfn-for='ScreenOrientation' data-link-for='ScreenOrientation'>
+      <section data-dfn-for='ScreenOrientation' data-link-for=
+      'ScreenOrientation'>
         <h2>
           <dfn>ScreenOrientation</dfn> interface
         </h2>
@@ -217,39 +218,37 @@
           };
         </pre>
         <p>
-          When the <dfn>lock()</dfn> method is invoked,
-          the <a>user agent</a> MUST run the <a>apply an orientation lock</a>
-          steps to the <a>responsible document</a> using
-          <var>orientation</var>.
+          When the <dfn>lock()</dfn> method is invoked, the <a>user agent</a>
+          MUST run the <a>apply an orientation lock</a> steps to the
+          <a>responsible document</a> using <var>orientation</var>.
         </p>
         <p>
-          When the <dfn>unlock()</dfn> method is
-          invoked, the <a>user agent</a> MUST run the steps to <a>lock the
-          orientation</a> of the <a>responsible document</a> to the
-          <a>responsible document</a>'s <a>default orientation</a>.
+          When the <dfn>unlock()</dfn> method is invoked, the <a>user agent</a>
+          MUST run the steps to <a>lock the orientation</a> of the
+          <a>responsible document</a> to the <a>responsible document</a>'s
+          <a>default orientation</a>.
         </p>
         <p class='note'>
-          <a>unlock()</a>
-          does not return a promise because it is equivalent to locking to the
-          <a>default orientation</a> which might or might not be known by the
-          <a>user agent</a>. Hence, the <a>user agent</a> can not predict what
-          the new orientation is going to be and even if it is going to change
-          at all.
+          <a>unlock()</a> does not return a promise because it is equivalent to
+          locking to the <a>default orientation</a> which might or might not be
+          known by the <a>user agent</a>. Hence, the <a>user agent</a> can not
+          predict what the new orientation is going to be and even if it is
+          going to change at all.
         </p>
         <p>
-          When getting the <dfn>type</dfn> attribute,
-          the <a>user agent</a> MUST return the <a>responsible document</a>'s
-          <a>current orientation type</a>.
+          When getting the <dfn>type</dfn> attribute, the <a>user agent</a>
+          MUST return the <a>responsible document</a>'s <a>current orientation
+          type</a>.
         </p>
         <p>
-          When getting the <dfn>angle</dfn> attribute,
-          the <a>user agent</a> MUST return the <a>responsible document</a>'s
-          <a>current orientation angle</a>.
+          When getting the <dfn>angle</dfn> attribute, the <a>user agent</a>
+          MUST return the <a>responsible document</a>'s <a>current orientation
+          angle</a>.
         </p>
         <p>
-          The <dfn>onchange</dfn> attribute is an
-          <a>event handler</a> whose corresponding <a>event handler event type</a>
-          is <code>"change"</code>.
+          The <dfn>onchange</dfn> attribute is an <a>event handler</a> whose
+          corresponding <a>event handler event type</a> is
+          <code>"change"</code>.
         </p>
       </section>
       <section>
@@ -265,7 +264,8 @@
           };
         </pre>
       </section>
-      <section data-link-for="OrientationLockType" data-dfn-for="OrientationLockType">
+      <section data-link-for="OrientationLockType" data-dfn-for=
+      "OrientationLockType">
         <h2>
           <dfn>OrientationLockType</dfn> enum
         </h2>
@@ -294,8 +294,8 @@
       <p>
         Algorithms defined in this specification assume that for each
         <a>document</a> there is a <dfn>pending promise</dfn>, which is
-        initially set to <code>null</code>, which is a promise whose
-        associated operation is to lock the screen orientation.
+        initially set to <code>null</code>, which is a promise whose associated
+        operation is to lock the screen orientation.
       </p>
       <section data-dfn-for='OrientationType'>
         <h2>
@@ -340,8 +340,7 @@
         <ol>
           <li>If the screen width is greater than the screen height, set the
           <a>document</a>'s <a>current orientation type</a> to
-          <dfn>landscape-primary</dfn> or
-          <dfn>landscape-secondary</dfn>.
+          <dfn>landscape-primary</dfn> or <dfn>landscape-secondary</dfn>.
           </li>
           <li>Otherwise, if the screen width is less than or equal to the
           screen height, set the <a>document</a>'s <a>current orientation
@@ -446,10 +445,8 @@
           <li>Depending on <var>orientation</var> value, do the following:
             <dl>
               <dt>
-                <dfn>portrait-primary</dfn> or
-                <dfn>portrait-secondary</dfn> or
-                <dfn>landscape-primary</dfn> or
-                <dfn>landscape-secondary</dfn>
+                <dfn>portrait-primary</dfn> or <dfn>portrait-secondary</dfn> or
+                <dfn>landscape-primary</dfn> or <dfn>landscape-secondary</dfn>
               </dt>
               <dd>
                 Append <var>orientation</var> to <var>orientations</var>.
@@ -502,7 +499,7 @@
           <li>If locking the orientation did not result in a change of
           orientation, as part of the next <a>animation frame task</a>, resolve
           <var>pending-promise</var> with <code>undefined</code> and set <var>
-          pending-promise</var> to <code>null</code>.
+            pending-promise</var> to <code>null</code>.
           </li>
         </ol>
         <div class='note'>
@@ -634,10 +631,10 @@
                   </li>
                 </ol>
               </li>
-              <li>If the orientation change was triggered by a user gesture such
-              as the user turning the device, as opposed to a call to
-              <a>lock</a>, the <a>task</a> MUST be annotated with <code>process
-              user orientation change</code> when running the next step.
+              <li>If the orientation change was triggered by a user gesture
+              such as the user turning the device, as opposed to a call to <a>
+                lock</a>, the <a>task</a> MUST be annotated with <code>process
+                user orientation change</code> when running the next step.
               </li>
               <li>
                 <a>Fire an event</a> named <code>change</code> at
@@ -679,10 +676,9 @@
                 </ol>
               </li>
               <li>If the orientation change was triggered by a user gesture
-              such as the user turning the device, as opposed to a call to
-              <a>lock</a>, the <a>task</a> MUST be annotated with
-              <code>process user orientation change</code> when running the
-              next step.
+              such as the user turning the device, as opposed to a call to <a>
+                lock</a>, the <a>task</a> MUST be annotated with <code>process
+                user orientation change</code> when running the next step.
               </li>
               <li>
                 <a>Fire an event</a> named <code>change</code> at the
