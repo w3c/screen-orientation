@@ -4,7 +4,7 @@ Everyone is welcome to contribute to this specification.
 Any simple editorial contribution can simply be done with a pull request.
 You can even do an inline edit of the file on GitHub.
 
-For more substantial contributions that, please first start a thread in the
+For more substantial contributions, please first start a thread in the
 [webapps mailing list](http://lists.w3.org/Archives/Public/public-webapps/)  at
 the W3C.
 
