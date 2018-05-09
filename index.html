@@ -245,6 +245,19 @@
           MUST return the <a>responsible document</a>'s <a>current orientation
           angle</a>.
         </p>
+        <div class='note'>
+            <p><a>angle</a> indicates how far the user has turned the device
+            counterclockwise from the natural orientation. When the device is
+            rotated 90° counterclockwise, the screen compensates by
+            rotating 90° clockwise, so <a>angle</a> returns <code>90</code>.</p>
+
+            <p>If the device is rotated 90° clockwise from its natural
+            orientation, the screen compensates by rotating 90°
+            counterclockwise, so <a>angle</a> returns <code>270</code>.</p>
+
+            <p>The value returned by this property is always in the range 0-359.
+            It never returns negative values.</p>
+        </div>
         <p>
           The <dfn>onchange</dfn> attribute is an <a>event handler</a> whose
           corresponding <a>event handler event type</a> is
