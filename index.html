@@ -885,17 +885,15 @@
         Privacy and Security Considerations
       </h2>
 
+     
       <section>
-        <h2>Access to sensors on a user’s device</h2>
+        <h3>Access to aspects of a user’s local computing environment</h3>
         <p>
-          This specification does not allow an origin access to sensors on a user’s device directly, but information exposed by sensors (e.g., the screen orientation angle) can be accessed indirectly.
-        </p>
-      </section>
-
-      <section>
-        <h2>Access to aspects of a user’s local computing environment</h2>
-        <p>
-          The screen orientation type and angle of the device can be accessed with the API specified in this document, and can be a potential fingerprinting vector.
+          The screen orientation type and angle of the device can be accessed with the API specified in this document,
+          and can be a potential fingerprinting vector. However, using this information is very difficult compared to other fingerprinting information. 
+          Aggregating information derived from this API is not very helpful in fingerprinting. 
+          In particular the <a href="https://w3c.github.io/deviceorientation/spec-source-orientation.html">DeviceOrientation Event Specification</a> provides a far more detailed version of the same information. 
+          So in practice, this API's minimal fingerprinting potential is unlikely to be used by any competent attack.
         </p>
       </section>
     </section>
@@ -904,8 +902,7 @@
         Acknowledgments
       </h2>
       <p>
-        Thanks to Marcos Cáceres, Christophe Dumez, Anne van Kesteren and
-        Chundong Wang for their useful comments.
+        Thanks to Marcos Cáceres, Christophe Dumez, Anne van Kesteren, Chundong Wang, Fuqiao Xue, and Chaals McCathie Nevile for their useful comments.
       </p>
       <p>
         Special thanks to Chris Jones and Jonas Sicking for their contributions
