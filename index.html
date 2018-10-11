@@ -885,15 +885,12 @@
         Privacy and Security Considerations
       </h2>
 
-     
+
       <section>
         <h3>Access to aspects of a user’s local computing environment</h3>
         <p>
-          The screen orientation type and angle of the device can be accessed with the API specified in this document,
-          and can be a potential fingerprinting vector. However, using this information is very difficult compared to other fingerprinting information. 
-          Aggregating information derived from this API is not very helpful in fingerprinting. 
-          In particular the <a href="https://w3c.github.io/deviceorientation/spec-source-orientation.html">DeviceOrientation Event Specification</a> provides a far more detailed version of the same information. 
-          So in practice, this API's minimal fingerprinting potential is unlikely to be used by any competent attack.
+          The screen orientation type and angle of the device can be accessed with the API specified in this document, and can be a potential fingerprinting vector.
+          Information about screen orientation type can already be assessed by using the screen API to find out width and height. In practice, the additional information concerning the angle of the device and the primary or secondary screen orientation is unlikely to be used by any competent attack.
         </p>
       </section>
     </section>
