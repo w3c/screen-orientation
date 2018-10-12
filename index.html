@@ -901,13 +901,34 @@
 
 </pre>
     </section>
+    <section class='informative'>
+      <h2>
+        Privacy and Security Considerations
+      </h2>
+
+
+      <section>
+        <h3>Access to aspects of a user’s local computing environment</h3>
+        <p>
+          The screen orientation type and angle of the device can be accessed
+          with the API specified in this document, and can be a potential
+          fingerprinting vector.
+        </p>
+          The screen orientation type can already be known by using the
+          screen width and height. In practice, the additional information
+          provided with the API concerning the angle of the device and the
+          primary or secondary screen orientation is unlikely to be used by
+          any competent attack.
+        </p>
+      </section>
+    </section>
     <section class='appendix'>
       <h2>
         Acknowledgments
       </h2>
       <p>
-        Thanks to Marcos Cáceres, Christophe Dumez, Anne van Kesteren and
-        Chundong Wang for their useful comments.
+        Thanks to Marcos Cáceres, Christophe Dumez, Anne van Kesteren, Chundong
+        Wang, Fuqiao Xue, and Chaals McCathie Nevile for their useful comments.
       </p>
       <p>
         Special thanks to Chris Jones and Jonas Sicking for their contributions
