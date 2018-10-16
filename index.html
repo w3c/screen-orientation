@@ -680,8 +680,8 @@
           </li>
           <li>If <var>type</var> is different from the <a>document</a>'s
           <a>current orientation type</a> or <var>angle</var> from the
-          <a>document</a>'s <a>current orientation angle</a>, run the
-          following sub-steps:
+          <a>document</a>'s <a>current orientation angle</a>, run the following
+          sub-steps:
             <ol>
               <li>If the <a>document</a>'s <a>pending promise</a> is not <code>
                 null</code>:
@@ -825,22 +825,31 @@
           Interaction with Web Content Accessibility Guidelines
         </h2>
         <p>
-            The Web Content Accessibility Guidelines 2.1 specification [[WCAG21]] includes a Success Criterion (<a href="https://www.w3.org/TR/WCAG21/#orientation">SC 1.3.4</a>) related to screen orientation.
+          The Web Content Accessibility Guidelines 2.1 specification [[WCAG21]]
+          includes a Success Criterion (<a href=
+          "https://www.w3.org/TR/WCAG21/#orientation">SC 1.3.4</a>) related to
+          screen orientation.
         </p>
-
         <p>
-          ​The intent of this Success Criterion is to ensure that all
-          <a href="https://www.w3.org/TR/WCAG21/#dfn-essential">essential</a> content and functionality is available regardless of the display orientation (portrait or landscape). Some
-          websites and applications automatically set the screen to a particular display orientation and expect that users will respond
-          by rotating their device to match.
+          ​The intent of this Success Criterion is to ensure that all <a href=
+          "https://www.w3.org/TR/WCAG21/#dfn-essential">essential</a> content
+          and functionality is available regardless of the display orientation
+          (portrait or landscape). Some websites and applications automatically
+          set the screen to a particular display orientation and expect that
+          users will respond by rotating their device to match.
         </p>
-
         <p>
-          However, some users may have their devices mounted in a fixed orientation (e.g. on the arm of a power wheelchair). Therefore,
-          websites and applications need to support both orientations by making sure
-          <a href="https://www.w3.org/TR/WCAG21/#dfn-essential">essential</a> content and functionality is available in each orientation. While the order of content and method of functionality
-          may have differences the content and functionality must always be available. When a particular orientation is
-          <a href="https://www.w3.org/TR/WCAG21/#dfn-essential">essential</a>, the user needs to be advised of the orientation requirements.​
+          However, some users may have their devices mounted in a fixed
+          orientation (e.g. on the arm of a power wheelchair). Therefore,
+          websites and applications need to support both orientations by making
+          sure <a href=
+          "https://www.w3.org/TR/WCAG21/#dfn-essential">essential</a> content
+          and functionality is available in each orientation. While the order
+          of content and method of functionality may have differences the
+          content and functionality must always be available. When a particular
+          orientation is <a href=
+          "https://www.w3.org/TR/WCAG21/#dfn-essential">essential</a>, the user
+          needs to be advised of the orientation requirements.​
         </p>
       </section>
     </section>
@@ -923,21 +932,19 @@
       <h2>
         Privacy and Security Considerations
       </h2>
-
-
       <section>
-        <h3>Access to aspects of a user’s local computing environment</h3>
+        <h3>
+          Access to aspects of a user’s local computing environment
+        </h3>
         <p>
           The screen orientation type and angle of the device can be accessed
           with the API specified in this document, and can be a potential
           fingerprinting vector.
-        </p>
-          The screen orientation type can already be known by using the
-          screen width and height. In practice, the additional information
-          provided with the API concerning the angle of the device and the
-          primary or secondary screen orientation is unlikely to be used by
-          any competent attack.
-        </p>
+        </p>The screen orientation type can already be known by using the
+        screen width and height. In practice, the additional information
+        provided with the API concerning the angle of the device and the
+        primary or secondary screen orientation is unlikely to be used by any
+        competent attack.
       </section>
     </section>
     <section class='appendix'>
