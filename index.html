@@ -622,9 +622,7 @@
               </li>
               <li>
                 <a>Fire an event</a> named <code>change</code> at
-                <var>doc</var> 's <a href=
-                "#widl-Screen-orientation"><code>screen.orientation</code></a>
-                object.
+                <var>doc</var>'s <a>screen.orientation</a> object.
               </li>
             </ol>
           </li>
@@ -645,8 +643,8 @@
           </li>
           <li>If <var>type</var> is different from the <a>document</a>'s
           <a>current orientation type</a> or <var>angle</var> from the
-          <a>document</a> 's <a>current orientation angle</a>, run the
-          following sub-steps:
+          <a>document</a>'s <a>current orientation angle</a>, run the following
+          sub-steps:
             <ol>
               <li>If the <a>document</a>'s <a>pending promise</a> is not <code>
                 null</code>:
@@ -666,9 +664,7 @@
               </li>
               <li>
                 <a>Fire an event</a> named <code>change</code> at the
-                <a>document</a>'s <a href=
-                "#widl-Screen-orientation"><code>screen.orientation</code></a>
-                object.
+                <a>document</a>'s <a>screen.orientation</a> object.
               </li>
             </ol>
           </li>
@@ -680,10 +676,9 @@
         </p>
         <div class="note">
           <p>
-            Developers need to be aware that a <a href=
-            "#widl-Screen-orientation"><code>screen.orientation</code></a>
-            object from a <a>document</a> that is not visible, as per
-            [[!PAGE-VISIBILITY]], will not receive an orientation change event.
+            Developers need to be aware that a <a>screen.orientation</a> object
+            from a <a>document</a> that is not visible, as per
+            [[PAGE-VISIBILITY]], will not receive an orientation change event.
             This is to prevent unnecessary changes to layout, etc. in the
             non-visible web application.
           </p>
@@ -908,11 +903,14 @@
           The screen orientation type and angle of the device can be accessed
           with the API specified in this document, and can be a potential
           fingerprinting vector.
-        </p>The screen orientation type can already be known by using the
-        screen width and height. In practice, the additional information
-        provided with the API concerning the angle of the device and the
-        primary or secondary screen orientation is unlikely to be used by any
-        competent attack.
+        </p>
+        <p>
+          The screen orientation type can already be known by using the screen
+          width and height. In practice, the additional information provided
+          with the API concerning the angle of the device and the primary or
+          secondary screen orientation is unlikely to be used by any competent
+          attack.
+        </p>
       </section>
     </section>
     <section class='appendix'>
