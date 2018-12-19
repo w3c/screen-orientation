@@ -298,11 +298,37 @@
           the <a>current orientation angle</a> are strongly linked in the sense
           that for any given type, there will be a specific angle associated.
           However, the <a>user agent</a> can associate <code>*-primary</code>
-          and <code>*-secondary</code> values at will. For example, if
-          <code>90</code> is associated with <code>landscape-primary</code> and
-          <code>270</code> with <code>landscape-secondary</code> for one
-          <a>document</a> , another one MAY get the opposite relationship.
-        </p>
+          and <code>*-secondary</code> values at will. One primary orientation will 
+          always be determined by the natural orientation of the device and this will then 
+          determine the secondary value of its related orientation.   The decision whether the 
+          <a>document</a>'s <a>current orientation
+            type</a> should be set to <code>*-primary</code> or
+            <code>*-secondary</code> is up to the <a>user agent</a>. For example,
+            it can be based on the device preferred angles, the user's preferred
+            orientations or the current orientation when the application starts.
+          </p>
+          <p>
+          When a device is held in its natural orientation, its orientation is represented either 
+          by <dfn>landscape-primary</dfn> or <dfn>primary-portrait</dfn>.  It is up to the <a>user agent</a> 
+          to set the other primary orientation, which will be either <dfn>landscape-primary</dfn> at <a>angle</a> <code>90</code> or 
+          <code>270</code> or <dfn>primary-portrait</dfn> at <a>angle</a> <code>90</code> or <code>270</code>.  
+          When a device is turned 180° from its natural orientation, 
+          its orientation will be represented by the secondary value related to its natural orientation, 
+          either <dfn>landscape-secondary</dfn> or <dfn>secondary-portrait</dfn>.  The <a>user agent</a> sets 
+          the other secondary orientation, which will be <a>angle</a> <code>90</code> or <code>270</code> depending on what 
+          was set for the 
+          related primary orientation value. For example a phone held in its natural orientation would have a 
+          current orientation of <dfn>primary-portrait</dfn> and its <dfn>secondary-portrait</dfn> orientation would be its 
+          position when rotated 180°.   The <a>user agent</a> may determine that the phone’s <dfn>landscape-primary</dfn> 
+          orientation is at <a>angle</a> <code>270</code> (where the phone is rotated 90° clockwise).  In this case its 
+          <dfn>landscape-secondary</dfn> orientation is <a>angle</a> <code>90</code> (where the phone is rotated 90° counterclockwise).  
+          Another document MAY get the opposite relationship. 
+          </p>
+          <p>
+            However, a <a>user agent</a> MUST keep the <a>current orientation
+            type</a> and the <a>current orientation angle</a> relation consistent
+            for any given <a>document</a>.
+          </p>
         <div class='practice'>
           <span class='practicelab'>orientation.angle and orientation.type
           relationship</span>
@@ -338,16 +364,6 @@
           right, the <a>current orientation angle</a> would be 270 degrees.
           </li>
         </ol>
-        <p>
-          The decision whether the <a>document</a>'s <a>current orientation
-          type</a> should be set to <code>*-primary</code> or
-          <code>*-secondary</code> is up to the <a>user agent</a>. For example,
-          it can be based on the device preferred angles, the user's preferred
-          orientations or the current orientation when the application starts.
-          However, a <a>user agent</a> MUST keep the <a>current orientation
-          type</a> and the <a>current orientation angle</a> relation consistent
-          for any given <a>document</a>.
-        </p>
       </section>
       <section data-dfn-for='OrientationLockType'>
         <h2>
