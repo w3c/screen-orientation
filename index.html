@@ -291,48 +291,48 @@
           created, otherwise they MUST be initialized the first time they are
           accessed and before their value is read. The <a>user agent</a> MUST
           <a>update the orientation information</a> of the <a>document</a> to
-          initialize them.
+          initialize them. 
         </p>
         <p>
           For a given <a>document</a>, the <a>current orientation type</a> and
           the <a>current orientation angle</a> are strongly linked in the sense
           that for any given type, there will be a specific angle associated.
-          However, the <a>user agent</a> can associate <code>*-primary</code>
+          However, the <a>user agent</a> can associate certain <code>*-primary</code>
           and <code>*-secondary</code> values at will. One primary orientation
           will always be determined by the natural orientation of the device
           and this will then determine the secondary value of its related
-          orientation. The decision whether the <a>document</a>'s <a>current
-          orientation type</a> should be set to <code>*-primary</code> or
-          <code>*-secondary</code> is up to the <a>user agent</a>. For example,
-          it can be based on the device preferred angles, the user's preferred
+          orientation. For example a
+          phone held in its natural orientation would have a current
+          orientation of <a>portrait-primary</a> and its
+          <a>portrait-secondary</a> orientation would be its position when
+          rotated 180°. The decision on setting the other primary and secondary 
+          orientation is up to the <a>user agent</a>. For example, it can be 
+          based on the device preferred angles, the user's preferred
           orientations or the current orientation when the application starts.
         </p>
         <p>
           When a device is held in its natural orientation, its orientation is
-          represented either by <dfn>landscape-primary</dfn> or
-          <dfn>primary-portrait</dfn>. It is up to the <a>user agent</a> to set
-          the other primary orientation, which will be either
-          <dfn>landscape-primary</dfn> at <a>angle</a> <code>90</code> or
-          <code>270</code> or <dfn>primary-portrait</dfn> at <a>angle</a>
-          <code>90</code> or <code>270</code>. When a device is turned 180°
+          represented either by <a>landscape-primary</a> or
+          <a>portrait-primary</a>. When a device is turned 180°
           from its natural orientation, its orientation will be represented by
           the secondary value related to its natural orientation, either
-          <dfn>landscape-secondary</dfn> or <dfn>secondary-portrait</dfn>. The
-          <a>user agent</a> sets the other secondary orientation, which will be
+          <a>landscape-secondary</a> or <a>portrait-secondary</a>. The <a>user agent</a> sets
+          the other primary orientation, which will be either
+          <a>landscape-primary</a> at <a>angle</a> <code>90</code> or
+          <code>270</code> or <a>portrait-primary</a> at <a>angle</a>
+          <code>90</code> or <code>270</code>.  The
+          secondary orientation is set at
           <a>angle</a> <code>90</code> or <code>270</code> depending on what
-          was set for the related primary orientation value. For example a
-          phone held in its natural orientation would have a current
-          orientation of <dfn>primary-portrait</dfn> and its
-          <dfn>secondary-portrait</dfn> orientation would be its position when
-          rotated 180°. The <a>user agent</a> may determine that the phone’s
-          <dfn>landscape-primary</dfn> orientation is at <a>angle</a>
+          was set for the related primary orientation value.  In the case of the above phone example, 
+          the <a>user agent</a> may determine that the phone’s
+          <a>landscape-primary</a> orientation is at <a>angle</a>
           <code>270</code> (where the phone is rotated 90° clockwise). In this
-          case its <dfn>landscape-secondary</dfn> orientation is <a>angle</a>
+          case its landscape-secondary orientation is <a>angle</a>
           <code>90</code> (where the phone is rotated 90° counterclockwise).
           Another document MAY get the opposite relationship.
         </p>
         <p>
-          However, a <a>user agent</a> MUST keep the <a>current orientation
+          A <a>user agent</a> MUST keep the <a>current orientation
           type</a> and the <a>current orientation angle</a> relation consistent
           for any given <a>document</a>.
         </p>
