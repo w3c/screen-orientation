@@ -35,6 +35,7 @@
       caniuse: "screen-orientation",
     };
     </script>
+     <link rel="stylesheet" type="text/css" href="styles.css">
   </head>
   <body>
     <section id='abstract'>
@@ -310,6 +311,35 @@
           angles, the user's preferred orientations or the current orientation
           when the application starts.
         </p>
+        <table>
+          <thead>
+            <tr>
+              <th>Natural Orientation</th>
+              <th>Primary Orientation 1</th>
+              <th>Secondary Orientation 1</th>
+              <th>Primary Orientation 2</th>
+              <th>Secondary Orientation 2</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Portrait</td>
+              <td>Portrait-primary<br><a>Angle</a> <code>0</code></td>
+              <td>Portrait-secondary<br><a>Angle</a> <code>180</code></td>
+              <td>Landscape-primary<br><a>User agent</a> to set at either
+                <a>Angle</a> <code>90</code> or <a>Angle</a> <code>270</code></td>
+              <td>Landscape-secondary<br>Set at the angle not used for landscape-primary</td>
+            </tr>
+            <tr>
+              <td>Landscape</td>
+              <td>Landscape-primary<br><a>Angle</a> <code>0</code></td>
+              <td>Landscape-secondary<br><a>Angle</a> <code>180</code></td>
+              <td>Portrait-primary<br><a>User agent</a> to set at either
+                <a>Angle</a> <code>90</code> or <a>Angle</a> <code>270</code></td>
+              <td>Portrait-secondary<br>Set at the angle not used for portrait-primary</td>
+            </tr>
+          </tbody>
+        </table>
         <p>
           When a device is held in its natural orientation, its orientation is
           represented either by <a>landscape-primary</a> or

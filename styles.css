@@ -1,0 +1,22 @@
+/* spacing */
+
+table {
+    table-layout: fixed;
+    width: 100%;
+    border-collapse: collapse;
+    border: 2px solid;
+    margin:20px;
+  }
+
+  th {
+      width: 20%;
+      border: 2px solid;
+  }
+
+  td {
+      border: 1px solid;
+  }
+
+  th, td {
+      padding: 10px;
+  }
