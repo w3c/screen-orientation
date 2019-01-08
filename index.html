@@ -281,7 +281,7 @@
         initially set to <code>null</code>, which is a promise whose associated
         operation is to lock the screen orientation.
       </p>
-      <section data-dfn-for='OrientationType'>
+      <section data-dfn-for='OrientationType' data-link-for="OrientationType">
         <h2>
           Reading the screen orientation
         </h2>
@@ -316,7 +316,13 @@
           based on the device preferred angles, the user's preferred
           orientations or the current orientation when the application starts.
         </p>
-        <table>
+        <p>
+          The <a>screen orientation values table</a> presents the primary and secondary values 
+          that are determined by the device's natural orientation and the possibilities 
+          available to the <a>user agent</a> for setting the other primary and secondary orientation values.
+        </p>
+        <caption>The<dfn>screen orientation values table</dfn></caption>
+        <table data-link-for="OrientationType">
           <thead>
             <tr>
               <th>
@@ -342,20 +348,20 @@
                 Portrait
               </td>
               <td>
-                Portrait-primary<br>
-                <a>Angle</a> <code>0</code>
+                <a>portrait-primary</a><br>
+                <a data-link-for="ScreenOrientation">Angle</a> <code>0</code>
               </td>
               <td>
-                Portrait-secondary<br>
-                <a>Angle</a> <code>180</code>
+                <a>portrait-secondary</a><br>
+                <a data-link-for="ScreenOrientation">Angle</a> <code>180</code>
               </td>
               <td>
-                Landscape-primary<br>
-                <a>User agent</a> to set at either <a>Angle</a> <code>90</code>
-                or <a>Angle</a> <code>270</code>
+                <a>landscape-primary</a><br>
+                <a>User agent</a> to set at either <a data-link-for="ScreenOrientation">Angle</a> <code>90</code>
+                or <a data-link-for="ScreenOrientation">Angle</a> <code>270</code>
               </td>
               <td>
-                Landscape-secondary<br>
+                <a>landscape-secondary</a><br>
                 Set at the angle not used for landscape-primary
               </td>
             </tr>
@@ -364,29 +370,30 @@
                 Landscape
               </td>
               <td>
-                Landscape-primary<br>
-                <a>Angle</a> <code>0</code>
+                <a>landscape-primary</a><br>
+                <a data-link-for="ScreenOrientation">Angle</a> <code>0</code>
               </td>
               <td>
-                Landscape-secondary<br>
-                <a>Angle</a> <code>180</code>
+                <a>landscape-secondary</a><br>
+                <a data-link-for="ScreenOrientation">Angle</a> <code>180</code>
               </td>
               <td>
-                Portrait-primary<br>
-                <a>User agent</a> to set at either <a>Angle</a> <code>90</code>
-                or <a>Angle</a> <code>270</code>
+                <a>portrait-primary</a><br>
+                <a>User agent</a> to set at either <a data-link-for="ScreenOrientation">Angle</a> <code>90</code>
+                or <a data-link-for="ScreenOrientation">Angle</a> <code>270</code>
               </td>
               <td>
-                Portrait-secondary<br>
+                <a>portrait-secondary</a><br>
                 Set at the angle not used for portrait-primary
               </td>
             </tr>
           </tbody>
         </table>
         <p>
-          A <a>user agent</a> MUST keep the <a>current orientation type</a> and
-          the <a>current orientation angle</a> relation consistent for any
-          given <a>document</a>.
+          Once the <a>user agent</a> has set the primary and secondary values from the options in the <a>screen orientation values table</a>, 
+          the <a>current orientation type</a> and
+          the <a>current orientation angle</a> relation MUST be kept consistent for any
+          given <a>document</a>. 
         </p>
         <div class='practice'>
           <span class='practicelab'>orientation.angle and orientation.type
