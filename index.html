@@ -42,21 +42,21 @@
     border-collapse: collapse;
     border: 2px solid;
     margin:20px;
-  }
+    }
 
-  th {
+    th {
       width: 20%;
       border: 2px solid;
-  }
+    }
 
-  td {
+    td {
       border: 1px solid;
-  }
+    }
 
-  th, td {
+    th, td {
       padding: 10px;
-  }
-  </style>
+    }
+    </style>
   </head>
   <body>
     <section id='abstract'>
@@ -338,11 +338,16 @@
           orientations or the current orientation when the application starts.
         </p>
         <p>
-          The <a>screen orientation values table</a> presents the primary and secondary values 
-          that are determined by the device's natural orientation and the possibilities 
-          available to the <a>user agent</a> for setting the other primary and secondary orientation values.
+          The <a>screen orientation values table</a> presents the primary and
+          secondary values that are determined by the device's natural
+          orientation and the possibilities available to the <a>user agent</a>
+          for setting the other primary and secondary orientation values.
         </p>
-        <caption>The<dfn>screen orientation values table</dfn></caption>
+        <table>
+          <caption>
+            The <dfn>screen orientation values table</dfn>
+          </caption>
+        </table>
         <table data-link-for="OrientationType">
           <thead>
             <tr>
@@ -378,8 +383,9 @@
               </td>
               <td>
                 <a>landscape-primary</a><br>
-                <a>User agent</a> to set at either <a data-link-for="ScreenOrientation">Angle</a> <code>90</code>
-                or <a data-link-for="ScreenOrientation">Angle</a> <code>270</code>
+                <a>User agent</a> to set at either <a data-link-for=
+                "ScreenOrientation">Angle</a> <code>90</code> or
+                <a data-link-for="ScreenOrientation">Angle</a> <code>270</code>
               </td>
               <td>
                 <a>landscape-secondary</a><br>
@@ -400,8 +406,9 @@
               </td>
               <td>
                 <a>portrait-primary</a><br>
-                <a>User agent</a> to set at either <a data-link-for="ScreenOrientation">Angle</a> <code>90</code>
-                or <a data-link-for="ScreenOrientation">Angle</a> <code>270</code>
+                <a>User agent</a> to set at either <a data-link-for=
+                "ScreenOrientation">Angle</a> <code>90</code> or
+                <a data-link-for="ScreenOrientation">Angle</a> <code>270</code>
               </td>
               <td>
                 <a>portrait-secondary</a><br>
@@ -411,10 +418,11 @@
           </tbody>
         </table>
         <p>
-          Once the <a>user agent</a> has set the primary and secondary values from the options in the <a>screen orientation values table</a>, 
-          the <a>current orientation type</a> and
-          the <a>current orientation angle</a> relation MUST be kept consistent for any
-          given <a>document</a>. 
+          Once the <a>user agent</a> has set the primary and secondary values
+          from the options in the <a>screen orientation values table</a>, the
+          <a>current orientation type</a> and the <a>current orientation
+          angle</a> relation MUST be kept consistent for any given
+          <a>document</a>.
         </p>
         <div class='practice'>
           <span class='practicelab'>orientation.angle and orientation.type
