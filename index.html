@@ -149,12 +149,15 @@
         This should be updated when <a>animation frame task</a> gets defined.
       </div>
     </section>
-    <section>
+    <section data-dfn-for='Screen'>
       <h2>
         Extensions to the <a>Screen</a> interface
-      </h2>The <a data-cite="CSSOM-View">CSSOM View Module</a> specification
-      defines a <code>Screen</code> interface, which this specification
+      </h2>
+      <p>
+      The <a data-cite="CSSOM-View">CSSOM View Module</a> specification
+      defines the <code><dfn data-cite="CSSOM-View#screen">Screen</dfn></code> interface, which this specification
       extends:
+      </p>
       <pre class='idl'>
           partial interface Screen {
             [SameObject] readonly attribute ScreenOrientation orientation;
@@ -162,11 +165,11 @@
         </pre>
       <section>
         <h2>
-          <dfn data-dfn-for='Screen'>orientation</dfn> attribute
+          <dfn>orientation</dfn> attribute
         </h2>
         <p>
-          The <a>orientation</a> attribute is an instance of
-          <a>ScreenOrientation</a>, which is described below.
+          The <a  data-link-for="Screen">orientation</a> attribute is an instance of
+          <a>ScreenOrientation</a>.
         </p>
       </section>
     </section>
@@ -296,7 +299,7 @@
         Concepts
       </h2>
       <p>
-        The term <dfn>screen</dfn> is equivalent to the screen of the output
+        The term <a>screen</a> is equivalent to the screen of the output
         device associated to the <a>Window</a>, as per [[!CSSOM-VIEW]].
       </p>
       <p>
