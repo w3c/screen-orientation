@@ -35,14 +35,35 @@
       caniuse: "screen-orientation",
     };
     </script>
+    <style>
+    table {
+    table-layout: fixed;
+    width: 100%;
+    border-collapse: collapse;
+    border: 2px solid;
+    margin:20px;
+    }
+
+    th {
+      width: 20%;
+      border: 2px solid;
+    }
+
+    td {
+      border: 1px solid;
+    }
+
+    th, td {
+      padding: 10px;
+    }
+    </style>
   </head>
   <body>
     <section id='abstract'>
       <p>
         The <cite>Screen Orientation API</cite> provides the ability to read
         the screen orientation type and angle, to be informed when the screen
-        orientation state changes, and be able to lock the screen orientation
-        to a specific state.
+        orientation changes, and to lock the screen to a specific orientation.
       </p>
     </section>
     <section id='sotd'>
@@ -50,43 +71,38 @@
         This document is a work in progress.
       </p>
     </section>
-    <section id='conformance'>
-      <p>
-        This specification defines conformance criteria that apply to a single
-        product: the <dfn>user agent</dfn> that implements the interfaces that
-        it contains.
-      </p>
-      <p>
-        Implementations that use ECMAScript to expose the APIs defined in this
-        specification MUST implement them in a manner consistent with the
-        ECMAScript Bindings defined in the Web IDL specification [[!WEBIDL]].
-      </p>
-    </section>
-    <section>
+    <section data-dfn-for='Screen'>
       <h2>
-        Interface definitions
+        Extensions to the <a>Screen</a> interface
+
       </h2>
-      <section>
-        <h2>
-          Extensions to the <a>Screen</a> interface
-        </h2>The CSSOM View specification defines a <code>Screen</code>
-        interface [[!CSSOM-VIEW]], which this specification extends:
-        <pre class='idl'>
+      <p>
+        The <a data-cite="CSSOM-View">CSSOM View Module</a> specification
+        defines the <code><dfn data-cite=
+        "CSSOM-View#screen">Screen</dfn></code> interface, which this
+        specification extends:
+      </p>
+      <pre class='idl'>
           partial interface Screen {
             [SameObject] readonly attribute ScreenOrientation orientation;
           };
         </pre>
+      <section>
+        <h2>
+          <dfn>orientation</dfn> attribute
+        </h2>
         <p>
-          The <dfn data-dfn-for='Screen'>orientation</dfn> object is an
-          instance of <a>ScreenOrientation</a>, which is described below.
+          The <a data-link-for="Screen">orientation</a> attribute is an
+          instance of <a>ScreenOrientation</a>.
         </p>
       </section>
-      <section data-dfn-for='ScreenOrientation' data-link-for=
-      'ScreenOrientation'>
-        <h2>
-          <dfn>ScreenOrientation</dfn> interface
-        </h2>
-        <pre class='idl'>
+    </section>
+    <section data-dfn-for='ScreenOrientation' data-link-for=
+    'ScreenOrientation'>
+      <h2>
+        <dfn>ScreenOrientation</dfn> interface
+      </h2>
+      <pre class='idl'>
           [Exposed=Window]
           interface ScreenOrientation : EventTarget {
             Promise&lt;void&gt; lock(OrientationLockType orientation);
@@ -96,13 +112,22 @@
             attribute EventHandler onchange;
           };
         </pre>
+      <section>
+        <h2>
+          <dfn>lock()</dfn> method
+        </h2>
         <p>
-          When the <dfn>lock()</dfn> method is invoked, the <a>user agent</a>
-          MUST run the <a>apply an orientation lock</a> steps to the
-          <a>responsible document</a> using <var>orientation</var>.
+          When the <a>lock()</a> method is invoked, the <a>user agent</a> MUST
+          run the <a>apply an orientation lock</a> steps to the <a>responsible
+          document</a> using <var>orientation</var>.
         </p>
+      </section>
+      <section>
+        <h2>
+          <dfn>unlock()</dfn> method
+        </h2>
         <p>
-          When the <dfn>unlock()</dfn> method is invoked, the <a>user agent</a>
+          When the <a>unlock()</a> method is invoked, the <a>user agent</a>
           MUST run the steps to <a>lock the orientation</a> of the
           <a>responsible document</a> to the <a>responsible document</a>'s
           <a>default orientation</a>.
@@ -114,14 +139,24 @@
           predict what the new orientation is going to be and even if it is
           going to change at all.
         </p>
+      </section>
+      <section>
+        <h2>
+          <dfn>type</dfn> attribute
+        </h2>
         <p>
-          When getting the <dfn>type</dfn> attribute, the <a>user agent</a>
-          MUST return the <a>responsible document</a>'s <a>current orientation
+          When getting the <a>type</a> attribute, the <a>user agent</a> MUST
+          return the <a>responsible document</a>'s <a>current orientation
           type</a>.
         </p>
+      </section>
+      <section>
+        <h2>
+          <dfn>angle</dfn> attribute
+        </h2>
         <p>
-          When getting the <dfn>angle</dfn> attribute, the <a>user agent</a>
-          MUST return the <a>responsible document</a>'s <a>current orientation
+          When getting the <a>angle</a> attribute, the <a>user agent</a> MUST
+          return the <a>responsible document</a>'s <a>current orientation
           angle</a>.
         </p>
         <div class='note'>
@@ -141,17 +176,22 @@
             It never returns negative values.
           </p>
         </div>
-        <p>
-          The <dfn>onchange</dfn> attribute is an <a>event handler</a> whose
-          corresponding <a>event handler event type</a> is
-          <code>"change"</code>.
-        </p>
       </section>
       <section>
         <h2>
-          <dfn>OrientationType</dfn> enum
+          <dfn>onchange</dfn> attribute
         </h2>
-        <pre class='idl'>
+      </section>
+      <p>
+        The <a>onchange</a> attribute is an <a>event handler</a> whose
+        corresponding <a>event handler event type</a> is <code>"change"</code>.
+      </p>
+    </section>
+    <section>
+      <h2>
+        <dfn>OrientationType</dfn> enum
+      </h2>
+      <pre class='idl'>
           enum OrientationType {
             "portrait-primary",
             "portrait-secondary",
@@ -159,13 +199,13 @@
             "landscape-secondary"
           };
         </pre>
-      </section>
-      <section data-link-for="OrientationLockType" data-dfn-for=
-      "OrientationLockType">
-        <h2>
-          <dfn>OrientationLockType</dfn> enum
-        </h2>
-        <pre class='idl'>
+    </section>
+    <section data-link-for="OrientationLockType" data-dfn-for=
+    "OrientationLockType">
+      <h2>
+        <dfn>OrientationLockType</dfn> enum
+      </h2>
+      <pre class='idl'>
           enum OrientationLockType {
             "any",
             "natural",
@@ -177,15 +217,15 @@
             "landscape-secondary"
           };
         </pre>
-      </section>
     </section>
     <section>
       <h2>
         Concepts
       </h2>
       <p>
-        The term <dfn>screen</dfn> is equivalent to the screen of the output
-        device associated to the <a>Window</a>, as per [[!CSSOM-VIEW]].
+        The term <dfn data-lt="screen concept" data-lt-nodefault=
+        "">screen</dfn> is equivalent to the screen of the output device
+        associated to the <a>Window</a>, as per [[CSSOM-VIEW]].
       </p>
       <p>
         Algorithms defined in this specification assume that for each
@@ -193,7 +233,7 @@
         initially set to <code>null</code>, which is a promise whose associated
         operation is to lock the screen orientation.
       </p>
-      <section data-dfn-for='OrientationType'>
+      <section data-dfn-for='OrientationType' data-link-for="OrientationType">
         <h2>
           Reading the screen orientation
         </h2>
@@ -210,11 +250,110 @@
           For a given <a>document</a>, the <a>current orientation type</a> and
           the <a>current orientation angle</a> are strongly linked in the sense
           that for any given type, there will be a specific angle associated.
-          However, the <a>user agent</a> can associate <code>*-primary</code>
-          and <code>*-secondary</code> values at will. For example, if
-          <code>90</code> is associated with <code>landscape-primary</code> and
-          <code>270</code> with <code>landscape-secondary</code> for one
-          <a>document</a> , another one MAY get the opposite relationship.
+        </p>
+        <p>
+          One primary orientation will always be determined by the natural
+          orientation of the device and this will then determine the secondary
+          value of its related orientation.
+        </p>
+        <p>
+          For example a device held in its natural portrait orientation would
+          have a current orientation of <a>portrait-primary</a> and its
+          <a>portrait-secondary</a> orientation would be its position when
+          rotated 180°.
+        </p>
+        <p>
+          The <a>user agent</a> can associate the other <code>*-primary</code>
+          and <code>*-secondary</code> values at will. For example, it can be
+          based on the device preferred angles, the user's preferred
+          orientations or the current orientation when the application starts.
+        </p>
+        <p>
+          The <a>screen orientation values table</a> presents the primary and
+          secondary values that are determined by the device's natural
+          orientation and the possibilities available to the <a>user agent</a>
+          for setting the other primary and secondary orientation values.
+        </p>
+        <table>
+          <caption>
+            The <dfn>screen orientation values table</dfn>
+          </caption>
+        </table>
+        <table data-link-for="OrientationType">
+          <thead>
+            <tr>
+              <th>
+                Natural Orientation
+              </th>
+              <th>
+                Primary Orientation 1
+              </th>
+              <th>
+                Secondary Orientation 1
+              </th>
+              <th>
+                Primary Orientation 2
+              </th>
+              <th>
+                Secondary Orientation 2
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                Portrait
+              </td>
+              <td>
+                <a>portrait-primary</a><br>
+                <a data-link-for="ScreenOrientation">Angle</a> <code>0</code>
+              </td>
+              <td>
+                <a>portrait-secondary</a><br>
+                <a data-link-for="ScreenOrientation">Angle</a> <code>180</code>
+              </td>
+              <td>
+                <a>landscape-primary</a><br>
+                <a>User agent</a> to set at either <a data-link-for=
+                "ScreenOrientation">Angle</a> <code>90</code> or
+                <a data-link-for="ScreenOrientation">Angle</a> <code>270</code>
+              </td>
+              <td>
+                <a>landscape-secondary</a><br>
+                Set at the angle not used for landscape-primary
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Landscape
+              </td>
+              <td>
+                <a>landscape-primary</a><br>
+                <a data-link-for="ScreenOrientation">Angle</a> <code>0</code>
+              </td>
+              <td>
+                <a>landscape-secondary</a><br>
+                <a data-link-for="ScreenOrientation">Angle</a> <code>180</code>
+              </td>
+              <td>
+                <a>portrait-primary</a><br>
+                <a>User agent</a> to set at either <a data-link-for=
+                "ScreenOrientation">Angle</a> <code>90</code> or
+                <a data-link-for="ScreenOrientation">Angle</a> <code>270</code>
+              </td>
+              <td>
+                <a>portrait-secondary</a><br>
+                Set at the angle not used for portrait-primary
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          Once the <a>user agent</a> has set the primary and secondary values
+          from the options in the <a>screen orientation values table</a>, the
+          <a>current orientation type</a> and the <a>current orientation
+          angle</a> relation MUST be kept consistent for any given
+          <a>document</a>.
         </p>
         <div class='practice'>
           <span class='practicelab'>orientation.angle and orientation.type
@@ -251,16 +390,6 @@
           right, the <a>current orientation angle</a> would be 270 degrees.
           </li>
         </ol>
-        <p>
-          The decision whether the <a>document</a>'s <a>current orientation
-          type</a> should be set to <code>*-primary</code> or
-          <code>*-secondary</code> is up to the <a>user agent</a>. For example,
-          it can be based on the device preferred angles, the user's preferred
-          orientations or the current orientation when the application starts.
-          However, a <a>user agent</a> MUST keep the <a>current orientation
-          type</a> and the <a>current orientation angle</a> relation consistent
-          for any given <a>document</a>.
-        </p>
       </section>
       <section data-dfn-for='OrientationLockType'>
         <h2>
@@ -878,6 +1007,13 @@
         This should now be updated since the <a>animation frame task</a> issue
         is recently resolved and the timing is now defined.
       </div>
+    </section>
+    <section id='conformance'>
+      <p>
+        This specification defines conformance criteria that apply to a single
+        product: the <dfn>user agent</dfn> that implements the interfaces that
+        it contains.
+      </p>
     </section>
     <section class='appendix'>
       <h2>
