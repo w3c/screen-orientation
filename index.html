@@ -374,7 +374,7 @@
         </h2>
         <p>
           The <a>user agent</a> MAY require a <a>document</a> and its
-          associated <a>browsing context</a> to meet one or more <dfn>security
+          associated <a>browsing context</a> to meet one or more <dfn data-lt="security condition">security
           conditions</dfn> in order to be able to lock the screen orientation.
           For example, a <a>user agent</a> might require a <a>document</a>'s
           <a>top-level browsing context</a> to be fullscreen (see <a href=
@@ -408,11 +408,11 @@
           orientations to which the screen orientation is locked when it is not
           explicitly locked by this API or any other means.
         </p>
-        <p>
+        <p data-link-for="OrientationLockType">
           For the perspective of a <a>document</a>, locking to the <a>default
           orientation</a> is equivalent to unlocking because it means that it
           no longer has a lock applied. However, it does not mean that the
-          <a>default orientation</a> has to be <code>any</code>.
+          <a>default orientation</a> has to be <a>any</a>.
         </p>
       </section>
     </section>
@@ -429,10 +429,10 @@
           Interaction with Fullscreen API
         </h2>
         <p>
-          As a <a data-lt="security conditions">security condition</a>, a user
+          As a <a>security condition</a>, a user
           agent MAY restrict locking the screen orientation exclusively to when
           the <a>top-level browsing context</a>'s <a>document</a>'s
-          <a>fullscreen element</a> is not null. When that security condition
+          <a>fullscreen element</a> is not null. When that <a>security condition</a>
           applies, whenever the <a>document</a>'s <a>fullscreen element</a> is
           empty and a screen orientation lock is applied, the <a>user agent</a>
           MUST <a>lock the orientation</a> of the <a>document</a> to the
@@ -478,7 +478,7 @@
           Interaction with Web Application Manifest
         </h2>
         <p>
-          The Web Application Manifest specification [[appmanifest]] allows web
+          The <a data-cite="appmanifest"></a>Web Application Manifest</a> specification allows web
           applications to set the <a>document</a>'s <a>default orientation</a>.
         </p>
       </section>
@@ -487,7 +487,7 @@
           Interaction with CSS Device Adaptation
         </h2>
         <p>
-          The CSS Device Adaptation specification [[CSS-ADAPTATION]] defines,
+          The <a data-cite="CSS-ADAPTATION"> Device Adaptation</a> specification defines,
           independently of this document, a way to lock the screen orientation
           for a web page using CSS.
         </p>
@@ -497,14 +497,13 @@
           Interaction with Web Content Accessibility Guidelines
         </h2>
         <p>
-          The Web Content Accessibility Guidelines 2.1 specification [[WCAG21]]
-          includes a Success Criterion (<a href=
-          "https://www.w3.org/TR/WCAG21/#orientation">SC 1.3.4</a>) related to
+          The <a data-cite="WCAG21">Web Content Accessibility Guidelines</a>
+          includes a Success Criterion (<a data-cite="WCAG21#orientation">Success Criterion Orientation</a>) related to
           screen orientation.
         </p>
         <p>
-          ​The intent of this Success Criterion is to ensure that all <a href=
-          "https://www.w3.org/TR/WCAG21/#dfn-essential">essential</a> content
+          ​The intent of this Success Criterion is to ensure that all <a data-cite=
+          "WCAG21#dfn-essential">essential</a> content
           and functionality is available regardless of the display orientation
           (portrait or landscape). Some websites and applications automatically
           set the screen to a particular display orientation and expect that
@@ -514,13 +513,11 @@
           However, some users may have their devices mounted in a fixed
           orientation (e.g. on the arm of a power wheelchair). Therefore,
           websites and applications need to support both orientations by making
-          sure <a href=
-          "https://www.w3.org/TR/WCAG21/#dfn-essential">essential</a> content
+          sure <a data-cite="WCAG21#dfn-essential">essential</a> content
           and functionality is available in each orientation. While the order
           of content and method of functionality may have differences the
           content and functionality must always be available. When a particular
-          orientation is <a href=
-          "https://www.w3.org/TR/WCAG21/#dfn-essential">essential</a>, the user
+          orientation is <a data-cite="WCAG21#dfn-essential">essential</a>, the user
           needs to be advised of the orientation requirements.​
         </p>
       </section>
@@ -533,7 +530,7 @@
         This example shows the current screen orientation to the console every
         time the screen orientation state changes.
       </p>
-      <pre class='example highlight'>
+      <pre class='example html'>
 &lt;script&gt;
   var show = function() {
      console.log("Orientation type is " + screen.orientation.type);
@@ -558,7 +555,7 @@
         This example waits to be fullscreen before locking the screen
         orientation and starting.
       </p>
-      <pre class='example highlight'>
+      <pre class='example html'>
 &lt;script&gt;
   var start = function() {
     document.onfullscreenchange = function() {
@@ -576,7 +573,7 @@
         This example asks the user to manually rotate the device if the Screen
         Orientation API is not available.
       </p>
-      <pre class='example highlight'>
+      <pre class='example js'>
 &lt;script&gt;
   var start = function() {
     screen.orientation.lock('landscape-primary').then(
@@ -746,8 +743,7 @@
         <div class='note'>
           If locking the orientation results in an orientation change, the
           promise will be resolved when the orientation will change as
-          described in the <a href=
-          '#screen-orientation-change-algorithm'>Screen orientation change
+          described in the <a>Screen orientation change
           algorithm</a>.
         </div>
         <p>
@@ -838,7 +834,7 @@
       </section>
       <section data-link-for='ScreenOrientation'>
         <h2>
-          Screen orientation change algorithm
+          <dfn>Screen orientation change algorithm</dfn>
         </h2>
         <p>
           Whenever the viewport's angle changes, the <a>user agent</a> MUST run
