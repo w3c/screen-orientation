@@ -72,28 +72,47 @@
       </p>
     </section>
     <section class="informative">
-      <h2>Introduction</h2>
+      <h2>
+        Introduction
+      </h2>
       <p>
-          The Screen Orientation API allows web applications that would be negatively impacted by users changing the orientation of their device to block any changes.  It also provides the current screen orientation and any orientation changes so all web applications can display correctly.
+        The Screen Orientation API allows web applications that would be
+        negatively impacted by users changing the orientation of their device
+        to block any changes. It also provides the current screen orientation
+        and any orientation changes so all web applications can display
+        correctly.
       </p>
       <p>
-          This specification describes how the API:
-        </p>
-          <ul>
-          <li>provides the current screen orientation type and angle of a device as defined in the <a>updating orientation algorithm</a>.</li>
-          <li>updates the screen orientation when the viewport angle changes according to the <a>screen orientation change algorithm</a>.</li>
-          <li>locks the screen to a specific orientation following the <a>locking orientation algorithm</a>.</li>
-          <li>unlocks the locked screen to the default orientation as described in the <a data-link-for="ScreenOrientation">unlock()</a> method.</li>
-        </ul>
-   
+        This specification describes how the API:
+      </p>
+      <ul>
+        <li>provides the current screen orientation type and angle of a device
+        as defined in the <a>updating orientation algorithm</a>.
+        </li>
+        <li>updates the screen orientation when the viewport angle changes
+        according to the <a>screen orientation change algorithm</a>.
+        </li>
+        <li>locks the screen to a specific orientation following the <a>locking
+        orientation algorithm</a>.
+        </li>
+        <li>unlocks the locked screen to the default orientation as described
+        in the <a data-link-for="ScreenOrientation">unlock()</a> method.
+        </li>
+      </ul>
       <section>
         <h2>
           Goals
         </h2>
-          <ul>
-         <li> Allow a web application to have control over screen orientation where needed.</li>
-          <li>Support a better user experience by giving information on screen orientation changes so web applications can update correspondingly.</li>
-          <li>Provide a simple way for users to understand how to hold their device for a specific web application.</li>
+        <ul>
+          <li>Allow a web application to have control over screen orientation
+          where needed.
+          </li>
+          <li>Support a better user experience by giving information on screen
+          orientation changes so web applications can update correspondingly.
+          </li>
+          <li>Provide a simple way for users to understand how to hold their
+          device for a specific web application.
+          </li>
         </ul>
       </section>
     </section>
@@ -631,9 +650,7 @@
       </h2>
       <section data-dfn-for="OrientationType">
         <h2>
-          <dfn>
-          Updating orientation algorithm
-        </dfn>
+          <dfn>Updating orientation algorithm</dfn>
         </h2>
         <p>
           The steps to <dfn>update the orientation information</dfn> of a
@@ -660,9 +677,7 @@
       </section>
       <section data-dfn-for="OrientationLockType">
         <h2>
-          <dfn>
-          Locking orientation algorithm
-        </dfn>
+          <dfn>Locking orientation algorithm</dfn>
         </h2>
         <p>
           The steps to <dfn>apply an orientation lock</dfn> to a
