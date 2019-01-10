@@ -367,28 +367,6 @@
             check during runtime the relationship between angle and type.
           </p>
         </div>
-        <p>
-          The steps to <dfn>update the orientation information</dfn> of a
-          <a>document</a> are as follows:
-        </p>
-        <ol>
-          <li>If the screen width is greater than the screen height, set the
-          <a>document</a>'s <a>current orientation type</a> to
-          <dfn>landscape-primary</dfn> or <dfn>landscape-secondary</dfn>.
-          </li>
-          <li>Otherwise, if the screen width is less than or equal to the
-          screen height, set the <a>document</a>'s <a>current orientation
-          type</a> to <dfn>portrait-primary</dfn> or
-          <dfn>portrait-secondary</dfn>.
-          </li>
-          <li>Set the <a>document</a>'s <a>current orientation angle</a> to the
-          clockwise angle in degrees between the orientation of the viewport as
-          it is drawn and the natural orientation of the device (i.e., the top
-          of the physical screen). This is the opposite of the physical
-          rotation. In other words, if a device is turned 90 degrees on the
-          right, the <a>current orientation angle</a> would be 270 degrees.
-          </li>
-        </ol>
       </section>
       <section data-dfn-for='OrientationLockType'>
         <h2>
@@ -420,6 +398,242 @@
           lock that applies on its <a>top-level browsing context</a>. An
           orientation lock is an unordered set of <a>OrientationType</a>.
         </p>
+      </section>
+      <section>
+        <h2>
+          Default orientation
+        </h2>
+        <p>
+          A <a>document</a>'s <dfn>default orientation</dfn> is the set of
+          orientations to which the screen orientation is locked when it is not
+          explicitly locked by this API or any other means.
+        </p>
+        <p data-link-for="OrientationLockType">
+          For the perspective of a <a>document</a>, locking to the <a>default
+          orientation</a> is equivalent to unlocking because it means that it
+          no longer has a lock applied. However, it does not mean that the
+          <a>default orientation</a> has to be <a>any</a>.
+        </p>
+      </section>
+    </section>
+    <section>
+      <h2>
+        Interactions with other specifications
+      </h2>
+      <p>
+        This section explains how this specification interacts with other
+        related specifications of the platform.
+      </p>
+      <section>
+        <h2>
+          Interaction with Fullscreen API
+        </h2>
+        <p>
+          As a <a>security condition</a>, a user agent MAY restrict locking the
+          screen orientation exclusively to when the <a>top-level browsing
+          context</a>'s <a>document</a>'s <a>fullscreen element</a> is not
+          null. When that <a>security condition</a> applies, whenever the
+          <a>document</a>'s <a>fullscreen element</a> is empty and a screen
+          orientation lock is applied, the <a>user agent</a> MUST <a>lock the
+          orientation</a> of the <a>document</a> to the <a>document</a>'s
+          <a>default orientation</a>.
+        </p>
+        <div class='issue'>
+          This section could be improved if the [[FULLSCREEN]] specification
+          had a hook for when the document is no longer fullscreen. See
+          <a href='https://github.com/w3c/screen-orientation/issues/62'>issue
+          62</a> .
+        </div>
+      </section>
+      <section class='informative'>
+        <h2>
+          Interaction with DeviceOrientation
+        </h2>
+        <p>
+          The DeviceOrientation specification [[DEVICE-ORIENTATION]] defines a
+          <code>deviceorientation</code> event that can be used to discover the
+          physical orientation of the device. Such event can be used to draw
+          things on the screen that could point to a specific direction. A
+          basic example being a compass application. Another example would be
+          an application giving direction to the user or an augmented reality
+          game pointing to an objective.
+        </p>
+        <p>
+          Drawing on the screen in order to point to a physical location
+          requires to know the device orientation and the orientation of the
+          screen in the device coordinates. Without the APIs defined in this
+          specification, a developer has to assume that the <a>document</a>'s
+          <a>current orientation angle</a> is <code>0</code>. With the help of
+          the APIs described in this specification, the developer can <a>apply
+          an orientation lock</a> to a <a>document</a> using
+          <code>natural</code> to make that assumption a certitude. Otherwise,
+          reading the <a>document</a>'s <a>current orientation angle</a> via
+          <code>screen.orientation.angle</code> and listening to the
+          <code>"change"</code> event can help the developer to compensate the
+          screen orientation angle.
+        </p>
+      </section>
+      <section class='informative'>
+        <h2>
+          Interaction with Web Application Manifest
+        </h2>
+        <p>
+          The <a data-cite="appmanifest"></a>Web Application Manifest
+          specification allows web applications to set the <a>document</a>'s
+          <a>default orientation</a>.
+        </p>
+      </section>
+      <section class='informative'>
+        <h2>
+          Interaction with CSS Device Adaptation
+        </h2>
+        <p>
+          The <a data-cite="CSS-ADAPTATION">Device Adaptation</a> specification
+          defines, independently of this document, a way to lock the screen
+          orientation for a web page using CSS.
+        </p>
+      </section>
+      <section class='informative'>
+        <h2>
+          Interaction with Web Content Accessibility Guidelines
+        </h2>
+        <p>
+          The <a data-cite="WCAG21">Web Content Accessibility Guidelines</a>
+          includes a Success Criterion (<a data-cite=
+          "WCAG21#orientation">Success Criterion Orientation</a>) related to
+          screen orientation.
+        </p>
+        <p>
+          ​The intent of this Success Criterion is to ensure that all
+          <a data-cite="WCAG21#dfn-essential">essential</a> content and
+          functionality is available regardless of the display orientation
+          (portrait or landscape). Some websites and applications automatically
+          set the screen to a particular display orientation and expect that
+          users will respond by rotating their device to match.
+        </p>
+        <p>
+          However, some users may have their devices mounted in a fixed
+          orientation (e.g. on the arm of a power wheelchair). Therefore,
+          websites and applications need to support both orientations by making
+          sure <a data-cite="WCAG21#dfn-essential">essential</a> content and
+          functionality is available in each orientation. While the order of
+          content and method of functionality may have differences the content
+          and functionality must always be available. When a particular
+          orientation is <a data-cite="WCAG21#dfn-essential">essential</a>, the
+          user needs to be advised of the orientation requirements.​
+        </p>
+      </section>
+    </section>
+    <section class='informative'>
+      <h2>
+        Examples
+      </h2>
+      <p>
+        This example shows the current screen orientation to the console every
+        time the screen orientation state changes.
+      </p>
+      <pre class='example html'>
+&lt;script&gt;
+  var show = function() {
+     console.log("Orientation type is " + screen.orientation.type);
+     console.log("Orientation angle is " + screen.orientation.angle);
+  }
+
+  screen.orientation.addEventListener("change", show);
+  window.onload = show;
+&lt;/script&gt;
+
+&lt;button onclick='screen.orientation.unlock()'&gt;
+  Unlock
+&lt;/button&gt;
+&lt;button onclick="screen.orientation.lock('portrait')"&gt;
+  Lock to portrait
+&lt;/button&gt;
+&lt;button onclick="screen.orientation.lock('landscape')"&gt;
+  Lock to landscape
+&lt;/button&gt;
+</pre>
+      <p>
+        This example waits to be fullscreen before locking the screen
+        orientation and starting.
+      </p>
+      <pre class='example html'>
+&lt;script&gt;
+  var start = function() {
+    document.onfullscreenchange = function() {
+      screen.orientation.lock('natural').then(startInternal);
+    }
+    document.documentElement.requestFullscreen();
+  }
+&lt;/script&gt;
+&lt;button onclick='start();'&gt;
+  Start
+&lt;/button&gt;
+
+</pre>
+      <p>
+        This example asks the user to manually rotate the device if the Screen
+        Orientation API is not available.
+      </p>
+      <pre class='example js'>
+&lt;script&gt;
+  var start = function() {
+    screen.orientation.lock('landscape-primary').then(
+      startInternal,
+      function() {
+        alert('To start, rotate your screen to landscape.');
+
+        var orientationChangeHandler = function() {
+          if (!screen.orientation.type.startsWith('landscape')) {
+            return;
+          }
+          screen.orientation.removeEventListener('change', orientationChangeHandler);
+          startInternal();
+        }
+
+        screen.orientation.addEventListener('change', orientationChangeHandler);
+      });
+  }
+  window.onload = start;
+&lt;/script&gt;
+
+</pre>
+    </section>
+    <section>
+      <h2>
+        Algorithms
+      </h2>
+      <section data-dfn-for="OrientationType">
+        <h2>
+          Updating orientation algorithm
+        </h2>
+        <p>
+          The steps to <dfn>update the orientation information</dfn> of a
+          <a>document</a> are as follows:
+        </p>
+        <ol>
+          <li>If the screen width is greater than the screen height, set the
+          <a>document</a>'s <a>current orientation type</a> to
+          <dfn>landscape-primary</dfn> or <dfn>landscape-secondary</dfn>.
+          </li>
+          <li>Otherwise, if the screen width is less than or equal to the
+          screen height, set the <a>document</a>'s <a>current orientation
+          type</a> to <dfn>portrait-primary</dfn> or
+          <dfn>portrait-secondary</dfn>.
+          </li>
+          <li>Set the <a>document</a>'s <a>current orientation angle</a> to the
+          clockwise angle in degrees between the orientation of the viewport as
+          it is drawn and the natural orientation of the device (i.e., the top
+          of the physical screen). This is the opposite of the physical
+          rotation. In other words, if a device is turned 90 degrees on the
+          right, the <a>current orientation angle</a> would be 270 degrees.
+          </li>
+        </ol>
+      </section>
+      <section data-dfn-for="OrientationLockType">
+        <h2>
+          Locking orientation algorithm
+        </h2>
         <p>
           The steps to <dfn>apply an orientation lock</dfn> to a
           <a>document</a> using <var>orientation</var> are as follows:
@@ -531,9 +745,7 @@
         <div class='note'>
           If locking the orientation results in an orientation change, the
           promise will be resolved when the orientation will change as
-          described in the <a href=
-          '#handling-screen-orientation-changes'>Handling screen orientation
-          changes</a> section.
+          described in the <a>Screen orientation change algorithm</a>.
         </div>
         <p>
           When the <a>user agent</a> has to <dfn>lock the orientation</dfn> of
@@ -587,7 +799,7 @@
       </section>
       <section>
         <h2>
-          Screen orientation lock lifetime
+          Active orientation lock algorithm
         </h2>
         <p>
           To determine the <dfn>active orientation lock</dfn>, the <a>user
@@ -623,7 +835,7 @@
       </section>
       <section data-link-for='ScreenOrientation'>
         <h2>
-          Handling screen orientation changes
+          <dfn>Screen orientation change algorithm</dfn>
         </h2>
         <p>
           Whenever the viewport's angle changes, the <a>user agent</a> MUST run
@@ -732,206 +944,6 @@
           'https://github.com/w3c/screen-orientation/issues/77'>issue 77</a>.
         </div>
       </section>
-      <section>
-        <h2>
-          Default orientation
-        </h2>
-        <p>
-          A <a>document</a>'s <dfn>default orientation</dfn> is the set of
-          orientations to which the screen orientation is locked when it is not
-          explicitly locked by this API or any other means.
-        </p>
-        <p>
-          For the perspective of a <a>document</a>, locking to the <a>default
-          orientation</a> is equivalent to unlocking because it means that it
-          no longer has a lock applied. However, it does not mean that the
-          <a>default orientation</a> has to be <code>any</code>.
-        </p>
-      </section>
-    </section>
-    <section>
-      <h2>
-        Interactions with other specifications
-      </h2>
-      <p>
-        This section explains how this specification interacts with other
-        related specifications of the platform.
-      </p>
-      <section>
-        <h2>
-          Interaction with Fullscreen API
-        </h2>
-        <p>
-          As a <a data-lt="security conditions">security condition</a>, a user
-          agent MAY restrict locking the screen orientation exclusively to when
-          the <a>top-level browsing context</a>'s <a>document</a>'s
-          <a>fullscreen element</a> is not null. When that security condition
-          applies, whenever the <a>document</a>'s <a>fullscreen element</a> is
-          empty and a screen orientation lock is applied, the <a>user agent</a>
-          MUST <a>lock the orientation</a> of the <a>document</a> to the
-          <a>document</a>'s <a>default orientation</a>.
-        </p>
-        <div class='issue'>
-          This section could be improved if the [[FULLSCREEN]] specification
-          had a hook for when the document is no longer fullscreen. See
-          <a href='https://github.com/w3c/screen-orientation/issues/62'>issue
-          62</a> .
-        </div>
-      </section>
-      <section class='informative'>
-        <h2>
-          Interaction with DeviceOrientation
-        </h2>
-        <p>
-          The DeviceOrientation specification [[DEVICE-ORIENTATION]] defines a
-          <code>deviceorientation</code> event that can be used to discover the
-          physical orientation of the device. Such event can be used to draw
-          things on the screen that could point to a specific direction. A
-          basic example being a compass application. Another example would be
-          an application giving direction to the user or an augmented reality
-          game pointing to an objective.
-        </p>
-        <p>
-          Drawing on the screen in order to point to a physical location
-          requires to know the device orientation and the orientation of the
-          screen in the device coordinates. Without the APIs defined in this
-          specification, a developer has to assume that the <a>document</a>'s
-          <a>current orientation angle</a> is <code>0</code>. With the help of
-          the APIs described in this specification, the developer can <a>apply
-          an orientation lock</a> to a <a>document</a> using
-          <code>natural</code> to make that assumption a certitude. Otherwise,
-          reading the <a>document</a>'s <a>current orientation angle</a> via
-          <code>screen.orientation.angle</code> and listening to the
-          <code>"change"</code> event can help the developer to compensate the
-          screen orientation angle.
-        </p>
-      </section>
-      <section class='informative'>
-        <h2>
-          Interaction with Web Application Manifest
-        </h2>
-        <p>
-          The Web Application Manifest specification [[appmanifest]] allows web
-          applications to set the <a>document</a>'s <a>default orientation</a>.
-        </p>
-      </section>
-      <section class='informative'>
-        <h2>
-          Interaction with CSS Device Adaptation
-        </h2>
-        <p>
-          The CSS Device Adaptation specification [[CSS-ADAPTATION]] defines,
-          independently of this document, a way to lock the screen orientation
-          for a web page using CSS.
-        </p>
-      </section>
-      <section class='informative'>
-        <h2>
-          Interaction with Web Content Accessibility Guidelines
-        </h2>
-        <p>
-          The Web Content Accessibility Guidelines 2.1 specification [[WCAG21]]
-          includes a Success Criterion (<a href=
-          "https://www.w3.org/TR/WCAG21/#orientation">SC 1.3.4</a>) related to
-          screen orientation.
-        </p>
-        <p>
-          ​The intent of this Success Criterion is to ensure that all <a href=
-          "https://www.w3.org/TR/WCAG21/#dfn-essential">essential</a> content
-          and functionality is available regardless of the display orientation
-          (portrait or landscape). Some websites and applications automatically
-          set the screen to a particular display orientation and expect that
-          users will respond by rotating their device to match.
-        </p>
-        <p>
-          However, some users may have their devices mounted in a fixed
-          orientation (e.g. on the arm of a power wheelchair). Therefore,
-          websites and applications need to support both orientations by making
-          sure <a href=
-          "https://www.w3.org/TR/WCAG21/#dfn-essential">essential</a> content
-          and functionality is available in each orientation. While the order
-          of content and method of functionality may have differences the
-          content and functionality must always be available. When a particular
-          orientation is <a href=
-          "https://www.w3.org/TR/WCAG21/#dfn-essential">essential</a>, the user
-          needs to be advised of the orientation requirements.​
-        </p>
-      </section>
-    </section>
-    <section class='informative'>
-      <h2>
-        Examples
-      </h2>
-      <p>
-        This example shows the current screen orientation to the console every
-        time the screen orientation state changes.
-      </p>
-      <pre class='example highlight'>
-&lt;script&gt;
-  var show = function() {
-     console.log("Orientation type is " + screen.orientation.type);
-     console.log("Orientation angle is " + screen.orientation.angle);
-  }
-
-  screen.orientation.addEventListener("change", show);
-  window.onload = show;
-&lt;/script&gt;
-
-&lt;button onclick='screen.orientation.unlock()'&gt;
-  Unlock
-&lt;/button&gt;
-&lt;button onclick="screen.orientation.lock('portrait')"&gt;
-  Lock to portrait
-&lt;/button&gt;
-&lt;button onclick="screen.orientation.lock('landscape')"&gt;
-  Lock to landscape
-&lt;/button&gt;
-</pre>
-      <p>
-        This example waits to be fullscreen before locking the screen
-        orientation and starting.
-      </p>
-      <pre class='example highlight'>
-&lt;script&gt;
-  var start = function() {
-    document.onfullscreenchange = function() {
-      screen.orientation.lock('natural').then(startInternal);
-    }
-    document.documentElement.requestFullscreen();
-  }
-&lt;/script&gt;
-&lt;button onclick='start();'&gt;
-  Start
-&lt;/button&gt;
-
-</pre>
-      <p>
-        This example asks the user to manually rotate the device if the Screen
-        Orientation API is not available.
-      </p>
-      <pre class='example highlight'>
-&lt;script&gt;
-  var start = function() {
-    screen.orientation.lock('landscape-primary').then(
-      startInternal,
-      function() {
-        alert('To start, rotate your screen to landscape.');
-
-        var orientationChangeHandler = function() {
-          if (!screen.orientation.type.startsWith('landscape')) {
-            return;
-          }
-          screen.orientation.removeEventListener('change', orientationChangeHandler);
-          startInternal();
-        }
-
-        screen.orientation.addEventListener('change', orientationChangeHandler);
-      });
-  }
-  window.onload = start;
-&lt;/script&gt;
-
-</pre>
     </section>
     <section class='informative'>
       <h2>
