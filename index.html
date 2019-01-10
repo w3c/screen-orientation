@@ -374,10 +374,11 @@
         </h2>
         <p>
           The <a>user agent</a> MAY require a <a>document</a> and its
-          associated <a>browsing context</a> to meet one or more <dfn data-lt="security condition">security
-          conditions</dfn> in order to be able to lock the screen orientation.
-          For example, a <a>user agent</a> might require a <a>document</a>'s
-          <a>top-level browsing context</a> to be fullscreen (see <a href=
+          associated <a>browsing context</a> to meet one or more <dfn data-lt=
+          "security condition">security conditions</dfn> in order to be able to
+          lock the screen orientation. For example, a <a>user agent</a> might
+          require a <a>document</a>'s <a>top-level browsing context</a> to be
+          fullscreen (see <a href=
           '#interaction-with-fullscreen-api'>Interaction with Fullscreen
           API</a>) in order to allow an orientation lock.
         </p>
@@ -429,14 +430,14 @@
           Interaction with Fullscreen API
         </h2>
         <p>
-          As a <a>security condition</a>, a user
-          agent MAY restrict locking the screen orientation exclusively to when
-          the <a>top-level browsing context</a>'s <a>document</a>'s
-          <a>fullscreen element</a> is not null. When that <a>security condition</a>
-          applies, whenever the <a>document</a>'s <a>fullscreen element</a> is
-          empty and a screen orientation lock is applied, the <a>user agent</a>
-          MUST <a>lock the orientation</a> of the <a>document</a> to the
-          <a>document</a>'s <a>default orientation</a>.
+          As a <a>security condition</a>, a user agent MAY restrict locking the
+          screen orientation exclusively to when the <a>top-level browsing
+          context</a>'s <a>document</a>'s <a>fullscreen element</a> is not
+          null. When that <a>security condition</a> applies, whenever the
+          <a>document</a>'s <a>fullscreen element</a> is empty and a screen
+          orientation lock is applied, the <a>user agent</a> MUST <a>lock the
+          orientation</a> of the <a>document</a> to the <a>document</a>'s
+          <a>default orientation</a>.
         </p>
         <div class='issue'>
           This section could be improved if the [[FULLSCREEN]] specification
@@ -478,8 +479,9 @@
           Interaction with Web Application Manifest
         </h2>
         <p>
-          The <a data-cite="appmanifest"></a>Web Application Manifest</a> specification allows web
-          applications to set the <a>document</a>'s <a>default orientation</a>.
+          The <a data-cite="appmanifest"></a>Web Application Manifest
+          specification allows web applications to set the <a>document</a>'s
+          <a>default orientation</a>.
         </p>
       </section>
       <section class='informative'>
@@ -487,9 +489,9 @@
           Interaction with CSS Device Adaptation
         </h2>
         <p>
-          The <a data-cite="CSS-ADAPTATION"> Device Adaptation</a> specification defines,
-          independently of this document, a way to lock the screen orientation
-          for a web page using CSS.
+          The <a data-cite="CSS-ADAPTATION">Device Adaptation</a> specification
+          defines, independently of this document, a way to lock the screen
+          orientation for a web page using CSS.
         </p>
       </section>
       <section class='informative'>
@@ -498,13 +500,14 @@
         </h2>
         <p>
           The <a data-cite="WCAG21">Web Content Accessibility Guidelines</a>
-          includes a Success Criterion (<a data-cite="WCAG21#orientation">Success Criterion Orientation</a>) related to
+          includes a Success Criterion (<a data-cite=
+          "WCAG21#orientation">Success Criterion Orientation</a>) related to
           screen orientation.
         </p>
         <p>
-          ​The intent of this Success Criterion is to ensure that all <a data-cite=
-          "WCAG21#dfn-essential">essential</a> content
-          and functionality is available regardless of the display orientation
+          ​The intent of this Success Criterion is to ensure that all
+          <a data-cite="WCAG21#dfn-essential">essential</a> content and
+          functionality is available regardless of the display orientation
           (portrait or landscape). Some websites and applications automatically
           set the screen to a particular display orientation and expect that
           users will respond by rotating their device to match.
@@ -513,12 +516,12 @@
           However, some users may have their devices mounted in a fixed
           orientation (e.g. on the arm of a power wheelchair). Therefore,
           websites and applications need to support both orientations by making
-          sure <a data-cite="WCAG21#dfn-essential">essential</a> content
-          and functionality is available in each orientation. While the order
-          of content and method of functionality may have differences the
-          content and functionality must always be available. When a particular
-          orientation is <a data-cite="WCAG21#dfn-essential">essential</a>, the user
-          needs to be advised of the orientation requirements.​
+          sure <a data-cite="WCAG21#dfn-essential">essential</a> content and
+          functionality is available in each orientation. While the order of
+          content and method of functionality may have differences the content
+          and functionality must always be available. When a particular
+          orientation is <a data-cite="WCAG21#dfn-essential">essential</a>, the
+          user needs to be advised of the orientation requirements.​
         </p>
       </section>
     </section>
@@ -743,8 +746,7 @@
         <div class='note'>
           If locking the orientation results in an orientation change, the
           promise will be resolved when the orientation will change as
-          described in the <a>Screen orientation change
-          algorithm</a>.
+          described in the <a>Screen orientation change algorithm</a>.
         </div>
         <p>
           When the <a>user agent</a> has to <dfn>lock the orientation</dfn> of
