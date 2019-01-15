@@ -554,7 +554,8 @@
 &lt;/button&gt;
 </pre>
       <p>
-        This example waits to be fullscreen and locked to landscape before running <code>ready()</code>.
+        This example waits to be fullscreen and locked to landscape before
+        running <code>ready()</code>.
       </p>
       <pre class='example html'>
 &lt;script&gt;
@@ -563,7 +564,7 @@
   }
 
   async function start() {
-    const promiseToFullScreen = new Promise(resolve =>
+    const promiseToFullScreen = new Promise(resolve =&gt;
       document.addEventListener("fullscreenchange", resolve)
     );
     await document.documentElement.requestFullscreen();
