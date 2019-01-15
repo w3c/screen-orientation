@@ -529,28 +529,46 @@
         Examples
       </h2>
       <p>
-        This example shows the current screen orientation to the console every
-        time the screen orientation state changes.
+        In this example for a mobile phone,  clicking the landscape button makes a request to go fullscreen and then lock to landscape orientation.  
+        Once it is in landscape, the unlock button will take the screen orientation back to default (portrait) or the portrait button will also change it back to portrait.
+      </p>
+      <p>
+        The log shows the change in orientation type and angle, and whether the event type is load or change.
       </p>
       <pre class='example html'>
 &lt;script&gt;
-  var show = function() {
-     console.log("Orientation type is " + screen.orientation.type);
-     console.log("Orientation angle is " + screen.orientation.angle);
-  }
+async function lockLandscape(){
+  await document.documentElement.requestFullscreen() 
+  await screen.orientation.lock('landscape');
+}
 
-  screen.orientation.addEventListener("change", show);
-  window.onload = show;
+async function unlock() {
+  await screen.orientation.unlock();
+}
+
+async function portrait(){
+  await screen.orientation.lock('portrait');
+}
+
+const { type, angle } = screen.orientation
+function show(event) {
+ console.log("Orientation type is " + screen.orientation.type);
+ console.log("Orientation angle is " + screen.orientation.angle);
+ console.log("Event Type is " + event.type)
+}
+
+screen.orientation.addEventListener("change", show);
+window.onload = show;
 &lt;/script&gt;
 
-&lt;button onclick='screen.orientation.unlock()'&gt;
+&lt;button onclick="lockLandscape()"&gt;
+  Lock to landscape
+&lt;/button&gt;
+&lt;button onclick='unlock()'&gt;
   Unlock
 &lt;/button&gt;
-&lt;button onclick="screen.orientation.lock('portrait')"&gt;
-  Lock to portrait
-&lt;/button&gt;
-&lt;button onclick="screen.orientation.lock('landscape')"&gt;
-  Lock to landscape
+&lt;button onclick="portrait()"&gt;
+  Portrait
 &lt;/button&gt;
 </pre>
       <p>
