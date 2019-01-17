@@ -579,22 +579,31 @@
       <pre class='example html'>
 &lt;script&gt;
 function manualRotation() {
-  alert("Rotation to landscape complete");
+  alert("Thank you for rotating!");
 }
 
-function orientationChangeHandler() {
-  if (window.matchMedia("(orientation: portrait)").matches) {
-    return;
+function orientationChangeListener() {
+  const inPortrait = window.matchMedia("(orientation: portrait)");
+  function detectOrientation(e) {
+    if (e.matches) {
+      return;
+    } else {
+      window.removeEventListener(
+        "orientationchange",
+        orientationChangeListener
+      );
+      inPortrait.removeListener(detectOrientation);
+      manualRotation();
+    }
   }
-  window.removeEventListener("orientationchange", orientationChangeHandler);
-  manualRotation();
+  inPortrait.addListener(detectOrientation);
 }
 
 async function start() {
   try {
     await screen.orientation.lock("landscape");
   } catch {
-    window.addEventListener("orientationchange", orientationChangeHandler);
+    window.addEventListener("orientationchange", orientationChangeListener);
     alert("To start, please rotate your screen to landscape");
   }
 }
