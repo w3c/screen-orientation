@@ -554,22 +554,25 @@
 &lt;/button&gt;
 </pre>
       <p>
-        This example waits to be fullscreen before locking the screen
-        orientation and starting.
+        This example waits for fullscreen, then locks to landscape before
+        calling <code>ready()</code>.
       </p>
       <pre class='example html'>
 &lt;script&gt;
-  var start = function() {
-    document.onfullscreenchange = function() {
-      screen.orientation.lock('natural').then(startInternal);
-    }
-    document.documentElement.requestFullscreen();
-  }
+function ready() {
+  const { type } = screen.orientation;
+  console.log("Fullscreen and locked to ${type}. Ready!");
+}
+
+async function start() {
+  await document.body.requestFullscreen();
+  await screen.orientation.lock("landscape");
+  ready();
+}
 &lt;/script&gt;
 &lt;button onclick='start();'&gt;
   Start
 &lt;/button&gt;
-
 </pre>
       <p>
         This example asks the user to manually rotate the device if the Screen
