@@ -541,9 +541,9 @@
       <pre class='example html'>
 &lt;script&gt;
 async function fullScreenCheck() {
-  if(document.fullscreenElement === null) {
-      await document.documentElement.requestFullscreen();
-  } 
+  if (document.fullscreenElement === null) {
+    await document.body.requestFullscreen();
+  }
 }
 
 async function unlock() {
@@ -563,7 +563,7 @@ async function rotate() {
 
 function show() {
   const { type, angle } = screen.orientation;
-  console.log(`Orientation type is ${type} + angle is ${angle}`);
+  console.log(`Orientation type is ${type} & angle is ${angle}`);
 }
 
 screen.orientation.addEventListener("change", show);
