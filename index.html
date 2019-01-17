@@ -559,20 +559,20 @@
       </p>
       <pre class='example html'>
 &lt;script&gt;
-  function ready(){
-    console.log("Now full screen and ready to start, locked to " + screen.orientation.type);
-  }
+function ready() {
+  const { type } = screen.orientation;
+  console.log("Fullscreen and locked to ${type}. Ready!");
+}
 
-  async function start() {
-    await document.documentElement.requestFullscreen();
-    await screen.orientation.lock('landscape');
-    ready();
-  }
+async function start() {
+  await document.documentElement.requestFullscreen();
+  await screen.orientation.lock("landscape");
+  ready();
+}
 &lt;/script&gt;
 &lt;button onclick='start();'&gt;
   Start
 &lt;/button&gt;
-
 </pre>
       <p>
         This example asks the user to manually rotate the device if the Screen
