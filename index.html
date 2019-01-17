@@ -536,8 +536,7 @@
         button labelled "portrait" will also change it back to <a>portrait</a>.
       </p>
       <p>
-        The log shows the change in orientation type and angle, and the type of
-        event.
+        The log shows the change in orientation type and angle.
       </p>
       <pre class='example html'>
 &lt;script&gt;
@@ -547,40 +546,35 @@ async function fullScreenCheck() {
   } 
 }
 
-async function lockLandscape(){
-  await fullScreenCheck() 
-  await screen.orientation.lock('landscape');
-}
-
 async function unlock() {
   await fullScreenCheck();
   await screen.orientation.unlock();
 }
 
-async function portrait(){
+async function rotate() {
+  const rotate = document.getElementById("rotate");
   await fullScreenCheck();
-  await screen.orientation.lock('portrait');
+  const newOrientation = screen.orientation.type.startsWith("portrait")
+    ? "landscape"
+    : "portrait";
+  await screen.orientation.lock(newOrientation);
+  rotate.textContent = `Rotate to ${newOrientation}`;
 }
 
-const { type, angle } = screen.orientation
-function show(event) {
- console.log("Orientation type is " + screen.orientation.type);
- console.log("Orientation angle is " + screen.orientation.angle);
- console.log("Event Type is " + event.type)
+function show() {
+  const { type, angle } = screen.orientation;
+  console.log(`Orientation type is ${type} + angle is ${angle}`);
 }
 
 screen.orientation.addEventListener("change", show);
 window.addEventListener("load", show);
 &lt;/script&gt;
 
-&lt;button onclick="lockLandscape()"&gt;
-  Lock to landscape
+&lt;button onclick="rotate()"&gt;
+  Rotate
 &lt;/button&gt;
 &lt;button onclick='unlock()'&gt;
   Unlock
-&lt;/button&gt;
-&lt;button onclick="portrait()"&gt;
-  Portrait
 &lt;/button&gt;
 </pre>
       <p>
