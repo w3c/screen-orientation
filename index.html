@@ -529,11 +529,10 @@
         Examples
       </h2>
       <p>
-        In this example for a mobile device, clicking the landscape button
-        makes a request to go fullscreen and then lock to landscape
-        orientation. Once it is in landscape, pressing the unlock button
-        reverts the screen orientation back to default (portrait). Pressing the
-        button labelled "portrait" will also change it back to <a>portrait</a>.
+        In this example for a mobile device, clicking the Rotate button
+        makes a request to go fullscreen and then lock to the opposite
+        orientation. If the device is not in it's default orientation, pressing the unlock button
+        reverts the screen orientation back to default.
       </p>
       <p>
         The log shows the change in orientation type and angle.
@@ -552,13 +551,13 @@ async function unlock() {
 }
 
 async function rotate() {
-  const rotate = document.getElementById("rotate");
+  const rotateBtn = document.getElementById("rotateBtn");
   await fullScreenCheck();
   const newOrientation = screen.orientation.type.startsWith("portrait")
     ? "landscape"
     : "portrait";
   await screen.orientation.lock(newOrientation);
-  rotate.textContent = `Rotate to ${newOrientation}`;
+  rotateBtn.textContent = `Rotate to ${newOrientation}`;
 }
 
 function show() {
@@ -570,7 +569,7 @@ screen.orientation.addEventListener("change", show);
 window.addEventListener("load", show);
 &lt;/script&gt;
 
-&lt;button onclick="rotate() id="rotate"&gt;
+&lt;button onclick="rotate() id="rotateBtn"&gt;
   Rotate
 &lt;/button&gt;
 &lt;button onclick='unlock()'&gt;
