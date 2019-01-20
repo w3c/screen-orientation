@@ -529,28 +529,51 @@
         Examples
       </h2>
       <p>
-        This example shows the current screen orientation to the console every
-        time the screen orientation state changes.
+        In this example for a mobile device, clicking the Rotate button makes a
+        request to go fullscreen and then lock to the opposite orientation. If
+        the screen is not in default orientation, pressing the unlock button
+        reverts the screen orientation back.
+      </p>
+      <p>
+        The log shows the change in orientation type and angle.
       </p>
       <pre class='example html'>
 &lt;script&gt;
-  var show = function() {
-     console.log("Orientation type is " + screen.orientation.type);
-     console.log("Orientation angle is " + screen.orientation.angle);
+async function fullScreenCheck() {
+  if (document.fullscreenElement === null) {
+    await document.body.requestFullscreen();
   }
+}
 
-  screen.orientation.addEventListener("change", show);
-  window.onload = show;
+async function unlock() {
+  await fullScreenCheck();
+  await screen.orientation.unlock();
+}
+
+async function rotate() {
+  const rotateBtn = document.getElementById("rotateBtn");
+  await fullScreenCheck();
+  const newOrientation = screen.orientation.type.startsWith("portrait")
+    ? "landscape"
+    : "portrait";
+  await screen.orientation.lock(newOrientation);
+  rotateBtn.textContent = `Rotate to ${newOrientation}`;
+}
+
+function show() {
+  const { type, angle } = screen.orientation;
+  console.log(`Orientation type is ${type} & angle is ${angle}`);
+}
+
+screen.orientation.addEventListener("change", show);
+window.addEventListener("load", show);
 &lt;/script&gt;
 
-&lt;button onclick='screen.orientation.unlock()'&gt;
+&lt;button onclick="rotate() id="rotateBtn"&gt;
+  Rotate
+&lt;/button&gt;
+&lt;button onclick='unlock()'&gt;
   Unlock
-&lt;/button&gt;
-&lt;button onclick="screen.orientation.lock('portrait')"&gt;
-  Lock to portrait
-&lt;/button&gt;
-&lt;button onclick="screen.orientation.lock('landscape')"&gt;
-  Lock to landscape
 &lt;/button&gt;
 </pre>
       <p>
