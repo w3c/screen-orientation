@@ -71,6 +71,54 @@
         This document is a work in progress.
       </p>
     </section>
+    <section class="informative">
+      <h2>
+        Introduction
+      </h2>
+      <p>
+        For web applications, the Screen Orientation API exposes the type and
+        angle of a device's current screen orientation, and can provide
+        notification if the device's orientation changes. This allows web
+        applications to programmatically adapt the user experience for many
+        possible screen orientations (in concert with CSS). The API also
+        provides web applications with the ability to lock the screen to a
+        particular orientation, which is needed for an optimal user experience
+        in some types of applications. This is useful in applications like
+        computer games, where the user can physically rotate the device as a
+        means of user input but the screen orientation itself mustn't change.
+      </p>
+      <p>
+        This specification describes how the API:
+      </p>
+      <ul>
+        <li>Provides the current screen orientation type and angle of a device
+        as specified by the <a>updating orientation algorithm</a>.
+        </li>
+        <li>Updates the screen orientation when the viewport angle changes as
+        specified by the <a>screen orientation change algorithm</a>.
+        </li>
+        <li>Locks the screen to a specific orientation as specified by the <a>
+          locking orientation algorithm</a>.
+        </li>
+        <li>Unlocks the locked screen to the default orientation as specified
+        by the <a data-link-for="ScreenOrientation">unlock()</a> method.
+        </li>
+      </ul>
+      <section>
+        <h2>
+          Goals
+        </h2>
+        <ul>
+          <li>Allow a web application to have control over screen orientation
+          where needed and without being intrusive to end users.
+          </li>
+          <li>Support a better user experience by providing developers with
+          information on screen orientation changes so web applications can
+          update correspondingly.
+          </li>
+        </ul>
+      </section>
+    </section>
     <section data-dfn-for='Screen'>
       <h2>
         Extensions to the <a>Screen</a> interface
@@ -631,7 +679,7 @@ async function start() {
       </h2>
       <section data-dfn-for="OrientationType">
         <h2>
-          Updating orientation algorithm
+          <dfn>Updating orientation algorithm</dfn>
         </h2>
         <p>
           The steps to <dfn>update the orientation information</dfn> of a
@@ -658,7 +706,7 @@ async function start() {
       </section>
       <section data-dfn-for="OrientationLockType">
         <h2>
-          Locking orientation algorithm
+          <dfn>Locking orientation algorithm</dfn>
         </h2>
         <p>
           The steps to <dfn>apply an orientation lock</dfn> to a
