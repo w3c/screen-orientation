@@ -592,10 +592,10 @@ async function rotate() {
   const matchLandscape = matchMedia("(orientation: landscape)");
   if (matchLandscape.matches) return start(); 
   addEventListener("orientationchange", function listener() {
-    matchPortrait.addListener(function mediaChange(e) {
+    matchLandscape.addListener(function mediaChange(e) {
       if (!e.matches) return; 
       removeEventListener("orientationchange", listener);
-      matchPortrait.removeListener(mediaChange);
+      matchLandscape.removeListener(mediaChange);
       start();
     });
   });
