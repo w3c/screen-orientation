@@ -646,31 +646,39 @@ async function start() {
 &lt;/button&gt;
 </pre>
       <p>
-        This example asks the user to manually rotate the device if the Screen
-        Orientation API is not available.
+        In this example for a mobile device, if the Screen Orientation API is
+        not supported, or the document is not fullscreen and the screen
+        orientation lock rejects, the user is alerted to rotate their screen
+        manually to landscape.
       </p>
-      <pre class='example js'>
+      <pre class='example html'>
 &lt;script&gt;
-  var start = function() {
-    screen.orientation.lock('landscape-primary').then(
-      startInternal,
-      function() {
-        alert('To start, rotate your screen to landscape.');
-
-        var orientationChangeHandler = function() {
-          if (!screen.orientation.type.startsWith('landscape')) {
-            return;
-          }
-          screen.orientation.removeEventListener('change', orientationChangeHandler);
-          startInternal();
-        }
-
-        screen.orientation.addEventListener('change', orientationChangeHandler);
-      });
+function start() {
+  /* Start application when in correct orientation */
+}
+async function rotate() {
+  try {
+    await screen.orientation.lock("landscape");
+    start();
+  } catch (err) {
+    console.error(err);
   }
-  window.onload = start;
+  const matchLandscape = matchMedia("(orientation: landscape)");
+  if (matchLandscape.matches) return start(); 
+  addEventListener("orientationchange", function listener() {
+    matchLandscape.addListener(function mediaChange(e) {
+      if (!e.matches) return; 
+      removeEventListener("orientationchange", listener);
+      matchLandscape.removeListener(mediaChange);
+      start();
+    });
+  });
+  alert("To start, please rotate your screen to landscape.");
+}
 &lt;/script&gt;
-
+&lt;button onclick='start();'&gt;
+  Start
+&lt;/button&gt;
 </pre>
     </section>
     <section>
