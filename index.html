@@ -106,7 +106,6 @@
       </ul>
       <section>
         <h2>
-
           Goals
         </h2>
         <ul>
@@ -124,17 +123,20 @@
           Examples
         </h2>
         <section>
-          <h2>Locking to a specific orientation and unlocking</h2>
-        <p>
-          In this example, clicking the "Lock" button makes a
-          request to go into fullscreen and then lock to the opposite orientation. If
-          the screen is not in default orientation, pressing the "Unlock" button
-          unlocks to its default orientation.  
-        </p>
-        <p>
-          The developer console logs the change in orientation type and angle.
-        </p>
-        <pre class='example html'>
+          <h2>
+            Locking to a specific orientation and unlocking
+          </h2>
+          <p>
+            In this example, clicking the "Lock" button makes a request to go
+            into fullscreen and then lock to the opposite orientation. If the
+            screen is not in default orientation, pressing the "Unlock" button
+            unlocks to its default orientation.
+          </p>
+          <p>
+            The developer console logs the change in orientation type and
+            angle.
+          </p>
+          <pre class='example html'>
   &lt;script&gt;
   function fullScreenCheck() {
     if (document.fullscreenElement) return;
@@ -185,14 +187,16 @@
     Unlock
   &lt;/button&gt;
   </pre>
-</section>
-<section>
-  <h2>Locking the screen before calling a function</h2>
-        <p>
-          This example waits to go into fullscreen, then locks to landscape before
-          calling <code>ready()</code>.
-        </p>
-        <pre class='example html'>
+        </section>
+        <section>
+          <h2>
+            Locking the screen before calling a function
+          </h2>
+          <p>
+            This example waits to go into fullscreen, then locks to landscape
+            before calling <code>ready()</code>.
+          </p>
+          <pre class='example html'>
   &lt;script&gt;
   function ready() {
     const { type } = screen.orientation;
@@ -209,16 +213,18 @@
     Start
   &lt;/button&gt;
   </pre>
-</section>
-<section>
-  <h2>Alerting the user if the Screen Orientation API is not supported</h2>
-        <p>
-          In this example, if the Screen Orientation API is
-          not supported, or the document is not fullscreen and the screen
-          orientation lock rejects, the user is alerted to rotate their screen
-          manually to landscape.
-        </p>
-        <pre class='example html'>
+        </section>
+        <section>
+          <h2>
+            Alerting the user if the Screen Orientation API is not supported
+          </h2>
+          <p>
+            In this example, if the Screen Orientation API is not supported, or
+            the document is not fullscreen and the screen orientation lock
+            rejects, the user is alerted to rotate their screen manually to
+            landscape.
+          </p>
+          <pre class='example html'>
   &lt;script&gt;
   function start() {
     /* Start application when in correct orientation */
@@ -247,7 +253,7 @@
     Start
   &lt;/button&gt;
   </pre>
-</section>
+        </section>
       </section>
     </section>
     <section data-dfn-for='Screen'>
