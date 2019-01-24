@@ -140,9 +140,11 @@
         </h2>
         <p>
           The <a data-link-for="Screen">orientation</a> attribute is an
-          instance of <a>ScreenOrientation</a>.  This attribute provides the current orientation, 
-          current angle and whether there was an onchange event.  The <a>user agent</a> MUST run the 
-          <a>updating orientation algorithm</a> steps to initialize the values and return the <a data-link-for="Screen">orientation</a> attribute.
+          instance of <a>ScreenOrientation</a>. This attribute provides the
+          current orientation, current angle and whether there was an onchange
+          event. The <a>user agent</a> MUST run the <a>updating orientation
+          algorithm</a> steps to initialize the values and return the
+          <a data-link-for="Screen">orientation</a> attribute.
         </p>
       </section>
     </section>
@@ -161,11 +163,11 @@
             attribute EventHandler onchange;
           };
         </pre>
-          <section>
-              <h2>
-                <dfn>OrientationType</dfn> enum
-              </h2>
-              <pre class='idl'>
+      <section>
+        <h2>
+          <dfn>OrientationType</dfn> enum
+        </h2>
+        <pre class='idl'>
                   enum OrientationType {
                     "portrait-primary",
                     "portrait-secondary",
@@ -173,13 +175,13 @@
                     "landscape-secondary"
                   };
                 </pre>
-            </section>
-            <section data-link-for="OrientationLockType" data-dfn-for=
-            "OrientationLockType">
-              <h2>
-                <dfn>OrientationLockType</dfn> enum
-              </h2>
-              <pre class='idl'>
+      </section>
+      <section data-link-for="OrientationLockType" data-dfn-for=
+      "OrientationLockType">
+        <h2>
+          <dfn>OrientationLockType</dfn> enum
+        </h2>
+        <pre class='idl'>
                   enum OrientationLockType {
                     "any",
                     "natural",
@@ -191,7 +193,7 @@
                     "landscape-secondary"
                   };
                 </pre>
-            </section>            
+      </section>
       <section>
         <h2>
           <dfn>lock()</dfn> method
@@ -332,7 +334,8 @@
           <thead>
             <tr>
               <th>
-                  <dfn data-dfn-for="OrientationLockType">Natural</dfn> Orientation
+                <dfn data-dfn-for="OrientationLockType">Natural</dfn>
+                Orientation
               </th>
               <th>
                 Primary Orientation 1
@@ -374,7 +377,7 @@
             </tr>
             <tr>
               <td>
-                  <dfn data-dfn-for="OrientationLockType">Landscape</dfn>
+                <dfn data-dfn-for="OrientationLockType">Landscape</dfn>
               </td>
               <td>
                 <a>landscape-primary</a><br>
@@ -702,8 +705,7 @@ async function rotate() {
           </li>
           <li>Otherwise, if the screen width is less than or equal to the
           screen height, set the <a>document</a>'s <a>current orientation
-          type</a> to <a>portrait-primary</a> or
-          <a>portrait-secondary</a>.
+          type</a> to <a>portrait-primary</a> or <a>portrait-secondary</a>.
           </li>
           <li>Set the <a>document</a>'s <a>current orientation angle</a> to the
           clockwise angle in degrees between the orientation of the viewport as
@@ -714,7 +716,8 @@ async function rotate() {
           </li>
         </ol>
       </section>
-      <section data-dfn-for="OrientationLockType" data-link-for="OrientationType">
+      <section data-dfn-for="OrientationLockType" data-link-for=
+      "OrientationType">
         <h2>
           <dfn>Locking orientation algorithm</dfn>
         </h2>
@@ -766,9 +769,10 @@ async function rotate() {
           </li>
           <li>Depending on <var>orientation</var> value, do the following:
             <dl>
+              <dd>
                 <a>portrait-primary</a> or <a>portrait-secondary</a> or
                 <a>landscape-primary</a> or <a>landscape-secondary</a>
-              </dt>
+              </dd>
               <dd>
                 Append <var>orientation</var> to <var>orientations</var>.
               </dd>
@@ -1090,8 +1094,8 @@ async function rotate() {
       </p>
       <p>
         The following is defined in [[DOM]]: <dfn data-cite=
-        "DOM#concept-event-fire">fire an event</dfn>,
-        <dfn data-cite="DOM#interface-eventtarget">EventTarget</dfn>
+        "DOM#concept-event-fire">fire an event</dfn>, <dfn data-cite=
+        "DOM#interface-eventtarget">EventTarget</dfn>
       </p>
       <p>
         The following is used but not defined in [[FULLSCREEN]]: <dfn><a href=
