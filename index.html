@@ -162,38 +162,34 @@
             readonly attribute unsigned short angle;
             attribute EventHandler onchange;
           };
+
+          enum OrientationLockType {
+            "any",
+            "natural",
+            "landscape",
+            "portrait",
+            "portrait-primary",
+            "portrait-secondary",
+            "landscape-primary",
+            "landscape-secondary"
+          };
+
+          enum OrientationType {
+            "portrait-primary",
+            "portrait-secondary" 
+            "landscape-primary",
+            "landscape-secondary"
+          };
         </pre>
-      <section>
-        <h2>
-          <dfn>OrientationType</dfn> enum
-        </h2>
-        <pre class='idl'>
-                  enum OrientationType {
-                    "portrait-primary",
-                    "portrait-secondary",
-                    "landscape-primary",
-                    "landscape-secondary"
-                  };
-                </pre>
-      </section>
-      <section data-link-for="OrientationLockType" data-dfn-for=
-      "OrientationLockType">
-        <h2>
-          <dfn>OrientationLockType</dfn> enum
-        </h2>
-        <pre class='idl'>
-                  enum OrientationLockType {
-                    "any",
-                    "natural",
-                    "landscape",
-                    "portrait",
-                    "portrait-primary",
-                    "portrait-secondary",
-                    "landscape-primary",
-                    "landscape-secondary"
-                  };
-                </pre>
-      </section>
+        <p>
+          The <dfn>OrientationLockType</dfn> enum represents 
+          the screen orientations to which a screen can be locked.
+        </p>
+        <p>
+          On the other hand, <dfn>OrientationType</dfn> enum 
+          represent the actual current screen orientation that the screen is in irrespective
+          of which lock is applied. 
+        </p>
       <section>
         <h2>
           <dfn>lock()</dfn> method
