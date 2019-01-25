@@ -80,10 +80,10 @@
         angle of a device's current screen orientation, and can provide
         notification if the device's orientation changes. This allows web
         applications to programmatically adapt the user experience for many
-        possible screen orientations (in concert with CSS). The API also
-        allows locking the screen to a particular orientation. This is useful
-        in applications such as computer games where users physically rotate
-        the device but the screen orientation itself mustn't change.
+        possible screen orientations (in concert with CSS). The API also allows
+        locking the screen to a particular orientation. This is useful in
+        applications such as computer games where users physically rotate the
+        device but the screen orientation itself mustn't change.
       </p>
       <section>
         <h2>
@@ -257,7 +257,7 @@
       </p>
       <p>
         Algorithms defined in this specification assume that for each
-        <a>document</a> there is a <dfn>pending promise</dfn>, which is
+        <a>document</a> there is a <dfn>screen lock promise</dfn>, which is
         initially set to <code>null</code>, which is a promise whose associated
         operation is to lock the screen orientation.
       </p>
@@ -717,18 +717,18 @@ async function rotate() {
               context</a>'s <a>document</a>.
               </li>
               <li>If one of the <var>browsing contexts</var>'s
-              <a>document</a>'s <a>pending promise</a> is not
+              <a>document</a>'s <a>screen lock promise</a> is not
               <code>null</code>:
                 <ol>
                   <li>Let <var>doc</var> be the <a>document</a> which has a not
-                  <code>null</code> <a>pending promise</a>.
+                  <code>null</code> <a>screen lock promise</a>.
                   </li>
-                  <li>Reject <var>doc</var>'s <a>pending promise</a> with
+                  <li>Reject <var>doc</var>'s <a>screen lock promise</a> with
                   <code>DOMException</code> whose name is
                   <code>AbortError</code>.
                   </li>
-                  <li>Set <var>doc</var>'s <a>pending promise</a> to
-                  <code>null</code> .
+                  <li>Set <var>doc</var>'s <a>screen lock promise</a> to <code>
+                    null</code> .
                   </li>
                 </ol>
               </li>
@@ -789,10 +789,10 @@ async function rotate() {
               </dd>
             </dl>
           </li>
-          <li>Set <var>doc</var>'s <a>pending promise</a> to a newly-created
-          promise.
+          <li>Set <var>doc</var>'s <a>screen lock promise</a> to a
+          newly-created promise.
           </li>
-          <li>Return <var>doc</var>'s <a>pending promise</a> and continue
+          <li>Return <var>doc</var>'s <a>screen lock promise</a> and continue
           asynchronously.
           </li>
           <li>
@@ -921,14 +921,14 @@ async function rotate() {
               <li>
                 <a>Update the orientation information</a> of <var>doc</var>.
               </li>
-              <li>If <var>doc</var>'s <a>pending promise</a> is not
-              <code>null</code>:
+              <li>If <var>doc</var>'s <a>screen lock promise</a> is not <code>
+                null</code>:
                 <ol>
-                  <li>Resolve <var>doc</var>'s <a>pending promise</a> with
+                  <li>Resolve <var>doc</var>'s <a>screen lock promise</a> with
                   <code>undefined</code>.
                   </li>
-                  <li>Set <var>doc</var>'s <a>pending promise</a> to
-                  <code>null</code> .
+                  <li>Set <var>doc</var>'s <a>screen lock promise</a> to <code>
+                    null</code> .
                   </li>
                 </ol>
               </li>
@@ -963,13 +963,13 @@ async function rotate() {
           <a>document</a>'s <a>current orientation angle</a>, run the following
           sub-steps:
             <ol>
-              <li>If the <a>document</a>'s <a>pending promise</a> is not <code>
-                null</code>:
+              <li>If the <a>document</a>'s <a>screen lock promise</a> is not
+              <code>null</code>:
                 <ol>
-                  <li>Resolve the <a>document</a>'s <a>pending promise</a> with
-                  <code>undefined</code>.
+                  <li>Resolve the <a>document</a>'s <a>screen lock promise</a>
+                  with <code>undefined</code>.
                   </li>
-                  <li>Set the <a>document</a>'s <a>pending promise</a> to
+                  <li>Set the <a>document</a>'s <a>screen lock promise</a> to
                   <code>null</code>.
                   </li>
                 </ol>
