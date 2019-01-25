@@ -476,34 +476,6 @@
       </section>
       <section class='informative'>
         <h2>
-          Interaction with DeviceOrientation
-        </h2>
-        <p>
-          The DeviceOrientation specification [[DEVICE-ORIENTATION]] defines a
-          <code>deviceorientation</code> event that can be used to discover the
-          physical orientation of the device. Such event can be used to draw
-          things on the screen that could point to a specific direction. A
-          basic example being a compass application. Another example would be
-          an application giving direction to the user or an augmented reality
-          game pointing to an objective.
-        </p>
-        <p>
-          Drawing on the screen in order to point to a physical location
-          requires to know the device orientation and the orientation of the
-          screen in the device coordinates. Without the APIs defined in this
-          specification, a developer has to assume that the <a>document</a>'s
-          <a>current orientation angle</a> is <code>0</code>. With the help of
-          the APIs described in this specification, the developer can <a>apply
-          an orientation lock</a> to a <a>document</a> using
-          <code>natural</code> to make that assumption a certitude. Otherwise,
-          reading the <a>document</a>'s <a>current orientation angle</a> via
-          <code>screen.orientation.angle</code> and listening to the
-          <code>"change"</code> event can help the developer to compensate the
-          screen orientation angle.
-        </p>
-      </section>
-      <section class='informative'>
-        <h2>
           Interaction with Web Application Manifest
         </h2>
         <p>
@@ -528,8 +500,8 @@
         </h2>
         <p>
           The <a data-cite="WCAG21">Web Content Accessibility Guidelines</a>
-          includes a Success Criterion (<a data-cite=
-          "WCAG21#orientation">Success Criterion Orientation</a>) related to
+          includes a <a data-cite=
+          "WCAG21#orientation">Success Criterion</a> related to
           screen orientation.
         </p>
         <p>
