@@ -409,7 +409,9 @@
       <table>
         <thead>
           <tr>
-            <th></th>
+            <th>
+              Internal Slot
+            </th>
             <th>
               Description (non-normative)
             </th>
@@ -418,7 +420,7 @@
         <tbody>
           <tr>
             <td>
-              <dfn>Orientation Lock Internal Slot</dfn>
+              <dfn data-lt="orientation lock">[[\orientationLock]]</dfn>
             </td>
             <td>
               A <a>document</a>'s orientation lock represented by an unordered
@@ -427,7 +429,7 @@
           </tr>
           <tr>
             <td>
-              <dfn>Default Orientation Internal Slot</dfn>
+              <dfn data-lt="default orientation">[[\defaultOrientation]]</dfn>
             </td>
             <td>
               The set of orientations to which the screen orientation is locked
@@ -679,8 +681,8 @@
           <a><code>OrientationLockType</code></a> enum.
         </p>
         <p>
-          A <a>document</a>'s' <dfn>orientation lock</dfn> is represented by
-          the <a>orientation lock internal slot</a>.
+          An internal slot represents the <a>document</a>'s' <a>orientation
+          lock</a>
         </p>
       </section>
       <section>
@@ -688,8 +690,8 @@
           Default orientation
         </h2>
         <p>
-          A <a>document</a>'s <dfn>default orientation</dfn> is represented by
-          the <a>default orientation internal slot</a>
+          An internal slot represents the <a>document</a>'s <a>default
+          orientation</a>
         </p>
         <p data-link-for="OrientationLockType">
           From the perspective of a <a>document</a>, locking to the <a>default
