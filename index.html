@@ -407,34 +407,35 @@
     <section>
     <h2>Internal Slots</h2>
       <table>
-          <thead>
-            <tr>
-              <th>
-              </th>
-              <th>
-                Description (non-normative)
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                <dfn>Orientation Lock Internal Slot</dfn>
-              </td>
-              <td>
-                  A <a>document</a>'s orientation lock represented by an unordered set of <a>orientationType</a>
-              </td>
-            </tr>
-            <tr>
-                <td>
-                    <dfn>Default Orientation Internal Slot</dfn>
-                  </td>
-                  <td>
-                    The set of orientations to which the screen orientation is locked when not explicitly locked by this API or any other means.
-                  </td>
-            </tr>
-          </tbody>
-        </table>
+        <thead>
+          <tr>
+            <th></th>
+            <th>
+              Description (non-normative)
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <dfn>Orientation Lock Internal Slot</dfn>
+            </td>
+            <td>
+              A <a>document</a>'s orientation lock represented by an unordered
+              set of <a>orientationType</a>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <dfn>Default Orientation Internal Slot</dfn>
+            </td>
+            <td>
+              The set of orientations to which the screen orientation is locked
+              when not explicitly locked by this API or any other means.
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </section>
     <section>
       <h2>
@@ -677,14 +678,18 @@
           MUST allow the screen to be locked to all of the states of the
           <a><code>OrientationLockType</code></a> enum.
         </p>
-        <p>A <a>document</a>'s' <dfn>orientation lock</dfn> is represented by the <a>orientation lock internal slot</a>.</p>
+        <p>
+          A <a>document</a>'s' <dfn>orientation lock</dfn> is represented by
+          the <a>orientation lock internal slot</a>.
+        </p>
       </section>
       <section>
         <h2>
           Default orientation
         </h2>
         <p>
-          A <a>document</a>'s <dfn>default orientation</dfn> is represented by the <a>default orientation internal slot</a>
+          A <a>document</a>'s <dfn>default orientation</dfn> is represented by
+          the <a>default orientation internal slot</a>
         </p>
         <p data-link-for="OrientationLockType">
           From the perspective of a <a>document</a>, locking to the <a>default
@@ -751,7 +756,6 @@
           The <a data-cite="WCAG21">Web Content Accessibility Guidelines</a>
           includes a <a data-cite="WCAG21#orientation">Success Criterion</a>
           related to screen orientation.
-
         </p>
         <p>
           ​The intent of this Success Criterion is to ensure that all
