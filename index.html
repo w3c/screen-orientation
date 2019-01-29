@@ -181,18 +181,20 @@
             "landscape-secondary"
           };
         </pre>
-        <p>
-          The <dfn>OrientationLockType</dfn> enum represents 
-          the screen orientations to which a screen can be locked.  The values to which a screen can be locked are: <a>any</a>, <a>natural</a>, 
-          <a>landscape</a>, <a>portrait</a>, <a>portrait-primary</a>, <a>portrait-secondary</a>, <a>landscape-primary</a>, 
-          <a>landscape-secondary</a>.
-        </p>
-        <p>
-          On the other hand, <dfn>OrientationType</dfn> enum 
-          represent the actual current screen orientation that the screen is in irrespective
-          of which lock is applied. The current screen orientation can be: <a>portrait-primary</a>, <a>portrait-secondary</a>, 
-          <a>landscape-primary</a>, <a>landscape-secondary</a>.
-        </p>
+      <p>
+        The <dfn>OrientationLockType</dfn> enum represents the screen
+        orientations to which a screen can be locked. The values to which a
+        screen can be locked are: <a>any</a>, <a>natural</a>, <a>landscape</a>,
+        <a>portrait</a>, <a>portrait-primary</a>, <a>portrait-secondary</a>,
+        <a>landscape-primary</a>, <a>landscape-secondary</a>.
+      </p>
+      <p>
+        On the other hand, <dfn>OrientationType</dfn> enum represent the actual
+        current screen orientation that the screen is in irrespective of which
+        lock is applied. The current screen orientation can be:
+        <a>portrait-primary</a>, <a>portrait-secondary</a>,
+        <a>landscape-primary</a>, <a>landscape-secondary</a>.
+      </p>
       <section>
         <h2>
           <dfn>lock()</dfn> method
@@ -284,31 +286,45 @@
         operation is to lock the screen orientation.
       </p>
       <section>
-        <h2>Screen orientation types and locks</h2>
+        <h2>
+          Screen orientation types and locks
+        </h2>
         <p>
-          If the screen width is greater than the screen height the <a>current orientation type</a> and <a>orientation lock</a> (if the screen is locked) will be either <dfn>landscape-primary</dfn> or
-          <dfn>landscape-secondary</dfn>.  
+          If the screen width is greater than the screen height the <a>current
+          orientation type</a> and <a>orientation lock</a> (if the screen is
+          locked) will be either <dfn>landscape-primary</dfn> or
+          <dfn>landscape-secondary</dfn>.
         </p>
         <p>
-          If the screen width is less than or equal to the screen height, the <a>current orientation type</a> and <a>orientation lock</a> (if the screen is locked) will be either <dfn>portrait-primary</dfn> or
+          If the screen width is less than or equal to the screen height, the
+          <a>current orientation type</a> and <a>orientation lock</a> (if the
+          screen is locked) will be either <dfn>portrait-primary</dfn> or
           <dfn>portrait-secondary</dfn>.
         </p>
         <p>
-          See the <a>screen orientation values table</a> for clarification on how the <a>user agent</a> determines primary and secondary values.
+          See the <a>screen orientation values table</a> for clarification on
+          how the <a>user agent</a> determines primary and secondary values.
         </p>
         <p>
-          Depending on platform convention locking the screen to <dfn>landscape</dfn> can represent landscape-primary, landscape-secondary or both.
+          Depending on platform convention locking the screen to
+          <dfn>landscape</dfn> can represent landscape-primary,
+          landscape-secondary or both.
         </p>
         <p>
-          Depending on platform convention locking the screen to <dfn>portrait</dfn> can represent portrait-primary, portrait-secondary or both.
+          Depending on platform convention locking the screen to
+          <dfn>portrait</dfn> can represent portrait-primary,
+          portrait-secondary or both.
         </p>
         <p>
-          Locking the screen to <dfn>natural</dfn> refers to either portrait-primary or landscape-primary depending on the device's usual orientation.
+          Locking the screen to <dfn>natural</dfn> refers to either
+          portrait-primary or landscape-primary depending on the device's usual
+          orientation.
         </p>
         <p>
-          Locking the screen to <dfn>any</dfn> means the screen can be locked to any one of portrait-primary, portrait-secondary, landscape-primary and landscape-secondary.
+          Locking the screen to <dfn>any</dfn> means the screen can be locked
+          to any one of portrait-primary, portrait-secondary, landscape-primary
+          and landscape-secondary.
         </p>
-        
       </section>
       <section data-dfn-for='OrientationType' data-link-for="OrientationType">
         <h2>
@@ -349,10 +365,10 @@
           The <a>screen orientation values table</a> presents the possible
           orientation types: <a>portrait-primary</a>,
           <a>portrait-secondary</a>, <a>landscape-primary</a> and
-          <a>landscape-secondary</a>. The table shows the primary and
-          secondary values that are determined by the device's natural
-          orientation and the possibilities available to the <a>user agent</a>
-          for setting the other primary and secondary orientation values.
+          <a>landscape-secondary</a>. The table shows the primary and secondary
+          values that are determined by the device's natural orientation and
+          the possibilities available to the <a>user agent</a> for setting the
+          other primary and secondary orientation values.
         </p>
         <table>
           <caption>
@@ -986,8 +1002,9 @@ async function rotate() {
               </li>
               <li>If the orientation change was triggered by a user gesture
               such as the user turning the device, as opposed to a call to <a>
-                lock()</a>, the <a>task</a> MUST be annotated with <code>process
-                user orientation change</code> when running the next step.
+                lock()</a>, the <a>task</a> MUST be annotated with
+                <code>process user orientation change</code> when running the
+                next step.
               </li>
               <li>
                 <a>Fire an event</a> named <code>change</code> at
@@ -1028,8 +1045,9 @@ async function rotate() {
               </li>
               <li>If the orientation change was triggered by a user gesture
               such as the user turning the device, as opposed to a call to <a>
-                lock()</a>, the <a>task</a> MUST be annotated with <code>process
-                user orientation change</code> when running the next step.
+                lock()</a>, the <a>task</a> MUST be annotated with
+                <code>process user orientation change</code> when running the
+                next step.
               </li>
               <li>
                 <a>Fire an event</a> named <code>change</code> at the
