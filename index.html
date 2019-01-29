@@ -405,42 +405,60 @@
       </p>
     </section>
     <section>
-    <h2>Internal Slots</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>
-              Internal Slot
-            </th>
-            <th>
-              Description (non-normative)
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>
-              <dfn data-lt="orientation lock">[[\orientationLock]]</dfn>
-            </td>
-            <td>
-              A <a>document</a>'s orientation lock represented by an unordered
-              set of <a>orientationType</a>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <dfn data-lt="default orientation">[[\defaultOrientation]]</dfn>
-            </td>
-            <td>
-              The set of orientations to which the screen orientation is locked
-              when not explicitly locked by this API or any other means.
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <h2>
+        Extensions to the <a>document</a> interface
+      </h2>
+      <section>
+        <h2>
+          Internal Slots
+        </h2>
+        <table>
+          <thead>
+            <tr>
+              <th>
+                Internal Slot
+              </th>
+              <th>
+                Description (non-normative)
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <dfn data-lt="orientation lock">[[\orientationLock]]</dfn>
+              </td>
+              <td>
+                A <a>document</a>'s orientation lock represented by an
+                unordered set of <a>orientationType</a>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <dfn data-lt=
+                "default orientation">[[\defaultOrientation]]</dfn>
+              </td>
+              <td>
+                The set of orientations to which the screen orientation is
+                locked when not explicitly locked by this API or any other
+                means.
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <dfn data-lt=
+                "promiseToLockScreen">[[\promiseToLockScreen]]</dfn>
+              </td>
+              <td>
+                Initially set to <code>null</code> this is a promise whose
+                associated operation is to lock the screen orientation.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
     </section>
     <section>
-      <h2>
         Concepts
       </h2>
       <p>
@@ -450,9 +468,7 @@
       </p>
       <p>
         Algorithms defined in this specification assume that for each
-        <a>document</a> there is a <dfn>pending promise</dfn>, which is
-        initially set to <code>null</code>, which is a promise whose associated
-        operation is to lock the screen orientation.
+        <a>document</a> there is a <a>promiseToLockScreen</a>.
       </p>
       <section>
         <h2>
@@ -834,18 +850,18 @@
               context</a>'s <a>document</a>.
               </li>
               <li>If one of the <var>browsing contexts</var>'s
-              <a>document</a>'s <a>pending promise</a> is not
+              <a>document</a>'s <a>promiseToLockScreen</a> is not
               <code>null</code>:
                 <ol>
                   <li>Let <var>doc</var> be the <a>document</a> which has a not
-                  <code>null</code> <a>pending promise</a>.
+                  <code>null</code> <a>promiseToLockScreen</a>.
                   </li>
-                  <li>Reject <var>doc</var>'s <a>pending promise</a> with
+                  <li>Reject <var>doc</var>'s <a>promiseToLockScreen</a> with
                   <code>DOMException</code> whose name is
                   <code>AbortError</code>.
                   </li>
-                  <li>Set <var>doc</var>'s <a>pending promise</a> to
-                  <code>null</code> .
+                  <li>Set <var>doc</var>'s <a>promiseToLockScreen</a> to <code>
+                    null</code> .
                   </li>
                 </ol>
               </li>
@@ -906,10 +922,10 @@
               </dd>
             </dl>
           </li>
-          <li>Set <var>doc</var>'s <a>pending promise</a> to a newly-created
-          promise.
+          <li>Set <var>doc</var>'s <a>promiseToLockScreen</a> to a
+          newly-created promise.
           </li>
-          <li>Return <var>doc</var>'s <a>pending promise</a> and continue
+          <li>Return <var>doc</var>'s <a>promiseToLockScreen</a> and continue
           asynchronously.
           </li>
           <li>
@@ -1038,14 +1054,14 @@
               <li>
                 <a>Update the orientation information</a> of <var>doc</var>.
               </li>
-              <li>If <var>doc</var>'s <a>pending promise</a> is not
-              <code>null</code>:
+              <li>If <var>doc</var>'s <a>promiseToLockScreen</a> is not <code>
+                null</code>:
                 <ol>
-                  <li>Resolve <var>doc</var>'s <a>pending promise</a> with
+                  <li>Resolve <var>doc</var>'s <a>promiseToLockScreen</a> with
                   <code>undefined</code>.
                   </li>
-                  <li>Set <var>doc</var>'s <a>pending promise</a> to
-                  <code>null</code> .
+                  <li>Set <var>doc</var>'s <a>promiseToLockScreen</a> to <code>
+                    null</code> .
                   </li>
                 </ol>
               </li>
@@ -1081,13 +1097,13 @@
           <a>document</a>'s <a>current orientation angle</a>, run the following
           sub-steps:
             <ol>
-              <li>If the <a>document</a>'s <a>pending promise</a> is not <code>
-                null</code>:
+              <li>If the <a>document</a>'s <a>promiseToLockScreen</a> is not
+              <code>null</code>:
                 <ol>
-                  <li>Resolve the <a>document</a>'s <a>pending promise</a> with
-                  <code>undefined</code>.
+                  <li>Resolve the <a>document</a>'s <a>promiseToLockScreen</a>
+                  with <code>undefined</code>.
                   </li>
-                  <li>Set the <a>document</a>'s <a>pending promise</a> to
+                  <li>Set the <a>document</a>'s <a>promiseToLockScreen</a> to
                   <code>null</code>.
                   </li>
                 </ol>
