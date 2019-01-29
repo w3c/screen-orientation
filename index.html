@@ -142,7 +142,7 @@
         </pre>
       <section>
         <h2>
-          <dfn>lock()</dfn> method
+          <dfn>lock()</dfn> method: Lock screen to a specific orientation
         </h2>
         <p>
           When the <a>lock()</a> method is invoked, the <a>user agent</a> MUST
@@ -152,7 +152,8 @@
       </section>
       <section>
         <h2>
-          <dfn>unlock()</dfn> method
+          <dfn>unlock()</dfn> method: Unlock screen to default orientation
+          orientation
         </h2>
         <p>
           When the <a>unlock()</a> method is invoked, the <a>user agent</a>
@@ -160,7 +161,7 @@
           <a>responsible document</a> to the <a>responsible document</a>'s
           <a>default orientation</a>.
         </p>
-        <p class='note'>
+        <p class='note' title="Why does unlock() not return a promise?">
           <a>unlock()</a> does not return a promise because it is equivalent to
           locking to the <a>default orientation</a> which might or might not be
           known by the <a>user agent</a>. Hence, the <a>user agent</a> can not
@@ -170,7 +171,7 @@
       </section>
       <section>
         <h2>
-          <dfn>type</dfn> attribute
+          <dfn>type</dfn> attribute: Get current orientation
         </h2>
         <p>
           When getting the <a>type</a> attribute, the <a>user agent</a> MUST
@@ -180,24 +181,24 @@
       </section>
       <section>
         <h2>
-          <dfn>angle</dfn> attribute
+          <dfn>angle</dfn> attribute: Get orientation angle
         </h2>
         <p>
           When getting the <a>angle</a> attribute, the <a>user agent</a> MUST
           return the <a>responsible document</a>'s <a>current orientation
           angle</a>.
         </p>
-        <div class='note'>
+        <div class='note' title=
+        "What does the value given for angle represent?">
           <p>
-            <a>angle</a> indicates how far the user has turned the device
+            <a>angle</a> represents how far the user has turned the device
             counterclockwise from the natural orientation. When the device is
             rotated 90° counterclockwise, the screen compensates by rotating
             90° clockwise, so <a>angle</a> returns <code>90</code>.
           </p>
           <p>
-            If the device is rotated 90° clockwise from its natural
-            orientation, the screen compensates by rotating 90°
-            counterclockwise, so <a>angle</a> returns <code>270</code>.
+            The <a>screen orientation values table</a> shows how the angle
+            changes depending on the how the device is rotated.
           </p>
           <p>
             The value returned by this property is always in the range 0-359.
@@ -207,12 +208,13 @@
       </section>
       <section>
         <h2>
-          <dfn>onchange</dfn> attribute
+          <dfn>onchange</dfn> attribute: Handle orientation changes
         </h2>
       </section>
       <p>
-        The <a>onchange</a> attribute is an <a>event handler</a> whose
-        corresponding <a>event handler event type</a> is <code>"change"</code>.
+        The <a>onchange</a> attribute is an <a data-link-for=
+        "ScreenOrientation">event handler</a> whose corresponding <a>event
+        handler event type</a> is <code>"change"</code>.
       </p>
     </section>
     <section>
