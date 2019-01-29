@@ -99,6 +99,143 @@
           </li>
         </ul>
       </section>
+      <section class='informative'>
+        <h2>
+          Examples
+        </h2>
+        <section>
+          <h2>
+            Locking to a specific orientation and unlocking
+          </h2>
+          <p>
+            In this example, clicking the "Lock" button makes a request to go
+            into fullscreen and then lock to the opposite orientation. If the
+            screen is not in default orientation, pressing the "Unlock" button
+            unlocks to its default orientation.
+          </p>
+          <p>
+            The developer console logs the change in orientation type and
+            angle.
+          </p>
+          <pre class='example html'>
+  &lt;script&gt;
+  function fullScreenCheck() {
+    if (document.fullscreenElement) return;
+    return document.documentElement.requestFullscreen();
+  }
+  
+  function updateDetails(lockButton) {
+    const buttonOrientation = getOppositeOrientation();
+    lockButton.textContent = `Lock to ${buttonOrientation}`;
+  }
+  
+  function getOppositeOrientation() {
+    const { type } = screen.orientation;
+    return type.startsWith("portrait") ? "landscape" : "portrait";
+  }
+  
+  async function rotate(lockButton) {
+    try {
+      await fullScreenCheck();
+    } catch (err) {
+      console.error(err);
+    }
+    const newOrientation = getOppositeOrientation();
+    await screen.orientation.lock(newOrientation);
+    updateDetails(lockButton);
+  }
+  
+  function show() {
+    const { type, angle } = screen.orientation;
+    console.log(`Orientation type is ${type} & angle is ${angle}.`);
+  }
+  
+  screen.orientation.addEventListener("change", () => {
+    show();
+    updateDetails(document.getElementById("button"));
+  });
+  
+  window.addEventListener("load", () => {
+    show();
+    updateDetails(document.getElementById("button"));
+  });
+  &lt;/script&gt;
+  
+  &lt;button onclick="rotate(this)" id="button"&gt;
+    Lock
+  &lt;/button&gt;
+  &lt;button onclick='screen.orientation.unlock()'&gt;
+    Unlock
+  &lt;/button&gt;
+  </pre>
+        </section>
+        <section>
+          <h2>
+            Locking the screen before calling a function
+          </h2>
+          <p>
+            This example waits to go into fullscreen, then locks to landscape
+            before calling <code>ready()</code>.
+          </p>
+          <pre class='example html'>
+  &lt;script&gt;
+  function ready() {
+    const { type } = screen.orientation;
+    console.log("Fullscreen and locked to ${type}. Ready!");
+  }
+  
+  async function start() {
+    await document.body.requestFullscreen();
+    await screen.orientation.lock("landscape");
+    ready();
+  }
+  &lt;/script&gt;
+  &lt;button onclick='start()'&gt;
+    Start
+  &lt;/button&gt;
+  </pre>
+        </section>
+        <section>
+          <h2>
+            Alerting the user if the Screen Orientation API is not supported
+          </h2>
+          <p>
+            In this example, if the Screen Orientation API is not supported, or
+            the document is not fullscreen and the screen orientation lock
+            rejects, the user is alerted to rotate their screen manually to
+            landscape.
+          </p>
+          <pre class='example html'>
+  &lt;script&gt;
+  function start() {
+    /* Start application when in correct orientation */
+  }
+  async function rotate() {
+    try {
+      await screen.orientation.lock("landscape");
+      start();
+    } catch (err) {
+      console.error(err);
+    }
+    const matchLandscape = matchMedia("(orientation: landscape)");
+    if (matchLandscape.matches) return start(); 
+    addEventListener("orientationchange", function listener() {
+      matchLandscape.addListener(function mediaChange(e) {
+        if (!e.matches) return; 
+        removeEventListener("orientationchange", listener);
+        matchLandscape.removeListener(mediaChange);
+        start();
+      });
+    });
+    alert("To start, please rotate your screen to landscape.");
+  }
+  &lt;/script&gt;
+  &lt;button onclick='start();'&gt;
+    Start
+  &lt;/button&gt;
+  </pre>
+        </section>
+      </section>
     </section>
     <section data-dfn-for='Screen'>
       <h2>
@@ -525,115 +662,6 @@
           user needs to be advised of the orientation requirements.​
         </p>
       </section>
-    </section>
-    <section class='informative'>
-      <h2>
-        Examples
-      </h2>
-      <p>
-        In this example for a mobile device, clicking the Rotate button makes a
-        request to go fullscreen and then lock to the opposite orientation. If
-        the screen is not in default orientation, pressing the unlock button
-        reverts the screen orientation back.
-      </p>
-      <p>
-        The log shows the change in orientation type and angle.
-      </p>
-      <pre class='example html'>
-&lt;script&gt;
-async function fullScreenCheck() {
-  if (document.fullscreenElement === null) {
-    await document.body.requestFullscreen();
-  }
-}
-
-async function unlock() {
-  await fullScreenCheck();
-  await screen.orientation.unlock();
-}
-
-async function rotate() {
-  const rotateBtn = document.getElementById("rotateBtn");
-  await fullScreenCheck();
-  const newOrientation = screen.orientation.type.startsWith("portrait")
-    ? "landscape"
-    : "portrait";
-  await screen.orientation.lock(newOrientation);
-  rotateBtn.textContent = `Rotate to ${newOrientation}`;
-}
-
-function show() {
-  const { type, angle } = screen.orientation;
-  console.log(`Orientation type is ${type} & angle is ${angle}`);
-}
-
-screen.orientation.addEventListener("change", show);
-window.addEventListener("load", show);
-&lt;/script&gt;
-
-&lt;button onclick="rotate() id="rotateBtn"&gt;
-  Rotate
-&lt;/button&gt;
-&lt;button onclick='unlock()'&gt;
-  Unlock
-&lt;/button&gt;
-</pre>
-      <p>
-        This example waits for fullscreen, then locks to landscape before
-        calling <code>ready()</code>.
-      </p>
-      <pre class='example html'>
-&lt;script&gt;
-function ready() {
-  const { type } = screen.orientation;
-  console.log("Fullscreen and locked to ${type}. Ready!");
-}
-
-async function start() {
-  await document.body.requestFullscreen();
-  await screen.orientation.lock("landscape");
-  ready();
-}
-&lt;/script&gt;
-&lt;button onclick='start();'&gt;
-  Start
-&lt;/button&gt;
-</pre>
-      <p>
-        In this example for a mobile device, if the Screen Orientation API is
-        not supported, or the document is not fullscreen and the screen
-        orientation lock rejects, the user is alerted to rotate their screen
-        manually to landscape.
-      </p>
-      <pre class='example html'>
-&lt;script&gt;
-function start() {
-  /* Start application when in correct orientation */
-}
-async function rotate() {
-  try {
-    await screen.orientation.lock("landscape");
-    start();
-  } catch (err) {
-    console.error(err);
-  }
-  const matchLandscape = matchMedia("(orientation: landscape)");
-  if (matchLandscape.matches) return start(); 
-  addEventListener("orientationchange", function listener() {
-    matchLandscape.addListener(function mediaChange(e) {
-      if (!e.matches) return; 
-      removeEventListener("orientationchange", listener);
-      matchLandscape.removeListener(mediaChange);
-      start();
-    });
-  });
-  alert("To start, please rotate your screen to landscape.");
-}
-&lt;/script&gt;
-&lt;button onclick='start();'&gt;
-  Start
-&lt;/button&gt;
-</pre>
     </section>
     <section>
       <h2>
