@@ -176,24 +176,31 @@
 
           enum OrientationType {
             "portrait-primary",
-            "portrait-secondary" 
+            "portrait-secondary", 
             "landscape-primary",
             "landscape-secondary"
           };
         </pre>
-      <p>
+      <p data-dfn-for="OrientationLockType">
         The <dfn>OrientationLockType</dfn> enum represents the screen
-        orientations to which a screen can be locked. The values to which a
-        screen can be locked are: <a>any</a>, <a>natural</a>, <a>landscape</a>,
-        <a>portrait</a>, <a>portrait-primary</a>, <a>portrait-secondary</a>,
-        <a>landscape-primary</a>, <a>landscape-secondary</a>.
+        orientations to which a screen can be locked. The screen can be locked to the following enum values: 
+        the "<dfn>any</dfn>" enum value represents the <a>any</a> orientation, 
+        the "<dfn>natural</dfn>" enum represents the <a>natural</a> orientation, 
+        the "<dfn>landscape</dfn>" enum represents the <a>landscape</a> orientation,
+        the "<dfn>portrait</dfn>" enum represents the <a>portrait</a> orientation,
+        the "<dfn>portrait-primary</dfn>" enum represents the <a>portrait-primary</a> orientation,
+        the "<dfn>portrait-secondary</dfn>" enum represents the <a>portrait-secondary</a> orientation,
+        the "<dfn>landscape-primary</dfn>" enum represents the <a>landscape-primary</a> orientation,
+        the "<dfn>landscape-secondary</dfn>" enum represents the <a>landscape-secondary</a> orientation.
       </p>
-      <p>
-        On the other hand, <dfn>OrientationType</dfn> enum represent the actual
+      <p data-dfn-for="OrientationType">
+        The <dfn>OrientationType</dfn> enum represents the actual
         current screen orientation that the screen is in irrespective of which
         lock is applied. The current screen orientation can be:
-        <a>portrait-primary</a>, <a>portrait-secondary</a>,
-        <a>landscape-primary</a>, <a>landscape-secondary</a>.
+        the "<dfn>portrait-primary</dfn>" enum represents the <a>portrait-primary</a> orientation,
+        the "<dfn>portrait-secondary</dfn>" enum represents the <a>portrait-secondary</a> orientation,
+        the "<dfn>landscape-primary</dfn>" enum represents the <a>landscape-primary</a> orientation,
+        the "<dfn>landscape-secondary</dfn>" enum represents the <a>landscape-secondary</a> orientation.
       </p>
       <section>
         <h2>
@@ -245,12 +252,12 @@
         <div class='note'>
           <p>
             <a>angle</a> indicates how far the user has turned the device
-            counterclockwise from the natural orientation. When the device is
+            counterclockwise from the <a>natural</a> orientation. When the device is
             rotated 90° counterclockwise, the screen compensates by rotating
             90° clockwise, so <a>angle</a> returns <code>90</code>.
           </p>
           <p>
-            If the device is rotated 90° clockwise from its natural
+            If the device is rotated 90° clockwise from its <a>natural</a>
             orientation, the screen compensates by rotating 90°
             counterclockwise, so <a>angle</a> returns <code>270</code>.
           </p>
@@ -289,41 +296,38 @@
         <h2>
           Screen orientation types and locks
         </h2>
-        <p>
-          If the screen width is greater than the screen height the <a>current
-          orientation type</a> and <a>orientation lock</a> (if the screen is
-          locked) will be either <dfn>landscape-primary</dfn> or
-          <dfn>landscape-secondary</dfn>.
+        <p><dfn>landscape-primary</dfn> is an orientation where the screen width is greater than the screen height.  If the device's natural orientation is landscape, 
+          then it is in landscape-primary when held in that position.  If the device's natural orientation is portrait, the <a>user agent</a> sets landscape-primary 
+          from the two options as shown <a>screen orientation values table</a>.
         </p>
         <p>
-          If the screen width is less than or equal to the screen height, the
-          <a>current orientation type</a> and <a>orientation lock</a> (if the
-          screen is locked) will be either <dfn>portrait-primary</dfn> or
-          <dfn>portrait-secondary</dfn>.
+          <dfn>landscape-secondary</dfn> is an orientation where the screen width is greater than the screen height.  If the device's natural orientation is landscape, it is in landscape-secondary 
+          when rotated 180º from it's natural orientation.  If the device's natural orientation is portrait, the <a>user agent</a> sets landscape-secondary 
+          from the two options as shown in the <a>screen orientation values table</a>.
         </p>
         <p>
-          See the <a>screen orientation values table</a> for clarification on
-          how the <a>user agent</a> determines primary and secondary values.
+          <dfn>portrait-primary</dfn> is an orientation where the screen width is less than or equal to the screen height.  If the device's natural orientation is portrait, then it 
+          is in portrait-primary when held in that position.  If the device's natural orientation is landscape, the <a>user agent</a> sets portrait-primary from the two options as shown in the 
+          <a>screen orientation values table</a>.
         </p>
         <p>
-          Depending on platform convention locking the screen to
-          <dfn>landscape</dfn> can represent landscape-primary,
-          landscape-secondary or both.
+          <dfn>portrait-secondary</dfn> is an orientation where the screen width is less than or equal to the screen height.  If the device's natural orientation is portrait, then it 
+          is in portrait-secondary when rotated 180º from it's natural position.  If the device's natural orientation is landscape, the <a>user agent</a> sets portrait-secondary 
+          from the two options as shown in the <a>screen orientation values table</a>.
         </p>
         <p>
-          Depending on platform convention locking the screen to
-          <dfn>portrait</dfn> can represent portrait-primary,
-          portrait-secondary or both.
+          <dfn>portrait</dfn> is an orientation where the screen width is less than or equal to the screen height and depending on platform convention locking the screen to
+          portrait can represent portrait-primary, portrait-secondary or both.
         </p>
         <p>
-          Locking the screen to <dfn>natural</dfn> refers to either
-          portrait-primary or landscape-primary depending on the device's usual
-          orientation.
+          <dfn>landscape</dfn> is an orientation where the screen width is greater than the screen height and depending on platform convention locking the screen to landscape can 
+          represent landscape-primary, landscape-secondary or both.
         </p>
         <p>
-          Locking the screen to <dfn>any</dfn> means the screen can be locked
-          to any one of portrait-primary, portrait-secondary, landscape-primary
-          and landscape-secondary.
+          <dfn>natural</dfn> is an orientation that refers to either portrait-primary or landscape-primary depending on the device's usual orientation.
+        </p>
+        <p>
+          <dfn>any</dfn> is an orientation that means the screen can be locked to any one of portrait-primary, portrait-secondary, landscape-primary and landscape-secondary.
         </p>
       </section>
       <section data-dfn-for='OrientationType' data-link-for="OrientationType">
@@ -345,12 +349,12 @@
           that for any given type, there will be a specific angle associated.
         </p>
         <p>
-          One primary orientation will always be determined by the natural
+          One primary orientation will always be determined by the <a>natural</a>
           orientation of the device and this will then determine the secondary
           value of its related orientation.
         </p>
         <p>
-          For example a device held in its natural portrait orientation would
+          For example a device held in its natural <a>portrait</a> orientation would
           have a current orientation of <a>portrait-primary</a> and its
           <a>portrait-secondary</a> orientation would be its position when
           rotated 180°.
@@ -366,7 +370,7 @@
           orientation types: <a>portrait-primary</a>,
           <a>portrait-secondary</a>, <a>landscape-primary</a> and
           <a>landscape-secondary</a>. The table shows the primary and secondary
-          values that are determined by the device's natural orientation and
+          values that are determined by the device's <a>natural</a> orientation and
           the possibilities available to the <a>user agent</a> for setting the
           other primary and secondary orientation values.
         </p>
@@ -460,7 +464,7 @@
             would be wrong given that a device might have <code>90</code> and
             <code>270</code> as the angles for <code>landscape</code> types but
             another device will have <code>0</code> and <code>180</code>,
-            depending on its natural orientation. Instead, it is recommended to
+            depending on its <a>natural</a> orientation. Instead, it is recommended to
             check during runtime the relationship between angle and type.
           </p>
         </div>
@@ -753,7 +757,7 @@ async function rotate() {
           </li>
           <li>Set the <a>document</a>'s <a>current orientation angle</a> to the
           clockwise angle in degrees between the orientation of the viewport as
-          it is drawn and the natural orientation of the device (i.e., the top
+          it is drawn and the <a>natural</a>orientation of the device (i.e., the top
           of the physical screen). This is the opposite of the physical
           rotation. In other words, if a device is turned 90 degrees on the
           right, the <a>current orientation angle</a> would be 270 degrees.
