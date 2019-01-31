@@ -80,30 +80,11 @@
         angle of a device's current screen orientation, and can provide
         notification if the device's orientation changes. This allows web
         applications to programmatically adapt the user experience for many
-        possible screen orientations (in concert with CSS). The API also
-        provides web applications with the ability to lock the screen to a
-        particular orientation, which is needed for an optimal user experience
-        in some types of applications. This is useful in applications like
-        computer games, where the user can physically rotate the device as a
-        means of user input but the screen orientation itself mustn't change.
+        possible screen orientations (in concert with CSS). The API also allows
+        locking the screen to a particular orientation. This is useful in
+        applications such as computer games where users physically rotate the
+        device but the screen orientation itself mustn't change.
       </p>
-      <p>
-        This specification describes how the API:
-      </p>
-      <ul>
-        <li>Provides the current screen orientation type and angle of a device
-        as specified by the <a>updating orientation algorithm</a>.
-        </li>
-        <li>Updates the screen orientation when the viewport angle changes as
-        specified by the <a>screen orientation change algorithm</a>.
-        </li>
-        <li>Locks the screen to a specific orientation as specified by the <a>
-          locking orientation algorithm</a>.
-        </li>
-        <li>Unlocks the locked screen to the default orientation as specified
-        by the <a data-link-for="ScreenOrientation">unlock()</a> method.
-        </li>
-      </ul>
       <section>
         <h2>
           Goals
@@ -117,6 +98,143 @@
           update correspondingly.
           </li>
         </ul>
+      </section>
+      <section class='informative'>
+        <h2>
+          Examples
+        </h2>
+        <section>
+          <h2>
+            Locking to a specific orientation and unlocking
+          </h2>
+          <p>
+            In this example, clicking the "Lock" button makes a request to go
+            into fullscreen and then lock to the opposite orientation. If the
+            screen is not in default orientation, pressing the "Unlock" button
+            unlocks to its default orientation.
+          </p>
+          <p>
+            The developer console logs the change in orientation type and
+            angle.
+          </p>
+          <pre class='example html'>
+  &lt;script&gt;
+  function fullScreenCheck() {
+    if (document.fullscreenElement) return;
+    return document.documentElement.requestFullscreen();
+  }
+  
+  function updateDetails(lockButton) {
+    const buttonOrientation = getOppositeOrientation();
+    lockButton.textContent = `Lock to ${buttonOrientation}`;
+  }
+  
+  function getOppositeOrientation() {
+    const { type } = screen.orientation;
+    return type.startsWith("portrait") ? "landscape" : "portrait";
+  }
+  
+  async function rotate(lockButton) {
+    try {
+      await fullScreenCheck();
+    } catch (err) {
+      console.error(err);
+    }
+    const newOrientation = getOppositeOrientation();
+    await screen.orientation.lock(newOrientation);
+    updateDetails(lockButton);
+  }
+  
+  function show() {
+    const { type, angle } = screen.orientation;
+    console.log(`Orientation type is ${type} & angle is ${angle}.`);
+  }
+  
+  screen.orientation.addEventListener("change", () => {
+    show();
+    updateDetails(document.getElementById("button"));
+  });
+  
+  window.addEventListener("load", () => {
+    show();
+    updateDetails(document.getElementById("button"));
+  });
+  &lt;/script&gt;
+  
+  &lt;button onclick="rotate(this)" id="button"&gt;
+    Lock
+  &lt;/button&gt;
+  &lt;button onclick='screen.orientation.unlock()'&gt;
+    Unlock
+  &lt;/button&gt;
+  </pre>
+        </section>
+        <section>
+          <h2>
+            Locking the screen before calling a function
+          </h2>
+          <p>
+            This example waits to go into fullscreen, then locks to landscape
+            before calling <code>ready()</code>.
+          </p>
+          <pre class='example html'>
+  &lt;script&gt;
+  function ready() {
+    const { type } = screen.orientation;
+    console.log("Fullscreen and locked to ${type}. Ready!");
+  }
+  
+  async function start() {
+    await document.body.requestFullscreen();
+    await screen.orientation.lock("landscape");
+    ready();
+  }
+  &lt;/script&gt;
+  &lt;button onclick='start()'&gt;
+    Start
+  &lt;/button&gt;
+  </pre>
+        </section>
+        <section>
+          <h2>
+            Alerting the user if the Screen Orientation API is not supported
+          </h2>
+          <p>
+            In this example, if the Screen Orientation API is not supported, or
+            the document is not fullscreen and the screen orientation lock
+            rejects, the user is alerted to rotate their screen manually to
+            landscape.
+          </p>
+          <pre class='example html'>
+  &lt;script&gt;
+  function start() {
+    /* Start application when in correct orientation */
+  }
+  async function rotate() {
+    try {
+      await screen.orientation.lock("landscape");
+      start();
+    } catch (err) {
+      console.error(err);
+    }
+    const matchLandscape = matchMedia("(orientation: landscape)");
+    if (matchLandscape.matches) return start(); 
+    addEventListener("orientationchange", function listener() {
+      matchLandscape.addListener(function mediaChange(e) {
+        if (!e.matches) return; 
+        removeEventListener("orientationchange", listener);
+        matchLandscape.removeListener(mediaChange);
+        start();
+      });
+    });
+    alert("To start, please rotate your screen to landscape.");
+  }
+  &lt;/script&gt;
+  &lt;button onclick='start();'&gt;
+    Start
+  &lt;/button&gt;
+  </pre>
+        </section>
       </section>
     </section>
     <section data-dfn-for='Screen'>
@@ -211,7 +329,7 @@
       </p>
       <section>
         <h2>
-          <dfn>lock()</dfn> method
+          <dfn>lock()</dfn> method: Lock screen to a specific orientation
         </h2>
         <p>
           When the <a>lock()</a> method is invoked, the <a>user agent</a> MUST
@@ -221,7 +339,8 @@
       </section>
       <section>
         <h2>
-          <dfn>unlock()</dfn> method
+          <dfn>unlock()</dfn> method: Unlock screen to default orientation
+          orientation
         </h2>
         <p>
           When the <a>unlock()</a> method is invoked, the <a>user agent</a>
@@ -229,7 +348,7 @@
           <a>responsible document</a> to the <a>responsible document</a>'s
           <a>default orientation</a>.
         </p>
-        <p class='note'>
+        <p class='note' title="Why does unlock() not return a promise?">
           <a>unlock()</a> does not return a promise because it is equivalent to
           locking to the <a>default orientation</a> which might or might not be
           known by the <a>user agent</a>. Hence, the <a>user agent</a> can not
@@ -239,7 +358,7 @@
       </section>
       <section>
         <h2>
-          <dfn>type</dfn> attribute
+          <dfn>type</dfn> attribute: Get current orientation
         </h2>
         <p>
           When getting the <a>type</a> attribute, the <a>user agent</a> MUST
@@ -249,24 +368,24 @@
       </section>
       <section>
         <h2>
-          <dfn>angle</dfn> attribute
+          <dfn>angle</dfn> attribute: Get orientation angle
         </h2>
         <p>
           When getting the <a>angle</a> attribute, the <a>user agent</a> MUST
           return the <a>responsible document</a>'s <a>current orientation
           angle</a>.
         </p>
-        <div class='note'>
+        <div class='note' title=
+        "What does the value given for angle represent?">
           <p>
-            <a>angle</a> indicates how far the user has turned the device
-            counterclockwise from the <a>natural</a> orientation. When the
-            device is rotated 90° counterclockwise, the screen compensates by
-            rotating 90° clockwise, so <a>angle</a> returns <code>90</code>.
+            <a>angle</a> represents how far the user has turned the device
+            counterclockwise from the natural orientation. When the device is
+            rotated 90° counterclockwise, the screen compensates by rotating
+            90° clockwise, so <a>angle</a> returns <code>90</code>.
           </p>
           <p>
-            If the device is rotated 90° clockwise from its <a>natural</a>
-            orientation, the screen compensates by rotating 90°
-            counterclockwise, so <a>angle</a> returns <code>270</code>.
+            The <a>screen orientation values table</a> shows how the angle
+            changes depending on the how the device is rotated.
           </p>
           <p>
             The value returned by this property is always in the range 0-359.
@@ -276,12 +395,13 @@
       </section>
       <section>
         <h2>
-          <dfn>onchange</dfn> attribute
+          <dfn>onchange</dfn> attribute: Handle orientation changes
         </h2>
       </section>
       <p>
-        The <a>onchange</a> attribute is an <a>event handler</a> whose
-        corresponding <a>event handler event type</a> is <code>"change"</code>.
+        The <a>onchange</a> attribute is an <a data-link-for=
+        "ScreenOrientation">event handler</a> whose corresponding <a>event
+        handler event type</a> is <code>"change"</code>.
       </p>
     </section>
     <section>
@@ -579,34 +699,6 @@
       </section>
       <section class='informative'>
         <h2>
-          Interaction with DeviceOrientation
-        </h2>
-        <p>
-          The DeviceOrientation specification [[DEVICE-ORIENTATION]] defines a
-          <code>deviceorientation</code> event that can be used to discover the
-          physical orientation of the device. Such event can be used to draw
-          things on the screen that could point to a specific direction. A
-          basic example being a compass application. Another example would be
-          an application giving direction to the user or an augmented reality
-          game pointing to an objective.
-        </p>
-        <p>
-          Drawing on the screen in order to point to a physical location
-          requires to know the device orientation and the orientation of the
-          screen in the device coordinates. Without the APIs defined in this
-          specification, a developer has to assume that the <a>document</a>'s
-          <a>current orientation angle</a> is <code>0</code>. With the help of
-          the APIs described in this specification, the developer can <a>apply
-          an orientation lock</a> to a <a>document</a> using
-          <code>natural</code> to make that assumption a certitude. Otherwise,
-          reading the <a>document</a>'s <a>current orientation angle</a> via
-          <code>screen.orientation.angle</code> and listening to the
-          <code>"change"</code> event can help the developer to compensate the
-          screen orientation angle.
-        </p>
-      </section>
-      <section class='informative'>
-        <h2>
           Interaction with Web Application Manifest
         </h2>
         <p>
@@ -631,9 +723,8 @@
         </h2>
         <p>
           The <a data-cite="WCAG21">Web Content Accessibility Guidelines</a>
-          includes a Success Criterion (<a data-cite=
-          "WCAG21#orientation">Success Criterion Orientation</a>) related to
-          screen orientation.
+          includes a <a data-cite="WCAG21#orientation">Success Criterion</a>
+          related to screen orientation.
         </p>
         <p>
           ​The intent of this Success Criterion is to ensure that all
@@ -655,115 +746,6 @@
           user needs to be advised of the orientation requirements.​
         </p>
       </section>
-    </section>
-    <section class='informative'>
-      <h2>
-        Examples
-      </h2>
-      <p>
-        In this example for a mobile device, clicking the Rotate button makes a
-        request to go fullscreen and then lock to the opposite orientation. If
-        the screen is not in default orientation, pressing the unlock button
-        reverts the screen orientation back.
-      </p>
-      <p>
-        The log shows the change in orientation type and angle.
-      </p>
-      <pre class='example html'>
-&lt;script&gt;
-async function fullScreenCheck() {
-  if (document.fullscreenElement === null) {
-    await document.body.requestFullscreen();
-  }
-}
-
-async function unlock() {
-  await fullScreenCheck();
-  await screen.orientation.unlock();
-}
-
-async function rotate() {
-  const rotateBtn = document.getElementById("rotateBtn");
-  await fullScreenCheck();
-  const newOrientation = screen.orientation.type.startsWith("portrait")
-    ? "landscape"
-    : "portrait";
-  await screen.orientation.lock(newOrientation);
-  rotateBtn.textContent = `Rotate to ${newOrientation}`;
-}
-
-function show() {
-  const { type, angle } = screen.orientation;
-  console.log(`Orientation type is ${type} & angle is ${angle}`);
-}
-
-screen.orientation.addEventListener("change", show);
-window.addEventListener("load", show);
-&lt;/script&gt;
-
-&lt;button onclick="rotate() id="rotateBtn"&gt;
-  Rotate
-&lt;/button&gt;
-&lt;button onclick='unlock()'&gt;
-  Unlock
-&lt;/button&gt;
-</pre>
-      <p>
-        This example waits for fullscreen, then locks to landscape before
-        calling <code>ready()</code>.
-      </p>
-      <pre class='example html'>
-&lt;script&gt;
-function ready() {
-  const { type } = screen.orientation;
-  console.log("Fullscreen and locked to ${type}. Ready!");
-}
-
-async function start() {
-  await document.body.requestFullscreen();
-  await screen.orientation.lock("landscape");
-  ready();
-}
-&lt;/script&gt;
-&lt;button onclick='start();'&gt;
-  Start
-&lt;/button&gt;
-</pre>
-      <p>
-        In this example for a mobile device, if the Screen Orientation API is
-        not supported, or the document is not fullscreen and the screen
-        orientation lock rejects, the user is alerted to rotate their screen
-        manually to landscape.
-      </p>
-      <pre class='example html'>
-&lt;script&gt;
-function start() {
-  /* Start application when in correct orientation */
-}
-async function rotate() {
-  try {
-    await screen.orientation.lock("landscape");
-    start();
-  } catch (err) {
-    console.error(err);
-  }
-  const matchLandscape = matchMedia("(orientation: landscape)");
-  if (matchLandscape.matches) return start(); 
-  addEventListener("orientationchange", function listener() {
-    matchLandscape.addListener(function mediaChange(e) {
-      if (!e.matches) return; 
-      removeEventListener("orientationchange", listener);
-      matchLandscape.removeListener(mediaChange);
-      start();
-    });
-  });
-  alert("To start, please rotate your screen to landscape.");
-}
-&lt;/script&gt;
-&lt;button onclick='start();'&gt;
-  Start
-&lt;/button&gt;
-</pre>
     </section>
     <section>
       <h2>
