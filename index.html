@@ -506,16 +506,6 @@
           orientation values table</a>.
         </p>
         <p>
-          The <dfn>default orientation</dfn> is the set of orientations to
-          which the screen is locked when there is no current <a>orientation
-          lock</a>. Locking the screen to the default orientation is equivalent
-          to being unlocked.
-        </p>
-        <p>
-          An <dfn>orientation lock</dfn> is in place when the screen has been
-          locked to a specific orientation.
-        </p>
-        <p>
           <dfn>Portrait</dfn> is an orientation where the screen width is less
           than or equal to the screen height and depending on platform
           convention locking the screen to portrait can represent
@@ -707,6 +697,10 @@
           The <a>[[\orientationLock]]</a> internal slot represents the
           <a>document</a>'s' <a>orientation lock</a>.
         </p>
+        <p>
+          An <dfn>orientation lock</dfn> is in place when the screen has
+          successfully been locked to a specific orientation.
+        </p>
       </section>
       <section>
         <h2>
@@ -716,7 +710,12 @@
           The <a>[[\defaultOrientation]]</a> internal slot represents the
           <a>document</a>'s <a>default orientation</a>.
         </p>
-        <p data-link-for="OrientationLockType">
+        <p>
+          The <dfn>default orientation</dfn> is the set of orientations to
+          which the screen is locked when there is no current <a>orientation
+          lock</a>.
+        </p>
+        <p>
           From the perspective of a <a>document</a>, locking to the <a>default
           orientation</a> is equivalent to unlocking because it means that it
           no longer has a lock applied. However, this does not mean that the
