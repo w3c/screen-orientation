@@ -1005,15 +1005,6 @@
               <li>
                 <a>Update the orientation information</a> of <var>doc</var>.
               </li>
-              <li>If <var>doc</var>'s <a>pending promise</a> is not
-              <code>null</code>:
-                <ol>
-                  <li>Resolve <var>doc</var>'s <a>pending promise</a> with
-                  <code>undefined</code>.
-                  </li>
-                  <li>Set <var>doc</var>'s <a>pending promise</a> to
-                  <code>null</code> .
-                  </li>
                 </ol>
               </li>
               <li>If the orientation change was triggered by a user gesture
@@ -1026,6 +1017,15 @@
                 <a>Fire an event</a> named <code>change</code> at
                 <var>doc</var>'s <a>screen.orientation</a> object.
               </li>
+              <li>If <var>doc</var>'s <a>pending promise</a> is not
+                <code>null</code>:
+                  <ol>
+                    <li>Resolve <var>doc</var>'s <a>pending promise</a> with
+                    <code>undefined</code>.
+                    </li>
+                    <li>Set <var>doc</var>'s <a>pending promise</a> to
+                    <code>null</code> .
+                    </li>
             </ol>
           </li>
         </ol>
@@ -1048,6 +1048,16 @@
           <a>document</a>'s <a>current orientation angle</a>, run the following
           sub-steps:
             <ol>
+              <li>If the orientation change was triggered by a user gesture
+              such as the user turning the device, as opposed to a call to <a>
+                lock()</a>, the <a>task</a> MUST be annotated with
+                <code>process user orientation change</code> when running the
+                next step.
+              </li>
+              <li>
+                <a>Fire an event</a> named <code>change</code> at the
+                <a>document</a>'s <a>screen.orientation</a> object.
+              </li>
               <li>If the <a>document</a>'s <a>pending promise</a> is not <code>
                 null</code>:
                 <ol>
@@ -1058,16 +1068,6 @@
                   <code>null</code>.
                   </li>
                 </ol>
-              </li>
-              <li>If the orientation change was triggered by a user gesture
-              such as the user turning the device, as opposed to a call to <a>
-                lock()</a>, the <a>task</a> MUST be annotated with
-                <code>process user orientation change</code> when running the
-                next step.
-              </li>
-              <li>
-                <a>Fire an event</a> named <code>change</code> at the
-                <a>document</a>'s <a>screen.orientation</a> object.
               </li>
             </ol>
           </li>
