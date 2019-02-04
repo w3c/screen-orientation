@@ -403,61 +403,61 @@
         handler event type</a> is <code>"change"</code>.
       </p>
     </section>
+    <h2>
+      Extensions to the <a>document</a> interface
+    </h2>
+    <section>
       <h2>
-        Extensions to the <a>document</a> interface
+        Internal Slots
       </h2>
-      <section>
-        <h2>
-          Internal Slots
-        </h2>
-        <table>
-          <thead>
-            <tr>
-              <th>
-                Internal Slot
-              </th>
-              <th>
-                Description (non-normative)
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                <a>[[\orientationLock]]</a>
-              </td>
-              <td>
-                A <a>document</a>'s <a>orientation lock</a> is represented by
-                an <a data-cite="infra#ordered-set">unordered set</a> of <a>orientationType</a>.
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <dfn>[[\defaultOrientation]]</dfn>
-              </td>
-              <td>
-                The set of orientations to which the screen orientation is
-                locked when not explicitly locked by this API or any other
-                means.
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <dfn>[[\orientationPendingPromise]]</dfn>
-              </td>
-              <td>
-                Either <code>null</code> or a <a>promise</a>. When assigned a <a>Promise</a>, 
-that promise represents a request to lock the screen to one of the supported orientations. 
-The promise resolves after locking the orientation succeeds or rejects if locking fails. 
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </section>
+      <table>
+        <thead>
+          <tr>
+            <th>
+              Internal Slot
+            </th>
+            <th>
+              Description (non-normative)
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <a>[[\orientationLock]]</a>
+            </td>
+            <td>
+              A <a>document</a>'s <a>orientation lock</a> is represented by an
+              <a data-cite="infra#ordered-set">unordered set</a> of
+              <a>orientationType</a>.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <dfn>[[\defaultOrientation]]</dfn>
+            </td>
+            <td>
+              The set of orientations to which the screen orientation is locked
+              when not explicitly locked by this API or any other means.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <dfn>[[\orientationPendingPromise]]</dfn>
+            </td>
+            <td>
+              Either <code>null</code> or a <a>promise</a>. When assigned a
+              <a>Promise</a>, that promise represents a request to lock the
+              screen to one of the supported orientations. The promise resolves
+              after locking the orientation succeeds or rejects if locking
+              fails.
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </section>
     <section>
-        Concepts
-      </h2>
+      Concepts
       <p>
         The term <dfn data-lt="screen concept" data-lt-nodefault=
         "">screen</dfn> is equivalent to the screen of the output device
