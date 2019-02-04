@@ -403,7 +403,6 @@
         handler event type</a> is <code>"change"</code>.
       </p>
     </section>
-    <section>
       <h2>
         Extensions to the <a>document</a> interface
       </h2>
@@ -425,11 +424,11 @@
           <tbody>
             <tr>
               <td>
-                <dfn>[[\orientationLock]]</dfn>
+                <a>[[\orientationLock]]</a>
               </td>
               <td>
                 A <a>document</a>'s <a>orientation lock</a> is represented by
-                an unordered set of <a>orientationType</a>.
+                an <a data-cite="infra#ordered-set">unordered set</a> of <a>orientationType</a>.
               </td>
             </tr>
             <tr>
@@ -447,8 +446,9 @@
                 <dfn>[[\orientationPendingPromise]]</dfn>
               </td>
               <td>
-                Initially set to <code>null</code> this is a promise whose
-                associated operation is to lock the screen orientation.
+                Either <code>null</code> or a <a>promise</a>. When assigned a <a>Promise</a>, 
+that promise represents a request to lock the screen to one of the supported orientations. 
+The promise resolves after locking the orientation succeeds or rejects if locking fails. 
               </td>
             </tr>
           </tbody>
@@ -694,7 +694,7 @@
           <a><code>OrientationLockType</code></a> enum.
         </p>
         <p>
-          The <a>[[\orientationLock]]</a> internal slot represents the
+          The <dfn>[[\orientationLock]]</dfn> internal slot represents the
           <a>document</a>'s' <a>orientation lock</a>.
         </p>
         <p>
