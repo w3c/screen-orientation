@@ -150,12 +150,12 @@
     console.log(`Orientation type is ${type} & angle is ${angle}.`);
   }
   
-  screen.orientation.addEventListener("change", () => {
+  screen.orientation.addEventListener("change", () =&gt; {
     show();
     updateDetails(document.getElementById("button"));
   });
   
-  window.addEventListener("load", () => {
+  window.addEventListener("load", () =&gt; {
     show();
     updateDetails(document.getElementById("button"));
   });
@@ -626,7 +626,7 @@
         </h2>
         <p>
           The <a>user agent</a> MAY require a <a>document</a> and its
-          associated <a>browsing context</a> to meet one or more <dfn>security
+          associated <a>browsing context</a> to meet one or more <dfn>pre-lock
           conditions</dfn> in order to be able to lock the screen orientation.
           For example, a <a>user agent</a> might require a <a>document</a>'s
           <a>top-level browsing context</a> to be fullscreen (see <a href=
@@ -681,10 +681,10 @@
           Interaction with Fullscreen API
         </h2>
         <p>
-          As a <a>security condition</a>, a user agent MAY restrict locking the
+          As a <a>pre-lock condition</a>, a user agent MAY restrict locking the
           screen orientation exclusively to when the <a>top-level browsing
           context</a>'s <a>document</a>'s <a>fullscreen element</a> is not
-          null. When that <a>security condition</a> applies, whenever the
+          null. When that <a>pre-lock condition</a> applies, whenever the
           <a>document</a>'s <a>fullscreen element</a> is empty and a screen
           orientation lock is applied, the <a>user agent</a> MUST <a>lock the
           orientation</a> of the <a>document</a> to the <a>document</a>'s
@@ -820,7 +820,7 @@
           </li>
           <li>If the <a>document</a>'s <a>active sandboxing flag set</a> has
           the <a>sandboxed orientation lock browsing context flag</a> set, or
-          <a>user agent</a> doesn't meet the <a>security conditions</a> to
+          <a>user agent</a> doesn't meet the <a>pre-lock conditions</a> to
           perform an orientation change, return a promise rejected with a
           <code>DOMException</code> whose name is <code>SecurityError</code>
           and abort these steps.
