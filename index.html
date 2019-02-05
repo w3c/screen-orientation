@@ -150,12 +150,12 @@
     console.log(`Orientation type is ${type} & angle is ${angle}.`);
   }
   
-  screen.orientation.addEventListener("change", () => {
+  screen.orientation.addEventListener("change", () =&gt; {
     show();
     updateDetails(document.getElementById("button"));
   });
   
-  window.addEventListener("load", () => {
+  window.addEventListener("load", () =&gt; {
     show();
     updateDetails(document.getElementById("button"));
   });
