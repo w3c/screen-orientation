@@ -274,7 +274,7 @@
       <pre class='idl'>
           [Exposed=Window]
           interface ScreenOrientation : EventTarget {
-            Promise&lt;void&gt; lock(OrientationLockType orientation);
+            Promise &lt;void&gt; lock(OrientationLockType orientation);
             void unlock();
             readonly attribute OrientationType type;
             readonly attribute unsigned short angle;
@@ -403,6 +403,7 @@
         handler event type</a> is <code>"change"</code>.
       </p>
     </section>
+    <section>
     <h2>
       Extensions to the <a>document</a> interface
     </h2>
@@ -417,17 +418,17 @@
               Internal Slot
             </th>
             <th>
-              Description (non-normative)
+              Description
             </th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td>
-              <a>[[\orientationLock]]</a>
+              <dfn>[[\orientationLock]]</dfn>
             </td>
             <td>
-              A <a>document</a>'s <a>orientation lock</a> is represented by an
+              The <a>[[\orientationLock]]</a> represents a <a>document</a>'s <a>orientation lock</a> as an
               <a data-cite="infra#ordered-set">unordered set</a> of
               <a>orientationType</a>.
             </td>
@@ -446,7 +447,7 @@
               <dfn>[[\orientationPendingPromise]]</dfn>
             </td>
             <td>
-              Either <code>null</code> or a <a>promise</a>. When assigned a
+              Either <code>null</code> or a <a data-link-for="ScreenOrientation">promise</a>. When assigned a
               <a>Promise</a>, that promise represents a request to lock the
               screen to one of the supported orientations. The promise resolves
               after locking the orientation succeeds or rejects if locking
@@ -456,8 +457,10 @@
         </tbody>
       </table>
     </section>
+  </section>
     <section>
-      Concepts
+      <h2> Concepts</h2>
+     
       <p>
         The term <dfn data-lt="screen concept" data-lt-nodefault=
         "">screen</dfn> is equivalent to the screen of the output device
@@ -694,7 +697,7 @@
           <a><code>OrientationLockType</code></a> enum.
         </p>
         <p>
-          The <dfn>[[\orientationLock]]</dfn> internal slot represents the
+          The <a>[[\orientationLock]]</a> internal slot represents the
           <a>document</a>'s' <a>orientation lock</a>.
         </p>
         <p>
@@ -707,10 +710,6 @@
           Default orientation
         </h2>
         <p>
-          The <a>[[\defaultOrientation]]</a> internal slot represents the
-          <a>document</a>'s <a>default orientation</a>.
-        </p>
-        <p>
           The <dfn>default orientation</dfn> is the set of orientations to
           which the screen is locked when there is no current <a>orientation
           lock</a>.
@@ -719,7 +718,7 @@
           From the perspective of a <a>document</a>, locking to the <a>default
           orientation</a> is equivalent to unlocking because it means that it
           no longer has a lock applied. However, this does not mean that the
-          <a>[[\defaultOrientation]]</a> has to be <a>any</a>.
+          <a>[[\defaultOrientation]]</a> only contains the item <a>any</a>.
         </p>
       </section>
     </section>
