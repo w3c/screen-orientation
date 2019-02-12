@@ -109,9 +109,9 @@
           </h2>
           <p>
             In this example, clicking the "Lock" button makes a request to go
-            into fullscreen and then lock to the opposite orientation. If the
-            screen is not in default orientation, pressing the "Unlock" button
-            unlocks to its default orientation.
+            into fullscreen and then lock the screen to the opposite
+            orientation. Pressing the "Unlock" button unlocks the screen so it
+            rotates if the user turns the device.
           </p>
           <p>
             The developer console logs the change in orientation type and
@@ -164,7 +164,7 @@
   &lt;button onclick="rotate(this)" id="button"&gt;
     Lock
   &lt;/button&gt;
-  &lt;button onclick='screen.orientation.unlock()'&gt;
+  &lt;button onclick="screen.orientation.unlock()"&gt;
     Unlock
   &lt;/button&gt;
   </pre>
@@ -181,7 +181,7 @@
   &lt;script&gt;
   function ready() {
     const { type } = screen.orientation;
-    console.log("Fullscreen and locked to ${type}. Ready!");
+    console.log(`Fullscreen and locked to ${type}. Ready!`);
   }
   
   async function start() {
@@ -190,7 +190,7 @@
     ready();
   }
   &lt;/script&gt;
-  &lt;button onclick='start()'&gt;
+  &lt;button onclick="start()"&gt;
     Start
   &lt;/button&gt;
   </pre>
@@ -201,9 +201,9 @@
           </h2>
           <p>
             In this example, if the Screen Orientation API is not supported, or
-            the document is not fullscreen and the screen orientation lock
-            rejects, the user is alerted to rotate their screen manually to
-            landscape.
+            the document is not fullscreen and the screen <a>orientation
+            lock</a> rejects, the user is alerted to rotate their screen
+            manually to landscape.
           </p>
           <pre class='example html'>
   &lt;script&gt;
@@ -230,7 +230,7 @@
     alert("To start, please rotate your screen to landscape.");
   }
   &lt;/script&gt;
-  &lt;button onclick='start();'&gt;
+  &lt;button onclick="start()"&gt;
     Start
   &lt;/button&gt;
   </pre>
@@ -340,7 +340,6 @@
       <section>
         <h2>
           <dfn>unlock()</dfn> method: Unlock screen to default orientation
-          orientation
         </h2>
         <p>
           When the <a>unlock()</a> method is invoked, the <a>user agent</a>
@@ -406,6 +405,63 @@
     </section>
     <section>
       <h2>
+        Extensions to the <a>Document</a> interface
+      </h2>
+      <section>
+        <h2>
+          Internal Slots
+        </h2>
+        <table>
+          <thead>
+            <tr>
+              <th>
+                Internal Slot
+              </th>
+              <th>
+                Description
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <dfn>[[\orientationLock]]</dfn>
+              </td>
+              <td>
+                The <a>[[\orientationLock]]</a> represents a <a>document</a>'s
+                <a>orientation lock</a> as an <a data-cite=
+                "infra#ordered-set">unordered set</a> of
+                <a>orientationType</a>.
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <dfn>[[\defaultOrientation]]</dfn>
+              </td>
+              <td>
+                An <a data-cite="infra#ordered-set">unordered set</a> of
+                orientations to which the screen orientation is locked when not
+                explicitly locked by this API or any other means.
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <dfn>[[\orientationPendingPromise]]</dfn>
+              </td>
+              <td>
+                Either <code>null</code> or a <a>promise</a>. When assigned a
+                <a>Promise</a>, that promise represents a request to lock the
+                screen to one of the supported orientations. The promise
+                resolves after locking the orientation succeeds or rejects if
+                locking fails.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </section>
+    <section>
+      <h2>
         Concepts
       </h2>
       <p>
@@ -415,9 +471,7 @@
       </p>
       <p>
         Algorithms defined in this specification assume that for each
-        <a>document</a> there is a <dfn>pending promise</dfn>, which is
-        initially set to <code>null</code>, which is a promise whose associated
-        operation is to lock the screen orientation.
+        <a>document</a> there is an <a>[[\orientationPendingPromise]]</a>.
       </p>
       <section>
         <h2>
@@ -458,24 +512,24 @@
           orientation values table</a>.
         </p>
         <p>
-          <dfn>portrait</dfn> is an orientation where the screen width is less
+          <dfn>Portrait</dfn> is an orientation where the screen width is less
           than or equal to the screen height and depending on platform
           convention locking the screen to portrait can represent
           portrait-primary, portrait-secondary or both.
         </p>
         <p>
-          <dfn>landscape</dfn> is an orientation where the screen width is
+          <dfn>Landscape</dfn> is an orientation where the screen width is
           greater than the screen height and depending on platform convention
           locking the screen to landscape can represent landscape-primary,
           landscape-secondary or both.
         </p>
         <p>
-          <dfn>natural</dfn> is an orientation that refers to either
+          <dfn>Natural</dfn> is an orientation that refers to either
           portrait-primary or landscape-primary depending on the device's usual
           orientation.
         </p>
         <p>
-          <dfn>any</dfn> is an orientation that means the screen can be locked
+          <dfn>Any</dfn> is an orientation that means the screen can be locked
           to any one of portrait-primary, portrait-secondary, landscape-primary
           and landscape-secondary.
         </p>
@@ -626,12 +680,12 @@
         </h2>
         <p>
           The <a>user agent</a> MAY require a <a>document</a> and its
-          associated <a>browsing context</a> to meet one or more <dfn>security
+          associated <a>browsing context</a> to meet one or more <dfn>pre-lock
           conditions</dfn> in order to be able to lock the screen orientation.
           For example, a <a>user agent</a> might require a <a>document</a>'s
           <a>top-level browsing context</a> to be fullscreen (see <a href=
           '#interaction-with-fullscreen-api'>Interaction with Fullscreen
-          API</a>) in order to allow an orientation lock.
+          API</a>) in order to allow an <a>orientation lock</a>.
         </p>
         <p>
           The <a>user agent</a> MAY reject all attempts to lock the screen
@@ -646,9 +700,12 @@
           <a><code>OrientationLockType</code></a> enum.
         </p>
         <p>
-          A <a>document</a>'s <dfn>orientation lock</dfn> is the orientation
-          lock that applies on its <a>top-level browsing context</a>. An
-          orientation lock is an unordered set of <a>OrientationType</a>.
+          The <a>[[\orientationLock]]</a> internal slot represents the
+          <a>document</a>'s' <a>orientation lock</a>.
+        </p>
+        <p>
+          An <dfn>orientation lock</dfn> is in place when the screen has
+          successfully been locked to a specific orientation.
         </p>
       </section>
       <section>
@@ -656,15 +713,16 @@
           Default orientation
         </h2>
         <p>
-          A <a>document</a>'s <dfn>default orientation</dfn> is the set of
-          orientations to which the screen orientation is locked when it is not
-          explicitly locked by this API or any other means.
+          The <dfn>default orientation</dfn> is the set of orientations to
+          which the screen is locked when there is no current <a>orientation
+          lock</a>.
         </p>
-        <p data-link-for="OrientationLockType">
-          For the perspective of a <a>document</a>, locking to the <a>default
+        <div class="issue" data-number="150"></div>
+        <p>
+          From the perspective of a <a>document</a>, locking to the <a>default
           orientation</a> is equivalent to unlocking because it means that it
-          no longer has a lock applied. However, it does not mean that the
-          <a>default orientation</a> has to be <a>any</a>.
+          no longer has a lock applied. However, this does not mean that the
+          <a>[[\defaultOrientation]]</a> only contains the item <a>any</a>.
         </p>
       </section>
     </section>
@@ -681,14 +739,14 @@
           Interaction with Fullscreen API
         </h2>
         <p>
-          As a <a>security condition</a>, a user agent MAY restrict locking the
+          As a <a>pre-lock condition</a>, a user agent MAY restrict locking the
           screen orientation exclusively to when the <a>top-level browsing
           context</a>'s <a>document</a>'s <a>fullscreen element</a> is not
-          null. When that <a>security condition</a> applies, whenever the
+          null. When that <a>pre-lock condition</a> applies, whenever the
           <a>document</a>'s <a>fullscreen element</a> is empty and a screen
-          orientation lock is applied, the <a>user agent</a> MUST <a>lock the
-          orientation</a> of the <a>document</a> to the <a>document</a>'s
-          <a>default orientation</a>.
+          <a>orientation lock</a> is applied, the <a>user agent</a> MUST
+          <a>lock the orientation</a> of the <a>document</a> to the
+          <a>document</a>'s <a>default orientation</a>.
         </p>
         <div class='issue'>
           This section could be improved if the [[FULLSCREEN]] specification
@@ -801,18 +859,19 @@
               context</a>'s <a>document</a>.
               </li>
               <li>If one of the <var>browsing contexts</var>'s
-              <a>document</a>'s <a>pending promise</a> is not
+              <a>document</a>'s <a>[[\orientationPendingPromise]]</a> is not
               <code>null</code>:
                 <ol>
                   <li>Let <var>doc</var> be the <a>document</a> which has a not
-                  <code>null</code> <a>pending promise</a>.
+                  <code>null</code> <a>[[\orientationPendingPromise]]</a>.
                   </li>
-                  <li>Reject <var>doc</var>'s <a>pending promise</a> with
+                  <li>Reject <var>doc</var>'s
+                  <a>[[\orientationPendingPromise]]</a> with
                   <code>DOMException</code> whose name is
                   <code>AbortError</code>.
                   </li>
-                  <li>Set <var>doc</var>'s <a>pending promise</a> to
-                  <code>null</code> .
+                  <li>Set <var>doc</var>'s
+                  <a>[[\orientationPendingPromise]]</a> to <code>null</code> .
                   </li>
                 </ol>
               </li>
@@ -820,7 +879,7 @@
           </li>
           <li>If the <a>document</a>'s <a>active sandboxing flag set</a> has
           the <a>sandboxed orientation lock browsing context flag</a> set, or
-          <a>user agent</a> doesn't meet the <a>security conditions</a> to
+          <a>user agent</a> doesn't meet the <a>pre-lock conditions</a> to
           perform an orientation change, return a promise rejected with a
           <code>DOMException</code> whose name is <code>SecurityError</code>
           and abort these steps.
@@ -873,11 +932,11 @@
               </dd>
             </dl>
           </li>
-          <li>Set <var>doc</var>'s <a>pending promise</a> to a newly-created
-          promise.
+          <li>Set <var>doc</var>'s <a>[[\orientationPendingPromise]]</a> to a
+          newly-created promise.
           </li>
-          <li>Return <var>doc</var>'s <a>pending promise</a> and continue
-          asynchronously.
+          <li>Return <var>doc</var>'s <a>[[\orientationPendingPromise]]</a> and
+          continue asynchronously.
           </li>
           <li>
             <a>Lock the orientation</a> of the <a>document</a> to
@@ -904,7 +963,7 @@
           <var>orientations</var>.
           </li>
           <li>If the <a>active orientation lock</a> is not the
-          <a>document</a>'s <a>orientation lock</a>, abort these steps.
+          <a>document</a>'s <a>[[\orientationLock]]</a>, abort these steps.
           </li>
           <li>If the <a>active orientation lock</a> value is equal to
           <var>orientations</var> value, abort these steps.
@@ -956,28 +1015,29 @@
           <li>If there is only one <a>top-level browsing context</a> with a <a>
             document</a> that is visible per [[!PAGE-VISIBILITY]], the
             <a>active orientation lock</a> is the <a>document</a>'s
-            <a>orientation lock</a>.
+            <a>[[\orientationLock]]</a>.
           </li>
           <li>Otherwise, if there are more than one <a>top-level browsing
           context</a> with a <a>document</a> that is visible per
           [[!PAGE-VISIBILITY]] but only one of those <a>document</a>s is
           focused, the <a>active orientation lock</a> is the focused
-          <a>document</a>'s <a>orientation lock</a>.
+          <a>document</a>'s <a>[[\orientationLock]]</a>.
           </li>
           <li>Otherwise, the <a>active orientation lock</a> SHOULD be the
-          latest focused <a>document</a>'s <a>orientation lock</a>, unless
+          latest focused <a>document</a>'s <a>[[\orientationLock]]</a>, unless
           stated otherwise by the platform conventions.
           </li>
         </ol>
         <p>
           Whenever the <a>active orientation lock</a> changes, the <a>user
           agent</a> MUST run the steps to <a>lock the orientation</a> of the
-          <a>document</a> to the <a>document</a>'s <a>orientation lock</a>.
+          <a>document</a> to the <a>document</a>'s <a>[[\orientationLock]]</a>.
         </p>
         <p>
           Whenever a <a>top-level browsing context</a> is <a>navigated</a>, the
           <a>user agent</a> MUST <a>lock the orientation</a> of the
-          <a>document</a> to the <a>document</a>'s <a>default orientation</a>.
+          <a>document</a> to the <a>document</a>'s
+          <a>[[\defaultOrientation]]</a>.
         </p>
       </section>
       <section data-link-for='ScreenOrientation'>
@@ -1016,13 +1076,14 @@
             <a>Fire an event</a> named <code>change</code> at <var>doc</var>'s
             <a>screen.orientation</a> object.
           </li>
-          <li>If <var>doc</var>'s <a>pending promise</a> is not
+          <li>If <var>doc</var>'s <a>[[\orientationPendingPromise]]</a> is not
           <code>null</code>:
             <ol>
-              <li>Resolve <var>doc</var>'s <a>pending promise</a> with
+              <li>Resolve <var>doc</var>'s
+              <a>[[\orientationPendingPromise]]</a> with
               <code>undefined</code>.
               </li>
-              <li>Set <var>doc</var>'s <a>pending promise</a> to
+              <li>Set <var>doc</var>'s <a>[[\orientationPendingPromise]]</a> to
               <code>null</code> .
               </li>
             </ol>
@@ -1057,14 +1118,15 @@
                 <a>Fire an event</a> named <code>change</code> at the
                 <a>document</a>'s <a>screen.orientation</a> object.
               </li>
-              <li>If the <a>document</a>'s <a>pending promise</a> is not <code>
-                null</code>:
+              <li>If the <a>document</a>'s
+              <a>[[\orientationPendingPromise]]</a> is not <code>null</code>:
                 <ol>
-                  <li>Resolve the <a>document</a>'s <a>pending promise</a> with
+                  <li>Resolve the <a>document</a>'s
+                  <a>[[\orientationPendingPromise]]</a> with
                   <code>undefined</code>.
                   </li>
-                  <li>Set the <a>document</a>'s <a>pending promise</a> to
-                  <code>null</code>.
+                  <li>Set the <a>document</a>'s
+                  <a>[[\orientationPendingPromise]]</a> to <code>null</code>.
                   </li>
                 </ol>
               </li>
@@ -1157,6 +1219,10 @@
         The following is defined in [[DOM]]: <dfn data-cite=
         "DOM#concept-event-fire">fire an event</dfn>, <dfn data-cite=
         "DOM#interface-eventtarget">EventTarget</dfn>
+      </p>
+      <p>
+        The following is defined in [[WEBIDL]]: <dfn data-cite=
+        "WEBIDL#idl-promise">promise</dfn>
       </p>
       <p>
         The following is used but not defined in [[FULLSCREEN]]: <dfn><a href=
