@@ -877,12 +877,12 @@
               </li>
             </ol>
           </li>
-          <li>If the <a>document</a>'s <a>active sandboxing flag set</a> has
-          the <a>sandboxed orientation lock browsing context flag</a> set, or
-          <a>user agent</a> doesn't meet the <a>pre-lock conditions</a> to
-          perform an orientation change, return a promise rejected with a
-          <code>DOMException</code> whose name is <code>SecurityError</code>
-          and abort these steps.
+          <li data-tests="lock-sandboxed-iframe.html">If the <a>document</a>'s
+          <a>active sandboxing flag set</a> has the <a>sandboxed orientation
+          lock browsing context flag</a> set, or <a>user agent</a> doesn't meet
+          the <a>pre-lock conditions</a> to perform an orientation change,
+          return a promise rejected with a <code>DOMException</code> whose name
+          is <code>SecurityError</code> and abort these steps.
           </li>
           <li>Let <var>orientations</var> be an empty list.
           </li>
