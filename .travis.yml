@@ -1,7 +1,7 @@
-dist: trusty
+language: node_js
+dist: xenial
 node_js:
   - lts/*
-sudo: false
 branches:
   only:
   - gh-pages
@@ -11,10 +11,10 @@ env:
   - DECISION="https://lists.w3.org/Archives/Public/public-webapps/2014JulSep/0627.html"
   - secure: "dJTE91QLWps4EXBHoQinGu4RdO6YSjk6KU/GZRFxWXyckDtOJJKu6IoB5bFtYvf6re2yh4oX5+CxuT/6trMJyVjO96cfC3OPzBgQNgwHr7ZzuP+VubLuQ6NG81ZKctqRiph1848xTq0h1hvpjWDgKTWV0uvTJWFJKU5iLzfJsZA="
 script:
-- nvm install --lts
-- nvm use --lts
 - node --version
-- npx respec-validate --gh-token=$GH_TOKEN --gh-user=$GH_USER index.html
+- npm -i -g respec-validate
+- respec-validate --gh-token=$GH_TOKEN --gh-user=$GH_USER index.html
+
 after_success:
 - curl "https://labs.w3.org/echidna/api/request" --data "url=$URL" --data "decision=$DECISION"
   --data "token=$TOKEN"
