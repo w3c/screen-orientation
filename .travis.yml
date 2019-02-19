@@ -12,7 +12,7 @@ env:
   - secure: "dJTE91QLWps4EXBHoQinGu4RdO6YSjk6KU/GZRFxWXyckDtOJJKu6IoB5bFtYvf6re2yh4oX5+CxuT/6trMJyVjO96cfC3OPzBgQNgwHr7ZzuP+VubLuQ6NG81ZKctqRiph1848xTq0h1hvpjWDgKTWV0uvTJWFJKU5iLzfJsZA="
 script:
 - npm i -g respec-validator
-- respec-validator --gh-token=$GH_TOKEN --gh-user=$GH_USER index.html
+- respec-validate --gh-token=$GH_TOKEN --gh-user=$GH_USER index.html
 after_success:
 - curl "https://labs.w3.org/echidna/api/request" --data "url=$URL" --data "decision=$DECISION"
   --data "token=$TOKEN"
