@@ -331,7 +331,7 @@
         <h2>
           <dfn>lock()</dfn> method: Lock screen to a specific orientation
         </h2>
-        <p data-tests="lock-basic.html">
+        <p data-tests="lock-bad-argument.html, lock-basic.html">
           When the <a>lock()</a> method is invoked, the <a>user agent</a> MUST
           run the <a>apply an orientation lock</a> steps to the <a>responsible
           document</a> using <var>orientation</var>.
@@ -813,7 +813,7 @@
         <h2>
           <dfn>Updating orientation algorithm</dfn>
         </h2>
-        <p>
+        <p data-tests="orientation-reading.html">
           The steps to <dfn>update the orientation information</dfn> of a
           <a>document</a> are as follows:
         </p>
@@ -828,10 +828,12 @@
           </li>
           <li>Set the <a>document</a>'s <a>current orientation angle</a> to the
           clockwise angle in degrees between the orientation of the viewport as
-          it is drawn and the <a>natural</a>orientation of the device (i.e.,
+          it is drawn and the <a>natural</a> orientation of the device (i.e.,
           the top of the physical screen). This is the opposite of the physical
           rotation. In other words, if a device is turned 90 degrees on the
-          right, the <a>current orientation angle</a> would be 270 degrees.
+          right, the <a>current orientation angle</a> would be 270 degrees. The
+          <a>screen orientation values table</a> gives the options for each
+          orientation and possible associated angles.
           </li>
         </ol>
       </section>
@@ -877,12 +879,12 @@
               </li>
             </ol>
           </li>
-          <li>If the <a>document</a>'s <a>active sandboxing flag set</a> has
-          the <a>sandboxed orientation lock browsing context flag</a> set, or
-          <a>user agent</a> doesn't meet the <a>pre-lock conditions</a> to
-          perform an orientation change, return a promise rejected with a
-          <code>DOMException</code> whose name is <code>SecurityError</code>
-          and abort these steps.
+          <li data-tests="lock-sandboxed-iframe.html">If the <a>document</a>'s
+          <a>active sandboxing flag set</a> has the <a>sandboxed orientation
+          lock browsing context flag</a> set, or <a>user agent</a> doesn't meet
+          the <a>pre-lock conditions</a> to perform an orientation change,
+          return a promise rejected with a <code>DOMException</code> whose name
+          is <code>SecurityError</code> and abort these steps.
           </li>
           <li>Let <var>orientations</var> be an empty list.
           </li>
@@ -1044,7 +1046,7 @@
         <h2>
           <dfn>Screen orientation change algorithm</dfn>
         </h2>
-        <p>
+        <p data-tests="onchange-event.html">
           Whenever the viewport's angle changes, the <a>user agent</a> MUST run
           the following steps as part of the next <a>animation frame task</a>:
         </p>
