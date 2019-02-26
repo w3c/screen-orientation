@@ -526,13 +526,21 @@
         <p>
           <dfn>Natural</dfn> is an orientation that refers to either
           portrait-primary or landscape-primary depending on the device's usual
-          orientation.
+          orientation. This orientation is determined by the device's operating
+          system.
         </p>
         <p>
           <dfn>Any</dfn> is an orientation that means the screen can be locked
           to any one of portrait-primary, portrait-secondary, landscape-primary
           and landscape-secondary.
         </p>
+        <p>
+          The <dfn>default orientation</dfn> is the set of orientations to
+          which the screen is locked when there is no current <a>orientation
+          lock</a>. This orientation is determined by the device's operating
+          system.
+        </p>
+        <div class="issue" data-number="150"></div>
       </section>
       <section data-dfn-for='OrientationType' data-link-for="OrientationType">
         <h2>
@@ -707,23 +715,18 @@
           An <dfn>orientation lock</dfn> is in place when the screen has
           successfully been locked to a specific orientation.
         </p>
-      </section>
-      <section>
-        <h2>
-          Default orientation
-        </h2>
-        <p>
-          The <dfn>default orientation</dfn> is the set of orientations to
-          which the screen is locked when there is no current <a>orientation
-          lock</a>.
-        </p>
-        <div class="issue" data-number="150"></div>
-        <p>
-          From the perspective of a <a>document</a>, locking to the <a>default
-          orientation</a> is equivalent to unlocking because it means that it
-          no longer has a lock applied. However, this does not mean that the
-          <a>[[\defaultOrientation]]</a> only contains the item <a>any</a>.
-        </p>
+        <section>
+          <h2>
+            Locking to the default orientation
+          </h2>
+          <p>
+            From the perspective of a <a>document</a>, locking to the
+            <a>default orientation</a> is equivalent to unlocking because it
+            means that it no longer has a lock applied. However, this does not
+            mean that the <a>[[\defaultOrientation]]</a> only contains the item
+            <a>any</a>.
+          </p>
+        </section>
       </section>
     </section>
     <section>
