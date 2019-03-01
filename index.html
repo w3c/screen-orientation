@@ -839,7 +839,7 @@
       </section>
       <section data-link-for="OrientationType">
         <h2>
-          <dfn>Applying an orientation lock algorithm</dfn>
+          Apply an orientation lock algorithm
         </h2>
         <p>
           The steps to <dfn>apply an orientation lock</dfn> to a
@@ -886,7 +886,8 @@
           return a promise rejected with a <code>DOMException</code> whose name
           is <code>SecurityError</code> and abort these steps.
           </li>
-          <li>Let <var>orientations</var> be an empty list.
+          <li data-tests="lock-basic.html">Let <var>orientations</var> be an
+          empty list.
           </li>
           <li>Depending on <var>orientation</var> value, do the following:
             <dl>
@@ -934,8 +935,8 @@
               </dd>
             </dl>
           </li>
-          <li>Set <var>doc</var>'s <a>[[\orientationPendingPromise]]</a> to a
-          newly-created promise.
+          <li data-tests="lock-basic.html">Set <var>doc</var>'s
+          <a>[[\orientationPendingPromise]]</a> to a newly-created promise.
           </li>
           <li>Return <var>doc</var>'s <a>[[\orientationPendingPromise]]</a> and
           continue asynchronously.
@@ -966,8 +967,8 @@
           following steps:
         </p>
         <ol>
-          <li>Set the <a>document</a>'s <a>[[\orientationLock]]</a> to
-          <var>orientations</var>.
+          <li data-tests="lock-basic.html">Set the <a>document</a>'s
+          <a>[[\orientationLock]]</a> to <var>orientations</var>.
           </li>
           <li>If the <a>active orientation lock</a> is not the
           <a>document</a>'s <a>[[\orientationLock]]</a>, abort these steps.
@@ -1012,7 +1013,7 @@
       </section>
       <section>
         <h2>
-          <dfn>Active orientation lock algorithm</dfn>
+          Determining the active orientation lock algorithm
         </h2>
         <p>
           To determine the <dfn>active orientation lock</dfn>, the <a>user
