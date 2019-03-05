@@ -123,17 +123,17 @@
     if (document.fullscreenElement) return;
     return document.documentElement.requestFullscreen();
   }
-  
+
   function updateDetails(lockButton) {
     const buttonOrientation = getOppositeOrientation();
     lockButton.textContent = `Lock to ${buttonOrientation}`;
   }
-  
+
   function getOppositeOrientation() {
     const { type } = screen.orientation;
     return type.startsWith("portrait") ? "landscape" : "portrait";
   }
-  
+
   async function rotate(lockButton) {
     try {
       await fullScreenCheck();
@@ -144,23 +144,23 @@
     await screen.orientation.lock(newOrientation);
     updateDetails(lockButton);
   }
-  
+
   function show() {
     const { type, angle } = screen.orientation;
     console.log(`Orientation type is ${type} & angle is ${angle}.`);
   }
-  
+
   screen.orientation.addEventListener("change", () =&gt; {
     show();
     updateDetails(document.getElementById("button"));
   });
-  
+
   window.addEventListener("load", () =&gt; {
     show();
     updateDetails(document.getElementById("button"));
   });
   &lt;/script&gt;
-  
+
   &lt;button onclick="rotate(this)" id="button"&gt;
     Lock
   &lt;/button&gt;
@@ -183,7 +183,7 @@
     const { type } = screen.orientation;
     console.log(`Fullscreen and locked to ${type}. Ready!`);
   }
-  
+
   async function start() {
     await document.body.requestFullscreen();
     await screen.orientation.lock("landscape");
@@ -218,10 +218,10 @@
       console.error(err);
     }
     const matchLandscape = matchMedia("(orientation: landscape)");
-    if (matchLandscape.matches) return start(); 
+    if (matchLandscape.matches) return start();
     addEventListener("orientationchange", function listener() {
       matchLandscape.addListener(function mediaChange(e) {
-        if (!e.matches) return; 
+        if (!e.matches) return;
         removeEventListener("orientationchange", listener);
         matchLandscape.removeListener(mediaChange);
         start();
@@ -280,7 +280,7 @@
             readonly attribute unsigned short angle;
             attribute EventHandler onchange;
           };
-        
+
           enum OrientationLockType {
             "any",
             "natural",
@@ -294,7 +294,7 @@
 
           enum OrientationType {
             "portrait-primary",
-            "portrait-secondary", 
+            "portrait-secondary",
             "landscape-primary",
             "landscape-secondary"
           };
@@ -526,13 +526,21 @@
         <p>
           <dfn>Natural</dfn> is an orientation that refers to either
           portrait-primary or landscape-primary depending on the device's usual
-          orientation.
+          orientation. This orientation is usually provided by the underlying
+          operating system.
         </p>
         <p>
           <dfn>Any</dfn> is an orientation that means the screen can be locked
           to any one of portrait-primary, portrait-secondary, landscape-primary
           and landscape-secondary.
         </p>
+        <p>
+          The <dfn>default orientation</dfn> is the set of orientations to
+          which the screen is locked when there is no current <a>orientation
+          lock</a>. This orientation is determined by the device's operating
+          system or set by the end-user.
+        </p>
+        <div class="issue" data-number="150"></div>
       </section>
       <section data-dfn-for='OrientationType' data-link-for="OrientationType">
         <h2>
@@ -660,17 +668,16 @@
           <a>document</a>.
         </p>
         <div class='practice'>
-          <span class='practicelab'>orientation.angle and orientation.type
-          relationship</span>
           <p class='practicedesc'>
-            Never assume any cross-devices relationship between the screen
-            orientation type and the screen orientation angle. Any assumption
-            would be wrong given that a device might have <code>90</code> and
-            <code>270</code> as the angles for <code>landscape</code> types but
-            another device will have <code>0</code> and <code>180</code>,
-            depending on its <a>natural</a> orientation. Instead, it is
-            recommended to check during runtime the relationship between angle
-            and type.
+            <span class='practicelab'>Orientation.angle and orientation.type
+            relationship</span> Never assume any cross-devices relationship
+            between the screen orientation type and the screen orientation
+            angle. Any assumption would be wrong given that a device might have
+            <code>90</code> and <code>270</code> as the angles for
+            <code>landscape</code> types but another device will have
+            <code>0</code> and <code>180</code>, depending on its
+            <a>natural</a> orientation. Instead, it is recommended to check
+            during runtime the relationship between angle and type.
           </p>
         </div>
       </section>
@@ -707,23 +714,18 @@
           An <dfn>orientation lock</dfn> is in place when the screen has
           successfully been locked to a specific orientation.
         </p>
-      </section>
-      <section>
-        <h2>
-          Default orientation
-        </h2>
-        <p>
-          The <dfn>default orientation</dfn> is the set of orientations to
-          which the screen is locked when there is no current <a>orientation
-          lock</a>.
-        </p>
-        <div class="issue" data-number="150"></div>
-        <p>
-          From the perspective of a <a>document</a>, locking to the <a>default
-          orientation</a> is equivalent to unlocking because it means that it
-          no longer has a lock applied. However, this does not mean that the
-          <a>[[\defaultOrientation]]</a> only contains the item <a>any</a>.
-        </p>
+        <section>
+          <h2>
+            Locking to the default orientation
+          </h2>
+          <p>
+            From the perspective of a <a>document</a>, locking to the
+            <a>default orientation</a> is equivalent to unlocking because it
+            means that it no longer has a lock applied. However, this does not
+            mean that the <a>[[\defaultOrientation]]</a> only contains the item
+            <a>any</a>.
+          </p>
+        </section>
       </section>
     </section>
     <section>
@@ -760,9 +762,8 @@
           Interaction with Web Application Manifest
         </h2>
         <p>
-          The <a data-cite="appmanifest"></a>Web Application Manifest
-          specification allows web applications to set the <a>document</a>'s
-          <a>default orientation</a>.
+          The <a data-cite="appmanifest"></a> allows web applications to set
+          the <a>document</a>'s <a>default orientation</a>.
         </p>
       </section>
       <section class='informative'>
@@ -826,14 +827,15 @@
           screen height, set the <a>document</a>'s <a>current orientation
           type</a> to <a>portrait-primary</a> or <a>portrait-secondary</a>.
           </li>
-          <li>Set the <a>document</a>'s <a>current orientation angle</a> to the
-          clockwise angle in degrees between the orientation of the viewport as
-          it is drawn and the <a>natural</a> orientation of the device (i.e.,
-          the top of the physical screen). This is the opposite of the physical
-          rotation. In other words, if a device is turned 90 degrees on the
-          right, the <a>current orientation angle</a> would be 270 degrees. The
-          <a>screen orientation values table</a> gives the options for each
-          orientation and possible associated angles.
+          <li data-tests="orientation-reading.html">Set the <a>document</a>'s
+          <a>current orientation angle</a> to the clockwise angle in degrees
+          between the orientation of the viewport as it is drawn and the
+          <a>natural</a> orientation of the device (i.e., the top of the
+          physical screen). This is the opposite of the physical rotation. In
+          other words, if a device is turned 90 degrees on the right, the
+          <a>current orientation angle</a> would be 270 degrees. The <a>screen
+          orientation values table</a> gives the options for each orientation
+          and possible associated angles.
           </li>
         </ol>
       </section>
@@ -851,10 +853,18 @@
           <code>DOMException</code> whose name is
           <code>NotSupportedError</code> and abort these steps.
           </li>
-          <li>The following sub-steps MAY be run asynchronously for performance
-          reasons, for example, if the <a>user agent</a> has <a data-lt=
-          'browsing context'>browsing contexts</a> living in different
-          processes:
+          <li data-tests="lock-sandboxed-iframe.html">If the <a>document</a>'s
+          <a>active sandboxing flag set</a> has the <a>sandboxed orientation
+          lock browsing context flag</a> set, or <a>user agent</a> doesn't meet
+          the <a>pre-lock conditions</a> to perform an orientation change,
+          return a promise rejected with a <code>DOMException</code> whose name
+          is <code>SecurityError</code> and abort these steps.
+          </li>
+          <li data-tests="lock-basic.html">Set <var>doc</var>'s
+          <a>[[\orientationPendingPromise]]</a> to a newly-created promise.
+          </li>
+          <li>Return <var>doc</var>'s <a>[[\orientationPendingPromise]]</a> and
+          <a data-cite="html/infrastructure.html#in-parallel">in parallel</a>:
             <ol>
               <li>Let <var>browsing contexts</var> be the <a>list of the
               descendant browsing contexts</a> of the <a>top-level browsing
@@ -877,78 +887,67 @@
                   </li>
                 </ol>
               </li>
+              <li data-tests="lock-basic.html">Let <var>orientations</var> be
+              an empty list.
+              </li>
+              <li>Depending on <var>orientation</var> value, do the following:
+                <dl>
+                  <dt>
+                    <a>portrait-primary</a> or <a>portrait-secondary</a> or
+                    <a>landscape-primary</a> or <a>landscape-secondary</a>
+                  </dt>
+                  <dd>
+                    Append <var>orientation</var> to <var>orientations</var>.
+                  </dd>
+                  <dt>
+                    <a data-link-for='OrientationLockType'>landscape</a>
+                  </dt>
+                  <dd>
+                    Depending on platform convention, append
+                    <code>landscape-primary</code>, or
+                    <code>landscape-secondary</code>, or both to
+                    <var>orientations</var>.
+                  </dd>
+                  <dt>
+                    <a data-link-for='OrientationLockType'>portrait</a>
+                  </dt>
+                  <dd>
+                    Depending on platform convention, append
+                    <code>portrait-primary</code>, or
+                    <code>portrait-secondary</code>, or both to
+                    <var>orientations</var>.
+                  </dd>
+                  <dt>
+                    <a data-link-for='OrientationLockType'>natural</a>
+                  </dt>
+                  <dd>
+                    Append <code>portrait-primary</code> or
+                    <code>landscape-primary</code> to <var>orientations</var>
+                    such as the associated <a>current orientation angle</a> is
+                    0.
+                  </dd>
+                  <dt>
+                    <code>any</code>
+                  </dt>
+                  <dd>
+                    Append <code>portrait-primary</code>,
+                    <code>portrait-secondary</code>,
+                    <code>landscape-primary</code> and
+                    <code>landscape-secondary</code> to
+                    <var>orientations</var>.
+                  </dd>
+                </dl>
+              </li>
+              <li>
+                <a>Lock the orientation</a> of the <a>document</a> to
+                <var>orientations</var>.
+              </li>
+              <li>If locking the orientation did not result in a change of
+              orientation, as part of the next <a>animation frame task</a>,
+              resolve <var>pending-promise</var> with <code>undefined</code>
+              and set <var>pending-promise</var> to <code>null</code>.
+              </li>
             </ol>
-          </li>
-          <li data-tests="lock-sandboxed-iframe.html">If the <a>document</a>'s
-          <a>active sandboxing flag set</a> has the <a>sandboxed orientation
-          lock browsing context flag</a> set, or <a>user agent</a> doesn't meet
-          the <a>pre-lock conditions</a> to perform an orientation change,
-          return a promise rejected with a <code>DOMException</code> whose name
-          is <code>SecurityError</code> and abort these steps.
-          </li>
-          <li data-tests="lock-basic.html">Let <var>orientations</var> be an
-          empty list.
-          </li>
-          <li>Depending on <var>orientation</var> value, do the following:
-            <dl>
-              <dt>
-                <a>portrait-primary</a> or <a>portrait-secondary</a> or
-                <a>landscape-primary</a> or <a>landscape-secondary</a>
-              </dt>
-              <dd>
-                Append <var>orientation</var> to <var>orientations</var>.
-              </dd>
-              <dt>
-                <a data-link-for='OrientationLockType'>landscape</a>
-              </dt>
-              <dd>
-                Depending on platform convention, append
-                <code>landscape-primary</code>, or
-                <code>landscape-secondary</code>, or both to
-                <var>orientations</var>.
-              </dd>
-              <dt>
-                <a data-link-for='OrientationLockType'>portrait</a>
-              </dt>
-              <dd>
-                Depending on platform convention, append
-                <code>portrait-primary</code>, or
-                <code>portrait-secondary</code>, or both to
-                <var>orientations</var>.
-              </dd>
-              <dt>
-                <a data-link-for='OrientationLockType'>natural</a>
-              </dt>
-              <dd>
-                Append <code>portrait-primary</code> or
-                <code>landscape-primary</code> to <var>orientations</var> such
-                as the associated <a>current orientation angle</a> is 0.
-              </dd>
-              <dt>
-                <a>any</a>
-              </dt>
-              <dd>
-                Append <code>portrait-primary</code>,
-                <code>portrait-secondary</code>, <code>landscape-primary</code>
-                and <code>landscape-secondary</code> to
-                <var>orientations</var>.
-              </dd>
-            </dl>
-          </li>
-          <li data-tests="lock-basic.html">Set <var>doc</var>'s
-          <a>[[\orientationPendingPromise]]</a> to a newly-created promise.
-          </li>
-          <li>Return <var>doc</var>'s <a>[[\orientationPendingPromise]]</a> and
-          continue asynchronously.
-          </li>
-          <li>
-            <a>Lock the orientation</a> of the <a>document</a> to
-            <var>orientations</var>.
-          </li>
-          <li>If locking the orientation did not result in a change of
-          orientation, as part of the next <a>animation frame task</a>, resolve
-          <var>pending-promise</var> with <code>undefined</code> and set <var>
-            pending-promise</var> to <code>null</code>.
           </li>
         </ol>
         <div class='note'>
