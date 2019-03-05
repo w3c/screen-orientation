@@ -853,10 +853,18 @@
           <code>DOMException</code> whose name is
           <code>NotSupportedError</code> and abort these steps.
           </li>
-          <li>The following sub-steps MAY be run asynchronously for performance
-          reasons, for example, if the <a>user agent</a> has <a data-lt=
-          'browsing context'>browsing contexts</a> living in different
-          processes:
+          <li data-tests="lock-sandboxed-iframe.html">If the <a>document</a>'s
+          <a>active sandboxing flag set</a> has the <a>sandboxed orientation
+          lock browsing context flag</a> set, or <a>user agent</a> doesn't meet
+          the <a>pre-lock conditions</a> to perform an orientation change,
+          return a promise rejected with a <code>DOMException</code> whose name
+          is <code>SecurityError</code> and abort these steps.
+          </li>
+          <li>Set <var>doc</var>'s <a>[[\orientationPendingPromise]]</a> to a
+          newly-created promise.
+          </li>
+          <li>Return <var>doc</var>'s <a>[[\orientationPendingPromise]]</a> and
+          <a data-cite="html/infrastructure.html#in-parallel">in parallel</a>:
             <ol>
               <li>Let <var>browsing contexts</var> be the <a>list of the
               descendant browsing contexts</a> of the <a>top-level browsing
@@ -879,77 +887,66 @@
                   </li>
                 </ol>
               </li>
+              <li>Let <var>orientations</var> be an empty list.
+              </li>
+              <li>Depending on <var>orientation</var> value, do the following:
+                <dl>
+                  <dd>
+                    <a>portrait-primary</a> or <a>portrait-secondary</a> or
+                    <a>landscape-primary</a> or <a>landscape-secondary</a>
+                  </dd>
+                  <dd>
+                    Append <var>orientation</var> to <var>orientations</var>.
+                  </dd>
+                  <dt>
+                    <a data-link-for='OrientationLockType'>landscape</a>
+                  </dt>
+                  <dd>
+                    Depending on platform convention, append
+                    <code>landscape-primary</code>, or
+                    <code>landscape-secondary</code>, or both to
+                    <var>orientations</var>.
+                  </dd>
+                  <dt>
+                    <a data-link-for='OrientationLockType'>portrait</a>
+                  </dt>
+                  <dd>
+                    Depending on platform convention, append
+                    <code>portrait-primary</code>, or
+                    <code>portrait-secondary</code>, or both to
+                    <var>orientations</var>.
+                  </dd>
+                  <dt>
+                    <a data-link-for='OrientationLockType'>natural</a>
+                  </dt>
+                  <dd>
+                    Append <code>portrait-primary</code> or
+                    <code>landscape-primary</code> to <var>orientations</var>
+                    such as the associated <a>current orientation angle</a> is
+                    0.
+                  </dd>
+                  <dt>
+                    <code>any</code>
+                  </dt>
+                  <dd>
+                    Append <code>portrait-primary</code>,
+                    <code>portrait-secondary</code>,
+                    <code>landscape-primary</code> and
+                    <code>landscape-secondary</code> to
+                    <var>orientations</var>.
+                  </dd>
+                </dl>
+              </li>
+              <li>
+                <a>Lock the orientation</a> of the <a>document</a> to
+                <var>orientations</var>.
+              </li>
+              <li>If locking the orientation did not result in a change of
+              orientation, as part of the next <a>animation frame task</a>,
+              resolve <var>pending-promise</var> with <code>undefined</code>
+              and set <var>pending-promise</var> to <code>null</code>.
+              </li>
             </ol>
-          </li>
-          <li data-tests="lock-sandboxed-iframe.html">If the <a>document</a>'s
-          <a>active sandboxing flag set</a> has the <a>sandboxed orientation
-          lock browsing context flag</a> set, or <a>user agent</a> doesn't meet
-          the <a>pre-lock conditions</a> to perform an orientation change,
-          return a promise rejected with a <code>DOMException</code> whose name
-          is <code>SecurityError</code> and abort these steps.
-          </li>
-          <li>Let <var>orientations</var> be an empty list.
-          </li>
-          <li>Depending on <var>orientation</var> value, do the following:
-            <dl>
-              <dd>
-                <a>portrait-primary</a> or <a>portrait-secondary</a> or
-                <a>landscape-primary</a> or <a>landscape-secondary</a>
-              </dd>
-              <dd>
-                Append <var>orientation</var> to <var>orientations</var>.
-              </dd>
-              <dt>
-                <a data-link-for='OrientationLockType'>landscape</a>
-              </dt>
-              <dd>
-                Depending on platform convention, append
-                <code>landscape-primary</code>, or
-                <code>landscape-secondary</code>, or both to
-                <var>orientations</var>.
-              </dd>
-              <dt>
-                <a data-link-for='OrientationLockType'>portrait</a>
-              </dt>
-              <dd>
-                Depending on platform convention, append
-                <code>portrait-primary</code>, or
-                <code>portrait-secondary</code>, or both to
-                <var>orientations</var>.
-              </dd>
-              <dt>
-                <a data-link-for='OrientationLockType'>natural</a>
-              </dt>
-              <dd>
-                Append <code>portrait-primary</code> or
-                <code>landscape-primary</code> to <var>orientations</var> such
-                as the associated <a>current orientation angle</a> is 0.
-              </dd>
-              <dt>
-                <a>any</a>
-              </dt>
-              <dd>
-                Append <code>portrait-primary</code>,
-                <code>portrait-secondary</code>, <code>landscape-primary</code>
-                and <code>landscape-secondary</code> to
-                <var>orientations</var>.
-              </dd>
-            </dl>
-          </li>
-          <li>Set <var>doc</var>'s <a>[[\orientationPendingPromise]]</a> to a
-          newly-created promise.
-          </li>
-          <li>Return <var>doc</var>'s <a>[[\orientationPendingPromise]]</a> and
-          continue asynchronously.
-          </li>
-          <li>
-            <a>Lock the orientation</a> of the <a>document</a> to
-            <var>orientations</var>.
-          </li>
-          <li>If locking the orientation did not result in a change of
-          orientation, as part of the next <a>animation frame task</a>, resolve
-          <var>pending-promise</var> with <code>undefined</code> and set <var>
-            pending-promise</var> to <code>null</code>.
           </li>
         </ol>
         <div class='note'>
