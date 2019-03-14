@@ -728,9 +728,18 @@
           <p>
             From the perspective of a <a>document</a>, locking to the
             <a>default orientation</a> is equivalent to unlocking because it
-            means that it no longer has a lock applied. However, this does not
-            mean that the <a>[[\defaultOrientation]]</a> only contains the item
-            <a>any</a>.
+            means that it no longer has a lock applied.
+          </p>
+          <p class="note" title="Who controls the default orientation?">
+            This does not mean that the <a>[[\defaultOrientation]]</a> will
+            only contain the item <a>any</a>. The <a>default orientation</a> is
+            likely device-specific and <a>[[\defaultOrientation]]</a> could for
+            example contain <a>portrait-primary</a> and/or
+            <a>landscape-primary</a>. Alternatively, the user could restrict
+            the default orientation to a specific orientation via some OS or
+            browser level preference for accessibility reasons. The user agent
+            can also set the default orientation e.g., <a href=
+            "#interaction-with-web-application-manifest"></a>.
           </p>
         </section>
       </section>
