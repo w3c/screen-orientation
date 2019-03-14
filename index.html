@@ -828,7 +828,7 @@
       </h2>
       <section data-link-for="OrientationType">
         <h2>
-          <dfn>Updating orientation algorithm</dfn>
+          Updating the orientation information
         </h2>
         <p data-tests="orientation-reading.html">
           The steps to <dfn>update the orientation information</dfn> of a
@@ -857,7 +857,7 @@
       </section>
       <section data-link-for="OrientationType">
         <h2>
-          <dfn>Locking orientation algorithm</dfn>
+          Apply an orientation lock
         </h2>
         <p>
           The steps to <dfn>apply an orientation lock</dfn> to a
@@ -876,8 +876,8 @@
           return a promise rejected with a <code>DOMException</code> whose name
           is <code>SecurityError</code> and abort these steps.
           </li>
-          <li>Set <var>doc</var>'s <a>[[\orientationPendingPromise]]</a> to a
-          newly-created promise.
+          <li data-tests="lock-basic.html">Set <var>doc</var>'s
+          <a>[[\orientationPendingPromise]]</a> to a newly-created promise.
           </li>
           <li>Return <var>doc</var>'s <a>[[\orientationPendingPromise]]</a> and
           <a data-cite="html/infrastructure.html#in-parallel">in parallel</a>:
@@ -903,7 +903,8 @@
                   </li>
                 </ol>
               </li>
-              <li>Let <var>orientations</var> be an empty list.
+              <li data-tests="lock-basic.html">Let <var>orientations</var> be
+              an empty list.
               </li>
               <li>Depending on <var>orientation</var> value, do the following:
                 <dl>
@@ -968,16 +969,20 @@
         <div class='note'>
           If locking the orientation results in an orientation change, the
           promise will be resolved when the orientation will change as
-          described in the <a>Screen orientation change algorithm</a>.
+          described in the <a href="#screen-orientation-change"></a> section.
         </div>
+      </section>
+      <section>
+        <h2>
+          Locking the orientation
+        </h2>
         <p>
-          When the <a>user agent</a> has to <dfn>lock the orientation</dfn> of
-          a <a>document</a> to <var>orientations</var>, it MUST run the
-          following steps:
+          The steps to <dfn>lock the orientation</dfn> to 
+          <var>orientation</var> are as follows.
         </p>
         <ol>
-          <li>Set the <a>document</a>'s <a>orientation lock</a> to
-          <var>orientations</var>.
+          <li data-tests="lock-basic.html">Set the <a>document</a>'s
+          <a>[[\orientationLock]]</a> to <var>orientations</var>.
           </li>
           <li>If the <a>active orientation lock</a> is not the
           <a>document</a>'s <a>[[\orientationLock]]</a>, abort these steps.
@@ -1022,11 +1027,10 @@
       </section>
       <section>
         <h2>
-          Active orientation lock algorithm
+          Determining the active orientation lock
         </h2>
         <p>
-          To determine the <dfn>active orientation lock</dfn>, the <a>user
-          agent</a> MUST run the following steps:
+          The steps to determine the <dfn>active orientation lock</dfn> are as follows:
         </p>
         <ol>
           <li>If there is only one <a>top-level browsing context</a> with a <a>
@@ -1057,9 +1061,9 @@
           <a>[[\defaultOrientation]]</a>.
         </p>
       </section>
-      <section data-link-for='ScreenOrientation'>
+      <section data-link-for='ScreenOrientation' id="Screen-orientation-change">
         <h2>
-          <dfn>Screen orientation change algorithm</dfn>
+          Screen orientation change
         </h2>
         <p data-tests="onchange-event.html">
           Whenever the viewport's angle changes, the <a>user agent</a> MUST run
