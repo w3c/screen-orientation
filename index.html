@@ -265,9 +265,9 @@
           The <a data-link-for="Screen">orientation</a> attribute is an
           instance of <a>ScreenOrientation</a>. This attribute provides the
           current orientation, current angle and whether there was an onchange
-          event. The <a>user agent</a> MUST run the <a>updating orientation
-          algorithm</a> steps to initialize the values and return the
-          <a data-link-for="Screen">orientation</a> attribute.
+          event. The <a>user agent</a> MUST run the <a>update the orientation
+          information</a> algorithm steps to initialize the values and return
+          the <a data-link-for="Screen">orientation</a> attribute.
         </p>
       </section>
     </section>
@@ -969,7 +969,7 @@
         <div class='note'>
           If locking the orientation results in an orientation change, the
           promise will be resolved when the orientation will change as
-          described in the <a href="#screen-orientation-change"></a> section.
+          described in the <a href="#Screen-orientation-change"></a> section.
         </div>
       </section>
       <section>
@@ -977,7 +977,7 @@
           Locking the orientation
         </h2>
         <p>
-          The steps to <dfn>lock the orientation</dfn> to 
+          The steps to <dfn>lock the orientation</dfn> to
           <var>orientation</var> are as follows.
         </p>
         <ol>
@@ -1030,7 +1030,8 @@
           Determining the active orientation lock
         </h2>
         <p>
-          The steps to determine the <dfn>active orientation lock</dfn> are as follows:
+          The steps to determine the <dfn>active orientation lock</dfn> are as
+          follows:
         </p>
         <ol>
           <li>If there is only one <a>top-level browsing context</a> with a <a>
@@ -1061,7 +1062,8 @@
           <a>[[\defaultOrientation]]</a>.
         </p>
       </section>
-      <section data-link-for='ScreenOrientation' id="Screen-orientation-change">
+      <section data-link-for='ScreenOrientation' id=
+      "Screen-orientation-change">
         <h2>
           Screen orientation change
         </h2>
