@@ -8,7 +8,6 @@
     <script src='https://www.w3.org/Tools/respec/respec-w3c-common' class=
     'remove'></script>
     <script class='remove'>
-    // (this is to make tidy happy)
     var respecConfig = {
       specStatus: "ED",
       shortName: "screen-orientation",
@@ -60,10 +59,10 @@
         Introduction
       </h2>
       <p>
-        For web applications, the Screen Orientation API exposes the type and
-        angle of a device's current screen orientation, and can provide
-        notification if the device's orientation changes. This allows web
-        applications to programmatically adapt the user experience for many
+        For web applications, the <cite>Screen Orientation API</cite> exposes
+        the type and angle of a device's current screen orientation, and can
+        provide notification if the device's orientation changes. This allows
+        web applications to programmatically adapt the user experience for many
         possible screen orientations (in concert with CSS). The API also allows
         locking the screen to a particular orientation. This is useful in
         applications such as computer games where users physically rotate the
@@ -181,11 +180,11 @@
         </section>
         <section>
           <h2>
-            Alerting the user if the Screen Orientation API is not supported
+            Alerting the user if the API is not supported
           </h2>
           <p>
-            In this example, if the Screen Orientation API is not supported, or
-            the screen orientation <a data-link-for=
+            In this example, if the <cite>Screen Orientation API</cite> is not
+            supported, or the screen orientation <a data-link-for=
             'ScreenOrientation'>lock()</a> rejects, the user is alerted to
             rotate their screen manually to landscape.
           </p>
@@ -227,8 +226,8 @@
       </h2>
       <p>
         The [[[CSSOM-View]]] specification defines the <code><dfn data-cite=
-        "CSSOM-View#screen">Screen</dfn></code> interface, which this
-        specification extends:
+        "CSSOM-View">Screen</dfn></code> interface, which this specification
+        extends:
       </p>
       <pre class='idl'>
           partial interface Screen {
@@ -664,12 +663,12 @@
         </h2>
         <p>
           The <a>user agent</a> MAY require a <a>document</a> and its
-          associated <a>browsing context</a> to meet one or more <dfn>pre-lock
-          conditions</dfn> in order to be able to lock the screen orientation.
-          For example, a <a>user agent</a> might require a <a>document</a>'s
-          <a>top-level browsing context</a> to be fullscreen (see <a href=
-          '#interaction-with-fullscreen-api'></a>) in order to allow an
-          <a>orientation lock</a>.
+          associated [=Document/browsing context=] to meet one or more
+          <dfn>pre-lock conditions</dfn> in order to be able to lock the screen
+          orientation. For example, a <a>user agent</a> might require a
+          <a>document</a>'s <a>top-level browsing context</a> to be fullscreen
+          (see <a href='#interaction-with-fullscreen-api'></a>) in order to
+          allow an <a>orientation lock</a>.
         </p>
         <p>
           The <a>user agent</a> MAY reject all attempts to lock the screen
@@ -685,7 +684,7 @@
         </p>
         <p>
           The {{[[orientationLock]]}} internal slot represents the
-          <a>document</a>'s' <a>orientation lock</a>.
+          <a>document</a>'s <a>orientation lock</a>.
         </p>
         <p>
           An <dfn>orientation lock</dfn> is in place when the screen has
@@ -729,18 +728,17 @@
         <p>
           As a <a>pre-lock condition</a>, a user agent MAY restrict locking the
           screen orientation exclusively to when the <a>top-level browsing
-          context</a>'s <a>document</a>'s <a>fullscreen element</a> is not
-          null. When that <a>pre-lock condition</a> applies, whenever the
-          <a>document</a>'s <a>fullscreen element</a> is empty and a screen
-          <a>orientation lock</a> is applied, the <a>user agent</a> MUST
-          <a>lock the orientation</a> of the <a>document</a> to the
-          <a>document</a>'s <a>default orientation</a>.
+          context</a>'s <a>document</a>'s is full screen. When that <a>pre-lock
+          condition</a> applies, whenever the <a>document</a>'s <a>fullscreen
+          element</a> is empty and a screen <a>orientation lock</a> is applied,
+          the <a>user agent</a> MUST <a>lock the orientation</a> of the
+          <a>document</a> to the <a>document</a>'s <a>default orientation</a>.
         </p>
         <div class='issue'>
           This section could be improved if the [[FULLSCREEN]] specification
           had a hook for when the document is no longer fullscreen. See
           <a href='https://github.com/w3c/screen-orientation/issues/62'>issue
-          62</a> .
+          62</a>.
         </div>
       </section>
       <section class='informative'>
@@ -768,7 +766,7 @@
         </h2>
         <p>
           The [[[WCAG21]]] includes a <a data-cite="WCAG21#orientation">Success
-          Criterion</a> related to screen orientation.
+          Criterion related to screen orientation</a>.
         </p>
         <p>
           ​The intent of this Success Criterion is to ensure that all
@@ -838,11 +836,10 @@
           {{DOMException}} and abort these steps.
           </li>
           <li data-tests="lock-sandboxed-iframe.html">If the <a>document</a>'s
-          <a>active sandboxing flag set</a> has the <a>sandboxed orientation
-          lock browsing context flag</a> set, or <a>user agent</a> doesn't meet
-          the <a>pre-lock conditions</a> to perform an orientation change,
-          return a promise rejected with a `"SecurityError"` {{DOMException}}
-          and abort these steps.
+          has the <a>sandboxed orientation lock browsing context flag</a> set,
+          or <a>user agent</a> doesn't meet the <a>pre-lock conditions</a> to
+          perform an orientation change, return a promise rejected with a
+          `"SecurityError"` {{DOMException}} and abort these steps.
           </li>
           <li data-tests="lock-basic.html">Set |doc|'s
           {{[[orientationPendingPromise]]}} to a newly-created promise.
@@ -1032,11 +1029,11 @@
           contexts</a> of the <a>top-level browsing context</a>'s
           <a>document</a>.
           </li>
-          <li>For each <a>browsing context</a> in |browsing contexts|, run the
-          following sub-steps:
+          <li>For each [= Document / browsing context =] in |browsing
+          contexts|, run the following sub-steps:
             <ol>
-              <li>Let |doc| be the <a>browsing context</a>'s <a>active
-              document</a>.
+              <li>Let |doc| be the [= Document / browsing context =]'s
+              <a>active document</a>.
               </li>
               <li>If |doc| is not visible per [[PAGE-VISIBILITY]], abort these
               steps.
@@ -1155,10 +1152,7 @@
       </h2>
       <p>
         The following concepts and interfaces are defined in [[HTML]]:
-        <dfn data-cite="HTML/browsers.html#browsing-context">browsing
-        context</dfn>, <dfn data-cite=
-        "HTML/browsers.html#active-sandboxing-flag-set">active sandboxing flag
-        set</dfn>, and <dfn data-cite=
+        <dfn data-cite=
         "HTML/browsers.html#list-of-the-descendant-browsing-contexts">list of
         the descendant browsing contexts</dfn>.
       </p>
