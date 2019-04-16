@@ -381,7 +381,7 @@
         </h2>
       </section>
       <p>
-        The <a>onchange</a> attribute is an <a>event handler</a> whose
+        The {{onchange}} attribute is an <a>event handler</a> whose
         corresponding <a>event handler event type</a> is `"change"`.
       </p>
     </section>
@@ -412,7 +412,7 @@
               <td>
                 The {{[[orientationLock]]}} represents a <a>document</a>'s
                 <a>orientation lock</a> as an <a>ordered set</a> of
-                <a>orientationType</a>.
+                {{OrientationType}}.
               </td>
             </tr>
             <tr>
@@ -668,8 +668,8 @@
           conditions</dfn> in order to be able to lock the screen orientation.
           For example, a <a>user agent</a> might require a <a>document</a>'s
           <a>top-level browsing context</a> to be fullscreen (see <a href=
-          '#interaction-with-fullscreen-api'>Interaction with Fullscreen
-          API</a>) in order to allow an <a>orientation lock</a>.
+          '#interaction-with-fullscreen-api'></a>) in order to allow an
+          <a>orientation lock</a>.
         </p>
         <p>
           The <a>user agent</a> MAY reject all attempts to lock the screen
@@ -681,7 +681,7 @@
         <p>
           If the <a>user agent</a> supports locking the screen orientation, it
           MUST allow the screen to be locked to all of the states of the
-          <a>`OrientationLockType`</a> enum.
+          {{OrientationLockType}} enum.
         </p>
         <p>
           The {{[[orientationLock]]}} internal slot represents the
