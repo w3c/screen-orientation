@@ -182,10 +182,9 @@
           <h2>
             Alerting the user if the API is not supported
           </h2>
-          <p>
+          <p data-link-for="ScreenOrientation">
             In this example, if the <cite>Screen Orientation API</cite> is not
-            supported, or the screen orientation <a data-link-for=
-            'ScreenOrientation'>lock()</a> rejects, the user is alerted to
+            supported, or the screen orientation {{lock()}} rejects, the user is alerted to
             rotate their screen manually to landscape.
           </p>
           <pre class='example html'>
@@ -253,7 +252,7 @@
       <h2>
         <dfn>ScreenOrientation</dfn> interface
       </h2>
-      <pre class='idl'>
+      <pre class='idl' data-cite="DOM HTML">
           [Exposed=Window]
           interface ScreenOrientation : EventTarget {
             Promise&lt;void&gt; lock(OrientationLockType orientation);
