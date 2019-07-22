@@ -840,29 +840,29 @@
           perform an orientation change, return a promise rejected with a
           `"SecurityError"` {{DOMException}} and abort these steps.
           </li>
+          <li>Let |browsing contexts| be the <a>list of the descendant browsing
+          contexts</a> of the <a>top-level browsing context</a>'s
+          <a>document</a>.
+          </li>
+          <li>If one of the |browsing contexts|'s <a>document</a>'s
+          {{[[orientationPendingPromise]]}} is not `null`:
+            <ol>
+              <li>Let |childDoc| be the <a>document</a> for which
+              {{[[orientationPendingPromise]]}} is not `null`.
+              </li>
+              <li>Reject |childDoc|'s {{[[orientationPendingPromise]]}} with
+              `"AbortError"` {{DOMException}}.
+              </li>
+              <li>Set |childDoc|'s {{[[orientationPendingPromise]]}} to `null`.
+              </li>
+            </ol>
+          </li>
           <li data-tests="lock-basic.html">Set |doc|'s
           {{[[orientationPendingPromise]]}} to a newly-created promise.
           </li>
           <li>Return |doc|'s {{[[orientationPendingPromise]]}} and <a>in
           parallel</a>:
             <ol>
-              <li>Let |browsing contexts| be the <a>list of the descendant
-              browsing contexts</a> of the <a>top-level browsing context</a>'s
-              <a>document</a>.
-              </li>
-              <li>If one of the |browsing contexts|'s <a>document</a>'s
-              {{[[orientationPendingPromise]]}} is not `null`:
-                <ol>
-                  <li>Let |doc| be the <a>document</a> which has a not `null`
-                  {{[[orientationPendingPromise]]}}.
-                  </li>
-                  <li>Reject |doc|'s {{[[orientationPendingPromise]]}} with
-                  `"AbortError"` {{DOMException}}.
-                  </li>
-                  <li>Set |doc|'s {{[[orientationPendingPromise]]}} to `null` .
-                  </li>
-                </ol>
-              </li>
               <li data-tests="lock-basic.html">Let |orientations| be an empty
               list.
               </li>
