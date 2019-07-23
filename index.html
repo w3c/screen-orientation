@@ -142,12 +142,17 @@
               show();
               updateDetails(document.getElementById("button"));
             });
+
+            async function doUnlock() {
+              await screen.orientation.unlock();
+              await document.exitFullscreen();
+            }
             &lt;/script&gt;
 
             &lt;button onclick="rotate(this)" id="button"&gt;
               Lock
             &lt;/button&gt;
-            &lt;button onclick="screen.orientation.unlock()"&gt;
+            &lt;button onclick="doUnlock()"&gt;
               Unlock
             &lt;/button&gt;
           </pre>
@@ -256,7 +261,7 @@
           [Exposed=Window]
           interface ScreenOrientation : EventTarget {
             Promise&lt;void&gt; lock(OrientationLockType orientation);
-            void unlock();
+            Promise&lt;void&gt; unlock();
             readonly attribute OrientationType type;
             readonly attribute unsigned short angle;
             attribute EventHandler onchange;
@@ -324,17 +329,9 @@
         </h2>
         <p>
           When the {{unlock()}} method is invoked, the <a>user agent</a> MUST
-          run the steps to <a>lock the orientation</a> of the <a>responsible
-          document</a> to its <a>default orientation</a>.
+          run the steps to <a>apply an orientation lock</a> of the
+          <a>responsible document</a> to its <a>default orientation</a>.
         </p>
-        <p class='note' title="Why does unlock() not return a promise?">
-          {{unlock()}} does not return a promise because it is equivalent to
-          locking to the <a>default orientation</a> which might or might not be
-          known by the <a>user agent</a>. Hence, the <a>user agent</a> can not
-          predict what the new orientation is going to be and even if it is
-          going to change at all.
-        </p>
-        <div class="issue" data-number="104"></div>
       </section>
       <section>
         <h2>
@@ -827,7 +824,8 @@
         </h2>
         <p>
           The steps to <dfn>apply an orientation lock</dfn> to a
-          <a>document</a> using |orientation| are as follows:
+          <a>document</a> using |orientation:OrientationLockType| are as
+          follows:
         </p>
         <ol>
           <li>If the <a>user agent</a> does not support locking the screen
