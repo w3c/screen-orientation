@@ -864,7 +864,7 @@
                 </ol>
               </li>
               <li data-tests="lock-basic.html">Let |orientations| be an empty
-              list.
+              <a>list</a>.
               </li>
               <li>Depending on |orientation| value, do the following:
                 <dl>
@@ -915,8 +915,8 @@
               </li>
               <li>If locking the orientation did not result in a change of
               orientation, as part of the next <a>animation frame task</a>,
-              resolve |pending-promise| with `undefined` and set |
-              pending-promise| to `null`.
+              resolve {{[[orientationPendingPromise]]}} with `undefined` and
+              set set {{[[orientationPendingPromise]]}} to `null`.
               </li>
             </ol>
           </li>
