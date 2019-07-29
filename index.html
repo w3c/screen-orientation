@@ -314,8 +314,8 @@
         </h2>
         <p data-tests="lock-bad-argument.html, lock-basic.html">
           When the {{lock()}} method is invoked, the <a>user agent</a> MUST run
-          the <a>apply an orientation lock</a> steps to the <a>responsible
-          document</a> using |orientation|.
+          the <a>apply an orientation lock</a> steps to the [=environment
+          settings object / responsible document=] using |orientation|.
         </p>
       </section>
       <section>
@@ -324,8 +324,9 @@
         </h2>
         <p>
           When the {{unlock()}} method is invoked, the <a>user agent</a> MUST
-          run the steps to <a>lock the orientation</a> of the <a>responsible
-          document</a> to its <a>default orientation</a>.
+          run the steps to <a>lock the orientation</a> of the [=environment
+          settings object / responsible document=] to its <a>default
+          orientation</a>.
         </p>
         <p class='note' title="Why does unlock() not return a promise?">
           {{unlock()}} does not return a promise because it is equivalent to
@@ -342,8 +343,8 @@
         </h2>
         <p>
           When getting the {{type}} attribute, the <a>user agent</a> MUST
-          return the <a>responsible document</a>'s <a>current orientation
-          type</a>.
+          return the [=environment settings object / responsible document=]'s
+          <a>current orientation type</a>.
         </p>
       </section>
       <section>
@@ -352,8 +353,8 @@
         </h2>
         <p>
           When getting the {{angle}} attribute, the <a>user agent</a> MUST
-          return the <a>responsible document</a>'s <a>current orientation
-          angle</a>.
+          return the [=environment settings object / responsible document=]'s
+          <a>current orientation angle</a>.
         </p>
         <div class='note' title=
         "What does the value given for angle represent?">
@@ -866,7 +867,7 @@
                 </ol>
               </li>
               <li data-tests="lock-basic.html">Let |orientations| be an empty
-              list.
+              <a>list</a>.
               </li>
               <li>Depending on |orientation| value, do the following:
                 <dl>
@@ -917,8 +918,8 @@
               </li>
               <li>If locking the orientation did not result in a change of
               orientation, as part of the next <a>animation frame task</a>,
-              resolve |pending-promise| with `undefined` and set |
-              pending-promise| to `null`.
+              resolve {{[[orientationPendingPromise]]}} with `undefined` and
+              set {{[[orientationPendingPromise]]}} to `null`.
               </li>
             </ol>
           </li>
