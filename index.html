@@ -801,7 +801,7 @@
           The steps to <dfn>update the orientation information</dfn> of a
           <a>document</a> are as follows:
         </p>
-        <ol>
+        <ol class="algorithm">
           <li>If the screen width is greater than the screen height, set the
           <a>document</a>'s <a>current orientation type</a> to
           <a>landscape-primary</a> or <a>landscape-secondary</a>.
@@ -826,11 +826,11 @@
         <h2>
           Apply an orientation lock
         </h2>
-        <p>
+        <p class="algorithm">
           The steps to <dfn>apply an orientation lock</dfn> to a
           <a>document</a> using |orientation| are as follows:
         </p>
-        <ol>
+        <ol class="algorithm">
           <li>If the <a>user agent</a> does not support locking the screen
           orientation, return a promise rejected with a `"NotSupportedError"`
           {{DOMException}} and abort these steps.
@@ -936,8 +936,8 @@
           The steps to <dfn>lock the orientation</dfn> to |orientation| are as
           follows.
         </p>
-        <ol>
-          <li data-tests="lock-basic.html">Set the <a>document</a>'s
+        <ol class="algorithm">
+          <li class="algorithm" data-tests="lock-basic.html">Set the <a>document</a>'s
           {{[[orientationLock]]}} to |orientations|.
           </li>
           <li>If the <a>active orientation lock</a> is not the
@@ -987,7 +987,7 @@
           The steps to determine the <dfn>active orientation lock</dfn> are as
           follows:
         </p>
-        <ol>
+        <ol class="algorithm">
           <li>If there is only one <a>top-level browsing context</a> with a <a>
             document</a> that is visible per [[PAGE-VISIBILITY]], the <a>active
             orientation lock</a> is the <a>document</a>'s
@@ -1024,7 +1024,7 @@
           Whenever the viewport's angle changes, the <a>user agent</a> MUST run
           the following steps as part of the next <a>animation frame task</a>:
         </p>
-        <ol>
+        <ol class="algorithm">
           <li>Let |browsing contexts| be the <a>list of the descendant browsing
           contexts</a> of the <a>top-level browsing context</a>'s
           <a>document</a>.
@@ -1067,7 +1067,7 @@
           <a>user agent</a> MUST run the following substeps as part of the next
           <a>animation frame task</a>:
         </p>
-        <ol>
+        <ol class="algorithm">
           <li>Let |type| and |angle| be respectively the <a>document</a>'s <a>
             current orientation type</a> and <a>current orientation angle</a>.
           </li>
