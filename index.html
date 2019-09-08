@@ -803,7 +803,7 @@
           The steps to <dfn>update the orientation information</dfn> of a
           <a>document</a> are as follows:
         </p>
-        <ol>
+        <ol class="algorithm">
           <li>If the screen width is greater than the screen height, set the
           <a>document</a>'s <a>current orientation type</a> to
           <a>landscape-primary</a> or <a>landscape-secondary</a>.
@@ -828,11 +828,11 @@
         <h2>
           Apply an orientation lock
         </h2>
-        <p>
+        <p class="algorithm">
           The steps to <dfn>apply an orientation lock</dfn> to a
           <a>document</a> using |orientation| are as follows:
         </p>
-        <ol>
+        <ol class="algorithm">
           <li>If the <a>user agent</a> does not support locking the screen
           orientation, return a promise rejected with a `"NotSupportedError"`
           {{DOMException}} and abort these steps.
@@ -938,8 +938,8 @@
           The steps to <dfn>lock the orientation</dfn> to |orientation| are as
           follows.
         </p>
-        <ol>
-          <li data-tests="lock-basic.html">Set the <a>document</a>'s
+        <ol class="algorithm">
+          <li class="algorithm" data-tests="lock-basic.html">Set the <a>document</a>'s
           {{[[orientationLock]]}} to |orientations|.
           </li>
           <li>If the <a>active orientation lock</a> is not the
@@ -989,7 +989,7 @@
           The steps to determine the <dfn>active orientation lock</dfn> are as
           follows:
         </p>
-        <ol>
+        <ol class="algorithm">
           <li>If there is only one <a>top-level browsing context</a> with a <a>
             document</a> that is visible per [[PAGE-VISIBILITY]], the <a>active
             orientation lock</a> is the <a>document</a>'s
@@ -1026,16 +1026,15 @@
           Whenever the viewport's angle changes, the <a>user agent</a> MUST run
           the following steps as part of the next <a>animation frame task</a>:
         </p>
-        <ol>
+        <ol class="algorithm">
           <li>Let |browsing contexts| be the <a>list of the descendant browsing
           contexts</a> of the <a>top-level browsing context</a>'s
           <a>document</a>.
           </li>
-          <li>For each [= Document / browsing context =] in |browsing
-          contexts|, run the following sub-steps:
+          <li>For each |context:browsing context| in |browsing contexts|, run
+          the following sub-steps:
             <ol>
-              <li>Let |doc| be the [= Document / browsing context =]'s
-              <a>active document</a>.
+              <li>Let |doc| be the |context|'s <a>active document</a>.
               </li>
               <li>If |doc| is not visible per [[PAGE-VISIBILITY]], abort these
               steps.
@@ -1043,23 +1042,23 @@
               <li>
                 <a>Update the orientation information</a> of |doc|.
               </li>
-            </ol>
-          </li>
-          <li>If the orientation change was triggered by a user gesture such as
-          the user turning the device, as opposed to a call to {{lock()}}, the
-          <a>task</a> MUST be annotated with `process user orientation change`
-          when running the next step.
-          </li>
-          <li>
-            <a>Fire an event</a> named `change` at |doc|'s
-            <a>screen.orientation</a> object.
-          </li>
-          <li>If |doc|'s {{[[orientationPendingPromise]]}} is not `null`:
-            <ol>
-              <li>Resolve |doc|'s {{[[orientationPendingPromise]]}} with
-              `undefined`.
+              <li>If the orientation change was triggered by a user gesture
+              such as the user turning the device, as opposed to a call to
+              {{lock()}}, the <a>task</a> MUST be annotated with `process user
+              orientation change` when running the next step.
               </li>
-              <li>Set |doc|'s {{[[orientationPendingPromise]]}} to `null` .
+              <li>
+                <a>Fire an event</a> named `change` at |doc|'s
+                {{Screen.orientation}} object.
+              </li>
+              <li>If |doc|'s {{[[orientationPendingPromise]]}} is not `null`:
+                <ol>
+                  <li>Resolve |doc|'s {{[[orientationPendingPromise]]}} with
+                  `undefined`.
+                  </li>
+                  <li>Set |doc|'s {{[[orientationPendingPromise]]}} to `null` .
+                  </li>
+                </ol>
               </li>
             </ol>
           </li>
@@ -1070,7 +1069,7 @@
           <a>user agent</a> MUST run the following substeps as part of the next
           <a>animation frame task</a>:
         </p>
-        <ol>
+        <ol class="algorithm">
           <li>Let |type| and |angle| be respectively the <a>document</a>'s <a>
             current orientation type</a> and <a>current orientation angle</a>.
           </li>
@@ -1088,7 +1087,7 @@
               </li>
               <li>
                 <a>Fire an event</a> named `change` at the <a>document</a>'s
-                <a>screen.orientation</a> object.
+                {{Screen.orientation}} object.
               </li>
               <li>If the <a>document</a>'s {{[[orientationPendingPromise]]}} is
               not `null`:
@@ -1111,7 +1110,7 @@
         </p>
         <div class="note">
           <p>
-            Developers need to be aware that a <a>screen.orientation</a> object
+            Developers need to be aware that a {{Screen.orientation}} object
             from a <a>document</a> that is not visible, as per
             [[PAGE-VISIBILITY]], will not receive an orientation change event.
             This is to prevent unnecessary changes to layout, etc. in the
