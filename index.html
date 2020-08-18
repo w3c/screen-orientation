@@ -255,8 +255,8 @@
       <pre class='idl' data-cite="DOM HTML">
           [Exposed=Window]
           interface ScreenOrientation : EventTarget {
-            Promise&lt;void&gt; lock(OrientationLockType orientation);
-            void unlock();
+            Promise&lt;undefined&gt; lock(OrientationLockType orientation);
+            undefined unlock();
             readonly attribute OrientationType type;
             readonly attribute unsigned short angle;
             attribute EventHandler onchange;
