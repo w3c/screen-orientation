@@ -17,4 +17,4 @@ jobs:
           ECHIDNA_TOKEN: ${{ secrets.ECHIDNA_TOKEN }}
           ECHIDNA_MANIFEST_URL: "https://w3c.github.io/screen-orientation/W3CTRMANIFEST"
           WG_DECISION_URL: "https://lists.w3.org/Archives/Public/public-webapps/2014JulSep/0627.html"
-          CC: "mcaceres@mozilla.com"
+          CC: "marcos@marcosc.com"
