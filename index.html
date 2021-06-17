@@ -527,11 +527,13 @@
         </h2>
         <p>
           All <a>documents</a> have a <dfn>current orientation type</dfn> and a
-          <dfn>current orientation angle</dfn>. Both of them SHOULD be
-          initialized when the <a>document</a> is created, otherwise they MUST
-          be initialized the first time they are accessed and before their
-          value is read. The <a>user agent</a> MUST <a>update the orientation
-          information</a> of the <a>document</a> to initialize them.
+          <dfn>current orientation angle</dfn>.
+        </p>
+        <p>
+          When the <a>document</a> is created, the <a>user agent</a> MUST
+          <a>update the orientation information</a> of the <a>document</a>.
+          Doing so initializes the <a>current orientation type</a> and a the
+          <a>current orientation angle</a>
         </p>
         <p>
           For a given <a>document</a>, the <a>current orientation type</a> and
