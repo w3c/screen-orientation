@@ -16,7 +16,6 @@ jobs:
       - uses: peter-evans/create-pull-request@v3
         with:
           token: GH_TOKEN
-          committer: "Marcos Cáceres <marcos@marcosc.com>"
           title: "Tidied up document using tidy-html5"
           commit-message: "chore(tidy): tidy up document"
           branch: html-tidy
