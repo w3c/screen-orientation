@@ -21,5 +21,4 @@ jobs:
           commit-message: "chore(tidy): tidy up document"
           branch: html-tidy
           branch-suffix: timestamp
-          reviewers: marcoscaceres
           draft: true
