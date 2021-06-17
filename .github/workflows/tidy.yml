@@ -15,6 +15,11 @@ jobs:
       - run: tidy -config tidyconfig.txt -o index.html index.html
       - uses: peter-evans/create-pull-request@v3
         with:
-          title: "chore(tidy): tidy up document"
-          commit-message: "Tidied up document using tidy-html5"
+          token: GH_TOKEN
+          committer: "Marcos Cáceres <marcos@marcosc.com>"
+          title: "Tidied up document using tidy-html5"
+          commit-message: "chore(tidy): tidy up document"
           branch: html-tidy
+          branch-suffix: timestamp
+          reviewers: marcoscaceres
+          draft: true
