@@ -404,17 +404,17 @@
           <tbody>
             <tr>
               <td>
-                <dfn>[[\orientationLock]]</dfn>
+                <dfn data-dfn-for="Document">[[\orientationLock]]</dfn>
               </td>
               <td>
-                The {{[[orientationLock]]}} represents a {{Document}}'s
-                <a>orientation lock</a> as an <a>ordered set</a> of
-                {{OrientationType}}.
+                The {{Document/[[orientationLock]]}} represents a
+                {{Document}}'s <a>orientation lock</a> as an <a>ordered set</a>
+                of {{OrientationType}}.
               </td>
             </tr>
             <tr>
               <td>
-                <dfn>[[\defaultOrientation]]</dfn>
+                <dfn data-dfn-for="Document">[[\defaultOrientation]]</dfn>
               </td>
               <td>
                 An <a>ordered set</a> of orientations to which the screen
@@ -424,7 +424,8 @@
             </tr>
             <tr>
               <td>
-                <dfn>[[\orientationPendingPromise]]</dfn>
+                <dfn data-dfn-for=
+                "Document">[[\orientationPendingPromise]]</dfn>
               </td>
               <td>
                 Either `null` or a {{Promise}}. When assigned a {{Promise}},
@@ -448,7 +449,7 @@
       </p>
       <p>
         Algorithms defined in this specification assume that for each
-        {{Document}} there is an {{[[orientationPendingPromise]]}}.
+        {{Document}} there is an {{Document/[[orientationPendingPromise]]}}.
       </p>
       <section>
         <h2>
@@ -683,7 +684,7 @@
           {{OrientationLockType}} enum.
         </p>
         <p>
-          The {{[[orientationLock]]}} internal slot represents the
+          The {{Document/[[orientationLock]]}} internal slot represents the
           {{Document}}'s <a>orientation lock</a>.
         </p>
         <p>
@@ -700,14 +701,15 @@
             that it no longer has a lock applied.
           </p>
           <p class="note" title="Who controls the default orientation?">
-            This does not mean that the {{[[defaultOrientation]]}} will only
-            contain the item <a>any</a>. The <a>default screen orientation</a>
-            is likely device-specific and {{[[defaultOrientation]]}} could for
-            example contain <a>portrait-primary</a> and/or
-            <a>landscape-primary</a>. Alternatively, the user could restrict
-            the default orientation to a specific orientation via some OS or
-            browser level preference for accessibility reasons. The user agent
-            can also set the default orientation e.g., <a href=
+            This does not mean that the {{Document/[[defaultOrientation]]}}
+            will only contain the item <a>any</a>. The <a>default screen
+            orientation</a> is likely device-specific and
+            {{Document/[[defaultOrientation]]}} could for example contain
+            <a>portrait-primary</a> and/or <a>landscape-primary</a>.
+            Alternatively, the user could restrict the default orientation to a
+            specific orientation via some OS or browser level preference for
+            accessibility reasons. The user agent can also set the default
+            orientation e.g., <a href=
             "#interaction-with-web-application-manifest"></a>.
           </p>
         </section>
@@ -842,25 +844,27 @@
           `"SecurityError"` {{DOMException}} and abort these steps.
           </li>
           <li data-tests="lock-basic.html">Set |doc|'s
-          {{[[orientationPendingPromise]]}} to a newly-created promise.
+          {{Document/[[orientationPendingPromise]]}} to a newly-created
+          promise.
           </li>
-          <li>Return |doc|'s {{[[orientationPendingPromise]]}} and <a>in
-          parallel</a>:
+          <li>Return |doc|'s {{Document/[[orientationPendingPromise]]}} and <a>
+            in parallel</a>:
             <ol>
               <li>Let |browsing contexts| be the <a>list of the descendant
               browsing contexts</a> of the <a>top-level browsing context</a>'s
               {{Document}}.
               </li>
               <li>If one of the |browsing contexts|'s {{Document}}'s
-              {{[[orientationPendingPromise]]}} is not `null`:
+              {{Document/[[orientationPendingPromise]]}} is not `null`:
                 <ol>
                   <li>Let |doc| be the {{Document}} which has a not `null`
-                  {{[[orientationPendingPromise]]}}.
+                  {{Document/[[orientationPendingPromise]]}}.
                   </li>
-                  <li>Reject |doc|'s {{[[orientationPendingPromise]]}} with
-                  `"AbortError"` {{DOMException}}.
+                  <li>Reject |doc|'s {{Document/[[orientationPendingPromise]]}}
+                  with `"AbortError"` {{DOMException}}.
                   </li>
-                  <li>Set |doc|'s {{[[orientationPendingPromise]]}} to `null` .
+                  <li>Set |doc|'s {{Document/[[orientationPendingPromise]]}} to
+                  `null` .
                   </li>
                 </ol>
               </li>
@@ -916,8 +920,9 @@
               </li>
               <li>If locking the orientation did not result in a change of
               orientation, as part of the next <a>animation frame task</a>,
-              resolve {{[[orientationPendingPromise]]}} with `undefined` and
-              set {{[[orientationPendingPromise]]}} to `null`.
+              resolve {{Document/[[orientationPendingPromise]]}} with
+              `undefined` and set {{Document/[[orientationPendingPromise]]}} to
+              `null`.
               </li>
             </ol>
           </li>
@@ -938,10 +943,10 @@
         </p>
         <ol class="algorithm">
           <li class="algorithm" data-tests="lock-basic.html">Set the
-          {{Document}}'s {{[[orientationLock]]}} to |orientations|.
+          {{Document}}'s {{Document/[[orientationLock]]}} to |orientations|.
           </li>
           <li>If the <a>active orientation lock</a> is not the {{Document}}'s
-          {{[[orientationLock]]}}, abort these steps.
+          {{Document/[[orientationLock]]}}, abort these steps.
           </li>
           <li>If the <a>active orientation lock</a> value is equal to
           |orientations| value, abort these steps.
@@ -989,28 +994,30 @@
         <ol class="algorithm">
           <li>If there is only one <a>top-level browsing context</a> with a <a>
             document</a> that is visible per [[PAGE-VISIBILITY]], the <a>active
-            orientation lock</a> is the {{Document}}'s {{[[orientationLock]]}}.
+            orientation lock</a> is the {{Document}}'s
+            {{Document/[[orientationLock]]}}.
           </li>
           <li>Otherwise, if there are more than one <a>top-level browsing
           context</a> with a {{Document}} that is visible per
           [[PAGE-VISIBILITY]] but only one of those {{Document}}s is focused,
           the <a>active orientation lock</a> is the focused {{Document}}'s
-          {{[[orientationLock]]}}.
+          {{Document/[[orientationLock]]}}.
           </li>
           <li>Otherwise, the <a>active orientation lock</a> SHOULD be the
-          latest focused {{Document}}'s {{[[orientationLock]]}}, unless stated
-          otherwise by the platform conventions.
+          latest focused {{Document}}'s {{Document/[[orientationLock]]}},
+          unless stated otherwise by the platform conventions.
           </li>
         </ol>
         <p>
           Whenever the <a>active orientation lock</a> changes, the <a>user
           agent</a> MUST run the steps to <a>lock the orientation</a> of the
-          {{Document}} to the {{Document}}'s {{[[orientationLock]]}}.
+          {{Document}} to the {{Document}}'s {{Document/[[orientationLock]]}}.
         </p>
         <p>
           Whenever a <a>top-level browsing context</a> is <a>navigated</a>, the
           <a>user agent</a> MUST <a>lock the orientation</a> of the
-          {{Document}} to the {{Document}}'s {{[[defaultOrientation]]}}.
+          {{Document}} to the {{Document}}'s
+          {{Document/[[defaultOrientation]]}}.
         </p>
       </section>
       <section data-link-for='ScreenOrientation' id=
@@ -1046,12 +1053,14 @@
                 <a>Fire an event</a> named `change` at |doc|'s
                 {{Screen.orientation}} object.
               </li>
-              <li>If |doc|'s {{[[orientationPendingPromise]]}} is not `null`:
+              <li>If |doc|'s {{Document/[[orientationPendingPromise]]}} is not
+              `null`:
                 <ol>
-                  <li>Resolve |doc|'s {{[[orientationPendingPromise]]}} with
-                  `undefined`.
+                  <li>Resolve |doc|'s
+                  {{Document/[[orientationPendingPromise]]}} with `undefined`.
                   </li>
-                  <li>Set |doc|'s {{[[orientationPendingPromise]]}} to `null` .
+                  <li>Set |doc|'s {{Document/[[orientationPendingPromise]]}} to
+                  `null` .
                   </li>
                 </ol>
               </li>
@@ -1084,14 +1093,14 @@
                 <a>Fire an event</a> named `change` at the {{Document}}'s
                 {{Screen.orientation}} object.
               </li>
-              <li>If the {{Document}}'s {{[[orientationPendingPromise]]}} is
-              not `null`:
+              <li>If the {{Document}}'s
+              {{Document/[[orientationPendingPromise]]}} is not `null`:
                 <ol>
                   <li>Resolve the {{Document}}'s
-                  {{[[orientationPendingPromise]]}} with `undefined`.
+                  {{Document/[[orientationPendingPromise]]}} with `undefined`.
                   </li>
-                  <li>Set the {{Document}}'s {{[[orientationPendingPromise]]}}
-                  to `null`.
+                  <li>Set the {{Document}}'s
+                  {{Document/[[orientationPendingPromise]]}} to `null`.
                   </li>
                 </ol>
               </li>
