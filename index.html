@@ -837,9 +837,17 @@
             `"SecurityError"` {{DOMException}} and abort these steps.
           </li>
           <li data-tests="lock-basic.html">If |document|'s
-          {{Document/[[orientationPendingPromise]]}} is not `null`, return a
-          promise rejected with a {{"AbortError"}} {{DOMException}} and abort
-          these steps.
+          {{Document/[[orientationPendingPromise]]}} is not `null`:
+            <ol>
+              <li>Let |currentLockPromise:Promise| be |document|'s
+              {{Document/[[orientationPendingPromise]]}}.
+              </li>
+              <li>[=Queue a global task=] on the [=DOM manipulation task
+              source=] with |currentLock|'s [=relevant global object=] to
+              [=reject=] |currentLockPromise| with an {{"AbortError"}}
+              {{DOMException}}.
+              </li>
+            </ol>
           </li>
           <li data-tests="lock-basic.html">Set |document|'s
           {{Document/[[orientationPendingPromise]]}} to [=a new promise=].
