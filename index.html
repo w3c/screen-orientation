@@ -309,7 +309,8 @@
         <p data-tests="lock-bad-argument.html, lock-basic.html">
           When the {{lock()}} method is invoked, the <a>user agent</a> MUST run
           the <a>apply an orientation lock</a> steps to [=this=]'s [=relevant
-          global object=]'s [=associated `Document`=] using |orientation|.
+          global object=]'s [=associated `Document`=] using
+          |orientation:OrientationLockType|.
         </p>
       </section>
       <section>
@@ -821,25 +822,30 @@
         </h2>
         <p class="algorithm">
           The steps to <dfn>apply an orientation lock</dfn> to a {{Document}}
-          using |orientation| are as follows:
+          |document:Document| using |orientation:OrientationLockType| are as
+          follows:
         </p>
         <ol class="algorithm">
           <li>If the <a>user agent</a> does not support locking the screen
           orientation, return a promise rejected with a {{"NotSupportedError"}}
           {{DOMException}} and abort these steps.
           </li>
-          <li data-tests="lock-sandboxed-iframe.html">If the {{Document}}'s has
-          the <a>sandboxed orientation lock browsing context flag</a> set, or
-          <a>user agent</a> doesn't meet the <a>pre-lock conditions</a> to
-          perform an orientation change, return a promise rejected with a
-          `"SecurityError"` {{DOMException}} and abort these steps.
+          <li data-tests="lock-sandboxed-iframe.html">If |document| has the <a>
+            sandboxed orientation lock browsing context flag</a> set, or
+            <a>user agent</a> doesn't meet the <a>pre-lock conditions</a> to
+            perform an orientation change, return a promise rejected with a
+            `"SecurityError"` {{DOMException}} and abort these steps.
           </li>
-          <li data-tests="lock-basic.html">Set |doc|'s
-          {{Document/[[orientationPendingPromise]]}} to a newly-created
-          promise.
+          <li data-tests="lock-basic.html">If |document|'s
+          {{Document/[[orientationPendingPromise]]}} is not `null`, return a
+          promise rejected with a {{"AbortError"}} {{DOMException}} and abort
+          these steps.
           </li>
-          <li>Return |doc|'s {{Document/[[orientationPendingPromise]]}} and <a>
-            in parallel</a>:
+          <li data-tests="lock-basic.html">Set |document|'s
+          {{Document/[[orientationPendingPromise]]}} to [=a new promise=].
+          </li>
+          <li>Return |document|'s {{Document/[[orientationPendingPromise]]}}
+          and [=in parallel=]:
             <ol>
               <li>Let |browsing contexts| be the <a data-cite=
               "html#list-of-the-descendant-browsing-contexts">list of the
@@ -849,14 +855,20 @@
               <li>If one of the |browsing contexts|'s {{Document}}'s
               {{Document/[[orientationPendingPromise]]}} is not `null`:
                 <ol>
-                  <li>Let |doc| be the {{Document}} which has a not `null`
-                  {{Document/[[orientationPendingPromise]]}}.
+                  <li>Let |currentLock| be the {{Document}} whose
+                  {{Document/[[orientationPendingPromise]]}} is not `null`.
                   </li>
-                  <li>Reject |doc|'s {{Document/[[orientationPendingPromise]]}}
-                  with `"AbortError"` {{DOMException}}.
-                  </li>
-                  <li>Set |doc|'s {{Document/[[orientationPendingPromise]]}} to
-                  `null` .
+                  <li>[=Queue a global task=] on the [=DOM manipulation task
+                  source=] with |currentLock|'s [=relevant global object=] to:
+                    <ol>
+                      <li>[=Reject=] |currentLock|'s
+                      {{Document/[[orientationPendingPromise]]}} with
+                      `"AbortError"` {{DOMException}}.
+                      </li>
+                      <li>Set |currentLock|'s
+                      {{Document/[[orientationPendingPromise]]}} to `null`.
+                      </li>
+                    </ol>
                   </li>
                 </ol>
               </li>
@@ -864,7 +876,7 @@
               <a>list</a>.
               </li>
               <li>Depending on |orientation| value, do the following:
-                <dl>
+                <dl class="switch">
                   <dt>
                     <a>portrait-primary</a> or <a>portrait-secondary</a> or
                     <a>landscape-primary</a> or <a>landscape-secondary</a>
@@ -907,13 +919,14 @@
                 </dl>
               </li>
               <li>
-                <a>Lock the orientation</a> of the {{Document}} to
+                <a>Lock the orientation</a> of the |document| to
                 |orientations|.
               </li>
               <li>If locking the orientation did not result in a change of
               orientation, as part of the next <a>animation frame</a>, resolve
-              {{Document/[[orientationPendingPromise]]}} with `undefined` and
-              set {{Document/[[orientationPendingPromise]]}} to `null`.
+              |document|'s {{Document/[[orientationPendingPromise]]}} with
+              `undefined` and set {{Document/[[orientationPendingPromise]]}} to
+              `null`.
               </li>
             </ol>
           </li>
@@ -929,7 +942,7 @@
           Locking the orientation
         </h2>
         <p>
-          The steps to <dfn>lock the orientation</dfn> to |orientation| are as
+          The steps to <dfn>lock the orientation</dfn> to |orientations| are as
           follows.
         </p>
         <ol class="algorithm">
@@ -1042,18 +1055,23 @@
               {{lock()}}, the <a>task</a> MUST be annotated with `process user
               orientation change` when running the next step.
               </li>
-              <li>
-                <a>Fire an event</a> named `change` at |doc|'s
-                {{Screen/orientation}} object.
-              </li>
-              <li>If |doc|'s {{Document/[[orientationPendingPromise]]}} is not
-              `null`:
+              <li>[=Queue a task=] to:
                 <ol>
-                  <li>Resolve |doc|'s
-                  {{Document/[[orientationPendingPromise]]}} with `undefined`.
+                  <li>
+                    <a>Fire an event</a> named `change` at |doc|'s
+                    {{Screen/orientation}} attribute.
                   </li>
-                  <li>Set |doc|'s {{Document/[[orientationPendingPromise]]}} to
-                  `null` .
+                  <li>If |doc|'s {{Document/[[orientationPendingPromise]]}} is
+                  not `null`:
+                    <ol>
+                      <li>Resolve |doc|'s
+                      {{Document/[[orientationPendingPromise]]}} with
+                      `undefined`.
+                      </li>
+                      <li>Set |doc|'s
+                      {{Document/[[orientationPendingPromise]]}} to `null`.
+                      </li>
+                    </ol>
                   </li>
                 </ol>
               </li>
