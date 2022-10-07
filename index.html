@@ -1009,6 +1009,11 @@
           </li>
         </ol>
         <p>
+          An algorithm is <dfn class="export">triggered by a user generated
+          orientation change</dfn> if the <a>task</a> in which the algorithm is
+          running is annotated with `process user orientation change`.
+        </p>
+        <p>
           Whenever a {{Document}}'s [=Document/visibility state=] becomes
           "visible", the <a>user agent</a> MUST run the following sub-steps as
           part of the next <a>animation frame</a>:
