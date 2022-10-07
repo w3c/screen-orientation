@@ -40,15 +40,15 @@
     </script>
   </head>
   <body data-cite="web-animations CSSOM-VIEW">
-    <section id='abstract'>
+    <section id="abstract">
       <p>
         The <cite>Screen Orientation API</cite> provides the ability to read
         the screen orientation type and angle, to be informed when the screen
         orientation changes, and, if certain pre-conditions are met, to lock
-        the screen to a specific orientation.
+        the screen to a given orientation.
       </p>
     </section>
-    <section id='sotd'>
+    <section id="sotd">
       <p>
         This document is a work in progress.
       </p>
@@ -67,39 +67,25 @@
         applications such as computer games where users physically rotate the
         device but the screen orientation itself mustn't change.
       </p>
+    </section>
+    <section class="informative">
+      <h2>
+        Examples
+      </h2>
       <section>
         <h2>
-          Goals
+          Locking to a specific orientation and unlocking
         </h2>
-        <ul>
-          <li>Allow a web application to have control over screen orientation
-          where needed and without being intrusive to end users.
-          </li>
-          <li>Support a better user experience by providing developers with
-          information on screen orientation changes so web applications can
-          update correspondingly.
-          </li>
-        </ul>
-      </section>
-      <section class='informative'>
-        <h2>
-          Examples
-        </h2>
-        <section>
-          <h2>
-            Locking to a specific orientation and unlocking
-          </h2>
-          <p>
-            In this example, clicking the "Lock" button makes a request to go
-            into fullscreen and then lock the screen to the opposite
-            orientation. Pressing the "Unlock" button unlocks the screen so it
-            rotates if the user turns the device.
-          </p>
-          <p>
-            The developer console logs the change in orientation type and
-            angle.
-          </p>
-          <pre class='example html'>
+        <p>
+          In this example, clicking the "Lock" button makes a request to go
+          into fullscreen and then lock the screen to the opposite orientation.
+          Pressing the "Unlock" button unlocks the screen so it rotates if the
+          user turns the device.
+        </p>
+        <p>
+          The developer console logs the change in orientation type and angle.
+        </p>
+        <pre class='example html'>
             &lt;script&gt;
             function fullScreenCheck() {
               if (document.fullscreenElement) return;
@@ -150,16 +136,16 @@
               Unlock
             &lt;/button&gt;
           </pre>
-        </section>
-        <section>
-          <h2>
-            Locking the screen before calling a function
-          </h2>
-          <p>
-            This example waits to go into fullscreen, then locks to landscape
-            before calling `ready()`.
-          </p>
-          <pre class='example html'>
+      </section>
+      <section>
+        <h2>
+          Locking the screen before calling a function
+        </h2>
+        <p>
+          This example waits to go into fullscreen, then locks to landscape
+          before calling `ready()`.
+        </p>
+        <pre class='example html'>
             &lt;script&gt;
             function ready() {
               const { type } = screen.orientation;
@@ -176,17 +162,17 @@
               Start
             &lt;/button&gt;
           </pre>
-        </section>
-        <section>
-          <h2>
-            Alerting the user if the API is not supported
-          </h2>
-          <p data-link-for="ScreenOrientation">
-            In this example, if the <cite>Screen Orientation API</cite> is not
-            supported, or the screen orientation {{lock()}} rejects, the user
-            is alerted to rotate their screen manually to landscape.
-          </p>
-          <pre class='example html'>
+      </section>
+      <section>
+        <h2>
+          Alerting the user if the API is not supported
+        </h2>
+        <p data-link-for="ScreenOrientation">
+          In this example, if the <cite>Screen Orientation API</cite> is not
+          supported, or the screen orientation {{lock()}} rejects, the user is
+          alerted to rotate their screen manually to landscape.
+        </p>
+        <pre class='example html'>
             &lt;script&gt;
             function start() {
               /* Start application when in correct orientation */
@@ -194,7 +180,6 @@
             async function rotate() {
               try {
                 await screen.orientation.lock("landscape");
-                start();
               } catch (err) {
                 console.error(err);
               }
@@ -215,234 +200,12 @@
               Start
             &lt;/button&gt;
           </pre>
-        </section>
-      </section>
-    </section>
-    <section data-dfn-for='Screen'>
-      <h2>
-        Extensions to the `Screen` interface
-      </h2>
-      <pre class='idl'>
-          partial interface Screen {
-            [SameObject] readonly attribute ScreenOrientation orientation;
-          };
-        </pre>
-      <section>
-        <h2>
-          <dfn>orientation</dfn> attribute
-        </h2>
-        <p>
-          The {{Screen/orientation}} attribute is an instance of
-          {{ScreenOrientation}}. This attribute provides the current
-          orientation, current angle and whether there was an onchange event.
-          The <a>user agent</a> MUST run the <a>update the orientation
-          information</a> algorithm steps to initialize the values and return
-          the {{Screen/orientation}} attribute.
-        </p>
-      </section>
-    </section>
-    <section data-dfn-for='ScreenOrientation' data-link-for=
-    'ScreenOrientation'>
-      <h2>
-        <dfn>ScreenOrientation</dfn> interface
-      </h2>
-      <pre class='idl'>
-          [Exposed=Window]
-          interface ScreenOrientation : EventTarget {
-            Promise&lt;undefined&gt; lock(OrientationLockType orientation);
-            undefined unlock();
-            readonly attribute OrientationType type;
-            readonly attribute unsigned short angle;
-            attribute EventHandler onchange;
-          };
-
-          enum OrientationLockType {
-            "any",
-            "natural",
-            "landscape",
-            "portrait",
-            "portrait-primary",
-            "portrait-secondary",
-            "landscape-primary",
-            "landscape-secondary"
-          };
-
-          enum OrientationType {
-            "portrait-primary",
-            "portrait-secondary",
-            "landscape-primary",
-            "landscape-secondary"
-          };
-      </pre>
-      <p data-dfn-for="OrientationLockType">
-        The <dfn>OrientationLockType</dfn> enum represents the screen
-        orientations to which a screen can be locked: the "<dfn>any</dfn>" enum
-        value represents the <a>any</a> orientation, the "<dfn>natural</dfn>"
-        enum represents the <a>natural</a> orientation, the
-        "<dfn>landscape</dfn>" enum represents the <a>landscape</a>
-        orientation, the "<dfn>portrait</dfn>" enum represents the
-        <a>portrait</a> orientation, the "<dfn>portrait-primary</dfn>" enum
-        represents the <a>portrait-primary</a> orientation, the
-        "<dfn>portrait-secondary</dfn>" enum represents the
-        <a>portrait-secondary</a> orientation, the
-        "<dfn>landscape-primary</dfn>" enum represents the
-        <a>landscape-primary</a> orientation, and the
-        "<dfn>landscape-secondary</dfn>" enum represents the
-        <a>landscape-secondary</a> orientation.
-      </p>
-      <p data-dfn-for="OrientationType">
-        The <dfn>OrientationType</dfn> enum represents the actual current
-        screen orientation that the screen is in irrespective of which lock is
-        applied: the "<dfn>portrait-primary</dfn>" enum represents the
-        <a>portrait-primary</a> orientation, the
-        "<dfn>portrait-secondary</dfn>" enum represents the
-        <a>portrait-secondary</a> orientation, the
-        "<dfn>landscape-primary</dfn>" enum represents the
-        <a>landscape-primary</a> orientation, and the
-        "<dfn>landscape-secondary</dfn>" enum represents the
-        <a>landscape-secondary</a> orientation.
-      </p>
-      <section>
-        <h2>
-          <dfn>lock()</dfn> method: Lock screen to a specific orientation
-        </h2>
-        <p data-tests="lock-bad-argument.html, lock-basic.html">
-          When the {{lock()}} method is invoked, the <a>user agent</a> MUST run
-          the <a>apply an orientation lock</a> steps to [=this=]'s [=relevant
-          global object=]'s [=associated `Document`=] using
-          |orientation:OrientationLockType|.
-        </p>
-      </section>
-      <section>
-        <h2>
-          <dfn>unlock()</dfn> method: Unlock screen to default orientation
-        </h2>
-        <p>
-          When the {{unlock()}} method is invoked, the <a>user agent</a> MUST
-          run the steps to <a>lock the orientation</a> of [=this=]'s [=relevant
-          global object=]'s [=associated `Document`=] to its <a>default screen
-          orientation</a>.
-        </p>
-        <p class='note' title="Why does unlock() not return a promise?">
-          {{unlock()}} does not return a promise because it is equivalent to
-          locking to the <a>default screen orientation</a> which might or might
-          not be known by the <a>user agent</a>. Hence, the <a>user agent</a>
-          can not predict what the new orientation is going to be and even if
-          it is going to change at all.
-        </p>
-        <div class="issue" data-number="104"></div>
-      </section>
-      <section>
-        <h2>
-          <dfn>type</dfn> attribute: Get current orientation
-        </h2>
-        <p>
-          When getting the {{type}} attribute, the <a>user agent</a> MUST
-          return [=this=]'s [=relevant global object=]'s [=associated
-          `Document`=]'s <a>current orientation type</a>.
-        </p>
-      </section>
-      <section>
-        <h2>
-          <dfn>angle</dfn> attribute: Get orientation angle
-        </h2>
-        <p>
-          When getting the {{angle}} attribute, the <a>user agent</a> MUST
-          return [=this=]'s [=relevant global object=]'s [=associated
-          `Document`=]'s <a>current orientation angle</a>.
-        </p>
-        <div class='note' title=
-        "What does the value given for angle represent?">
-          <p>
-            {{angle}} represents how far the user has turned the device
-            counterclockwise from the natural orientation. When the device is
-            rotated 90° counterclockwise, the screen compensates by rotating
-            90° clockwise, so {{angle}} returns `90`.
-          </p>
-          <p>
-            The <a>screen orientation values table</a> shows how the angle
-            changes depending on the how the device is rotated.
-          </p>
-          <p>
-            The value returned by this property is always in the range 0-359.
-            It never returns negative values.
-          </p>
-        </div>
-      </section>
-      <section>
-        <h2>
-          <dfn>onchange</dfn> attribute: Handle orientation changes
-        </h2>
-      </section>
-      <p>
-        The {{onchange}} attribute is an <a>event handler</a> whose
-        corresponding <a>event handler event type</a> is `"change"`.
-      </p>
-    </section>
-    <section>
-      <h2>
-        Extensions to the `Document` interface
-      </h2>
-      <section>
-        <h2>
-          Internal Slots
-        </h2>
-        <table class="simple">
-          <thead>
-            <tr>
-              <th>
-                Internal Slot
-              </th>
-              <th>
-                Description
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                <dfn data-dfn-for="Document">[[\orientationLock]]</dfn>
-              </td>
-              <td>
-                The {{Document/[[orientationLock]]}} represents a
-                {{Document}}'s <a>orientation lock</a> as an <a>ordered set</a>
-                of {{OrientationType}}.
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <dfn data-dfn-for="Document">[[\defaultOrientation]]</dfn>
-              </td>
-              <td>
-                An <a>ordered set</a> of orientations to which the screen
-                orientation is locked when not explicitly locked by this API or
-                any other means.
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <dfn data-dfn-for=
-                "Document">[[\orientationPendingPromise]]</dfn>
-              </td>
-              <td>
-                Either `null` or a {{Promise}}. When assigned a {{Promise}},
-                that promise represents a request to lock the screen to one of
-                the supported orientations. The promise resolves after locking
-                the orientation succeeds or rejects if locking fails.
-              </td>
-            </tr>
-          </tbody>
-        </table>
       </section>
     </section>
     <section>
       <h2>
         Concepts
       </h2>
-      <p>
-        Algorithms defined in this specification assume that for each
-        {{Document}} there is an {{Document/[[orientationPendingPromise]]}}.
-      </p>
       <section>
         <h2>
           Screen orientation types and locks
@@ -505,10 +268,10 @@
           and landscape-secondary.
         </p>
         <p>
-          The <dfn data-export="">default screen orientation</dfn> is the set
-          of orientations to which the screen is locked when there is no
-          current <a>orientation lock</a>. This orientation is determined by
-          the device's operating system, or the user agent (e.g., <a href=
+          The <dfn data-export="">default screen orientation</dfn> is the
+          orientation to which the screen is locked when there is no current
+          <a>orientation lock</a>. This orientation is determined by the
+          device's operating system, or the user agent (e.g., <a href=
           "#interaction-with-web-application-manifest"></a>), or controlled by
           the end-user.
         </p>
@@ -525,8 +288,8 @@
         <p>
           When the {{Document}} is created, the <a>user agent</a> MUST
           <a>update the orientation information</a> of the {{Document}}. Doing
-          so initializes the <a>current orientation type</a> and a the
-          <a>current orientation angle</a>
+          so initializes the <a>current orientation type</a> and the <a>current
+          orientation angle</a>.
         </p>
         <p>
           For a given {{Document}}, the <a>current orientation type</a> and the
@@ -707,80 +470,239 @@
         </section>
       </section>
     </section>
-    <section>
+    <section data-dfn-for='Screen'>
       <h2>
-        Interactions with other specifications
+        Extensions to the `Screen` interface
       </h2>
-      <p>
-        This section explains how this specification interacts with other
-        related specifications of the platform.
-      </p>
+      <pre class='idl'>
+        partial interface Screen {
+          [SameObject] readonly attribute ScreenOrientation orientation;
+        };
+      </pre>
+    </section>
+    <section data-dfn-for='ScreenOrientation' data-link-for=
+    'ScreenOrientation'>
+      <h2>
+        <dfn>ScreenOrientation</dfn> interface
+      </h2>
+      <pre class='idl'>
+          [Exposed=Window]
+          interface ScreenOrientation : EventTarget {
+            Promise&lt;undefined&gt; lock(OrientationLockType orientation);
+            undefined unlock();
+            readonly attribute OrientationType type;
+            readonly attribute unsigned short angle;
+            attribute EventHandler onchange;
+          };
+      </pre>
       <section>
         <h2>
-          Interaction with Fullscreen API
+          <dfn>lock()</dfn> method
+        </h2>
+        <p data-tests="lock-bad-argument.html, lock-basic.html">
+          When the {{lock()}} method is invoked, the <a>user agent</a> MUST run
+          the <a>apply an orientation lock</a> steps to [=this=]'s [=relevant
+          global object=]'s [=associated `Document`=] using
+          |orientation:OrientationLockType|.
+        </p>
+      </section>
+      <section>
+        <h2>
+          <dfn>unlock()</dfn> method
         </h2>
         <p>
-          As a <a>pre-lock condition</a>, a user agent MAY restrict locking the
-          screen orientation exclusively to when the <a>top-level browsing
-          context</a>'s {{Document}}'s is full screen. When that <a>pre-lock
-          condition</a> applies, whenever the {{Document}}'s <a>fullscreen
-          element</a> is empty and a screen <a>orientation lock</a> is applied,
-          the <a>user agent</a> MUST <a>lock the orientation</a> of the
-          {{Document}} to the {{Document}}'s <a>default screen orientation</a>.
+          When the {{unlock()}} method is invoked, the <a>user agent</a> MUST
+          run the steps to <a>lock the orientation</a> of [=this=]'s [=relevant
+          global object=]'s [=associated `Document`=] to its <a>default screen
+          orientation</a>.
         </p>
-        <div class='issue'>
-          This section could be improved if the [[FULLSCREEN]] specification
-          had a hook for when the document is no longer fullscreen. See
-          <a href='https://github.com/w3c/screen-orientation/issues/62'>issue
-          62</a>.
+        <p class='note' title="Why does unlock() not return a promise?">
+          {{unlock()}} does not return a promise because it is equivalent to
+          locking to the <a>default screen orientation</a> which might or might
+          not be known by the <a>user agent</a>. Hence, the <a>user agent</a>
+          can not predict what the new orientation is going to be and even if
+          it is going to change at all.
+        </p>
+      </section>
+      <section>
+        <h2>
+          <dfn>type</dfn> attribute
+        </h2>
+        <p>
+          When getting the {{type}} attribute, the <a>user agent</a> MUST
+          return [=this=]'s [=relevant global object=]'s [=associated
+          `Document`=]'s <a>current orientation type</a>.
+        </p>
+      </section>
+      <section>
+        <h2>
+          <dfn>angle</dfn> attribute
+        </h2>
+        <p>
+          When getting the {{angle}} attribute, the <a>user agent</a> MUST
+          return [=this=]'s [=relevant global object=]'s [=associated
+          `Document`=]'s <a>current orientation angle</a>.
+        </p>
+        <div class='note' title=
+        "What does the value given for angle represent?">
+          <p>
+            {{angle}} represents how far the user has turned the device
+            counterclockwise from the natural orientation. When the device is
+            rotated 90° counterclockwise, the screen compensates by rotating
+            90° clockwise, so {{angle}} returns `90`.
+          </p>
+          <p>
+            The <a>screen orientation values table</a> shows how the angle
+            changes depending on the how the device is rotated.
+          </p>
+          <p>
+            The value returned by this property is always in the range 0-359.
+            It never returns negative values.
+          </p>
         </div>
       </section>
-      <section class='informative'>
+      <section>
         <h2>
-          Interaction with Web Application Manifest
+          <dfn>onchange</dfn> attribute
         </h2>
-        <p>
-          The [[[appmanifest]]] allows web applications to set the
-          {{Document}}'s <a>default screen orientation</a>.
-        </p>
       </section>
-      <section class='informative'>
+      <p>
+        The {{onchange}} attribute is an <a>event handler</a> whose
+        corresponding <a>event handler event type</a> is `"change"`.
+      </p>
+    </section>
+    <section data-dfn-for="OrientationLockType">
+      <h2>
+        <dfn>OrientationLockType</dfn> enum
+      </h2>
+      <pre class='idl'>
+        enum OrientationLockType {
+          "any",
+          "natural",
+          "landscape",
+          "portrait",
+          "portrait-primary",
+          "portrait-secondary",
+          "landscape-primary",
+          "landscape-secondary"
+        };
+      </pre>
+      <p>
+        The <dfn>OrientationLockType</dfn> enum represents the screen
+        orientations to which a screen can be locked.
+      </p>
+      <ul>
+        <li>"<dfn>any</dfn>" enum value represents the <a>any</a> orientation,
+        </li>
+        <li>"<dfn>natural</dfn>" enum represents the <a>natural</a>
+        orientation,
+        </li>
+        <li>"<dfn>landscape</dfn>" enum represents the <a>landscape</a>
+        orientation,
+        </li>
+        <li>"<dfn>portrait</dfn>" enum represents the <a>portrait</a>
+        orientation,
+        </li>
+        <li>"<dfn>portrait-primary</dfn>" enum represents the
+        <a>portrait-primary</a> orientation,
+        </li>
+        <li>"<dfn>portrait-secondary</dfn>" enum represents the
+        <a>portrait-secondary</a> orientation,
+        </li>
+        <li>"<dfn>landscape-primary</dfn>" enum represents the
+        <a>landscape-primary</a> orientation,
+        </li>
+        <li>"<dfn>landscape-secondary</dfn>" enum represents the
+        <a>landscape-secondary</a> orientation.
+        </li>
+      </ul>
+    </section>
+    <section data-dfn-for="OrientationType">
+      <h2>
+        <dfn>OrientationType</dfn> enum
+      </h2>
+      <pre class='idl'>
+        enum OrientationType {
+          "portrait-primary",
+          "portrait-secondary",
+          "landscape-primary",
+          "landscape-secondary"
+        };
+      </pre>
+      <p>
+        The <dfn>OrientationType</dfn> enum represents the actual current
+        screen orientation that the screen is in irrespective of which lock is
+        applied.
+      </p>
+      <ul>
+        <li>"<dfn>portrait-primary</dfn>" enum represents the
+        <a>portrait-primary</a> orientation,
+        </li>
+        <li>"<dfn>portrait-secondary</dfn>" enum represents the
+        <a>portrait-secondary</a> orientation,
+        </li>
+        <li>"<dfn>landscape-primary</dfn>" enum represents the
+        <a>landscape-primary</a> orientation,
+        </li>
+        <li>and the "<dfn>landscape-secondary</dfn>" enum represents the
+        <a>landscape-secondary</a> orientation.
+        </li>
+      </ul>
+    </section>
+    <section>
+      <h2>
+        Extensions to the `Document` interface
+      </h2>
+      <section>
         <h2>
-          Interaction with CSS Device Adaptation
+          Internal Slots
         </h2>
-        <p>
-          The [[[CSS-ADAPTATION]]] specification defines, independently of this
-          document, a way to lock the screen orientation for a web page using
-          CSS.
-        </p>
-      </section>
-      <section class='informative'>
-        <h2>
-          Interaction with Web Content Accessibility Guidelines
-        </h2>
-        <p>
-          The [[[WCAG21]]] includes a <a data-cite="WCAG21#orientation">Success
-          Criterion related to screen orientation</a>.
-        </p>
-        <p>
-          ​The intent of this Success Criterion is to ensure that all
-          <a data-cite="WCAG21#dfn-essential">essential</a> content and
-          functionality is available regardless of the display orientation
-          (portrait or landscape). Some websites and applications automatically
-          set the screen to a particular display orientation and expect that
-          users will respond by rotating their device to match.
-        </p>
-        <p>
-          However, some users may have their devices mounted in a fixed
-          orientation (e.g. on the arm of a power wheelchair). Therefore,
-          websites and applications need to support both orientations by making
-          sure <a data-cite="WCAG21#dfn-essential">essential</a> content and
-          functionality is available in each orientation. While the order of
-          content and method of functionality may have differences the content
-          and functionality must always be available. When a particular
-          orientation is <a data-cite="WCAG21#dfn-essential">essential</a>, the
-          user needs to be advised of the orientation requirements.​
-        </p>
+        <table class="simple">
+          <thead>
+            <tr>
+              <th>
+                Internal Slot
+              </th>
+              <th>
+                Description
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <dfn data-dfn-for="Document">[[\orientationLock]]</dfn>
+              </td>
+              <td>
+                The {{Document/[[orientationLock]]}} represents a
+                {{Document}}'s <a>orientation lock</a> as an <a>ordered set</a>
+                of {{OrientationType}}.
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <dfn data-dfn-for="Document">[[\defaultOrientation]]</dfn>
+              </td>
+              <td>
+                An <a>ordered set</a> of orientations to which the screen
+                orientation is locked when not explicitly locked by this API or
+                any other means.
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <dfn data-dfn-for=
+                "Document">[[\orientationPendingPromise]]</dfn>
+              </td>
+              <td>
+                Either `null` or a {{Promise}}. When assigned a {{Promise}},
+                that promise represents a request to lock the screen to one of
+                the supported orientations. The promise resolves after locking
+                the orientation succeeds or rejects if locking fails.
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </section>
     </section>
     <section>
@@ -1137,7 +1059,83 @@
         </div>
       </section>
     </section>
-    <section class='informative'>
+    <section>
+      <h2>
+        Interactions with other specifications
+      </h2>
+      <p>
+        This section explains how this specification interacts with other
+        related specifications of the platform.
+      </p>
+      <section>
+        <h2>
+          Interaction with Fullscreen API
+        </h2>
+        <p>
+          As a <a>pre-lock condition</a>, a user agent MAY restrict locking the
+          screen orientation exclusively to when the <a>top-level browsing
+          context</a>'s {{Document}}'s is full screen. When that <a>pre-lock
+          condition</a> applies, whenever the {{Document}}'s <a>fullscreen
+          element</a> is empty and a screen <a>orientation lock</a> is applied,
+          the <a>user agent</a> MUST <a>lock the orientation</a> of the
+          {{Document}} to the {{Document}}'s <a>default screen orientation</a>.
+        </p>
+        <div class='issue'>
+          This section could be improved if the [[FULLSCREEN]] specification
+          had a hook for when the document is no longer fullscreen. See
+          <a href='https://github.com/w3c/screen-orientation/issues/62'>issue
+          62</a>.
+        </div>
+      </section>
+      <section class="informative">
+        <h2>
+          Interaction with Web Application Manifest
+        </h2>
+        <p>
+          The [[[appmanifest]]] allows web applications to set the
+          {{Document}}'s <a>default screen orientation</a>.
+        </p>
+      </section>
+      <section class="informative">
+        <h2>
+          Interaction with CSS Device Adaptation
+        </h2>
+        <p>
+          The [[[CSS-ADAPTATION]]] specification defines, independently of this
+          document, a way to lock the screen orientation for a web page using
+          CSS.
+        </p>
+      </section>
+      <section class="informative">
+        <h2>
+          Interaction with Web Content Accessibility Guidelines
+        </h2>
+        <p>
+          The [[[WCAG21]]] includes a <a data-cite="WCAG21#orientation">Success
+          Criterion related to screen orientation</a>.
+        </p>
+        <p>
+          ​The intent of this Success Criterion is to ensure that all
+          <a data-cite="WCAG21#dfn-essential">essential</a> content and
+          functionality is available regardless of the display orientation
+          (portrait or landscape). Some websites and applications automatically
+          set the screen to a particular display orientation and expect that
+          users will respond by rotating their device to match.
+        </p>
+        <p>
+          However, some users may have their devices mounted in a fixed
+          orientation (e.g. on the arm of a power wheelchair). Therefore,
+          websites and applications need to support both orientations by making
+          sure <a data-cite="WCAG21#dfn-essential">essential</a> content and
+          functionality is available in each orientation. While the order of
+          content and method of functionality may have differences the content
+          and functionality must always be available. When a particular
+          orientation is <a data-cite="WCAG21#dfn-essential">essential</a>, the
+          user needs to be advised of the orientation requirements.​
+        </p>
+      </section>
+    </section>
+    <section class="informative">
       <h2>
         Privacy and Security Considerations
       </h2>
@@ -1159,16 +1157,10 @@
         </p>
       </section>
     </section>
-    <section id='conformance'>
-      <p>
-        This specification defines conformance criteria that apply to a single
-        product: the <dfn>user agent</dfn> that implements the interfaces that
-        it contains.
-      </p>
-    </section>
+    <section id="conformance"></section>
     <section id="idl-index" class="appendix"></section>
     <section id="index"></section>
-    <section class='appendix'>
+    <section class="appendix">
       <h2>
         Acknowledgments
       </h2>
