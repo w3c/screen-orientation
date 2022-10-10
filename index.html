@@ -42,30 +42,20 @@
   <body data-cite="web-animations CSSOM-VIEW">
     <section id="abstract">
       <p>
-        The <cite>Screen Orientation API</cite> provides the ability to read
-        the screen orientation type and angle, to be informed when the screen
-        orientation changes, and, if certain pre-conditions are met, to lock
-        the screen to a given orientation.
+        For web applications, the <cite>Screen Orientation API</cite> exposes
+        the type and angle of a device's current screen orientation, and
+        dispatches events if the device's screen orientation changes. This
+        allows web applications to programmatically adapt the user experience
+        for many possible screen orientations in concert with CSS. If supported
+        and if certain preconditions are met, the API also provides the ability
+        to lock the screen orientation. This is useful in applications such as
+        computer games where users physically rotate the device but the screen
+        orientation itself mustn't change.
       </p>
     </section>
     <section id="sotd">
       <p>
         This document is a work in progress.
-      </p>
-    </section>
-    <section class="informative">
-      <h2>
-        Introduction
-      </h2>
-      <p>
-        For web applications, the <cite>Screen Orientation API</cite> exposes
-        the type and angle of a device's current screen orientation, and can
-        provide notification if the device's orientation changes. This allows
-        web applications to programmatically adapt the user experience for many
-        possible screen orientations (in concert with CSS). The API also allows
-        locking the screen to a particular orientation. This is useful in
-        applications such as computer games where users physically rotate the
-        device but the screen orientation itself mustn't change.
       </p>
     </section>
     <section class="informative">
@@ -77,22 +67,14 @@
           Locking to a specific orientation and unlocking
         </h2>
         <p>
-          In this example, clicking the "Lock" button makes a request to go
-          into fullscreen and then lock the screen to the opposite orientation.
-          Pressing the "Unlock" button unlocks the screen so it rotates if the
-          user turns the device.
-        </p>
-        <p>
-          The developer console logs the change in orientation type and angle.
+          In this example clicking the "Lock" button requests to go
+          into fullscreen and then locks the screen to the opposite orientation.
+          clicking the "unlock" button unlocks the screen.
         </p>
         <pre class='example html'>
             &lt;script&gt;
-            function fullScreenCheck() {
-              if (document.fullscreenElement) return;
-              return document.documentElement.requestFullscreen();
-            }
-
-            function updateDetails(lockButton) {
+            function updateLockButton() {
+              const lockButton = document.getElementById("button");
               const buttonOrientation = getOppositeOrientation();
               lockButton.textContent = `Lock to ${buttonOrientation}`;
             }
@@ -103,30 +85,17 @@
             }
 
             async function rotate(lockButton) {
-              try {
-                await fullScreenCheck();
-              } catch (err) {
-                console.error(err);
+              if (!document.fullscreenElement) {
+                await document.documentElement.requestFullscreen();
               }
               const newOrientation = getOppositeOrientation();
               await screen.orientation.lock(newOrientation);
-              updateDetails(lockButton);
+              updateLockButton(lockButton);
             }
 
-            function show() {
-              const { type, angle } = screen.orientation;
-              console.log(`Orientation type is ${type} & angle is ${angle}.`);
-            }
+            screen.orientation.addEventListener("change", updateLockButton);
 
-            screen.orientation.addEventListener("change", () =&gt; {
-              show();
-              updateDetails(document.getElementById("button"));
-            });
-
-            window.addEventListener("load", () =&gt; {
-              show();
-              updateDetails(document.getElementById("button"));
-            });
+            window.addEventListener("load", updateLockButton);
             &lt;/script&gt;
 
             &lt;button onclick="rotate(this)" id="button"&gt;
@@ -137,190 +106,113 @@
             &lt;/button&gt;
           </pre>
       </section>
-      <section>
-        <h2>
-          Locking the screen before calling a function
-        </h2>
-        <p>
-          This example waits to go into fullscreen, then locks to landscape
-          before calling `ready()`.
-        </p>
-        <pre class='example html'>
-            &lt;script&gt;
-            function ready() {
-              const { type } = screen.orientation;
-              console.log(`Fullscreen and locked to ${type}. Ready!`);
-            }
-
-            async function start() {
-              await document.body.requestFullscreen();
-              await screen.orientation.lock("landscape");
-              ready();
-            }
-            &lt;/script&gt;
-            &lt;button onclick="start()"&gt;
-              Start
-            &lt;/button&gt;
-          </pre>
-      </section>
-      <section>
-        <h2>
-          Alerting the user if the API is not supported
-        </h2>
-        <p data-link-for="ScreenOrientation">
-          In this example, if the <cite>Screen Orientation API</cite> is not
-          supported, or the screen orientation {{lock()}} rejects, the user is
-          alerted to rotate their screen manually to landscape.
-        </p>
-        <pre class='example html'>
-            &lt;script&gt;
-            function start() {
-              /* Start application when in correct orientation */
-            }
-            async function rotate() {
-              try {
-                await screen.orientation.lock("landscape");
-              } catch (err) {
-                console.error(err);
-              }
-              const matchLandscape = matchMedia("(orientation: landscape)");
-              if (matchLandscape.matches) return start();
-              addEventListener("orientationchange", function listener() {
-                matchLandscape.addListener(function mediaChange(e) {
-                  if (!e.matches) return;
-                  removeEventListener("orientationchange", listener);
-                  matchLandscape.removeListener(mediaChange);
-                  start();
-                });
-              });
-              alert("To start, please rotate your screen to landscape.");
-            }
-            &lt;/script&gt;
-            &lt;button onclick="start()"&gt;
-              Start
-            &lt;/button&gt;
-          </pre>
-      </section>
     </section>
     <section>
       <h2>
         Concepts
       </h2>
+      <p>
+        The {{Window}} object has an <dfn>associated `Screen`</dfn>, which is a
+        {{Screen}} object.
+      </p>
+      <p>
+        A [=browsing context=] |A| is called a <dfn>descendant browsing
+        context</dfn> of a [=browsing context=] |B| if and only if |B| is an
+        [=ancestor browsing context=] of |A|.
+      </p>
       <section>
         <h2>
           Screen orientation types and locks
         </h2>
         <p>
-          <dfn>Landscape-primary</dfn> is an orientation where the screen width
-          is greater than the screen height. If the device's natural
-          orientation is landscape, then it is in landscape-primary when held
-          in that position. If the device's natural orientation is portrait,
-          the <a>user agent</a> sets landscape-primary from the two options as
-          shown in the <a>screen orientation values table</a>.
+          To <dfn data-local-lt="locking the screen orientation">lock the
+          screen orientation</dfn> to an |orientation| means that the screen
+          can only be rotated by the user to specific orientations (possibly at
+          the exclusion of other orientations). For example, locking the
+          orientation to [=landscape=] means that the screen can be rotated by
+          the user to [=landscape-primary=] and [=landscape-secondary=], and
+          not to any [=portrait=] orientation.
         </p>
         <p>
-          <dfn>Landscape-secondary</dfn> is an orientation where the screen
-          width is greater than the screen height. If the device's natural
-          orientation is landscape, it is in landscape-secondary when rotated
-          180º from its natural orientation. If the device's natural
-          orientation is portrait, the <a>user agent</a> sets
-          landscape-secondary from the two options as shown in the <a>screen
-          orientation values table</a>.
+          A screen can be in or locked to one of the following <dfn>screen
+          orientations</dfn>:
         </p>
-        <p>
-          <dfn>Portrait-primary</dfn> is an orientation where the screen width
-          is less than or equal to the screen height. If the device's natural
-          orientation is portrait, then it is in portrait-primary when held in
-          that position. If the device's natural orientation is landscape, the
-          <a>user agent</a> sets portrait-primary from the two options as shown
-          in the <a>screen orientation values table</a>.
-        </p>
-        <p>
-          <dfn>Portrait-secondary</dfn> is an orientation where the screen
-          width is less than or equal to the screen height. If the device's
-          natural orientation is portrait, then it is in portrait-secondary
-          when rotated 180º from its natural position. If the device's natural
-          orientation is landscape, the <a>user agent</a> sets
-          portrait-secondary from the two options as shown in the <a>screen
-          orientation values table</a>.
-        </p>
-        <p>
-          <dfn>Portrait</dfn> is an orientation where the screen width is less
-          than or equal to the screen height and depending on platform
-          convention locking the screen to portrait can represent
-          portrait-primary, portrait-secondary or both.
-        </p>
-        <p>
-          <dfn>Landscape</dfn> is an orientation where the screen width is
-          greater than the screen height and depending on platform convention
-          locking the screen to landscape can represent landscape-primary,
-          landscape-secondary or both.
-        </p>
-        <p>
-          <dfn>Natural</dfn> is an orientation that refers to either
-          portrait-primary or landscape-primary depending on the device's usual
-          orientation. This orientation is usually provided by the underlying
-          operating system.
-        </p>
-        <p>
-          <dfn>Any</dfn> is an orientation that means the screen can be locked
-          to any one of portrait-primary, portrait-secondary, landscape-primary
-          and landscape-secondary.
-        </p>
-        <p>
-          The <dfn data-export="">default screen orientation</dfn> is the
-          orientation to which the screen is locked when there is no current
-          <a>orientation lock</a>. This orientation is determined by the
-          device's operating system, or the user agent (e.g., <a href=
-          "#interaction-with-web-application-manifest"></a>), or controlled by
-          the end-user.
-        </p>
-        <div class="issue" data-number="150"></div>
+        <dl>
+          <dt>
+            <dfn>Natural</dfn>:
+          </dt>
+          <dd>
+            The most natural orientation of the device if it was viewed or held
+            by the user, as determined by the underlying operating system. For
+            example, a device viewed, or held upright in the user's hand, with
+            the screen facing the user.
+          </dd>
+          <dt>
+            <dfn>Landscape</dfn>:
+          </dt>
+          <dd>
+            The screen's width is greater than the height.
+          </dd>
+          <dt>
+            <dfn>Portrait</dfn>:
+          </dt>
+          <dd>
+            The screen's height is greater than the width.
+          </dd>
+          <dt>
+            <dfn data-local-lt=
+            "landscape-primary|portrait-primary">Primary</dfn>:
+          </dt>
+          <dd>
+            The device's screen [=natural=] orientation for either [=portrait=]
+            or [=landscape=].
+          </dd>
+          <dt>
+            <dfn data-local-lt=
+            "landscape-secondary|portrait-secondary">Secondary</dfn>:
+          </dt>
+          <dd>
+            The opposite of the device's screen <a>primary</a> orientation for
+            [=portrait=] or [=landscape=].
+          </dd>
+          <dt>
+            <dfn>Any</dfn>:
+          </dt>
+          <dd>
+            The screen can be rotated by the user to any orientation allowed by
+            the device's operating system or by the end-user.
+          </dd>
+          <dt>
+            The <dfn data-export="">default screen orientation</dfn>:
+          </dt>
+          <dd>
+            The orientation to which the screen is locked when there is no
+            [=Document/active orientation lock=] (i.e., the orientation is
+            "unlocked"). This orientation is determined by the device's
+            operating system, or the user agent (e.g., <a href=
+            "#interaction-with-web-application-manifest"></a>), or controlled
+            by the end-user.
+          </dd>
+        </dl>
       </section>
-      <section data-dfn-for='OrientationType' data-link-for="OrientationType">
+      <section>
         <h2>
-          Reading the screen orientation
+          The current screen orientation type and angle
         </h2>
         <p>
-          All {{Document}} objects have a <dfn>current orientation type</dfn>
-          and a <dfn>current orientation angle</dfn>.
-        </p>
-        <p>
-          When the {{Document}} is created, the <a>user agent</a> MUST
-          <a>update the orientation information</a> of the {{Document}}. Doing
-          so initializes the <a>current orientation type</a> and the <a>current
-          orientation angle</a>.
-        </p>
-        <p>
-          For a given {{Document}}, the <a>current orientation type</a> and the
-          <a>current orientation angle</a> are strongly linked in the sense
-          that for any given type, there will be a specific angle associated.
-        </p>
-        <p>
-          One primary orientation will always be determined by the
-          <a>natural</a> orientation of the device and this will then determine
-          the secondary value of its related orientation.
-        </p>
-        <p>
-          For example a device held in its natural <a>portrait</a> orientation
-          would have a current orientation of <a>portrait-primary</a> and its
-          <a>portrait-secondary</a> orientation would be its position when
-          rotated 180°.
-        </p>
-        <p>
-          The <a>user agent</a> can associate the other `*-primary` and
-          `*-secondary` values at will. For example, it can be based on the
-          device preferred angles, the user's preferred orientations or the
-          current orientation when the application starts.
+          The screen of the output device has a <dfn>current orientation
+          type</dfn> and a <dfn>current orientation angle</dfn>. 
+          To derive these values, the <a>user agent</a> MUST <a>update
+          the orientation information</a> when a [=browsing context=] is created. The
+          relationship between the <a>current orientation type</a> and the <a>current orientation
+          angle</a> MUST be kept consistent.
         </p>
         <p>
           The <a>screen orientation values table</a> presents the possible
-          orientation types: <a>portrait-primary</a>,
-          <a>portrait-secondary</a>, <a>landscape-primary</a> and
-          <a>landscape-secondary</a>. The table shows the primary and secondary
-          values that are determined by the device's <a>natural</a> orientation
-          and the possibilities available to the <a>user agent</a> for setting
-          the other primary and secondary orientation values.
+          value for the [=current orientation type=] and [=current orientation angle=]. The table specifies the primary and
+          secondary values that are determined by the device's <a>natural</a>
+          orientation and the possibilities available to the <a>user agent</a>
+          for setting the other primary and secondary orientation values.
         </p>
         <table class="simple">
           <caption>
@@ -329,7 +221,7 @@
           <thead>
             <tr>
               <th>
-                Natural Orientation
+                In the natural orientation is...
               </th>
               <th>
                 Primary Orientation 1
@@ -345,23 +237,22 @@
               </th>
             </tr>
           </thead>
-          <tbody data-link-for="ScreenOrientation">
+          <tbody>
             <tr>
               <td>
                 <a>Portrait</a>
               </td>
               <td>
                 <a>portrait-primary</a><br>
-                {{angle}} `0`
+                angle `0`
               </td>
               <td>
                 <a>portrait-secondary</a><br>
-                {{angle}} `180`
+                angle `180`
               </td>
               <td>
                 <a>landscape-primary</a><br>
-                <a>User agent</a> to set at either {{angle}} `90` or {{angle}}
-                `270`
+                angle `90` or angle `270`
               </td>
               <td>
                 <a>landscape-secondary</a><br>
@@ -374,35 +265,27 @@
               </td>
               <td>
                 <a>landscape-primary</a><br>
-                {{angle}} `0`
+                angle `0`
               </td>
               <td>
                 <a>landscape-secondary</a><br>
-                {{angle}} `180`
+                angle `180`
               </td>
               <td>
                 <a>portrait-primary</a><br>
-                <a>User agent</a> to set at either {{angle}} `90` or {{angle}}
-                `270`
+                angle `90` or angle `270`
               </td>
               <td>
                 <a>portrait-secondary</a><br>
-                Set at the angle not used for portrait-primary
+                The angle not used for portrait-primary.
               </td>
             </tr>
           </tbody>
         </table>
-        <p>
-          Once the <a>user agent</a> has set the primary and secondary values
-          from the options in the <a>screen orientation values table</a>, the
-          <a>current orientation type</a> and the <a>current orientation
-          angle</a> relation MUST be kept consistent for any given
-          {{Document}}.
-        </p>
         <div class='practice'>
           <p class='practicedesc'>
-            <span class='practicelab'>{{ScreenOrientation.angle}} and
-            {{ScreenOrientation.type}} relationship</span> Never assume any
+            <span class='practicelab'>{{ScreenOrientation/angle}} and
+            {{ScreenOrientation/type}} relationship</span> Never assume any
             cross-devices relationship between the screen orientation type and
             the screen orientation angle. Any assumption would be wrong given
             that a device might have `90` and `270` as the angles for
@@ -420,11 +303,9 @@
         <p>
           The <a>user agent</a> MAY require a {{Document}} and its associated
           [=Document/browsing context=] to meet one or more <dfn>pre-lock
-          conditions</dfn> in order to lock the screen orientation. For
-          example, a <a>user agent</a> might require a {{Document}}'s
-          <a>top-level browsing context</a> to be fullscreen (see <a href=
-          '#interaction-with-fullscreen-api'></a>) in order to allow an
-          <a>orientation lock</a>.
+          conditions</dfn> in order to lock the screen orientation in order to
+          allow an <a>orientation lock</a>. See, for example, <a href=
+          '#interaction-with-fullscreen-api'></a>).
         </p>
         <p>
           The <a>user agent</a> MAY reject all attempts to lock the screen
@@ -433,44 +314,9 @@
           desktop platforms, applications can not change the screen
           orientation.
         </p>
-        <p>
-          If the <a>user agent</a> supports locking the screen orientation, it
-          MUST allow the screen to be locked to all of the states of the
-          {{OrientationLockType}} enum.
-        </p>
-        <p>
-          The {{Document/[[orientationLock]]}} internal slot represents the
-          {{Document}}'s <a>orientation lock</a>.
-        </p>
-        <p>
-          An <dfn>orientation lock</dfn> is in place when the screen has
-          successfully been locked to a specific orientation.
-        </p>
-        <section>
-          <h2>
-            Locking to the default orientation
-          </h2>
-          <p>
-            From the perspective of a {{Document}}, locking to the <a>default
-            screen orientation</a> is equivalent to unlocking because it means
-            that it no longer has a lock applied.
-          </p>
-          <p class="note" title="Who controls the default orientation?">
-            This does not mean that the {{Document/[[defaultOrientation]]}}
-            will only contain the item <a>any</a>. The <a>default screen
-            orientation</a> is likely device-specific and
-            {{Document/[[defaultOrientation]]}} could for example contain
-            <a>portrait-primary</a> and/or <a>landscape-primary</a>.
-            Alternatively, the user could restrict the default orientation to a
-            specific orientation via some OS or browser level preference for
-            accessibility reasons. The user agent can also set the default
-            orientation e.g., <a href=
-            "#interaction-with-web-application-manifest"></a>.
-          </p>
-        </section>
       </section>
     </section>
-    <section data-dfn-for='Screen'>
+    <section data-dfn-for="Screen">
       <h2>
         Extensions to the `Screen` interface
       </h2>
@@ -497,14 +343,124 @@
       </pre>
       <section>
         <h2>
+          Internal Slots
+        </h2>
+        <table class="simple">
+          <thead>
+            <tr>
+              <th>
+                Internal Slot
+              </th>
+              <th>
+                Description
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <dfn>[[\angle]]</dfn>
+              </td>
+              <td>
+                The [=current orientation angle=] in degrees as an {{unsigned
+                short}}.
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <dfn>[[\type]]</dfn>
+              </td>
+              <td>
+                The [=current orientation type=] of the screen, represented as
+                an {{OrientationType}} enum value.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+      <section>
+        <h2>
           <dfn>lock()</dfn> method
         </h2>
         <p data-tests="lock-bad-argument.html, lock-basic.html">
           When the {{lock()}} method is invoked, the <a>user agent</a> MUST run
-          the <a>apply an orientation lock</a> steps to [=this=]'s [=relevant
-          global object=]'s [=associated `Document`=] using
-          |orientation:OrientationLockType|.
+          the the following steps.
         </p>
+        <ol class="algorithm">
+          <li>Let |document:Document| be [=this=]'s [=relevant global
+          object=]'s [=associated `Document`=].
+          </li>
+          <li>If |document| is not [=Document/fully active=], return [=a
+          promise rejected with=] an "{{InvalidStateError}}" {{DOMException}}.
+          </li>
+          <li>If the <a>user agent</a> does not support locking the screen
+          orientation due to previously-established user preference, security
+          risk, or platform limitation, return [=a promise rejected with=] a
+          {{"NotSupportedError"}} {{DOMException}} and abort these steps.
+          </li>
+          <li data-tests="lock-sandboxed-iframe.html">If |document| has the <a>
+            sandboxed orientation lock browsing context flag</a> set, or
+            doesn't meet the [=pre-lock conditions=], return [=a promise
+            rejected with=] a `"SecurityError"` {{DOMException}} and abort
+            these steps.
+          </li>
+          <li data-tests="lock-basic.html">If |document|'s
+          {{Document/[[orientationPendingPromise]]}} is not `null`:
+            <ol>
+              <li>Let |currentLockPromise:Promise| be |document|'s
+              {{Document/[[orientationPendingPromise]]}}.
+              </li>
+              <li>[=Queue a global task=] on the [=DOM manipulation task
+              source=] with |this|'s [=relevant global object=] to [=reject=]
+              |currentLockPromise| with an {{"AbortError"}} {{DOMException}}.
+              </li>
+            </ol>
+          </li>
+          <li data-tests="lock-basic.html">Set |document|'s
+          {{Document/[[orientationPendingPromise]]}} to [=a new promise=].
+          </li>
+          <li>Return |document|'s {{Document/[[orientationPendingPromise]]}}
+          and [=in parallel=]:
+            <ol>
+              <li>Let |descendantDocs| be an [=ordered set=] consisting of
+              |documents|'s [=descendant browsing contexts=]' [=active
+              documents=], if any, in tree order.
+              </li>
+              <li>[=Set/For each=] |doc:Document| in |descendantDocs|:
+                <ol>
+                  <li>If |doc| {{Document/[[orientationPendingPromise]]}} is
+                  `null`, continue.
+                  </li>
+                  <li>[=Queue a global task=] on the [=DOM manipulation task
+                  source=] with |doc|'s [=relevant global object=] to:
+                    <ol>
+                      <li>[=Reject=] |doc|'s
+                      {{Document/[[orientationPendingPromise]]}} with
+                      `"AbortError"` {{DOMException}}.
+                      </li>
+                      <li>Set |doc|'s
+                      {{Document/[[orientationPendingPromise]]}} to `null`.
+                      </li>
+                    </ol>
+                  </li>
+                </ol>
+              </li>
+              <li>
+                <a>Lock the orientation</a> of |document| to |orientation|.
+              </li>
+            </ol>
+          </li>
+          <li>If |document| stops being [=Document/fully active=], [=queue a
+          global task=] on the [=DOM manipulation task source=] with |this|'s
+          [=relevant global object=] to [=reject=]
+          {{Document/[[orientationPendingPromise]]}} with an {{"AbortError"}}
+          {{DOMException}}.
+          </li>
+        </ol>
+        <div class='note'>
+          If locking the orientation results in an orientation change, the
+          promise will be resolved when the orientation changes.
+        </div>
       </section>
       <section>
         <h2>
@@ -512,10 +468,17 @@
         </h2>
         <p>
           When the {{unlock()}} method is invoked, the <a>user agent</a> MUST
-          run the steps to <a>lock the orientation</a> of [=this=]'s [=relevant
-          global object=]'s [=associated `Document`=] to its <a>default screen
-          orientation</a>.
+          run the following steps:
         </p>
+        <ol>
+          <li>If |document| is not [=Document/fully active=],
+          [=exception/throw=] an "{{InvalidStateError}}" {{DOMException}}.
+          </li>
+          <li>[=Lock the screen orientation=] of [=this=]'s [=relevant global
+          object=]'s [=associated `Document`=] to the [=default screen
+          orientation=].
+          </li>
+        </ol>
         <p class='note' title="Why does unlock() not return a promise?">
           {{unlock()}} does not return a promise because it is equivalent to
           locking to the <a>default screen orientation</a> which might or might
@@ -529,9 +492,7 @@
           <dfn>type</dfn> attribute
         </h2>
         <p>
-          When getting the {{type}} attribute, the <a>user agent</a> MUST
-          return [=this=]'s [=relevant global object=]'s [=associated
-          `Document`=]'s <a>current orientation type</a>.
+          When getting, return [=this=]'s {{ScreenOrientation/[[type]]}}.
         </p>
       </section>
       <section>
@@ -539,9 +500,7 @@
           <dfn>angle</dfn> attribute
         </h2>
         <p>
-          When getting the {{angle}} attribute, the <a>user agent</a> MUST
-          return [=this=]'s [=relevant global object=]'s [=associated
-          `Document`=]'s <a>current orientation angle</a>.
+          When getting, return [=this=]'s {{ScreenOrientation/[[angle]]}}.
         </p>
         <div class='note' title=
         "What does the value given for angle represent?">
@@ -554,10 +513,6 @@
           <p>
             The <a>screen orientation values table</a> shows how the angle
             changes depending on the how the device is rotated.
-          </p>
-          <p>
-            The value returned by this property is always in the range 0-359.
-            It never returns negative values.
           </p>
         </div>
       </section>
@@ -589,7 +544,7 @@
       </pre>
       <p>
         The <dfn>OrientationLockType</dfn> enum represents the screen
-        orientations to which a screen can be locked.
+        orientations to which a screen can be rotated.
       </p>
       <ul>
         <li>"<dfn>any</dfn>" enum value represents the <a>any</a> orientation,
@@ -674,19 +629,8 @@
                 <dfn data-dfn-for="Document">[[\orientationLock]]</dfn>
               </td>
               <td>
-                The {{Document/[[orientationLock]]}} represents a
-                {{Document}}'s <a>orientation lock</a> as an <a>ordered set</a>
-                of {{OrientationType}}.
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <dfn data-dfn-for="Document">[[\defaultOrientation]]</dfn>
-              </td>
-              <td>
-                An <a>ordered set</a> of orientations to which the screen
-                orientation is locked when not explicitly locked by this API or
-                any other means.
+                The {{Document/[[orientationLock]]}} is the [=Document/active
+                orientation lock=] as a {{OrientationLockType}} or `null`.
               </td>
             </tr>
             <tr>
@@ -696,9 +640,8 @@
               </td>
               <td>
                 Either `null` or a {{Promise}}. When assigned a {{Promise}},
-                that promise represents a request to lock the screen to one of
-                the supported orientations. The promise resolves after locking
-                the orientation succeeds or rejects if locking fails.
+                that promise represents a request to lock the screen
+                orientation.
               </td>
             </tr>
           </tbody>
@@ -715,175 +658,41 @@
         </h2>
         <p data-tests="orientation-reading.html">
           The steps to <dfn>update the orientation information</dfn> of a
-          {{Document}} are as follows:
+          [=browsing context=] |context|:
         </p>
         <ol class="algorithm">
-          <li>If the screen width is greater than the screen height, set the
-          {{Document}}'s <a>current orientation type</a> to
-          <a>landscape-primary</a> or <a>landscape-secondary</a>.
+          <li>Let |orientation| be the {{OrientationType}} enum that matches
+          the [=screen orientation=] of |context|.
           </li>
-          <li>Otherwise, if the screen width is less than or equal to the
-          screen height, set the {{Document}}'s <a>current orientation type</a>
-          to <a>portrait-primary</a> or <a>portrait-secondary</a>.
+          <li data-tests="orientation-reading.html">Let |angle| be the angle
+          that matches the |orientation| from the <a>screen orientation values
+          table</a>.
           </li>
-          <li data-tests="orientation-reading.html">Set the {{Document}}'s <a>
-            current orientation angle</a> to the clockwise angle in degrees
-            between the orientation of the viewport as it is drawn and the
-            <a>natural</a> orientation of the device (i.e., the top of the
-            physical screen). This is the opposite of the physical rotation. In
-            other words, if a device is turned 90 degrees on the right, the
-            <a>current orientation angle</a> would be 270 degrees. The
-            <a>screen orientation values table</a> gives the options for each
-            orientation and possible associated angles.
+          <li>Set [=associated `Screen`=]'s {{ScreenOrientation}}'s'
+          {{ScreenOrientation/[[type]]}} internal slot to |orientation|.
+          </li>
+          <li>Set [=associated `Screen`=]'s {{ScreenOrientation}}'s'
+          {{ScreenOrientation/[[angle]]}} internal slot to |angle|.
           </li>
         </ol>
-      </section>
-      <section data-link-for="OrientationType">
-        <h2>
-          Apply an orientation lock
-        </h2>
-        <p class="algorithm">
-          The steps to <dfn>apply an orientation lock</dfn> to a {{Document}}
-          |document:Document| using |orientation:OrientationLockType| are as
-          follows:
-        </p>
-        <ol class="algorithm">
-          <li>If the <a>user agent</a> does not support locking the screen
-          orientation, return a promise rejected with a {{"NotSupportedError"}}
-          {{DOMException}} and abort these steps.
-          </li>
-          <li data-tests="lock-sandboxed-iframe.html">If |document| has the <a>
-            sandboxed orientation lock browsing context flag</a> set, or
-            <a>user agent</a> doesn't meet the <a>pre-lock conditions</a> to
-            perform an orientation change, return a promise rejected with a
-            `"SecurityError"` {{DOMException}} and abort these steps.
-          </li>
-          <li data-tests="lock-basic.html">If |document|'s
-          {{Document/[[orientationPendingPromise]]}} is not `null`:
-            <ol>
-              <li>Let |currentLockPromise:Promise| be |document|'s
-              {{Document/[[orientationPendingPromise]]}}.
-              </li>
-              <li>[=Queue a global task=] on the [=DOM manipulation task
-              source=] with |currentLock|'s [=relevant global object=] to
-              [=reject=] |currentLockPromise| with an {{"AbortError"}}
-              {{DOMException}}.
-              </li>
-            </ol>
-          </li>
-          <li data-tests="lock-basic.html">Set |document|'s
-          {{Document/[[orientationPendingPromise]]}} to [=a new promise=].
-          </li>
-          <li>Return |document|'s {{Document/[[orientationPendingPromise]]}}
-          and [=in parallel=]:
-            <ol>
-              <li>Let |browsing contexts| be the <a data-cite=
-              "html#list-of-the-descendant-browsing-contexts">list of the
-              descendant browsing contexts</a> of the <a>top-level browsing
-              context</a>'s {{Document}}.
-              </li>
-              <li>If one of the |browsing contexts|'s {{Document}}'s
-              {{Document/[[orientationPendingPromise]]}} is not `null`:
-                <ol>
-                  <li>Let |currentLock| be the {{Document}} whose
-                  {{Document/[[orientationPendingPromise]]}} is not `null`.
-                  </li>
-                  <li>[=Queue a global task=] on the [=DOM manipulation task
-                  source=] with |currentLock|'s [=relevant global object=] to:
-                    <ol>
-                      <li>[=Reject=] |currentLock|'s
-                      {{Document/[[orientationPendingPromise]]}} with
-                      `"AbortError"` {{DOMException}}.
-                      </li>
-                      <li>Set |currentLock|'s
-                      {{Document/[[orientationPendingPromise]]}} to `null`.
-                      </li>
-                    </ol>
-                  </li>
-                </ol>
-              </li>
-              <li data-tests="lock-basic.html">Let |orientations| be an empty
-              <a>list</a>.
-              </li>
-              <li>Depending on |orientation| value, do the following:
-                <dl class="switch">
-                  <dt>
-                    <a>portrait-primary</a> or <a>portrait-secondary</a> or
-                    <a>landscape-primary</a> or <a>landscape-secondary</a>
-                  </dt>
-                  <dd>
-                    Append |orientation| to |orientations|.
-                  </dd>
-                  <dt>
-                    <a data-link-for='OrientationLockType'>landscape</a>
-                  </dt>
-                  <dd>
-                    Depending on platform convention, append
-                    `landscape-primary`, or `landscape-secondary`, or both to
-                    |orientations|.
-                  </dd>
-                  <dt>
-                    <a data-link-for='OrientationLockType'>portrait</a>
-                  </dt>
-                  <dd>
-                    Depending on platform convention, append
-                    `portrait-primary`, or `portrait-secondary`, or both to
-                    |orientations|.
-                  </dd>
-                  <dt>
-                    <a data-link-for='OrientationLockType'>natural</a>
-                  </dt>
-                  <dd>
-                    Append `portrait-primary` or `landscape-primary` to
-                    |orientations| such as the associated <a>current
-                    orientation angle</a> is 0.
-                  </dd>
-                  <dt>
-                    `any`
-                  </dt>
-                  <dd>
-                    Append `portrait-primary`, `portrait-secondary`,
-                    `landscape-primary` and `landscape-secondary` to
-                    |orientations|.
-                  </dd>
-                </dl>
-              </li>
-              <li>
-                <a>Lock the orientation</a> of the |document| to
-                |orientations|.
-              </li>
-              <li>If locking the orientation did not result in a change of
-              orientation, as part of the next <a>animation frame</a>, resolve
-              |document|'s {{Document/[[orientationPendingPromise]]}} with
-              `undefined` and set {{Document/[[orientationPendingPromise]]}} to
-              `null`.
-              </li>
-            </ol>
-          </li>
-        </ol>
-        <div class='note'>
-          If locking the orientation results in an orientation change, the
-          promise will be resolved when the orientation will change as
-          described in the <a href="#Screen-orientation-change"></a> section.
-        </div>
       </section>
       <section>
         <h2>
           Locking the orientation
         </h2>
         <p>
-          The steps to <dfn>lock the orientation</dfn> to |orientations| are as
-          follows.
+          The steps to <dfn>lock the orientation</dfn> of |document| to
+          |orientation| are as follows.
         </p>
         <ol class="algorithm">
           <li class="algorithm" data-tests="lock-basic.html">Set the
-          {{Document}}'s {{Document/[[orientationLock]]}} to |orientations|.
+          {{Document}}'s {{Document/[[orientationLock]]}} to |orientation|.
           </li>
-          <li>If the <a>active orientation lock</a> is not the {{Document}}'s
-          {{Document/[[orientationLock]]}}, abort these steps.
+          <li>If the [=Document/active orientation lock=] is not the
+          |document|'s {{Document/[[orientationLock]]}}, abort these steps.
           </li>
-          <li>If the <a>active orientation lock</a> value is equal to
-          |orientations| value, abort these steps.
+          <li>If the [=Document/active orientation lock=] value is equal to
+          |orientation| value, abort these steps.
           </li>
           <li>If |orientations| contains only one value, run the following
           sub-steps:
@@ -908,7 +717,7 @@
           </li>
           <li>Otherwise, depending on platform conventions, change how the
           viewport is drawn in order to make it match another screen
-          orientation type. However, it has to be part of |orientations|.
+          orientation type.
           </li>
           <li>Allow the user to change the screen orientation to any value part
           of |orientations| and only those values until those steps are run
@@ -922,40 +731,41 @@
           Determining the active orientation lock
         </h2>
         <p>
-          The steps to determine the <dfn>active orientation lock</dfn> are as
-          follows:
+          An <dfn>orientation lock</dfn> is in place when a [=document=] has an
+          [=Document/active orientation lock=].
+        </p>
+        <p>
+          The steps to determine the <dfn data-dfn-for="Document">active
+          orientation lock</dfn> are as follows:
         </p>
         <ol class="algorithm">
           <li>If there is only one <a>top-level browsing context</a> with a <a>
             document</a> whose [=Document/visibility state=] is "visible", the
-            <a>active orientation lock</a> is the {{Document}}'s
+            [=Document/active orientation lock=] is the [=document=]'s
             {{Document/[[orientationLock]]}}.
           </li>
           <li>Otherwise, if there are more than one <a>top-level browsing
-          context</a> with a {{Document}} whose [=Document/visibility state=]
-          is "visible" but only one of those {{Document}}s is focused, the <a>
-            active orientation lock</a> is the focused {{Document}}'s
-            {{Document/[[orientationLock]]}}.
+          context</a> with a [=document=] that has a [=Document/visibility
+          state=] is "visible" but only one of those [=documents=] is focused,
+          the [=Document/active orientation lock is the focused [=document=]'s
+          {{Document/[[orientationLock]]}}.
           </li>
-          <li>Otherwise, the <a>active orientation lock</a> SHOULD be the
-          latest focused {{Document}}'s {{Document/[[orientationLock]]}},
-          unless stated otherwise by the platform conventions.
+          <li>Otherwise, the [=Document/active orientation lock=] SHOULD be the
+          latest focused [=document=]'s {{Document/[[orientationLock]]}},
+          unless stated otherwise by the active platform conventions.
           </li>
         </ol>
         <p>
-          Whenever the <a>active orientation lock</a> changes, the <a>user
-          agent</a> MUST run the steps to <a>lock the orientation</a> of the
-          {{Document}} to the {{Document}}'s {{Document/[[orientationLock]]}}.
+          Whenever the [=Document/active orientation lock=] changes, the
+          <a>user agent</a> MUST run the steps to <a>lock the orientation</a>
+          of the {{Document}} to the {{Document}}'s
+          {{Document/[[orientationLock]]}}.
         </p>
         <p>
           Whenever a <a>top-level browsing context</a> is <a>navigated</a>, the
-          <a>user agent</a> MUST <a>lock the orientation</a> of the
-          {{Document}} to the {{Document}}'s
-          {{Document/[[defaultOrientation]]}}.
+          <a>user agent</a> MUST return the screen to the [=default screen
+          orientation=].
         </p>
-      </section>
-      <section data-link-for='ScreenOrientation' id=
-      "Screen-orientation-change">
         <h2>
           Screen orientation change
         </h2>
@@ -964,31 +774,31 @@
           the following steps as part of the next <a>animation frame</a>:
         </p>
         <ol class="algorithm">
-          <li>Let |browsing contexts| be the <a data-cite=
-          "html#list-of-the-descendant-browsing-contexts">list of the
-          descendant browsing contexts</a> of the <a>top-level browsing
-          context</a>'s {{Document}}.
+          <li>Let |descendantDocs| be an [=ordered set=] consisting of
+          |documents|'s [=descendant browsing contexts=]' [=active documents=],
+          if any, in tree order.
           </li>
-          <li>For each |context:browsing context| in |browsing contexts|, run
-          the following sub-steps:
+          <li>[=Set/For each=] |doc:Document| in |descendantDocs|:
             <ol>
-              <li>Let |doc| be the |context|'s <a>active document</a>.
-              </li>
               <li>If |doc|'s [=Document/visibility state=] is "hidden", abort
               these steps.
               </li>
               <li>
-                <a>Update the orientation information</a> of |doc|.
+                <a>Update the orientation information</a> of |doc|'s [=browsing
+                context=].
               </li>
               <li>If the orientation change was triggered by a user gesture
               such as the user turning the device, as opposed to a call to
-              {{lock()}}, the <a>task</a> MUST be annotated with `process user
-              orientation change` when running the next step.
+              {{ScreenOrientation/lock()}}, the <a>task</a> MUST be annotated
+              with `process user orientation change` when running the next
+              step.
               </li>
-              <li>[=Queue a task=] to:
+              <li>[=Queue a task=] to on the [=DOM manipulation task source=]
+              to:
                 <ol>
                   <li>
-                    <a>Fire an event</a> named `change` at |doc|'s
+                    <a>Fire an event</a> named `change` at |doc|'s [=relevant
+                    global object=]'s [=associated `Screen`=]'s
                     {{Screen/orientation}} attribute.
                   </li>
                   <li>If |doc|'s {{Document/[[orientationPendingPromise]]}} is
@@ -1014,20 +824,21 @@
           running is annotated with `process user orientation change`.
         </p>
         <p>
-          Whenever a {{Document}}'s [=Document/visibility state=] becomes
+          Whenever a [=Document=]'s [=Document/visibility state=] becomes
           "visible", the <a>user agent</a> MUST run the following sub-steps as
           part of the next <a>animation frame</a>:
         </p>
         <ol class="algorithm">
-          <li>Let |type| and |angle| be respectively the {{Document}}'s
-          <a>current orientation type</a> and <a>current orientation angle</a>.
+          <li>Let |type| and |angle| be the <a>current orientation type</a> and
+          <a>current orientation angle</a>, respectively.
           </li>
           <li>
-            <a>Update the orientation information</a> of the {{Document}}.
+            <a>Update the orientation information</a> of the [=document=]'s
+            [=browsing context=].
           </li>
-          <li>If |type| is different from the {{Document}}'s <a>current
-          orientation type</a> or |angle| from the {{Document}}'s <a>current
-          orientation angle</a>, run the following sub-steps:
+          <li>If |type| is different from the <a>current orientation type</a>
+          or |angle| from the <a>current orientation angle</a>, run the
+          following sub-steps:
             <ol>
               <li>If the orientation change was triggered by a user gesture
               such as the user turning the device, as opposed to a call to
@@ -1036,8 +847,9 @@
               step.
               </li>
               <li>
-                <a>Fire an event</a> named `change` at the {{Document}}'s
-                {{Screen/orientation}} object.
+                <a>Fire an event</a> named `"change"` at |doc|'s [=relevant
+                global object=]'s [=associated `Screen`=]'s
+                {{Screen/orientation}} attribute.
               </li>
               <li>If the {{Document}}'s
               {{Document/[[orientationPendingPromise]]}} is not `null`:
@@ -1077,20 +889,9 @@
           Interaction with Fullscreen API
         </h2>
         <p>
-          As a <a>pre-lock condition</a>, a user agent MAY restrict locking the
-          screen orientation exclusively to when the <a>top-level browsing
-          context</a>'s {{Document}}'s is full screen. When that <a>pre-lock
-          condition</a> applies, whenever the {{Document}}'s <a>fullscreen
-          element</a> is empty and a screen <a>orientation lock</a> is applied,
-          the <a>user agent</a> MUST <a>lock the orientation</a> of the
-          {{Document}} to the {{Document}}'s <a>default screen orientation</a>.
+          As a <a>pre-lock condition</a>, a user agent SHOULD restrict locking
+          the screen orientation to simple fullscreen documents.
         </p>
-        <div class='issue'>
-          This section could be improved if the [[FULLSCREEN]] specification
-          had a hook for when the document is no longer fullscreen. See
-          <a href='https://github.com/w3c/screen-orientation/issues/62'>issue
-          62</a>.
-        </div>
       </section>
       <section class="informative">
         <h2>
@@ -1119,14 +920,14 @@
         </p>
         <p>
           However, some users may have their devices mounted in a fixed
-          orientation (e.g. on the arm of a power wheelchair). Therefore,
-          websites and applications need to support both orientations by making
-          sure <a data-cite="WCAG21#dfn-essential">essential</a> content and
+          orientation (e.g. on the arm of a wheelchair). Therefore, websites
+          and applications need to support both orientations by making sure
+          <a data-cite="WCAG21#dfn-essential">essential</a> content and
           functionality is available in each orientation. While the order of
           content and method of functionality may have differences the content
           and functionality must always be available. When a particular
           orientation is <a data-cite="WCAG21#dfn-essential">essential</a>, the
-          user needs to be advised of the orientation requirements.​
+          user needs to be advised of the orientation requirements.
         </p>
       </section>
     </section>
@@ -1142,13 +943,6 @@
           The screen orientation type and angle of the device can be accessed
           with the API specified in this document, and can be a potential
           fingerprinting vector.
-        </p>
-        <p>
-          The screen orientation type can already be known by using the screen
-          width and height. In practice, the additional information provided
-          with the API concerning the angle of the device and the primary or
-          secondary screen orientation is unlikely to be used by any competent
-          attack.
         </p>
       </section>
     </section>
