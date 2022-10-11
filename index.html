@@ -523,7 +523,8 @@
       </section>
       <p>
         The {{onchange}} attribute is an <a>event handler</a> whose
-        corresponding <a>event handler event type</a> is `"change"`.
+        corresponding <a>event handler event type</a> is
+        <dfn event for="ScreenOrientation">`change`</dfn>.
       </p>
     </section>
     <section data-dfn-for="OrientationLockType">
@@ -797,7 +798,7 @@
               to:
                 <ol>
                   <li>
-                    <a>Fire an event</a> named `change` at |doc|'s [=relevant
+                    <a>Fire an event</a> named {{change}} at |doc|'s [=relevant
                     global object=]'s [=associated `Screen`=]'s
                     {{Screen/orientation}} attribute.
                   </li>
@@ -847,7 +848,7 @@
               step.
               </li>
               <li>
-                <a>Fire an event</a> named `"change"` at |doc|'s [=relevant
+                <a>Fire an event</a> named {{change}} at |doc|'s [=relevant
                 global object=]'s [=associated `Screen`=]'s
                 {{Screen/orientation}} attribute.
               </li>
