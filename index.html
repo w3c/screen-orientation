@@ -526,8 +526,8 @@
       </section>
       <p>
         The {{onchange}} attribute is an <a>event handler</a> whose
-        corresponding <a>event handler event type</a> is
-        <dfn class="event" data-dfn-for="ScreenOrientation">change</dfn>.
+        corresponding <a>event handler event type</a> is <dfn class="event"
+        data-dfn-for="ScreenOrientation">change</dfn>.
       </p>
     </section>
     <section data-dfn-for="OrientationLockType">
@@ -801,9 +801,10 @@
               to:
                 <ol>
                   <li>
-                    <a>Fire an event</a> named "[=ScreenOrientation/change=]" at
-                    |doc|'s [=relevant global object=]'s
-                    [=associated `Screen`=]'s {{Screen/orientation}} attribute.
+                    <a>Fire an event</a> named "<a data-link-for=
+                    "ScreenOrientation">change</a>" at |doc|'s [=relevant
+                    global object=]'s [=associated `Screen`=]'s
+                    {{Screen/orientation}} attribute.
                   </li>
                   <li>If |doc|'s {{Document/[[orientationPendingPromise]]}} is
                   not `null`:
@@ -851,9 +852,10 @@
               step.
               </li>
               <li>
-                <a>Fire an event</a> named "[=ScreenOrientation/change=]" at
-                |doc|'s [=relevant global object=]'s [=associated `Screen`=]'s
-                {{Screen/orientation}} attribute.
+                <a>Fire an event</a> named "<a data-link-for=
+                "ScreenOrientation">change</a>" at |doc|'s [=relevant global
+                object=]'s [=associated `Screen`=]'s {{Screen/orientation}}
+                attribute.
               </li>
               <li>If the {{Document}}'s
               {{Document/[[orientationPendingPromise]]}} is not `null`:
