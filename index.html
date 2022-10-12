@@ -67,8 +67,8 @@
           Locking to a specific orientation and unlocking
         </h2>
         <p>
-          In this example clicking the "Lock" button requests to go
-          into fullscreen and then locks the screen to the opposite orientation.
+          In this example clicking the "Lock" button requests to go into
+          fullscreen and then locks the screen to the opposite orientation.
           clicking the "unlock" button unlocks the screen.
         </p>
         <pre class='example html'>
@@ -99,7 +99,7 @@
             &lt;/script&gt;
 
             &lt;button onclick="rotate(this)" id="button"&gt;
-              Lock
+              Lock to...
             &lt;/button&gt;
             &lt;button onclick="screen.orientation.unlock()"&gt;
               Unlock
@@ -142,22 +142,24 @@
             <dfn>Natural</dfn>:
           </dt>
           <dd>
-            The most natural orientation of the device if it was viewed or held
-            by the user, as determined by the underlying operating system. For
-            example, a device viewed, or held upright in the user's hand, with
-            the screen facing the user.
+            The natural orientation for the device's display as determined by
+            the user agent, the user, the operating system, or the screen
+            itself. For example, a device viewed, or held upright in the user's
+            hand, with the screen facing the user. A computer monitor are
+            commonly naturally [=landscape=], while a mobile phones are
+            commonly naturally [=portrait=].
           </dd>
           <dt>
             <dfn>Landscape</dfn>:
           </dt>
           <dd>
-            The screen's width is greater than the height.
+            The screen's aspect ratio has a width greater than the height.
           </dd>
           <dt>
             <dfn>Portrait</dfn>:
           </dt>
           <dd>
-            The screen's height is greater than the width.
+            The screen's aspect ratio has a height greater than the width.
           </dd>
           <dt>
             <dfn data-local-lt=
@@ -201,18 +203,19 @@
         </h2>
         <p>
           The screen of the output device has a <dfn>current orientation
-          type</dfn> and a <dfn>current orientation angle</dfn>. 
-          To derive these values, the <a>user agent</a> MUST <a>update
-          the orientation information</a> when a [=browsing context=] is created. The
-          relationship between the <a>current orientation type</a> and the <a>current orientation
-          angle</a> MUST be kept consistent.
+          type</dfn> and a <dfn>current orientation angle</dfn>. To derive
+          these values, the <a>user agent</a> MUST <a>update the orientation
+          information</a> when a [=browsing context=] is created. The
+          relationship between the <a>current orientation type</a> and the
+          <a>current orientation angle</a> MUST be kept consistent.
         </p>
         <p>
           The <a>screen orientation values table</a> presents the possible
-          value for the [=current orientation type=] and [=current orientation angle=]. The table specifies the primary and
-          secondary values that are determined by the device's <a>natural</a>
-          orientation and the possibilities available to the <a>user agent</a>
-          for setting the other primary and secondary orientation values.
+          value for the [=current orientation type=] and [=current orientation
+          angle=]. The table specifies the primary and secondary values that
+          are determined by the device's <a>natural</a> orientation and the
+          possibilities available to the <a>user agent</a> for setting the
+          other primary and secondary orientation values.
         </p>
         <table class="simple">
           <caption>
@@ -296,12 +299,12 @@
           </p>
         </div>
       </section>
-      <section data-dfn-for='OrientationLockType'>
+      <section>
         <h2>
           Locking the screen orientation
         </h2>
         <p>
-          The <a>user agent</a> MAY require a {{Document}} and its associated
+          The <a>user agent</a> MAY require a [=document=] and its associated
           [=Document/browsing context=] to meet one or more <dfn>pre-lock
           conditions</dfn> in order to lock the screen orientation in order to
           allow an <a>orientation lock</a>. See, for example, <a href=
@@ -309,9 +312,9 @@
         </p>
         <p>
           The <a>user agent</a> MAY reject all attempts to lock the screen
-          orientation if the platform conventions do not expect applications to
-          be able to change the screen orientation. For example, on most
-          desktop platforms, applications can not change the screen
+          orientation if the platform conventions do not expect web
+          applications to change the screen orientation. For example, on most
+          desktop platforms, web applications can not change the screen
           orientation.
         </p>
       </section>
