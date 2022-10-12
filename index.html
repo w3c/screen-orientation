@@ -949,14 +949,14 @@
       <ol>
         <li>Restrict the value return by the {{ScreenOrientation/type}}
         attribute to {{OrientationType/"portrait-primary"}} or
-        {{OrientationType/"landscape-secondary"}} so to match the screen's
+        {{OrientationType/"landscape-secondary"}} to match the screen's
         aspect ratio.
         </li>
         <li>Always return `0` for the value of the {{ScreenOrientation/angle}}
         attribute.
         </li>
-        <li>If the screen orientation changes, not fire the
-        {{ScreenOrientation/onchange}} event to reveal a change to a
+        <li>If the screen orientation changes, not fire the <a data-link-for=
+        "ScreenOrientation">change</a> event to reveal a change to a
         [=secondary=] orientation.
         </li>
       </ol>
