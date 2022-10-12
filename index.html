@@ -934,20 +934,20 @@
         </p>
       </section>
     </section>
-    <section class="informative">
+    <section>
       <h2>
         Privacy and Security Considerations
       </h2>
-      <section>
-        <h3>
-          Access to aspects of a user's local computing environment
-        </h3>
-        <p>
-          The screen orientation type and angle of the device can be accessed
-          with the API specified in this document, and can be a potential
-          fingerprinting vector.
-        </p>
-      </section>
+      <p>
+        A screen's [=current orientation type|type=] and [=current orientation
+        angle|angle=] is a potential fingerprinting vector. To resist
+        fingerprinting (e.g., in private browsing), user agents MAY restrict
+        the value return by the {{ScreenOrientation/type}} attribute to
+        {{OrientationType/"portrait-primary"}} or
+        {{OrientationType/"landscape-secondary"}} so to match the screen's aspect
+        ratio. Additionally, a user agent MAY always return `0` for the value
+        of the {{ScreenOrientation/angle}} attribute.
+      </p>
     </section>
     <section id="conformance"></section>
     <section id="idl-index" class="appendix"></section>
