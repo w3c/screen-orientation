@@ -143,11 +143,11 @@
           </dt>
           <dd>
             The natural orientation for the device's display as determined by
-            the user agent, the user, the operating system, or the screen itself. For
-            example, a device viewed, or held upright in the user's hand, with
-            the screen facing the user. A computer monitor are commonly naturally
-            [=landscape=], while a mobile phones are commonly naturally
-            [=portrait=].
+            the user agent, the user, the operating system, or the screen
+            itself. For example, a device viewed, or held upright in the user's
+            hand, with the screen facing the user. A computer monitor are
+            commonly naturally [=landscape=], while a mobile phones are
+            commonly naturally [=portrait=].
           </dd>
           <dt>
             <dfn>Landscape</dfn>:
@@ -304,7 +304,7 @@
           Locking the screen orientation
         </h2>
         <p>
-          The <a>user agent</a> MAY require a {{Document}} and its associated
+          The <a>user agent</a> MAY require a [=document=] and its associated
           [=Document/browsing context=] to meet one or more <dfn>pre-lock
           conditions</dfn> in order to lock the screen orientation in order to
           allow an <a>orientation lock</a>. See, for example, <a href=
@@ -312,9 +312,9 @@
         </p>
         <p>
           The <a>user agent</a> MAY reject all attempts to lock the screen
-          orientation if the platform conventions do not expect applications to
-          be able to change the screen orientation. For example, on most
-          desktop platforms, applications can not change the screen
+          orientation if the platform conventions do not expect web
+          applications to change the screen orientation. For example, on most
+          desktop platforms, web applications can not change the screen
           orientation.
         </p>
       </section>
@@ -526,7 +526,8 @@
       </section>
       <p>
         The {{onchange}} attribute is an <a>event handler</a> whose
-        corresponding <a>event handler event type</a> is `"change"`.
+        corresponding <a>event handler event type</a> is <dfn class="event"
+        data-dfn-for="ScreenOrientation">change</dfn>.
       </p>
     </section>
     <section data-dfn-for="OrientationLockType">
@@ -800,7 +801,8 @@
               to:
                 <ol>
                   <li>
-                    <a>Fire an event</a> named `change` at |doc|'s [=relevant
+                    <a>Fire an event</a> named "<a data-link-for=
+                    "ScreenOrientation">change</a>" at |doc|'s [=relevant
                     global object=]'s [=associated `Screen`=]'s
                     {{Screen/orientation}} attribute.
                   </li>
@@ -850,9 +852,10 @@
               step.
               </li>
               <li>
-                <a>Fire an event</a> named `"change"` at |doc|'s [=relevant
-                global object=]'s [=associated `Screen`=]'s
-                {{Screen/orientation}} attribute.
+                <a>Fire an event</a> named "<a data-link-for=
+                "ScreenOrientation">change</a>" at |doc|'s [=relevant global
+                object=]'s [=associated `Screen`=]'s {{Screen/orientation}}
+                attribute.
               </li>
               <li>If the {{Document}}'s
               {{Document/[[orientationPendingPromise]]}} is not `null`:
