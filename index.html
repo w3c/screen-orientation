@@ -941,13 +941,22 @@
       <p>
         A screen's [=current orientation type|type=] and [=current orientation
         angle|angle=] is a potential fingerprinting vector. To resist
-        fingerprinting (e.g., in private browsing), user agents MAY restrict
-        the value return by the {{ScreenOrientation/type}} attribute to
-        {{OrientationType/"portrait-primary"}} or
-        {{OrientationType/"landscape-secondary"}} so to match the screen's aspect
-        ratio. Additionally, a user agent MAY always return `0` for the value
-        of the {{ScreenOrientation/angle}} attribute.
+        fingerprinting (e.g., in private browsing), user agents MAY:
       </p>
+      <ol>
+        <li>restrict the value return by the {{ScreenOrientation/type}}
+        attribute to {{OrientationType/"portrait-primary"}} or
+        {{OrientationType/"landscape-secondary"}} so to match the screen's
+        aspect ratio.
+        </li>
+        <li>Always return `0` for the value of the {{ScreenOrientation/angle}}
+        attribute
+        </li>
+        <li>If the screen orientation changes, not fire the
+        {{ScreenOrientation/onchange}} event to reveal a change to a
+        [=secondary=] orientation.
+        </li>
+      </ol>
     </section>
     <section id="conformance"></section>
     <section id="idl-index" class="appendix"></section>
