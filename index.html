@@ -386,8 +386,9 @@
           <dfn>lock()</dfn> method
         </h2>
         <p data-tests="lock-bad-argument.html, lock-basic.html">
-          When the {{lock()}} method is invoked, the <a>user agent</a> MUST run
-          the the following steps.
+          When the {{lock()}} method is invoked with
+          |orientation:OrientationLockType|, the <a>user agent</a> MUST run the
+          the following steps.
         </p>
         <ol class="algorithm">
           <li>Let |document:Document| be [=this=]'s [=relevant global
@@ -399,6 +400,10 @@
           <li>If the <a>user agent</a> does not support locking the screen
           orientation due to previously-established user preference, security
           risk, or platform limitation, return [=a promise rejected with=] a
+          {{"NotSupportedError"}} {{DOMException}} and abort these steps.
+          </li>
+          <li>If the <a>user agent</a> does not support locking the screen
+          orientation to |orientation|, return [=a promise rejected with=] a
           {{"NotSupportedError"}} {{DOMException}} and abort these steps.
           </li>
           <li data-tests="lock-sandboxed-iframe.html">If |document| has the <a>
@@ -548,10 +553,16 @@
       </pre>
       <p>
         The <dfn>OrientationLockType</dfn> enum represents the screen
-        orientations to which a screen can be potentially locked to. [=User
-        agents=] are NOT REQUIRED to support locking the screen orientation to
-        any of the values in the {{OrientationLockType}} enum.
+        orientations to which a screen can be potentially locked to.
       </p>
+      <aside class="note" title="Orientation support">
+        <p>
+          User agents might only support a subset of the possible
+          {{OrientationLockType}} values. For example, a user agent might not
+          support locking to the `"portrait-secondary"` or
+          `"landscape-secondary"` orientations.
+        </p>
+      </aside>
       <ul>
         <li>"<dfn>any</dfn>" enum value represents the <a>any</a> orientation,
         </li>
