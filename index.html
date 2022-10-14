@@ -202,12 +202,24 @@
           The current screen orientation type and angle
         </h2>
         <p>
-          The screen of the output device has a <dfn>current orientation
-          type</dfn> and a <dfn>current orientation angle</dfn>. To derive
-          these values, the <a>user agent</a> MUST <a>update the orientation
-          information</a> when a [=browsing context=] is created. The
-          relationship between the <a>current orientation type</a> and the
-          <a>current orientation angle</a> MUST be kept consistent.
+          The screen of the output device has a [=current orientation type=]
+          and a [=current orientation angle=].
+        </p>
+        <p>
+          The <dfn>current orientation type</dfn> is the [=screen orientation=]
+          of the output device.
+        </p>
+        <p>
+          The <dfn>current orientation angle</dfn> is the angle, in degrees,
+          that the screen is rotated clockwise from its [=natural=]
+          orientation.
+        </p>
+        <p>
+          When a [=browsing context=] is created, the <a>user agent</a> MUST
+          <a>update the orientation information</a> for that [=browsing
+          context=]. The relationship between the <a>current orientation
+          type</a> and the <a>current orientation angle</a> MUST be kept
+          consistent.
         </p>
         <p>
           The <a>screen orientation values table</a> presents the possible
@@ -685,11 +697,14 @@
           that matches the |orientation| from the <a>screen orientation values
           table</a>.
           </li>
-          <li>Set [=associated `Screen`=]'s {{ScreenOrientation}}'s
-          {{ScreenOrientation/[[type]]}} internal slot to |orientation|.
+          <li>Let |screenOrientation| be |context|'s [=associated `Screen`=]'s
+          {{ScreenOrientation\orientation}} attribute.
           </li>
-          <li>Set [=associated `Screen`=]'s {{ScreenOrientation}}'s
-          {{ScreenOrientation/[[angle]]}} internal slot to |angle|.
+          <li>Set |screenOrientation|'s {{ScreenOrientation/[[type]]}} internal
+          slot to |orientation|.
+          </li>
+          <li>Set |screenOrientation| {{ScreenOrientation/[[angle]]}} internal
+          slot to |angle|.
           </li>
         </ol>
       </section>
