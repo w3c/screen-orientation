@@ -202,12 +202,24 @@
           The current screen orientation type and angle
         </h2>
         <p>
-          The screen of the output device has a <dfn>current orientation
-          type</dfn> and a <dfn>current orientation angle</dfn>. To derive
-          these values, the <a>user agent</a> MUST <a>update the orientation
-          information</a> when a [=browsing context=] is created. The
-          relationship between the <a>current orientation type</a> and the
-          <a>current orientation angle</a> MUST be kept consistent.
+          The screen of the output device has a [=current orientation type=]
+          and a [=current orientation angle=].
+        </p>
+        <p>
+          The <dfn>current orientation type</dfn> is the [=screen orientation=]
+          of the output device.
+        </p>
+        <p>
+          The <dfn>current orientation angle</dfn> is the angle, in degrees,
+          that the screen is rotated clockwise from its [=natural=]
+          orientation.
+        </p>
+        <p>
+          When a [=browsing context=] is created, the <a>user agent</a> MUST
+          <a>update the orientation information</a> for that [=browsing
+          context=]. The relationship between the <a>current orientation
+          type</a> and the <a>current orientation angle</a> MUST be kept
+          consistent.
         </p>
         <p>
           The <a>screen orientation values table</a> presents the possible
@@ -386,8 +398,9 @@
           <dfn>lock()</dfn> method
         </h2>
         <p data-tests="lock-bad-argument.html, lock-basic.html">
-          When the {{lock()}} method is invoked, the <a>user agent</a> MUST run
-          the the following steps.
+          When the {{lock()}} method is invoked with
+          |orientation:OrientationLockType|, the <a>user agent</a> MUST run the
+          the following steps:
         </p>
         <ol class="algorithm">
           <li>Let |global:Window| be [=this=]'s [=relevant global object=].
@@ -400,6 +413,10 @@
           <li>If the <a>user agent</a> does not support locking the screen
           orientation due to previously-established user preference, security
           risk, or platform limitation, return [=a promise rejected with=] a
+          {{"NotSupportedError"}} {{DOMException}} and abort these steps.
+          </li>
+          <li>If the <a>user agent</a> does not support locking the screen
+          orientation to |orientation|, return [=a promise rejected with=] a
           {{"NotSupportedError"}} {{DOMException}} and abort these steps.
           </li>
           <li data-tests="lock-sandboxed-iframe.html">If |document| has the <a>
@@ -554,8 +571,16 @@
       </pre>
       <p>
         The <dfn>OrientationLockType</dfn> enum represents the screen
-        orientations to which a screen can be rotated.
+        orientations to which a screen can be potentially locked to.
       </p>
+      <aside class="note" title="Orientation support">
+        <p>
+          User agents might only support a subset of the possible
+          {{OrientationLockType}} values. For example, a user agent might not
+          support locking to the `"portrait-secondary"` or
+          `"landscape-secondary"` orientations.
+        </p>
+      </aside>
       <ul>
         <li>"<dfn>any</dfn>" enum value represents the <a>any</a> orientation,
         </li>
@@ -678,11 +703,14 @@
           that matches the |orientation| from the <a>screen orientation values
           table</a>.
           </li>
-          <li>Set [=associated `Screen`=]'s {{ScreenOrientation}}'s'
-          {{ScreenOrientation/[[type]]}} internal slot to |orientation|.
+          <li>Let |screenOrientation| be |context|'s [=associated `Screen`=]'s
+          {{ScreenOrientation\orientation}} attribute.
           </li>
-          <li>Set [=associated `Screen`=]'s {{ScreenOrientation}}'s'
-          {{ScreenOrientation/[[angle]]}} internal slot to |angle|.
+          <li>Set |screenOrientation|'s {{ScreenOrientation/[[type]]}} internal
+          slot to |orientation|.
+          </li>
+          <li>Set |screenOrientation| {{ScreenOrientation/[[angle]]}} internal
+          slot to |angle|.
           </li>
         </ol>
       </section>
