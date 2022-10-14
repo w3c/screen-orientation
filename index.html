@@ -943,26 +943,31 @@
       </h2>
       <p>
         A screen's [=current orientation type|type=] and [=current orientation
-        angle|angle=] are a potential fingerprinting vector. To resist
-        fingerprinting (e.g., in private browsing), user agents MAY:
+        angle|angle=] are a potential fingerprinting vector. The following
+        mitigation help protect a user's privacy by not revealing how a device
+        is being held, and also prevents the [=secondary=] orientation type and
+        associated angles from being user for fingerprinting purposes.
       </p>
-      <ol>
-        <li>Restrict the value return by the {{ScreenOrientation/type}}
-        attribute to {{OrientationType/"portrait-primary"}} or
-        {{OrientationType/"landscape-primary"}} to match the screen's aspect
-        ratio.
+      <p>
+        To resist fingerprinting (e.g., in private browsing), user agents MAY:
+      </p>
+      <ul>
+        <li>Depending on the screen's aspect ratio, only return either
+        {{OrientationType/"portrait-primary"}} or
+        {{OrientationType/"landscape-primary"}} for the value of the
+        {{ScreenOrientation/type}} attribute.
         </li>
-        <li>Always return `0` for the value of the {{ScreenOrientation/angle}}
-        attribute.
+        <li>For any [=natural=] orientation ([=portrait=] or [=landscape=]),
+        always return `0` for the value of the {{ScreenOrientation/angle}}
+        attribute. And for any rotated/opposite orientation, always return `90`
+        for the value of the {{ScreenOrientation/angle}} attribute.
         </li>
         <li>If the screen orientation changes, only fire the
           <a data-link-for="ScreenOrientation">change</a> event when the
           [=current orientation type=] changes from [=portrait=] to
-          [=landscape=], or vice versa. This both protects user's privacy by
-          not revealing how a device is being held, and prevents using the
-          [=secondary=] orientation as a fingerprinting vector.
+          [=landscape=], or vice versa.
         </li>
-      </ol>
+      </ul>
     </section>
     <section id="conformance"></section>
     <section id="idl-index" class="appendix"></section>
