@@ -125,16 +125,16 @@
           Screen orientation types and locks
         </h2>
         <p>
-          To <dfn data-local-lt="locking the screen orientation">lock the
-          screen orientation</dfn> to an |orientation| means that the screen
-          can only be rotated by the user to specific orientations (possibly at
-          the exclusion of other orientations). For example, locking the
-          orientation to [=landscape=] means that the screen can be rotated by
-          the user to [=landscape-primary=] and [=landscape-secondary=], and
-          not to any [=portrait=] orientation.
+          To <dfn data-local-lt="locking the screen orientation|locked">lock
+          the screen orientation</dfn> to an |orientation| means that the
+          screen can only be rotated by the user to a specific [=screen
+          orientation=] (possibly at the exclusion of other orientations). For
+          example, locking the orientation to [=landscape=] means that the
+          screen can be rotated by the user to [=landscape-primary=] and
+          [=landscape-secondary=], and not to any [=portrait=] orientation.
         </p>
         <p>
-          A screen can be in or locked to one of the following <dfn>screen
+          A screen can be in or [=locked=] to one of the following <dfn>screen
           orientations</dfn>:
         </p>
         <dl>
@@ -202,12 +202,24 @@
           The current screen orientation type and angle
         </h2>
         <p>
-          The screen of the output device has a <dfn>current orientation
-          type</dfn> and a <dfn>current orientation angle</dfn>. To derive
-          these values, the <a>user agent</a> MUST <a>update the orientation
-          information</a> when a [=browsing context=] is created. The
-          relationship between the <a>current orientation type</a> and the
-          <a>current orientation angle</a> MUST be kept consistent.
+          The screen of the output device has a [=current orientation type=]
+          and a [=current orientation angle=].
+        </p>
+        <p>
+          The <dfn>current orientation type</dfn> is the [=screen orientation=]
+          of the output device.
+        </p>
+        <p>
+          The <dfn>current orientation angle</dfn> is the angle, in degrees,
+          that the screen is rotated clockwise from its [=natural=]
+          orientation.
+        </p>
+        <p>
+          When a [=browsing context=] is created, the <a>user agent</a> MUST
+          <a>update the orientation information</a> for that [=browsing
+          context=]. The relationship between the <a>current orientation
+          type</a> and the <a>current orientation angle</a> MUST be kept
+          consistent.
         </p>
         <p>
           The <a>screen orientation values table</a> presents the possible
@@ -690,11 +702,14 @@
           that matches the |orientation| from the <a>screen orientation values
           table</a>.
           </li>
-          <li>Set [=associated `Screen`=]'s {{ScreenOrientation}}'s'
-          {{ScreenOrientation/[[type]]}} internal slot to |orientation|.
+          <li>Let |screenOrientation| be |context|'s [=associated `Screen`=]'s
+          {{Screen/orientation}} attribute.
           </li>
-          <li>Set [=associated `Screen`=]'s {{ScreenOrientation}}'s'
-          {{ScreenOrientation/[[angle]]}} internal slot to |angle|.
+          <li>Set |screenOrientation|'s {{ScreenOrientation/[[type]]}} internal
+          slot to |orientation|.
+          </li>
+          <li>Set |screenOrientation| {{ScreenOrientation/[[angle]]}} internal
+          slot to |angle|.
           </li>
         </ol>
       </section>
@@ -841,64 +856,51 @@
             </ol>
           </li>
         </ol>
-        <p>
-          An algorithm is <dfn class="export">triggered by a user generated
-          orientation change</dfn> if the <a>task</a> in which the algorithm is
-          running is annotated with `process user orientation change`.
-        </p>
-        <p>
-          Whenever a [=Document=]'s [=Document/visibility state=] becomes
-          "visible", the <a>user agent</a> MUST run the following sub-steps as
-          part of the next <a>animation frame</a>:
-        </p>
-        <ol class="algorithm">
-          <li>Let |type| and |angle| be the <a>current orientation type</a> and
-          <a>current orientation angle</a>, respectively.
-          </li>
-          <li>
-            <a>Update the orientation information</a> of the [=document=]'s
-            [=browsing context=].
-          </li>
-          <li>If |type| is different from the <a>current orientation type</a>
-          or |angle| from the <a>current orientation angle</a>, run the
-          following sub-steps:
-            <ol>
-              <li>If the orientation change was triggered by a user gesture
-              such as the user turning the device, as opposed to a call to
-              {{ScreenOrientation/lock()}}, the <a>task</a> MUST be annotated
-              with `process user orientation change` when running the next
-              step.
-              </li>
-              <li>
-                <a>Fire an event</a> named "<a data-link-for=
-                "ScreenOrientation">change</a>" at |doc|'s [=relevant global
-                object=]'s [=associated `Screen`=]'s {{Screen/orientation}}
-                attribute.
-              </li>
-              <li>If the {{Document}}'s
-              {{Document/[[orientationPendingPromise]]}} is not `null`:
-                <ol>
-                  <li>Resolve the {{Document}}'s
-                  {{Document/[[orientationPendingPromise]]}} with `undefined`.
-                  </li>
-                  <li>Set the {{Document}}'s
-                  {{Document/[[orientationPendingPromise]]}} to `null`.
-                  </li>
-                </ol>
-              </li>
-            </ol>
-          </li>
-        </ol>
-        <div class="note">
-          <p>
-            Developers need to be aware that a {{Screen/orientation}} object
-            from a {{Document}} with a "hidden" [=Document/visibility state=]
-            will not receive an orientation change event. This is to prevent
-            unnecessary changes to layout, etc. in the non-visible web
-            application.
-          </p>
-        </div>
       </section>
+      <h2>
+        Handling page visibility changes
+      </h2>
+      <p>
+        The [=page visibility change steps=] given |document:Document| are as
+        follows:
+      </p>
+      <ol class="algorithm">
+        <li>If |document|'s [=Document/visibility state=] is "hidden",
+        terminate these steps.
+        </li>
+        <li>Let |newType| and |newAngle| be the [=current orientation type=]
+        and [=current orientation angle=], respectively.
+        </li>
+        <li>Let |screen| be |document|'s [=relevant global object=]'s
+        [=associated `Screen`=].
+        </li>
+        <li>If either |newType| or |newAngle| is not equal to |screen|'s
+        {{Screen/orientation}}'s {{ScreenOrientation/[[type]]}} or
+        {{ScreenOrientation/[[angle]]}} respectively, [=queue a task=] to on
+        the [=user interaction task source=] to:
+          <ol>
+            <li>Set |screen|'s {{Screen/orientation}}'s
+            {{ScreenOrientation/[[angle]]}} to |newAngle|.
+            </li>
+            <li>Set |screen|'s {{Screen/orientation}}'s
+            {{ScreenOrientation/[[type]]}} to |newType|.
+            </li>
+            <li>
+              <a>Fire an event</a> named "<a data-link-for=
+              "ScreenOrientation">change</a>" at |screen|'s
+              {{Screen/orientation}} attribute.
+            </li>
+          </ol>
+        </li>
+      </ol>
+      <aside class="note">
+        <p>
+          Developers need to be aware that a {{Screen/orientation}} object from
+          a {{Document}} with a "hidden" [=Document/visibility state=] will not
+          receive an orientation change event. This is to prevent unnecessary
+          changes to layout, etc. in the non-visible web application.
+        </p>
+      </aside>
     </section>
     <section>
       <h2>
