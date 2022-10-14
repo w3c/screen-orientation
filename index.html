@@ -894,6 +894,44 @@
           </p>
         </div>
       </section>
+      <h2>
+        Handling page visibility changes
+      </h2>
+      <p>
+        The [=page visibility change steps=] given |document:Document| are as
+        follows:
+      </p>
+      <ol class="algorithm">
+        <li>If |document|'s [=Document/visibility state=] is "hidden",
+        terminate these steps.
+        </li>
+        <li>Let |newType| be the {{OrientationType}} enum that matches the
+        [=screen orientation=] of the [=top-level browsing context=].
+        </li>
+        <li>Let |newAngle| be the corresponding angle from the <a>screen
+        orientation values table</a>.
+        </li>
+        <li>If |newType| and |newAngle| are equal to |document|'s [=associated
+        `Screen`=]'s {{ScreenOrientation}}'s {{ScreenOrientation/[[type]]}} and
+        {{ScreenOrientation/[[angle]]}} respectively, terminate these steps.
+        </li>
+        <li>[=Queue a task=] to on the [=DOM manipulation task source=] to:
+          <ol>
+            <li>Let |screen| |document|'s [=relevant global object=]'s
+            [=associated `Screen`=].
+            </li>
+            <li>Set |screen|'s {{ScreenOrientation/[[angle]]}} to |newAngle|.
+            </li>
+            <li>Set |screen|'s {{ScreenOrientation/[[angle]]}} to |type|.
+            </li>
+            <li>
+              <a>Fire an event</a> named "<a data-link-for=
+              "ScreenOrientation">change</a>" at |screen|'s
+              {{Screen/orientation}} attribute.
+            </li>
+          </ol>
+        </li>
+      </ol>
     </section>
     <section>
       <h2>
