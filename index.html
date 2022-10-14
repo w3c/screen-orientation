@@ -442,12 +442,17 @@
           <li>Return |document|'s {{Document/[[orientationPendingPromise]]}}
           and [=in parallel=]:
             <ol>
+              <li>Let |topDocument| be [=top-level browsing context=]'s
+              [=active document=].
+              </li>
               <li>Let |descendantDocs| be an [=ordered set=] consisting of
-              |documents|'s [=descendant browsing contexts=]' [=active
+              |topDocument|'s [=descendant browsing contexts=]' [=active
               documents=], if any, in tree order.
               </li>
               <li>[=Set/For each=] |doc:Document| in |descendantDocs|:
                 <ol>
+                  <li>If |doc| is |document|, continue.
+                  </li>
                   <li>If |doc| {{Document/[[orientationPendingPromise]]}} is
                   `null`, continue.
                   </li>
