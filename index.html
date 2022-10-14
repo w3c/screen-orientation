@@ -125,16 +125,16 @@
           Screen orientation types and locks
         </h2>
         <p>
-          To <dfn data-local-lt="locking the screen orientation">lock the
-          screen orientation</dfn> to an |orientation| means that the screen
-          can only be rotated by the user to specific orientations (possibly at
-          the exclusion of other orientations). For example, locking the
-          orientation to [=landscape=] means that the screen can be rotated by
-          the user to [=landscape-primary=] and [=landscape-secondary=], and
-          not to any [=portrait=] orientation.
+          To <dfn data-local-lt="locking the screen orientation|locked">lock
+          the screen orientation</dfn> to an |orientation| means that the
+          screen can only be rotated by the user to a specific [=screen
+          orientation=] (possibly at the exclusion of other orientations). For
+          example, locking the orientation to [=landscape=] means that the
+          screen can be rotated by the user to [=landscape-primary=] and
+          [=landscape-secondary=], and not to any [=portrait=] orientation.
         </p>
         <p>
-          A screen can be in or locked to one of the following <dfn>screen
+          A screen can be in or [=locked=] to one of the following <dfn>screen
           orientations</dfn>:
         </p>
         <dl>
@@ -698,7 +698,7 @@
           table</a>.
           </li>
           <li>Let |screenOrientation| be |context|'s [=associated `Screen`=]'s
-          {{ScreenOrientation\orientation}} attribute.
+          {{Screen/orientation}} attribute.
           </li>
           <li>Set |screenOrientation|'s {{ScreenOrientation/[[type]]}} internal
           slot to |orientation|.
