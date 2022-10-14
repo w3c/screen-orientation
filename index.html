@@ -918,11 +918,13 @@
         <li>[=Queue a task=] to on the [=DOM manipulation task source=] to:
           <ol>
             <li>Let |screen| |document|'s [=relevant global object=]'s
-            [=associated `Screen`=].
+            [=associated `Screen`=]'s.
             </li>
-            <li>Set |screen|'s {{ScreenOrientation/[[angle]]}} to |newAngle|.
+            <li>Set |screen|'s {{Screen/orientation}}'s
+            {{ScreenOrientation/[[angle]]}} to |newAngle|.
             </li>
-            <li>Set |screen|'s {{ScreenOrientation/[[type]]}} to |newType|.
+            <li>Set |screen|'s {{Screen/orientation}}'s
+            {{ScreenOrientation/[[type]]}} to |newType|.
             </li>
             <li>
               <a>Fire an event</a> named "<a data-link-for=
