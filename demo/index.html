@@ -17,7 +17,7 @@
       color: red;
     }
 
-    .error-log::before.active,
+    .error-log.active::before,
     .error-log:has(body.not-supported) {
       content: "Error: ";
     }
@@ -35,34 +35,43 @@
       currentAngle.innerText = `${angle}°`;
     }
 
+    function isSupported() {
+      switch (true) {
+        case !screen.orientation?.lock:
+          renderError(
+            "Screen Orientation API is not supported in this browser."
+          );
+          return false;
+        case !document.documentElement.requestFullscreen:
+          renderError(
+            "The Fullscreen API, which is required, is unavailable in this browser."
+          );
+          return false;
+      }
+      return true;
+    }
+
     function init() {
       currentAngle = document.querySelector(".current-angle");
       currentType = document.querySelector(".current-type");
       errorLog = document.querySelector(".error-log");
       selector = document.querySelector(".orientation-selector");
-      if (!orientation) {
-        document.body.classList.add("not-supported");
-        errorLog.innerText =
-          "The screen orientation lock API is unavailable in this browser.";
-        return;
-      }
+      if (!isSupported()) return;
+      document.body.classList.remove("not-supported");
       selector.removeAttribute("disabled");
-      renderUpdate();
       screen.orientation.addEventListener("change", renderUpdate);
-
       setupUI();
+      renderUpdate();
     }
 
     async function lockOrientation({ target: selector }) {
       const { value } = selector;
       try {
+        await document.documentElement.requestFullscreen();
         await orientation.lock(value);
         if (unlockButton.disabled) unlockButton.disabled = false;
       } catch (err) {
-        renderError(
-          `Error occurred trying to lock to "${value}"`,
-          err
-        );
+        renderError(`Error occurred trying to lock to "${value}"`, err);
       }
     }
 
@@ -78,7 +87,7 @@
       selector.addEventListener("change", lockOrientation);
       unlockButton.onclick = async () => {
         try {
-          await orientation.unlock();
+          orientation.unlock();
           unlockButton.disabled = true;
         } catch (err) {
           renderError("Error occurred trying to unlock orientation", err);
@@ -86,7 +95,7 @@
       };
     }
   </script>
-  <body onload="init()">
+  <body onload="init()" class="not-supported">
     <h1>Screen Orientation Lock API Demo</h1>
     <p>
       This demo shows how to use the
@@ -97,9 +106,8 @@
     </p>
     <form class="orientation-form">
       <fieldset>
-        <legend>Lock screen orientation to:</legend>
         <label>
-          Orientation:
+          Lock orientation to:
           <select disabled class="orientation-selector" name="orientation">
             <option value="portrait">Portrait</option>
             <option value="portrait-primary">Portrait primary</option>
@@ -113,7 +121,7 @@
         </label>
         <button class="unlock-button" disabled>Unlock</button>
         <p>
-          The current screen orientation is
+          Current screen orientation:
           <output for="orientation" class="current-type">unknown</output>
           (<output for="orientation" class="current-angle"
             >angle is not available</output
