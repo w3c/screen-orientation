@@ -13,24 +13,33 @@
       color: red;
     }
 
-    output.log {
+    :is(dd, dt).success {
       color: green;
     }
 
-    output.log.error {
+    :is(dd, dt).error {
       color: red;
     }
 
-    output.log.error::before {
-      content: "Error: ";
+    dt.error::before {
+      content: "💥 Error: ";
       color: red;
+    }
+
+    dt.success::before {
+      content: "✅ Success: ";
+      color: red;
+    }
+
+    dt.info::before {
+      content: "ℹ️ Info: ";
     }
   </style>
   <script defer>
     const { orientation } = screen;
     let currentAngle;
     let currentType;
-    let log;
+    let logger;
     let selector;
 
     function renderUpdate() {
@@ -42,12 +51,10 @@
     function isSupported() {
       switch (true) {
         case !screen.orientation?.lock:
-          renderError(
-            "Screen Orientation API is not supported in this browser."
-          );
+          logError("Screen Orientation API is not supported in this browser.");
           return false;
         case !document.documentElement.requestFullscreen:
-          renderError(
+          logError(
             "the Fullscreen API, which is required, is unavailable in this browser."
           );
           return false;
@@ -58,16 +65,16 @@
     function init() {
       currentAngle = document.querySelector(".current-angle");
       currentType = document.querySelector(".current-type");
-      log = document.querySelector(".log");
+      logger = document.querySelector(".logger");
       selector = document.querySelector(".orientation-selector");
 
       if (!isSupported()) return;
       document.body.classList.remove("not-supported");
       selector.disabled = false;
 
-      screen.orientation.addEventListener("change", ()=>{
+      screen.orientation.addEventListener("change", () => {
         renderUpdate();
-        renderLog(`Orientation changed to "${orientation.type}".`);
+        log(`Orientation changed to "${orientation.type}".`, "info");
       });
 
       document.addEventListener("fullscreenchange", handleFullscreen);
@@ -83,14 +90,13 @@
 
     async function lockOrientation({ target: selector }) {
       const { value } = selector;
-      clearError();
       switch (value) {
         case "unlock":
           try {
             await screen.orientation.unlock();
-            logSuccess("Screen orientation unlocked.");
+            log("Screen orientation unlocked.", "success");
           } catch (error) {
-            renderError("unable to unlock the screen orientation", error);
+            logError("unable to unlock the screen orientation", error);
           }
           break;
         default:
@@ -101,29 +107,29 @@
             await orientation.lock(value);
             renderUpdate();
           } catch (err) {
-            renderError(`unable to lock to "${value}"`, err);
+            logError(`unable to lock to "${value}"`, err);
           }
           break;
       }
     }
 
-    function logSuccess(message) {
-      log.classList.remove("error");
-      log.innerText = message;
+    function logError(message, err) {
+      const msg = err ? `${message}: ${err.message} (${err.name})` : message;
+      log(msg, "error");
     }
 
-    function clearError(){
-      log.classList.remove("error");
-      log.innerText = "";
+    function log(message, type) {
+      const date = new Date();
+      const dt = document.createElement("dt");
+      const dd = document.createElement("dd");
+      if (type) {
+        dt.classList.add(type);
+        dd.classList.add(type);
+      }
+      dt.innerText = `${date.toLocaleTimeString()} - ${date.getMilliseconds()}.`;
+      dd.innerText = message;
+      logger.append(dt, dd);
     }
-
-    function renderError(message, err) {
-      log.classList.add("error");
-      log.innerText = err
-        ? `${message}: ${err.message} (${err.name})`
-        : message;
-    }
-
   </script>
   <body onload="init()" class="not-supported">
     <h1>Screen Orientation Lock API Demo</h1>
@@ -157,9 +163,7 @@
             >angle is not available</output
           >).
         </p>
-        <p>
-          <output class="log"></output>
-        </p>
+        <dl class="logger"></dl>
       </fieldset>
     </form>
   </body>
