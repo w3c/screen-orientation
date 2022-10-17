@@ -105,6 +105,7 @@
               await document.documentElement.requestFullscreen();
             }
             await orientation.lock(value);
+            log(`Screen orientation locked to "${value}".`, "success");
             renderUpdate();
           } catch (err) {
             logError(`unable to lock to "${value}"`, err);
