@@ -99,6 +99,7 @@
               await document.documentElement.requestFullscreen();
             }
             await orientation.lock(value);
+            renderUpdate();
           } catch (err) {
             renderError(`unable to lock to "${value}"`, err);
           }
