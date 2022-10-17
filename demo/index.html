@@ -62,8 +62,15 @@
       document.body.classList.remove("not-supported");
       selector.removeAttribute("disabled");
       screen.orientation.addEventListener("change", renderUpdate);
+      document.addEventListener("fullscreenchange", handleFullscreen);
       setupUI();
       renderUpdate();
+    }
+
+    function handleFullscreen() {
+      if (!document.fullscreenElement) {
+        unlockButton.disabled = true;
+      }
     }
 
     async function lockOrientation({ target: selector }) {
