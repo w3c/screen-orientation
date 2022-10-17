@@ -13,6 +13,30 @@
       color: red;
     }
 
+    section {
+      display: flex;
+      flex-direction: column;
+    }
+
+    form {
+      flex: 20%;
+    }
+
+    dl {
+      flex: 70%;
+      max-height: 50vh;
+    }
+
+    .clear-button {
+      flex: 10%;
+    }
+
+    .logger {
+      border: 1px solid black;
+      overflow: auto;
+      flex: 60%;
+    }
+
     :is(dd, dt).success {
       color: green;
     }
@@ -34,6 +58,10 @@
     dt.event::before {
       content: "ℹ️ Event: ";
     }
+
+    h1 {
+      font-size: medium;
+    }
   </style>
   <script defer>
     const { orientation } = screen;
@@ -41,6 +69,7 @@
     let currentType;
     let logger;
     let selector;
+    let clearButton;
 
     function renderUpdate() {
       const { type, angle } = orientation;
@@ -67,7 +96,7 @@
       currentType = document.querySelector(".current-type");
       logger = document.querySelector(".logger");
       selector = document.querySelector(".orientation-selector");
-
+      clearButton = document.querySelector(".clear-button");
       if (!isSupported()) return;
       document.body.classList.remove("not-supported");
       selector.disabled = false;
@@ -79,6 +108,12 @@
 
       document.addEventListener("fullscreenchange", handleFullscreen);
       selector.addEventListener("input", lockOrientation);
+
+      clearButton.addEventListener("click", (ev) => {
+        ev.preventDefault();
+        logger.innerHTML = "";
+      });
+
       renderUpdate();
     }
 
@@ -86,7 +121,10 @@
       if (!document.fullscreenElement) {
         document.querySelector("option[value=unlocked]").disabled = true;
       }
-      log(`Fullscreen mode is ${document.fullscreenElement ? "on" : "off"}.`, "event");
+      log(
+        `Fullscreen mode is ${document.fullscreenElement ? "on" : "off"}.`,
+        "event"
+      );
       renderUpdate();
     }
 
@@ -133,10 +171,6 @@
       dd.innerText = message;
       logger.append(dt, dd);
     }
-
-    function clearLog() {
-      logger.innerHTML = "";
-    }
   </script>
   <body onload="init()" class="not-supported">
     <h1>Screen Orientation Lock API Demo</h1>
@@ -147,32 +181,34 @@
       >
       to lock the screen orientation to portrait or landscape.
     </p>
-    <form class="orientation-form">
-      <fieldset>
-        <label>
-          Lock to:
-          <select disabled class="orientation-selector" name="orientation">
-            <option value="unlock" selected>Unlocked</option>
-            <option value="portrait">Portrait</option>
-            <option value="portrait-primary">Portrait primary</option>
-            <option value="portrait-secondary">Portrait secondary</option>
-            <option value="landscape">Landscape</option>
-            <option value="landscape-primary">Landscape primary</option>
-            <option value="landscape-secondary">landscape secondary</option>
-            <option value="any">Any</option>
-            <option value="natural">Natural</option>
-          </select>
-        </label>
-        <p>
-          Current screen orientation:
-          <output for="orientation" class="current-type">unknown</output>
-          (<output for="orientation" class="current-angle"
-            >angle is not available</output
-          >).
-        </p>
-      </fieldset>
-    </form>
-    <dl class="logger"></dl>
-    <button onclick="clearLog()">Clear log</button>
+    <section>
+      <form class="orientation-form">
+        <fieldset>
+          <label>
+            Lock to:
+            <select disabled class="orientation-selector" name="orientation">
+              <option value="unlock" selected>Unlocked</option>
+              <option value="portrait">Portrait</option>
+              <option value="portrait-primary">Portrait primary</option>
+              <option value="portrait-secondary">Portrait secondary</option>
+              <option value="landscape">Landscape</option>
+              <option value="landscape-primary">Landscape primary</option>
+              <option value="landscape-secondary">landscape secondary</option>
+              <option value="any">Any</option>
+              <option value="natural">Natural</option>
+            </select>
+          </label>
+          <p>
+            Current screen orientation:
+            <output for="orientation" class="current-type">unknown</output>
+            (<output for="orientation" class="current-angle"
+              >angle is not available</output
+            >).
+          </p>
+        </fieldset>
+      </form>
+      <dl class="logger"></dl>
+      <button class="clear-button">Clear log</button>
+    </section>
   </body>
 </html>
