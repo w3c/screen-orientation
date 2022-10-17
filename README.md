@@ -5,3 +5,5 @@ This repo holds some of the sources for the [Screen Orientation API](https://w3c
   * Lock the screen orientation to a specific state.
 
 The latest editor’s draft is at https://w3c.github.io/screen-orientation/
+
+Try it out in the [demo page](https://w3c.github.io/screen-orientation/demo/index.html).

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<!--
+    Demo of using the screen orientation lock API to lock the screen orientation
+    to portrait, landscape, or any orientation.
+-->
+<html>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Screen Orientation Lock API Demo</title>
+  <style>
+    body.not-supported output,
+    .error-log {
+      font-weight: bold;
+    }
+
+    .error-log {
+      color: red;
+    }
+
+    .error-log::before.active,
+    .error-log:has(body.not-supported) {
+      content: "Error: ";
+    }
+  </style>
+  <script defer>
+    const { orientation } = screen;
+    let currentAngle;
+    let currentType;
+    let errorLog;
+    let selector;
+
+    function renderUpdate() {
+      const { type, angle } = orientation;
+      currentType.innerText = `"${type}"`;
+      currentAngle.innerText = `${angle}°`;
+    }
+
+    function init() {
+      currentAngle = document.querySelector(".current-angle");
+      currentType = document.querySelector(".current-type");
+      errorLog = document.querySelector(".error-log");
+      selector = document.querySelector(".orientation-selector");
+      if (!orientation) {
+        document.body.classList.add("not-supported");
+        errorLog.innerText =
+          "The screen orientation lock API is unavailable in this browser.";
+        return;
+      }
+      selector.removeAttribute("disabled");
+      renderUpdate();
+      screen.orientation.addEventListener("change", renderUpdate);
+
+      setupUI();
+    }
+
+    async function lockOrientation({ target: selector }) {
+      const { value } = selector;
+      try {
+        await orientation.lock(value);
+        if (unlockButton.disabled) unlockButton.disabled = false;
+      } catch (err) {
+        renderError(
+          `Error occurred trying to lock to "${value}"`,
+          err
+        );
+      }
+    }
+
+    function renderError(message, err) {
+      errorLog.classList.add("active");
+      errorLog.innerText = err
+        ? `${message}: ${err.message} (${err.name})`
+        : message;
+    }
+
+    function setupUI() {
+      const unlockButton = document.querySelector(".unlock-button");
+      selector.addEventListener("change", lockOrientation);
+      unlockButton.onclick = async () => {
+        try {
+          await orientation.unlock();
+          unlockButton.disabled = true;
+        } catch (err) {
+          renderError("Error occurred trying to unlock orientation", err);
+        }
+      };
+    }
+  </script>
+  <body onload="init()">
+    <h1>Screen Orientation Lock API Demo</h1>
+    <p>
+      This demo shows how to use the
+      <a href="https://w3c.github.io/screen-orientation/"
+        >Screen Orientation Lock API</a
+      >
+      to lock the screen orientation to portrait or landscape.
+    </p>
+    <form class="orientation-form">
+      <fieldset>
+        <legend>Lock screen orientation to:</legend>
+        <label>
+          Orientation:
+          <select disabled class="orientation-selector" name="orientation">
+            <option value="portrait">Portrait</option>
+            <option value="portrait-primary">Portrait primary</option>
+            <option value="portrait-secondary">Portrait secondary</option>
+            <option value="landscape">Landscape</option>
+            <option value="landscape-primary">Landscape primary</option>
+            <option value="landscape-secondary">landscape secondary</option>
+            <option value="any">Any</option>
+            <option value="natural">Natural</option>
+          </select>
+        </label>
+        <button class="unlock-button" disabled>Unlock</button>
+        <p>
+          The current screen orientation is
+          <output for="orientation" class="current-type">unknown</output>
+          (<output for="orientation" class="current-angle"
+            >angle is not available</output
+          >).
+        </p>
+        <p>
+          <output class="error-log"></output>
+        </p>
+      </fieldset>
+    </form>
+  </body>
+</html>
