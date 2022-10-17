@@ -86,6 +86,8 @@
       if (!document.fullscreenElement) {
         document.querySelector("option[value=unlocked]").disabled = true;
       }
+      log(`Fullscreen mode is ${document.fullscreenElement ? "on" : "off"}.`, "event");
+      renderUpdate();
     }
 
     async function lockOrientation({ target: selector }) {
