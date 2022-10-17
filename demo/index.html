@@ -169,7 +169,7 @@
       }
       dt.innerText = `${date.toLocaleTimeString()} - ${date.getMilliseconds()}.`;
       dd.innerText = message;
-      logger.append(dt, dd);
+      logger.prepend(dt, dd);
     }
   </script>
   <body onload="init()" class="not-supported">
