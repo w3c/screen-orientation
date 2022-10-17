@@ -28,6 +28,7 @@
     let currentType;
     let errorLog;
     let selector;
+    let unlockButton;
 
     function renderUpdate() {
       const { type, angle } = orientation;
@@ -56,6 +57,7 @@
       currentType = document.querySelector(".current-type");
       errorLog = document.querySelector(".error-log");
       selector = document.querySelector(".orientation-selector");
+      unlockButton = document.querySelector(".unlock-button");
       if (!isSupported()) return;
       document.body.classList.remove("not-supported");
       selector.removeAttribute("disabled");
@@ -83,7 +85,6 @@
     }
 
     function setupUI() {
-      const unlockButton = document.querySelector(".unlock-button");
       selector.addEventListener("change", lockOrientation);
       unlockButton.onclick = async () => {
         try {
