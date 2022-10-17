@@ -130,6 +130,10 @@
       dd.innerText = message;
       logger.append(dt, dd);
     }
+
+    function clearLog() {
+      logger.innerHTML = "";
+    }
   </script>
   <body onload="init()" class="not-supported">
     <h1>Screen Orientation Lock API Demo</h1>
@@ -163,8 +167,9 @@
             >angle is not available</output
           >).
         </p>
-        <dl class="logger"></dl>
       </fieldset>
     </form>
+    <dl class="logger"></dl>
+    <button onclick="clearLog()">Clear log</button>
   </body>
 </html>
