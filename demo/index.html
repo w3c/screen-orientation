@@ -31,8 +31,8 @@
       color: red;
     }
 
-    dt.info::before {
-      content: "ℹ️ Info: ";
+    dt.event::before {
+      content: "ℹ️ Event: ";
     }
   </style>
   <script defer>
@@ -74,7 +74,7 @@
 
       screen.orientation.addEventListener("change", () => {
         renderUpdate();
-        log(`Orientation changed to "${orientation.type}".`, "info");
+        log(`Orientation changed to "${orientation.type}".`, "event");
       });
 
       document.addEventListener("fullscreenchange", handleFullscreen);
