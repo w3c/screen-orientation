@@ -442,12 +442,17 @@
           <li>Return |document|'s {{Document/[[orientationPendingPromise]]}}
           and [=in parallel=]:
             <ol>
+              <li>Let |topDocument| be [=top-level browsing context=]'s
+              [=active document=].
+              </li>
               <li>Let |descendantDocs| be an [=ordered set=] consisting of
-              |documents|'s [=descendant browsing contexts=]' [=active
+              |topDocument|'s [=descendant browsing contexts=]' [=active
               documents=], if any, in tree order.
               </li>
               <li>[=Set/For each=] |doc:Document| in |descendantDocs|:
                 <ol>
+                  <li>If |doc| is |document|, continue.
+                  </li>
                   <li>If |doc| {{Document/[[orientationPendingPromise]]}} is
                   `null`, continue.
                   </li>
@@ -851,64 +856,51 @@
             </ol>
           </li>
         </ol>
-        <p>
-          An algorithm is <dfn class="export">triggered by a user generated
-          orientation change</dfn> if the <a>task</a> in which the algorithm is
-          running is annotated with `process user orientation change`.
-        </p>
-        <p>
-          Whenever a [=Document=]'s [=Document/visibility state=] becomes
-          "visible", the <a>user agent</a> MUST run the following sub-steps as
-          part of the next <a>animation frame</a>:
-        </p>
-        <ol class="algorithm">
-          <li>Let |type| and |angle| be the <a>current orientation type</a> and
-          <a>current orientation angle</a>, respectively.
-          </li>
-          <li>
-            <a>Update the orientation information</a> of the [=document=]'s
-            [=browsing context=].
-          </li>
-          <li>If |type| is different from the <a>current orientation type</a>
-          or |angle| from the <a>current orientation angle</a>, run the
-          following sub-steps:
-            <ol>
-              <li>If the orientation change was triggered by a user gesture
-              such as the user turning the device, as opposed to a call to
-              {{ScreenOrientation/lock()}}, the <a>task</a> MUST be annotated
-              with `process user orientation change` when running the next
-              step.
-              </li>
-              <li>
-                <a>Fire an event</a> named "<a data-link-for=
-                "ScreenOrientation">change</a>" at |doc|'s [=relevant global
-                object=]'s [=associated `Screen`=]'s {{Screen/orientation}}
-                attribute.
-              </li>
-              <li>If the {{Document}}'s
-              {{Document/[[orientationPendingPromise]]}} is not `null`:
-                <ol>
-                  <li>Resolve the {{Document}}'s
-                  {{Document/[[orientationPendingPromise]]}} with `undefined`.
-                  </li>
-                  <li>Set the {{Document}}'s
-                  {{Document/[[orientationPendingPromise]]}} to `null`.
-                  </li>
-                </ol>
-              </li>
-            </ol>
-          </li>
-        </ol>
-        <div class="note">
-          <p>
-            Developers need to be aware that a {{Screen/orientation}} object
-            from a {{Document}} with a "hidden" [=Document/visibility state=]
-            will not receive an orientation change event. This is to prevent
-            unnecessary changes to layout, etc. in the non-visible web
-            application.
-          </p>
-        </div>
       </section>
+      <h2>
+        Handling page visibility changes
+      </h2>
+      <p>
+        The [=page visibility change steps=] given |document:Document| are as
+        follows:
+      </p>
+      <ol class="algorithm">
+        <li>If |document|'s [=Document/visibility state=] is "hidden",
+        terminate these steps.
+        </li>
+        <li>Let |newType| and |newAngle| be the [=current orientation type=]
+        and [=current orientation angle=], respectively.
+        </li>
+        <li>Let |screen| be |document|'s [=relevant global object=]'s
+        [=associated `Screen`=].
+        </li>
+        <li>If either |newType| or |newAngle| is not equal to |screen|'s
+        {{Screen/orientation}}'s {{ScreenOrientation/[[type]]}} or
+        {{ScreenOrientation/[[angle]]}} respectively, [=queue a task=] to on
+        the [=user interaction task source=] to:
+          <ol>
+            <li>Set |screen|'s {{Screen/orientation}}'s
+            {{ScreenOrientation/[[angle]]}} to |newAngle|.
+            </li>
+            <li>Set |screen|'s {{Screen/orientation}}'s
+            {{ScreenOrientation/[[type]]}} to |newType|.
+            </li>
+            <li>
+              <a>Fire an event</a> named "<a data-link-for=
+              "ScreenOrientation">change</a>" at |screen|'s
+              {{Screen/orientation}} attribute.
+            </li>
+          </ol>
+        </li>
+      </ol>
+      <aside class="note">
+        <p>
+          Developers need to be aware that a {{Screen/orientation}} object from
+          a {{Document}} with a "hidden" [=Document/visibility state=] will not
+          receive an orientation change event. This is to prevent unnecessary
+          changes to layout, etc. in the non-visible web application.
+        </p>
+      </aside>
     </section>
     <section>
       <h2>
