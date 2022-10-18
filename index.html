@@ -112,10 +112,6 @@
         Concepts
       </h2>
       <p>
-        The {{Window}} object has an <dfn>associated `Screen`</dfn>, which is a
-        {{Screen}} object.
-      </p>
-      <p>
         A [=browsing context=] |A| is called a <dfn>descendant browsing
         context</dfn> of a [=browsing context=] |B| if and only if |B| is an
         [=ancestor browsing context=] of |A|.
@@ -130,12 +126,12 @@
           screen can only be rotated by the user to a specific [=screen
           orientation=] (possibly at the exclusion of other orientations). For
           example, locking the orientation to [=landscape=] means that the
-          screen can be rotated by the user to [=landscape-primary=] and
-          [=landscape-secondary=], and not to any [=portrait=] orientation.
+          screen can be rotated by the user to [=landscape-primary=] and maybe
+          [=landscape-secondary=], but not to a [=portrait=] orientation.
         </p>
         <p>
-          A screen can be in or [=locked=] to one of the following <dfn>screen
-          orientations</dfn>:
+          A screen can be in, or [=locked=] to, one of the following
+          <dfn>screen orientations</dfn>:
         </p>
         <dl>
           <dt>
@@ -190,10 +186,10 @@
           <dd>
             The orientation to which the screen is locked when there is no
             [=Document/active orientation lock=] (i.e., the orientation is
-            "unlocked"). This orientation is determined by the device's
-            operating system, or the user agent (e.g., <a href=
-            "#interaction-with-web-application-manifest"></a>), or controlled
-            by the end-user.
+            "<dfn data-local-lt="unlock">unlocked</dfn>"). This orientation is
+            determined by the device's operating system, or the user agent
+            (e.g., <a href="#interaction-with-web-application-manifest"></a>),
+            or controlled by the end-user.
           </dd>
         </dl>
       </section>
@@ -207,7 +203,7 @@
         </p>
         <p>
           The <dfn>current orientation type</dfn> is the [=screen orientation=]
-          of the output device.
+          of the output device, represented as a {{OrientationLockType}}.
         </p>
         <p>
           The <dfn>current orientation angle</dfn> is the angle, in degrees,
@@ -311,25 +307,6 @@
           </p>
         </div>
       </section>
-      <section>
-        <h2>
-          Locking the screen orientation
-        </h2>
-        <p>
-          The <a>user agent</a> MAY require a [=document=] and its associated
-          [=Document/browsing context=] to meet one or more <dfn>pre-lock
-          conditions</dfn> in order to lock the screen orientation in order to
-          allow an <a>orientation lock</a>. See, for example, <a href=
-          '#interaction-with-fullscreen-api'></a>).
-        </p>
-        <p>
-          The <a>user agent</a> MAY reject all attempts to lock the screen
-          orientation if the platform conventions do not expect web
-          applications to change the screen orientation. For example, on most
-          desktop platforms, web applications can not change the screen
-          orientation.
-        </p>
-      </section>
     </section>
     <section data-dfn-for="Screen">
       <h2>
@@ -340,6 +317,10 @@
           [SameObject] readonly attribute ScreenOrientation orientation;
         };
       </pre>
+      <p>
+        The {{Window}} object has an <dfn>associated `Screen`</dfn>, which is a
+        {{Screen}} object.
+      </p>
     </section>
     <section data-dfn-for='ScreenOrientation' data-link-for=
     'ScreenOrientation'>
@@ -347,14 +328,14 @@
         <dfn>ScreenOrientation</dfn> interface
       </h2>
       <pre class='idl'>
-          [Exposed=Window]
-          interface ScreenOrientation : EventTarget {
-            Promise&lt;undefined&gt; lock(OrientationLockType orientation);
-            undefined unlock();
-            readonly attribute OrientationType type;
-            readonly attribute unsigned short angle;
-            attribute EventHandler onchange;
-          };
+        [Exposed=Window]
+        interface ScreenOrientation : EventTarget {
+          Promise&lt;undefined&gt; lock(OrientationLockType orientation);
+          undefined unlock();
+          readonly attribute OrientationType type;
+          readonly attribute unsigned short angle;
+          attribute EventHandler onchange;
+        };
       </pre>
       <section>
         <h2>
@@ -377,8 +358,8 @@
                 <dfn>[[\angle]]</dfn>
               </td>
               <td>
-                The [=current orientation angle=] in degrees as an {{unsigned
-                short}}.
+                Represents the screen's last known [=current orientation
+                angle=] in degrees as an {{unsigned short}}.
               </td>
             </tr>
             <tr>
@@ -386,8 +367,8 @@
                 <dfn>[[\type]]</dfn>
               </td>
               <td>
-                The [=current orientation type=] of the screen, represented as
-                an {{OrientationType}} enum value.
+                Represents the screen's last known [=current orientation type=]
+                of the screen as an {{OrientationType}} enum value.
               </td>
             </tr>
           </tbody>
@@ -397,6 +378,20 @@
         <h2>
           <dfn>lock()</dfn> method
         </h2>
+        <p>
+          The <a>user agent</a> MAY require a [=document=] and its associated
+          [=Document/browsing context=] to meet one or more <dfn>pre-lock
+          conditions</dfn> in order to lock the screen orientation in order to
+          allow an <a>orientation lock</a>. See, for example, <a href=
+          '#interaction-with-fullscreen-api'></a>).
+        </p>
+        <p>
+          The <a>user agent</a> MAY reject all attempts to lock the screen
+          orientation if the platform conventions do not expect web
+          applications to change the screen orientation. For example, on most
+          desktop platforms, web applications can not change the screen
+          orientation.
+        </p>
         <p data-tests="lock-bad-argument.html, lock-basic.html">
           When the {{lock()}} method is invoked with
           |orientation:OrientationLockType|, the <a>user agent</a> MUST run the
