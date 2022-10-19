@@ -923,34 +923,22 @@
           {{Document}}'s <a>default screen orientation</a>.
         </p>
       </section>
-      <section class="informative">
-        <h2>
-          Interaction with Web Content Accessibility Guidelines
-        </h2>
-        <p>
-          The [[[WCAG21]]] includes a <a data-cite="WCAG21#orientation">Success
-          Criterion related to screen orientation</a>.
-        </p>
-        <p>
-          ​The intent of this Success Criterion is to ensure that all
-          <a data-cite="WCAG21#dfn-essential">essential</a> content and
-          functionality is available regardless of the display orientation
-          (portrait or landscape). Some websites and applications automatically
-          set the screen to a particular display orientation and expect that
-          users will respond by rotating their device to match.
-        </p>
-        <p>
-          However, some users may have their devices mounted in a fixed
-          orientation (e.g. on the arm of a wheelchair). Therefore, websites
-          and applications need to support both orientations by making sure
-          <a data-cite="WCAG21#dfn-essential">essential</a> content and
-          functionality is available in each orientation. While the order of
-          content and method of functionality may have differences the content
-          and functionality must always be available. When a particular
-          orientation is <a data-cite="WCAG21#dfn-essential">essential</a>, the
-          user needs to be advised of the orientation requirements.
-        </p>
-      </section>
+    </section>
+    <section>
+      <h2>
+        Accessibility considerations
+      </h2>
+      <p>
+        As users can have their devices mounted in a fixed orientation (e.g. on
+        the arm of a wheelchair), developers that expect users to rotate their
+        device when [=locking the screen orientation=] need to be aware of the
+        [[[WCAG21]]]'s <a data-cite="WCAG21#orientation">Orientation Success
+        Criterion</a>. The criterion makes it <a data-cite=
+        "WCAG21#dfn-essential">essential</a> that content and functionality is
+        available regardless of the [=screen orientation=]. When a particular
+        orientation is <a data-cite="WCAG21#dfn-essential">essential</a>, web
+        applications must advise the user of the orientation requirements.
+      </p>
     </section>
     <section class="informative">
       <h2>
