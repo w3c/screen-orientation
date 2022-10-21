@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<!--
+    Demo of using the screen orientation lock API to lock the screen orientation
+    to portrait, landscape, or any orientation.
+-->
+<html>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Screen Orientation Lock API Demo</title>
+  <style>
+    body.not-supported output {
+      font-weight: bold;
+      color: red;
+    }
+
+    section {
+      display: flex;
+      flex-direction: column;
+    }
+
+    form {
+      flex: 20%;
+    }
+
+    dl {
+      flex: 70%;
+      max-height: 50vh;
+    }
+
+    .clear-button {
+      flex: 10%;
+    }
+
+    .logger {
+      border: 1px solid black;
+      overflow: auto;
+      flex: 60%;
+    }
+
+    :is(dd, dt).success {
+      color: green;
+    }
+
+    :is(dd, dt).error {
+      color: red;
+    }
+
+    dt.error::before {
+      content: "💥 Error: ";
+      color: red;
+    }
+
+    dt.success::before {
+      content: "✅ Success: ";
+      color: red;
+    }
+
+    dt.event::before {
+      content: "ℹ️ Event: ";
+    }
+
+    h1 {
+      font-size: medium;
+    }
+  </style>
+  <script defer>
+    const { orientation } = screen;
+    let currentAngle;
+    let currentType;
+    let logger;
+    let selector;
+    let clearButton;
+
+    function renderUpdate() {
+      const { type, angle } = orientation;
+      currentType.innerText = `"${type}"`;
+      currentAngle.innerText = `${angle}°`;
+    }
+
+    function isSupported() {
+      switch (true) {
+        case !screen.orientation?.lock:
+          logError("Screen Orientation API is not supported in this browser.");
+          return false;
+        case !document.documentElement.requestFullscreen:
+          logError(
+            "the Fullscreen API, which is required, is unavailable in this browser."
+          );
+          return false;
+      }
+      return true;
+    }
+
+    function init() {
+      currentAngle = document.querySelector(".current-angle");
+      currentType = document.querySelector(".current-type");
+      logger = document.querySelector(".logger");
+      selector = document.querySelector(".orientation-selector");
+      clearButton = document.querySelector(".clear-button");
+      if (!isSupported()) return;
+      document.body.classList.remove("not-supported");
+      selector.disabled = false;
+
+      screen.orientation.addEventListener("change", () => {
+        renderUpdate();
+        log(`Orientation changed to "${orientation.type}".`, "event");
+      });
+
+      document.addEventListener("fullscreenchange", handleFullscreen);
+      selector.addEventListener("input", lockOrientation);
+
+      clearButton.addEventListener("click", (ev) => {
+        ev.preventDefault();
+        logger.innerHTML = "";
+      });
+
+      renderUpdate();
+    }
+
+    function handleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.querySelector("option[value=unlocked]").disabled = true;
+      }
+      log(
+        `Fullscreen mode is ${document.fullscreenElement ? "on" : "off"}.`,
+        "event"
+      );
+      renderUpdate();
+    }
+
+    async function lockOrientation({ target: selector }) {
+      const { value } = selector;
+      switch (value) {
+        case "unlock":
+          try {
+            await screen.orientation.unlock();
+            log("Screen orientation unlocked.", "success");
+          } catch (error) {
+            logError("unable to unlock the screen orientation", error);
+          }
+          break;
+        default:
+          try {
+            if (!document.fullscreenElement) {
+              await document.documentElement.requestFullscreen();
+            }
+            await orientation.lock(value);
+            log(`Screen orientation locked to "${value}".`, "success");
+            renderUpdate();
+          } catch (err) {
+            logError(`unable to lock to "${value}"`, err);
+          }
+          break;
+      }
+    }
+
+    function logError(message, err) {
+      const msg = err ? `${message}: ${err.message} (${err.name})` : message;
+      log(msg, "error");
+    }
+
+    function log(message, type) {
+      const date = new Date();
+      const dt = document.createElement("dt");
+      const dd = document.createElement("dd");
+      if (type) {
+        dt.classList.add(type);
+        dd.classList.add(type);
+      }
+      dt.innerText = `${date.toLocaleTimeString()} - ${date.getMilliseconds()}.`;
+      dd.innerText = message;
+      logger.prepend(dt, dd);
+    }
+  </script>
+  <body onload="init()" class="not-supported">
+    <h1>Screen Orientation Lock API Demo</h1>
+    <p>
+      This demo shows how to use the
+      <a href="https://w3c.github.iddo/screen-orientation/"
+        >Screen Orientation Lock API</a
+      >
+      to lock the screen orientation to portrait or landscape.
+    </p>
+    <section>
+      <form class="orientation-form">
+        <fieldset>
+          <label>
+            Lock to:
+            <select disabled class="orientation-selector" name="orientation">
+              <option value="unlock" selected>Unlocked</option>
+              <option value="portrait">Portrait</option>
+              <option value="portrait-primary">Portrait primary</option>
+              <option value="portrait-secondary">Portrait secondary</option>
+              <option value="landscape">Landscape</option>
+              <option value="landscape-primary">Landscape primary</option>
+              <option value="landscape-secondary">landscape secondary</option>
+              <option value="any">Any</option>
+              <option value="natural">Natural</option>
+            </select>
+          </label>
+          <p>
+            Current screen orientation:
+            <output for="orientation" class="current-type">unknown</output>
+            (<output for="orientation" class="current-angle"
+              >angle is not available</output
+            >).
+          </p>
+        </fieldset>
+      </form>
+      <dl class="logger"></dl>
+      <button class="clear-button">Clear log</button>
+    </section>
+  </body>
+</html>
