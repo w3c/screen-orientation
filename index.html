@@ -122,6 +122,12 @@
         orientation to [=portrait-secondary=] orientation.
       </p>
       <p>
+        To <dfn data-local-lt=
+        "unlocking the screen orientation|unlocked">unlock the screen
+        orientation</dfn> the end user is unrestricted to rotate the screen to
+        any [=screen orientation=] that the system allows.
+      </p>
+      <p>
         A [=browsing context=] |A| is called a <dfn>descendant browsing
         context</dfn> of a [=browsing context=] |B| if and only if |B| is an
         [=ancestor browsing context=] of |A|.
@@ -186,15 +192,15 @@
             "">Default</dfn> (unlocked)
           </dt>
           <dd data-cite="appmanifest">
-            The device's default behavior for when the screen is
-            <dfn data-local-lt="unlock">unlocked</dfn> (i.e., the
-            [=Screen/active orientation lock=] is `null`). This orientation is
-            determined by the device's operating system, or the user agent, or
-            controlled by the end-user, or possibly set by an [=installed web
-            application=]. For example, when the screen orientation is unlocked
-            and the user rotates the device, some devices will limit
-            orientation changes to [=portrait-primary=], [=landscape-primary=],
-            and [=landscape-secondary=], but not to [=portrait-secondary=].
+            The device's default behavior for when the screen is [=unlocked=]
+            (i.e., the [=Screen/active orientation lock=] is `null`). This
+            orientation is determined by the device's operating system, or the
+            user agent, or controlled by the end-user, or possibly set by an
+            [=installed web application=]. For example, when the screen
+            orientation is unlocked and the user rotates the device, some
+            devices will limit orientation changes to [=portrait-primary=],
+            [=landscape-primary=], and [=landscape-secondary=], but not to
+            [=portrait-secondary=].
           </dd>
         </dl>
       </section>
@@ -323,6 +329,45 @@
         </div>
       </section>
     </section>
+    <section>
+      <h2>
+        Extensions to the `Document` interface
+      </h2>
+      <section>
+        <h2>
+          Internal Slots
+        </h2>
+        <p>
+          The {{Document}} interface is extended with the following internal
+          slots:
+        </p>
+        <table class="simple">
+          <thead>
+            <tr>
+              <th>
+                Internal Slot
+              </th>
+              <th>
+                Description
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <dfn data-dfn-for=
+                "Document">[[\orientationPendingPromise]]</dfn>
+              </td>
+              <td>
+                Either `null` or a {{Promise}}. When assigned a {{Promise}},
+                that promise represents a request to lock the screen
+                orientation.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </section>
     <section data-dfn-for="Screen">
       <h2>
         Extensions to the `Screen` interface
@@ -433,8 +478,7 @@
           </li>
           <li>Return |document|'s {{Document/[[orientationPendingPromise]]}}.
           </li>
-          <li>[=Try to lock the screen orientation=] of |document| to
-          |orientation|.
+          <li>[=Apply orientation lock=] |orientation| to |document|.
           </li>
         </ol>
       </section>
@@ -455,12 +499,9 @@
           </li>
           <li>If |document|'s {{Document/[[orientationPendingPromise]]}} is not
           `null`, [=reject and nullify the current lock promise=] of |document|
-          with a {{"AbortError"}} {{DOMException}}.
+          with {{"AbortError"}}.
           </li>
-          <li>[=Try to lock the screen orientation=] of |document| to the
-          [=default screen orientation=].
-          </li>
-          <li>Set the screen's [=Screen/active orientation lock=] to `null`.
+          <li>[=Apply orientation lock=] `null` to |document|.
           </li>
         </ol>
         <p class='note' title="Why does unlock() not return a promise?">
@@ -587,45 +628,6 @@
     </section>
     <section>
       <h2>
-        Extensions to the `Document` interface
-      </h2>
-      <section>
-        <h2>
-          Internal Slots
-        </h2>
-        <p>
-          The {{Document}} interface is extended with the following internal
-          slots:
-        </p>
-        <table class="simple">
-          <thead>
-            <tr>
-              <th>
-                Internal Slot
-              </th>
-              <th>
-                Description
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                <dfn data-dfn-for=
-                "Document">[[\orientationPendingPromise]]</dfn>
-              </td>
-              <td>
-                Either `null` or a {{Promise}}. When assigned a {{Promise}},
-                that promise represents a request to lock the screen
-                orientation.
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </section>
-    </section>
-    <section>
-      <h2>
         Algorithms
       </h2>
       <section>
@@ -655,18 +657,19 @@
         </h2>
         <p>
           When steps require to <dfn>reject and nullify the current lock
-          promise</dfn> of {{Document}} |document| with {{DOMException}}
-          |exception|, the [=user agent=] MUST:
+          promise</dfn> of {{Document}} |document| with a {{DOMString}}
+          |exceptionName|, the [=user agent=] MUST:
         </p>
         <ol class="algorithm" data-tests="orientation-locking.html">
+          <li>If |document|'s {{Document/[[orientationPendingPromise]]}} is
+          `null`, abort these steps.
+          </li>
           <li>Let |promise:Promise| be |document|'s
           {{Document/[[orientationPendingPromise]]}}.
           </li>
-          <li>Assert: |promise| is not `null`.
-          </li>
           <li>[=Queue a global task=] on the [=DOM manipulation task source=]
           with |document|'s [=relevant global object=] to [=reject=] |promise|
-          with |exception|.
+          with a new |exceptionName| {{DOMException}}.
           </li>
           <li>Set |document|'s {{Document/[[orientationPendingPromise]]}} to
           `null`.
@@ -674,11 +677,11 @@
         </ol>
       </section>
       <h2>
-        Try to lock the screen orientation
+        Applying an orientation lock
       </h2>
       <p>
-        When steps require to <dfn>try to lock the screen orientation</dfn> of
-        {{Document}} |document| to {{OrientationLockType}} |lock|, the [=user
+        When steps require to <dfn>apply orientation lock</dfn> of
+        {{OrientationLockType?}} |type| to {{Document}} |document|, the [=user
         agent=] MUST perform do the following steps [=in parallel=]:
       </p>
       <ol>
@@ -697,19 +700,24 @@
             continue.
             </li>
             <li>[=Reject and nullify the current lock promise=] of |doc| with
-            an {{"AbortError"}} {{DOMException}}.
+            {{"AbortError"}}.
             </li>
           </ol>
         </li>
-        <li>Attempt to [=lock the screen orientation=] to |orientation|, and,
-        if necessary, and depending on platform conventions, change how the
+        <li>If |orientation| is `null`, [=unlock the screen orientation=] and
+        depending on platform conventions, change how the viewport.
+        </li>
+        <li>Otherwise, attempt to [=lock the screen orientation=] to
+        |orientation|. Depending on platform conventions, change how the
         viewport is drawn to match |orientation|. If the attempt fails due to
         previously-established user preference, or platform limitation, or any
         other reason:
           <ol>
             <li>If the |document|'s {{Document/[[orientationPendingPromise]]}}
             is not `null`, [=reject and nullify the current lock promise=] of
-            |document| with {{"NotSupportedError"}} {{DOMException}}.
+            |document| with {{"NotSupportedError"}}.
+            </li>
+            <li>Set the screen's [=Screen/active orientation lock=] to `null`.
             </li>
             <li>Abort these steps.
             </li>
@@ -720,6 +728,9 @@
             underlying platform, rather than the user agent, does not allow
             locking the screen orientation to the given |orientation|.
           </p>
+        </li>
+        <li>Set the screen's [=Screen/active orientation lock=] to
+        |orientation|.
         </li>
         <li>Let |promise:Promise?| be |document|'s
         {{Document/[[orientationPendingPromise]]}}.
@@ -747,7 +758,7 @@
         </li>
         <li>If |document| stops being [=Document/fully active=] while [=in
         parallel=], [=reject and nullify the current lock promise=] of
-        |document| with an {{"AbortError"}} {{DOMException}}.
+        |document| with an {{"AbortError"}}.
         </li>
       </ol>
       <h2>
@@ -778,9 +789,6 @@
         {{ScreenOrientation/[[type]]}} and |angle| is equal to
         |screenOrientation|'s {{ScreenOrientation/[[angle]]}}, abort these
         steps.
-        </li>
-        <li>Let |screenOrientation| be |doc|'s [=relevant global object=]'s
-        [=associated `ScreenOrientation`=].
         </li>
         <li>Set |screenOrientation|'s {{ScreenOrientation/[[angle]]}} to
         |angle|.
@@ -823,24 +831,29 @@
         </p>
       </aside>
       <h2>
-        Handling navigation
+        Handling unloading documents
       </h2>
       <p>
-        When a [=top-level browsing context=] is [=navigated=], the user agent
-        MUST run the following steps:
+        Whenever the [=unloading document cleanup steps=] run with a
+        |document|, the user agent MUST run the [=fully unlock the screen
+        orientation steps=] with |document|.
+      </p>
+      <h2>
+        Fully unlocking the orientation
+      </h2>
+      <p>
+        The <dfn>fully unlock the screen orientation steps</dfn> for
+        {{Document}} |document:Document| are as follows:
       </p>
       <ol class="algorithm">
-        <li>Let |document:Document| be [=this=]'s [=relevant global object=]'s
-        [=associated `Document`=].
+        <li>If |document| is not a [=top-level browsing context=]'s [=active
+        document=], abort these steps.
         </li>
         <li>If |document|'s {{Document/[[orientationPendingPromise]]}} is not
         `null`, [=reject and nullify the current lock promise=] of |document|
-        with a {{"AbortError"}} {{DOMException}}.
+        with a {{"AbortError"}}.
         </li>
-        <li>[=Try to lock the screen orientation=] of |document| to the
-        [=default screen orientation=].
-        </li>
-        <li>Set the screen's [=Screen/active orientation lock=] to `null`.
+        <li>[=Apply orientation lock=] `null` to |document|.
         </li>
       </ol>
     </section>
