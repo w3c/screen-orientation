@@ -685,6 +685,10 @@
         agent=] MUST perform do the following steps [=in parallel=]:
       </p>
       <ol>
+        <li>If |document| stops being [=Document/fully active=] while [=in
+        parallel=], [=reject and nullify the current lock promise=] of
+        |document| with an {{"AbortError"}}.
+        </li>
         <li>Let |topDocument| be |document|'s [=top-level browsing context=]'s
         [=active document=].
         </li>
@@ -755,10 +759,6 @@
             `undefined`.
             </li>
           </ol>
-        </li>
-        <li>If |document| stops being [=Document/fully active=] while [=in
-        parallel=], [=reject and nullify the current lock promise=] of
-        |document| with an {{"AbortError"}}.
         </li>
       </ol>
       <h2>
