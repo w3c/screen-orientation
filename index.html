@@ -967,10 +967,11 @@
         To resist fingerprinting (e.g., in private browsing), user agents MAY:
       </p>
       <ul>
-        <li>Depending on the screen's aspect ratio, only return either
+        <li>Restrict the possible return values of the
+        {{ScreenOrientation/type}} getter to
         {{OrientationType/"portrait-primary"}} or
-        {{OrientationType/"landscape-primary"}} for the value of the
-        {{ScreenOrientation/type}} attribute.
+        {{OrientationType/"landscape-primary"}}. The screen aspect ratio
+        determines which is returned.
         </li>
         <li>For any [=natural=] orientation ([=portrait=] or [=landscape=]),
         always return `0` for the value of the {{ScreenOrientation/angle}}
