@@ -455,8 +455,9 @@
           <li>Let |document:Document| be [=this=]'s [=relevant global
           object=]'s [=associated `Document`=].
           </li>
-          <li>If |document| is not [=Document/fully active=], return [=a
-          promise rejected with=] an {{"InvalidStateError"}} {{DOMException}}.
+          <li data-tests="non-fully-active.html">If |document| is not
+          [=Document/fully active=], return [=a promise rejected with=] an
+          {{"InvalidStateError"}} {{DOMException}}.
           </li>
           <li data-tests="lock-sandboxed-iframe.html">If |document| has the
           [=sandboxed orientation lock browsing context flag=] set, or doesn't
@@ -496,6 +497,13 @@
           </li>
           <li>If |document| is not [=Document/fully active=],
           [=exception/throw=] an {{"InvalidStateError"}} {{DOMException}}.
+          </li>
+          <li data-tests="lock-sandboxed-iframe.html">If |document| has the
+          [=sandboxed orientation lock browsing context flag=] set, return
+          `undefined`.
+          </li>
+          <li>If screen's [=Screen/active orientation lock=] is `null`, return
+          `undefined`.
           </li>
           <li>If |document|'s {{Document/[[orientationPendingPromise]]}} is not
           `null`, [=reject and nullify the current lock promise=] of |document|
@@ -734,7 +742,7 @@
         </li>
         <li>Set the screen's [=Screen/active orientation lock=] to
         |orientation| and update the [=Screen/current orientation type=] and
-        [Screen/current orientation angle] to reflect any changes to the
+        [=Screen/current orientation angle=] to reflect any changes to the
         [=screen orientation=].
         </li>
         <li>Let |promise:Promise?| be |document|'s
@@ -843,18 +851,19 @@
         Fully unlocking the orientation
       </h2>
       <p>
-        The <dfn>fully unlock the screen orientation steps</dfn> for
-        {{Document}} |document:Document| are as follows:
+        The <dfn class="export" dat-dfn-type="algorithm">fully unlock the
+        screen orientation steps</dfn> for {{Document}} |document:Document| are
+        as follows:
       </p>
       <ol class="algorithm">
-        <li>If |document| is not a [=top-level browsing context=]'s [=active
-        document=], abort these steps.
-        </li>
         <li>If |document|'s {{Document/[[orientationPendingPromise]]}} is not
         `null`, [=reject and nullify the current lock promise=] of |document|
-        with a {{"AbortError"}}.
+        with {{"AbortError"}}.
         </li>
-        <li>[=Apply orientation lock=] `null` to |document|.
+        <li>Let |topDocument| be |document|'s [=top-level browsing context=]'s
+        [=active document=].
+        </li>
+        <li>[=Apply orientation lock=] `null` to |topDocument|.
         </li>
       </ol>
     </section>
