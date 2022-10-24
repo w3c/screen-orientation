@@ -937,9 +937,9 @@
         {{OrientationType/"landscape-primary"}}. The screen aspect ratio
         determines which is returned.
         </li>
-        <li>When the [=Screen/current orientation type=] matches
-        {{ScreenOrientation/[[initialType]]}}, the {{ScreenOrientation/angle}}
-        getter MUST return `0`. Return `90` otherwise.
+        <li>If the [=Screen/current orientation type=] matches
+        {{ScreenOrientation/[[initialType]]}}, return `0` for the the
+        {{ScreenOrientation/angle}} getter. Otherwise, return `90`.
         </li>
         <li>If the screen orientation changes, only fire the
           <a data-link-for="ScreenOrientation">change</a> event when the
