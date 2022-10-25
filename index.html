@@ -425,6 +425,15 @@
             </tr>
             <tr>
               <td>
+                <dfn>[[\initialType]]</dfn>
+              </td>
+              <td>
+                Represents the screen's [=Screen/current orientation type=]
+                when the [=browsing context=] was created.
+              </td>
+            </tr>
+            <tr>
+              <td>
                 <dfn>[[\type]]</dfn>
               </td>
               <td>
@@ -648,6 +657,10 @@
         <ol class="algorithm" data-tests="orientation-reading.html">
           <li>Let |screenOrientation| be |context|'s [=associated
           `ScreenOrientation`=].
+          </li>
+          <li>Initialize |screenOrientation|'s
+          {{ScreenOrientation/[[initialType]]}} internal slot to the screen's
+          [=Screen/current orientation type=].
           </li>
           <li>Initialize |screenOrientation|'s {{ScreenOrientation/[[type]]}}
           internal slot to the screen's [=Screen/current orientation type=].
@@ -905,30 +918,40 @@
         applications must advise the user of the orientation requirements.
       </p>
     </section>
-    <section class="informative">
+    <section>
       <h2>
         Privacy and Security Considerations
       </h2>
       <p>
         A screen's [=Screen/current orientation type|type=] and
         [=Screen/current orientation angle|angle=] are a potential
-        fingerprinting vector. To resist fingerprinting (e.g., in private
-        browsing), user agents MAY:
+        fingerprinting vector. The following mitigation help protect a user's
+        privacy by not revealing how a device is being held, and also prevents
+        the [=secondary=] orientation type and associated angles from being
+        user for fingerprinting purposes.
+      </p>
+      <p>
+        To resist fingerprinting (e.g., in private browsing), user agents MAY:
       </p>
       <ol>
-        <li>Depending on the screen's aspect ratio, always return either
-        {{OrientationType/"portrait-primary"}} or
-        {{OrientationType/"landscape-primary"}}.
+        <li>For the life of a [=top-level browsing context=], behave as as if
+        screen's [=natural=] orientation is
+        {{ScreenOrientation/[[initialType]]}}.
         </li>
-        <li>Always return `0` for the value of the {{ScreenOrientation/angle}}
-        attribute.
+        <li>Restrict the possible return values of the
+        {{ScreenOrientation/type}} getter to
+        {{OrientationType/"portrait-primary"}} or
+        {{OrientationType/"landscape-primary"}}. The screen aspect ratio
+        determines which is returned.
+        </li>
+        <li>If the [=Screen/current orientation type=] matches
+        {{ScreenOrientation/[[initialType]]}}, return `0` for the
+        {{ScreenOrientation/angle}} getter. Otherwise, return `90`.
         </li>
         <li>If the screen orientation changes, only fire the
           <a data-link-for="ScreenOrientation">change</a> event when the
           [=Screen/current orientation type=] changes from [=portrait=] to
-          [=landscape=], or vice versa. This both protects user's privacy by
-          not revealing how a device is being held, and prevents using the
-          [=secondary=] orientation as a fingerprinting vector.
+          [=landscape=], or vice versa.
         </li>
       </ol>
     </section>
