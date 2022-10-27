@@ -91,6 +91,11 @@
             updateLockButton(lockButton);
           }
 
+          async function unlock() {
+            await screen.orientation.unlock();
+            updateLockButton();
+          }
+
           screen.orientation.addEventListener("change", updateLockButton);
 
           window.addEventListener("load", updateLockButton);
@@ -99,7 +104,7 @@
           &lt;button onclick="rotate(this)" id="button"&gt;
             Lock to...
           &lt;/button&gt;
-          &lt;button onclick="screen.orientation.unlock()"&gt;
+          &lt;button onclick="unlock()"&gt;
             Unlock
           &lt;/button&gt;
         </pre>
@@ -392,7 +397,7 @@
         [Exposed=Window]
         interface ScreenOrientation : EventTarget {
           Promise&lt;undefined&gt; lock(OrientationLockType orientation);
-          undefined unlock();
+          Promise&lt;undefined&gt; unlock();
           readonly attribute OrientationType type;
           readonly attribute unsigned short angle;
           attribute EventHandler onchange;
@@ -503,30 +508,29 @@
           <li>Let |document:Document| be [=this=]'s [=relevant global
           object=]'s [=associated `Document`=].
           </li>
-          <li>If |document| is not [=Document/fully active=],
-          [=exception/throw=] an {{"InvalidStateError"}} {{DOMException}}.
+          <li data-tests="non-fully-active.html">If |document| is not
+          [=Document/fully active=], return [=a promise rejected with=] an
+          {{"InvalidStateError"}} {{DOMException}}.
           </li>
-          <li data-tests="lock-sandboxed-iframe.html">If |document| has the
-          [=sandboxed orientation lock browsing context flag=] set, return
-          `undefined`.
+          <li>If |document| has the [=sandboxed orientation lock browsing
+          context flag=] set, return [=a promise resolved with=] `undefined`.
           </li>
           <li>If screen's [=Screen/active orientation lock=] is `null`, return
-          `undefined`.
+          return [=a promise resolved with=] `undefined`.
           </li>
-          <li>If |document|'s {{Document/[[orientationPendingPromise]]}} is not
-          `null`, [=reject and nullify the current lock promise=] of |document|
-          with an {{"AbortError"}}.
+          <li data-tests="lock-basic.html">If |document|'s
+          {{Document/[[orientationPendingPromise]]}} is not `null`, [=reject
+          and nullify the current lock promise=] of |document| with an
+          {{"AbortError"}}.
+          </li>
+          <li data-tests="lock-basic.html">Set |document|'s
+          {{Document/[[orientationPendingPromise]]}} to [=a new promise=].
           </li>
           <li>[=Apply orientation lock=] `null` to |document|.
           </li>
+          <li>Return |document|'s {{Document/[[orientationPendingPromise]]}}.
+          </li>
         </ol>
-        <p class='note' title="Why does unlock() not return a promise?">
-          {{unlock()}} does not return a promise because it is equivalent to
-          locking to the [=default screen orientation=] which might or might
-          not be known by the [=user agent=]. Hence, the [=user agent=] can not
-          predict what the new orientation is going to be and even if it is
-          going to change at all.
-        </p>
       </section>
       <section>
         <h2>
