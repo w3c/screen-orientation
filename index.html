@@ -480,7 +480,7 @@
           <li data-tests="lock-basic.html">If |document|'s
           {{Document/[[orientationPendingPromise]]}} is not `null`, [=reject
           and nullify the current lock promise=] of |document| with an
-          {{"AbortError"}} {{DOMException}}.
+          {{"AbortError"}}.
           </li>
           <li data-tests="lock-basic.html">Set |document|'s
           {{Document/[[orientationPendingPromise]]}} to [=a new promise=].
@@ -775,7 +775,7 @@
           <ol>
             <li>Run the [=screen orientation change steps=] with |topDocument|.
             </li>
-            <li>If |promise is| not `null`, [=resolve=] |promise| with
+            <li>If |promise| is not `null`, [=resolve=] |promise| with
             `undefined`.
             </li>
           </ol>
@@ -869,8 +869,8 @@
         Fully unlocking the orientation
       </h2>
       <p>
-        The <dfn>fully unlock the screen orientation steps</dfn> for
-        {{Document}} |document:Document| are as follows:
+        The <dfn class="export">fully unlock the screen orientation steps</dfn>
+        for {{Document}} |document:Document| are as follows:
       </p>
       <ol class="algorithm">
         <li>If |document|'s {{Document/[[orientationPendingPromise]]}} is not
