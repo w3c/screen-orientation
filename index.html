@@ -855,9 +855,16 @@
       </h2>
       <p>
         Whenever the [=unloading document cleanup steps=] run with a
-        |document|, the user agent MUST run the [=fully unlock the screen
-        orientation steps=] with |document|.
+        |document|, the user agent MUST run the following steps:
       </p>
+      <ol class="algorithm">
+        <li>If |document| is not a [=top-level browsing context=]'s [=active
+        document=], abort these steps.
+        </li>
+        <li>Run the [=fully unlock the screen orientation steps=] with
+        |document|.
+        </li>
+      </ol>
       <h2>
         Fully unlocking the orientation
       </h2>
