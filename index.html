@@ -474,6 +474,10 @@
           orientation to |orientation|, return [=a promise rejected with=] a
           {{"NotSupportedError"}} {{DOMException}} and abort these steps.
           </li>
+          <li>If |document|'s [=Document/visibility state=] is "hidden", return
+          [=a promise rejected with=] an {{"NotAllowedError"}} {{DOMException}}
+          and abort these steps.
+          </li>
           <li data-tests="lock-basic.html">If |document|'s
           {{Document/[[orientationPendingPromise]]}} is not `null`, [=reject
           and nullify the current lock promise=] of |document| with an
