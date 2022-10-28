@@ -701,13 +701,9 @@
       <p>
         When steps require to <dfn>apply orientation lock</dfn> of
         {{OrientationLockType?}} |orientation| to {{Document}} |document|, the
-        [=user agent=] MUST perform do the following steps [=in parallel=]:
+        [=user agent=] MUST perform do the following steps:
       </p>
-      <ol>
-        <li>If |document| stops being [=Document/fully active=] while [=in
-        parallel=], [=reject and nullify the current lock promise=] of
-        |document| with an {{"AbortError"}}.
-        </li>
+      <ol class="algorithm">
         <li>Let |topDocument| be |document|'s [=top-level browsing context=]'s
         [=active document=].
         </li>
@@ -727,52 +723,69 @@
             </li>
           </ol>
         </li>
-        <li>If |orientation| is `null`, [=unlock the screen orientation=].
-        </li>
-        <li>Otherwise, attempt to [=lock the screen orientation=] to
-        |orientation|. Depending on platform conventions, change how the
-        viewport is drawn to match |orientation|. If the attempt fails due to
-        previously-established user preference, or platform limitation, or any
-        other reason:
+        <li>Run the following sub-steps [=in parallel=]. If |document| stops
+        being [=Document/fully active=] while [=in parallel=], and if the
+        |document|'s {{Document/[[orientationPendingPromise]]}} is not `null`,
+        [=reject and nullify the current lock promise=] of |document| with an
+        {{"AbortError"}}:
           <ol>
-            <li>If the |document|'s {{Document/[[orientationPendingPromise]]}}
-            is not `null`, [=reject and nullify the current lock promise=] of
-            |document| with a {{"NotSupportedError"}}.
+            <li>If |orientation| is `null`, [=unlock the screen orientation=].
             </li>
-            <li>Set the screen's [=Screen/active orientation lock=] to `null`.
+            <li>Otherwise, attempt to [=lock the screen orientation=] to
+            |orientation|. Depending on platform conventions, change how the
+            viewport is drawn to match |orientation|.
             </li>
-            <li>Abort these steps.
+            <li>If the attempt fails due to previously-established user
+            preference, or platform limitation, or any other reason:
+              <ol>
+                <li>Set the screen's [=Screen/active orientation lock=] to
+                `null`.
+                </li>
+                <li>[=Queue a task=] on the [=DOM manipulation task source=]
+                with |document|'s [=relevant global object=] to:
+                  <ol>
+                    <li>If the |document|'s
+                    {{Document/[[orientationPendingPromise]]}} is not `null`,
+                    [=reject and nullify the current lock promise=] of
+                    |document| with a {{"NotSupportedError"}}.
+                    </li>
+                    <li>Abort these steps.
+                    </li>
+                  </ol>
+                </li>
+              </ol>
+              <p class="note">
+                This can happen if the user has set a preference that prevents
+                web applications from changing the screen orientation, or if
+                the underlying platform, rather than the user agent, does not
+                allow locking the screen orientation to the given
+                |orientation|.
+              </p>
+            </li>
+            <li>Set the screen's [=Screen/active orientation lock=] to
+            |orientation| and update the [=Screen/current orientation type=]
+            and [=Screen/current orientation angle=] to reflect any changes to
+            the [=screen orientation=].
             </li>
           </ol>
-          <p class="note">
-            This can happen if the user has set a preference that prevents web
-            applications from changing the screen orientation, or if the
-            underlying platform, rather than the user agent, does not allow
-            locking the screen orientation to the given |orientation|.
-          </p>
-        </li>
-        <li>Set the screen's [=Screen/active orientation lock=] to
-        |orientation| and update the [=Screen/current orientation type=] and
-        [=Screen/current orientation angle=] to reflect any changes to the
-        [=screen orientation=].
-        </li>
-        <li>Let |promise:Promise?| be |document|'s
-        {{Document/[[orientationPendingPromise]]}}.
-          <aside class="note">
-            <p>
-              As the promise needs to resolve after a "<a data-link-for=
-              "ScreenOrientation">change</a>" event is fired, we keep a
-              reference to prevent it from being aborted by an event's handler
-              function calling {{ScreenOrientation/lock()}}.
-            </p>
-          </aside>
-        </li>
-        <li>Set |document|'s {{Document/[[orientationPendingPromise]]}} to
-        `null`.
         </li>
         <li>[=Queue a global task=] on the [=DOM manipulation task source=]
         with |document|'s [=relevant global object=] to:
           <ol>
+            <li>Let |promise:Promise?| be |document|'s
+            {{Document/[[orientationPendingPromise]]}}.
+              <aside class="note">
+                <p>
+                  As the promise needs to resolve after a "<a data-link-for=
+                  "ScreenOrientation">change</a>" event is fired, we keep a
+                  reference to prevent it from being aborted by an event's
+                  handler function calling {{ScreenOrientation/lock()}}.
+                </p>
+              </aside>
+            </li>
+            <li>Set |document|'s {{Document/[[orientationPendingPromise]]}} to
+            `null`.
+            </li>
             <li>Run the [=screen orientation change steps=] with |topDocument|.
             </li>
             <li>If |promise| is not `null`, [=resolve=] |promise| with
