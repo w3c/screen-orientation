@@ -723,12 +723,13 @@
             </li>
           </ol>
         </li>
-        <li>Run the following sub-steps [=in parallel=]. If |document| stops
-        being [=Document/fully active=] while [=in parallel=], and if the
-        |document|'s {{Document/[[orientationPendingPromise]]}} is not `null`,
-        [=reject and nullify the current lock promise=] of |document| with an
-        {{"AbortError"}}:
+        <li>Run the following sub-steps [=in parallel=]:
           <ol>
+            <li>If |document| has stopped being [=Document/fully active=], and
+            if the |document|'s {{Document/[[orientationPendingPromise]]}} is
+            not `null`, [=reject and nullify the current lock promise=] of
+            |document| with an {{"AbortError"}}.
+            </li>
             <li>If |orientation| is `null`, [=unlock the screen orientation=].
             </li>
             <li>Otherwise, attempt to [=lock the screen orientation=] to
