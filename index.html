@@ -728,7 +728,7 @@
             <li>If |document| has stopped being [=Document/fully active=], and
             if the |document|'s {{Document/[[orientationPendingPromise]]}} is
             not `null`, [=reject and nullify the current lock promise=] of
-            |document| with an {{"AbortError"}}.
+            |document| with an {{"AbortError"}} and abort these steps.
             </li>
             <li>If |orientation| is `null`, [=unlock the screen orientation=].
             </li>
