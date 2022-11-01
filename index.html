@@ -680,8 +680,8 @@
           |exceptionName|, the [=user agent=] MUST:
         </p>
         <ol class="algorithm" data-tests="orientation-locking.html">
-          <li>If |document|'s {{Document/[[orientationPendingPromise]]}} is
-          `null`, abort these steps.
+          <li>[=/Assert=]: {{Document/[[orientationPendingPromise]]}} is not
+          `null`.
           </li>
           <li>Let |promise:Promise| be |document|'s
           {{Document/[[orientationPendingPromise]]}}.
@@ -704,6 +704,11 @@
         [=user agent=] MUST perform do the following steps:
       </p>
       <ol class="algorithm">
+        <li>If |document| stops being [=Document/fully active=] while [=in
+        parallel=], and {{Document/[[orientationPendingPromise]]}} is not
+        `null`, [=reject and nullify the current lock promise=] of |document|
+        with an {{"AbortError"}}.
+        </li>
         <li>Let |topDocument| be |document|'s [=top-level browsing context=]'s
         [=active document=].
         </li>
