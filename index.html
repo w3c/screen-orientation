@@ -132,11 +132,6 @@
         orientation</dfn> the end user is unrestricted to rotate the screen to
         any [=screen orientation=] that the system allows.
       </p>
-      <p>
-        A [=browsing context=] |A| is called a <dfn>descendant browsing
-        context</dfn> of a [=browsing context=] |B| if and only if |B| is an
-        [=ancestor browsing context=] of |A|.
-      </p>
       <section>
         <h2>
           Screen orientation types
@@ -714,10 +709,10 @@
         with an {{"AbortError"}}.
         </li>
         <li>Let |topDocument| be |document|'s [=top-level browsing context=]'s
-        [=active document=].
+        [=navigable/active document=].
         </li>
         <li>Let |descendantDocs| be an [=ordered set=] consisting of
-        |topDocument|'s [=descendant browsing contexts=]'s [=active
+        |topDocument|'s [=Document/descendant navigables=]'s [=navigable/active
         documents=], if any, in tree order.
         </li>
         <li>[=Set/For each=] |doc:Document| in |descendantDocs|:
@@ -812,7 +807,7 @@
         for a [=top-level browsing context=], or the user moves the [=top-level
         browsing context=] to a different screen, then run the [=screen
         orientation change steps=] with the [=top-level browsing context=]'s
-        [=active document=].
+        [=navigable/active document=].
       </p>
       <p>
         The <dfn>screen orientation change steps</dfn> for {{Document}}
@@ -842,8 +837,8 @@
         "ScreenOrientation">change</a>" at |screenOrientation|.
         </li>
         <li>Let |descendantDocs| be an [=ordered set=] consisting of
-        |document|'s [=descendant browsing contexts=]'s [=active documents=],
-        if any, in tree order.
+        |document|'s [=Document/descendant navigables=]'s [=navigable/active
+        documents=], if any, in tree order.
         </li>
         <li>[=Set/For each=] |doc:Document| in |descendantDocs|, [=queue a
         global task=] on the [=DOM manipulation task source=] with |doc|'s
@@ -881,8 +876,8 @@
         |document|, the user agent MUST run the following steps:
       </p>
       <ol class="algorithm">
-        <li>If |document| is not a [=top-level browsing context=]'s [=active
-        document=], abort these steps.
+        <li>If |document| is not a [=top-level browsing context=]'s
+        [=navigable/active document=], abort these steps.
         </li>
         <li>Run the [=fully unlock the screen orientation steps=] with
         |document|.
@@ -901,7 +896,7 @@
         with an {{"AbortError"}}.
         </li>
         <li>Let |topDocument| be |document|'s [=top-level browsing context=]'s
-        [=active document=].
+        [=navigable/active document=].
         </li>
         <li>[=Apply orientation lock=] `null` to |topDocument|.
         </li>
