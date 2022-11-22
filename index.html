@@ -5,38 +5,37 @@
     <title>
       Screen Orientation
     </title>
-    <script src='https://www.w3.org/Tools/respec/respec-w3c' class=
-    'remove'></script>
-    <script class='remove'>
-    var respecConfig = {
-      specStatus: "ED",
-      shortName: "screen-orientation",
-      previousPublishDate: "2019-05-30",
-      previousMaturity: "WD",
-      editors: [
-        {
-          name: "Marcos Cáceres",
-          company: "Apple Inc.",
-          w3cid: 39125,
-        },
-      ],
-      formerEditors: [
-        {
-          name: "Mounir Lamouri",
-          company: "Google Inc.",
-        },
-        {
-          name: "Johanna Herman",
-          company: "Invited Expert",
-        }
-      ],
-      testSuiteURI:
-        "https://w3c-test.org/screen-orientation/",
-      github: "w3c/screen-orientation",
-      group: "webapps",
-      caniuse: "screen-orientation",
-      xref: "web-platform",
-    };
+    <script src="https://www.w3.org/Tools/respec/respec-w3c" class=
+    "remove"></script>
+    <script class="remove">
+      var respecConfig = {
+        specStatus: "ED",
+        shortName: "screen-orientation",
+        previousPublishDate: "2019-05-30",
+        previousMaturity: "WD",
+        editors: [
+          {
+            name: "Marcos Cáceres",
+            company: "Apple Inc.",
+            w3cid: 39125,
+          },
+        ],
+        formerEditors: [
+          {
+            name: "Mounir Lamouri",
+            company: "Google Inc.",
+          },
+          {
+            name: "Johanna Herman",
+            company: "Invited Expert",
+          },
+        ],
+        testSuiteURI: "https://wpt.live/screen-orientation/",
+        github: "w3c/screen-orientation",
+        group: "webapps",
+        caniuse: "screen-orientation",
+        xref: "web-platform",
+      };
     </script>
   </head>
   <body data-cite="CSSOM-VIEW mediaqueries-5 appmanifest">
@@ -70,7 +69,7 @@
         fullscreen and then locks the screen to the opposite orientation.
         clicking the "unlock" button unlocks the screen.
       </p>
-      <pre class='example html' title=
+      <pre class="example html" title=
       "Locking to a specific orientation and unlocking">
           &lt;script&gt;
           function updateLockButton() {
@@ -312,9 +311,9 @@
             </tr>
           </tbody>
         </table>
-        <div class='practice'>
-          <p class='practicedesc'>
-            <span class='practicelab'>{{ScreenOrientation/angle}} and
+        <div class="practice">
+          <p class="practicedesc">
+            <span class="practicelab">{{ScreenOrientation/angle}} and
             {{ScreenOrientation/type}} relationship</span> Never assume any
             cross-devices relationship between the screen orientation type and
             the screen orientation angle. Any assumption would be wrong given
@@ -370,7 +369,7 @@
       <h2>
         Extensions to the `Screen` interface
       </h2>
-      <pre class='idl'>
+      <pre class="idl">
         partial interface Screen {
           [SameObject] readonly attribute ScreenOrientation orientation;
         };
@@ -381,12 +380,12 @@
         {{ScreenOrientation}} instance at `window.screen.orientation`).
       </p>
     </section>
-    <section data-dfn-for='ScreenOrientation' data-link-for=
-    'ScreenOrientation'>
+    <section data-dfn-for="ScreenOrientation" data-link-for=
+    "ScreenOrientation">
       <h2>
         <dfn>ScreenOrientation</dfn> interface
       </h2>
-      <pre class='idl'>
+      <pre class="idl">
         [Exposed=Window]
         interface ScreenOrientation : EventTarget {
           Promise&lt;undefined&gt; lock(OrientationLockType orientation);
@@ -518,7 +517,7 @@
           <li>[=Apply orientation lock=] `null` to |document|.
           </li>
         </ol>
-        <p class='note' title="Why does unlock() not return a promise?">
+        <p class="note" title="Why does unlock() not return a promise?">
           {{unlock()}} does not return a promise because it is equivalent to
           locking to the [=default screen orientation=] which might or might
           not be known by the [=user agent=]. Hence, the [=user agent=] can not
@@ -543,7 +542,7 @@
           When getting, the {{angle}} attribute returns [=this=]'s
           {{ScreenOrientation/[[angle]]}}.
         </p>
-        <aside class='note' title=
+        <aside class="note" title=
         "What does the value given for angle represent?">
           <p>
             The {{ScreenOrientation/angle}} attribute represents how far the
@@ -568,7 +567,7 @@
       <h2>
         <dfn>OrientationLockType</dfn> enum
       </h2>
-      <pre class='idl'>
+      <pre class="idl">
         enum OrientationLockType {
           "any",
           "natural",
@@ -616,7 +615,7 @@
       <h2>
         <dfn>OrientationType</dfn> enum
       </h2>
-      <pre class='idl'>
+      <pre class="idl">
         enum OrientationType {
           "portrait-primary",
           "portrait-secondary",
