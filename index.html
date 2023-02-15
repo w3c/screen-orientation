@@ -469,6 +469,10 @@
           risk, return [=a promise rejected with=] a {{"SecurityError"}}
           {{DOMException}} and abort these steps.
           </li>
+          <li>If |document|'s [=Document/visibility state=] is "hidden", return
+          [=a promise rejected with=] an {{"SecurityError"}} {{DOMException}}
+          and abort these steps.
+          </li>
           <li>If the [=user agent=] does not support locking the screen
           orientation to |orientation|, return [=a promise rejected with=] a
           {{"NotSupportedError"}} {{DOMException}} and xse steps.
@@ -505,6 +509,10 @@
           <li data-tests="lock-sandboxed-iframe.html">If |document| has the
           [=sandboxed orientation lock browsing context flag=] set, return
           `undefined`.
+          </li>
+          <li>If |document|'s [=Document/visibility state=] is "hidden",
+          [=exception/throw=] a {{"SecurityError"}} {{DOMException}} and abort
+          these steps.
           </li>
           <li>If screen's [=Screen/active orientation lock=] is `null`, return
           `undefined`.
