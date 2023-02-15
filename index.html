@@ -42,16 +42,16 @@
     <section id="abstract">
       <p>
         The <cite>Screen Orientation</cite> specification standardizes the
-        types and angles for a device's screen orientation, and provides a a
-        mean to lock and unlock the screen orientation. The API defined by this
-        specification exposes the type and angle of a device's current screen
-        orientation, and dispatches events if the device's screen orientation
-        changes. This allows web applications to programmatically adapt the
-        user experience for many possible screen orientations in concert with
-        CSS. If supported and if certain preconditions are met, the API also
-        provides the ability to lock the screen orientation. This is useful in
-        applications such as computer games where users physically rotate the
-        device but the screen orientation itself mustn't change.
+        types and angles for a device's screen orientation, and provides a
+        means for locking and unlocking it. The API, defined by this
+        specification, exposes the current type and angle of the device's
+        screen orientation, and dispatches events when it changes. This enables
+        web applications to programmatically adapt the user experience for
+        multiple screen orientations, working alongside CSS. The API also
+        allows for the screen orientation to be locked under certain
+        preconditions. This is particularly useful for applications such as
+        computer games, where users physically rotate the device, but the
+        screen orientation itself should not change.
       </p>
     </section>
     <section id="sotd">
@@ -471,7 +471,7 @@
           </li>
           <li>If the [=user agent=] does not support locking the screen
           orientation to |orientation|, return [=a promise rejected with=] a
-          {{"NotSupportedError"}} {{DOMException}} and abort these steps.
+          {{"NotSupportedError"}} {{DOMException}} and xse steps.
           </li>
           <li data-tests="lock-basic.html">If |document|'s
           {{Document/[[orientationPendingPromise]]}} is not `null`, [=reject
@@ -815,7 +815,7 @@
         these steps.
         </li>
         <li>Let |type| and |angle| be the screen's [=Screen/current orientation
-        type=] and [=Screen/current orientation angle=], respectively.
+        type=] and [=Screen/current orientation angle=].
         </li>
         <li>Let |screenOrientation| be |document|'s [=relevant global
         object=]'s [=associated `ScreenOrientation`=].
