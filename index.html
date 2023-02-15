@@ -43,16 +43,15 @@
       <p>
         The <cite>Screen Orientation</cite> specification standardizes the
         types and angles for a device's screen orientation, and provides a
-        mechanism to that allows lock the screen orientation to a given type.
-        The API defined by this specification exposes the type and angle of a
-        device's current screen orientation, and dispatches events if the
-        device's screen orientation changes. This allows web applications to
-        programmatically adapt the user experience for many possible screen
-        orientations in concert with CSS. If supported and if certain
-        preconditions are met, the API also provides the ability to lock the
-        screen orientation. This is useful in applications such as computer
-        games where users physically rotate the device but the screen
-        orientation itself mustn't change.
+        means for locking and unlocking it. The API, defined by this
+        specification, exposes the current type and angle of the device's
+        screen orientation, and dispatches events when it changes. This enables
+        web applications to programmatically adapt the user experience for
+        multiple screen orientations, working alongside CSS. The API also
+        allows for the screen orientation to be locked under certain
+        preconditions. This is particularly useful for applications such as
+        computer games, where users physically rotate the device, but the
+        screen orientation itself should not change.
       </p>
     </section>
     <section id="sotd">
@@ -476,7 +475,7 @@
           </li>
           <li>If the [=user agent=] does not support locking the screen
           orientation to |orientation|, return [=a promise rejected with=] a
-          {{"NotSupportedError"}} {{DOMException}} and abort these steps.
+          {{"NotSupportedError"}} {{DOMException}} and xse steps.
           </li>
           <li data-tests="lock-basic.html">If |document|'s
           {{Document/[[orientationPendingPromise]]}} is not `null`, [=reject
@@ -588,8 +587,8 @@
         };
       </pre>
       <p>
-        The <dfn>OrientationLockType</dfn> enum represents the screen
-        orientations to which a screen can be potentially [=locked=].
+        The {{OrientationLockType}} enum represents the screen orientations to
+        which a screen can be potentially [=locked=].
       </p>
       <aside class="note" title="Orientation support">
         <p>
@@ -632,8 +631,8 @@
         };
       </pre>
       <p>
-        The <dfn>OrientationType</dfn> enum values are used to represent the
-        screen's [=Screen/current orientation type=].
+        The {{OrientationType}} enum values are used to represent the screen's
+        [=Screen/current orientation type=].
       </p>
       <ul>
         <li>"<dfn>portrait-primary</dfn>" represents [=portrait-primary=].
@@ -824,7 +823,7 @@
         these steps.
         </li>
         <li>Let |type| and |angle| be the screen's [=Screen/current orientation
-        type=] and [=Screen/current orientation angle=], respectively.
+        type=] and [=Screen/current orientation angle=].
         </li>
         <li>Let |screenOrientation| be |document|'s [=relevant global
         object=]'s [=associated `ScreenOrientation`=].
@@ -856,16 +855,9 @@
         Handling page visibility changes
       </h2>
       <p>
-        The [=page visibility change steps=] given |document:Document| are as
-        follows:
+        [[HTML]]'s update the visibility state runs the [=screen orientation
+        change steps=].
       </p>
-      <ol class="algorithm">
-        <li>If |document|'s [=Document/visibility state=] is "hidden",
-        terminate these steps.
-        </li>
-        <li>Run the [=screen orientation change steps=] with |document|.
-        </li>
-      </ol>
       <aside class="note">
         <p>
           Developers need to be aware that [=documents=] with a "hidden"
