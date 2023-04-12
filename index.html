@@ -80,6 +80,7 @@
           function getOppositeOrientation() {
             return screen
               .orientation
+              .type
               .startsWith("portrait") ? "landscape" : "portrait";
           }
 
