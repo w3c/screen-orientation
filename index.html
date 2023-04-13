@@ -481,8 +481,9 @@
           [=sandboxed orientation lock browsing context flag=] set, return a
           {{"SecurityError"}} {{DOMException}}.
           </li>
-          <li>If |document|'s [=Document/visibility state=] is "hidden", return
-          a {{"SecurityError"}} {{DOMException}}.
+          <li data-tests="hidden_document.html">If |document|'s
+          [=Document/visibility state=] is "hidden", return a
+          {{"SecurityError"}} {{DOMException}}.
           </li>
         </ol>
       </section>
