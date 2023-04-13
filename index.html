@@ -834,9 +834,9 @@
         |screenOrientation|'s {{ScreenOrientation/[[angle]]}}, abort these
         steps.
         </li>
-        <li>[=Queue a task=] on the [=user interaction task source=] with
-        |document|'s [=relevant global object=] to perform the following
-        substeps:
+        <li>[=Queue a global task=] on the [=user interaction task source=]
+        with |document|'s [=relevant global object=] to perform the following
+        steps:
           <ol>
             <li>Set |screenOrientation|'s {{ScreenOrientation/[[angle]]}} to
             |angle|.
@@ -853,10 +853,8 @@
         |document|'s [=Document/descendant navigables=]'s [=navigable/active
         documents=], if any, in tree order.
         </li>
-        <li>[=Set/For each=] |doc:Document| in |descendantDocs|, [=queue a
-        task=] on the [=user interaction task source=] with |doc|'s [=relevant
-        global object=] to run the [=screen orientation change steps=] with
-        |doc|.
+        <li>[=Set/For each=] |doc:Document| in |descendantDocs|, run the
+        [=screen orientation change steps=] with |doc|.
         </li>
       </ol>
       <h2>
