@@ -709,11 +709,6 @@
         [=user agent=] MUST perform do the following steps:
       </p>
       <ol class="algorithm">
-        <li>If |document| stops being [=Document/fully active=] while [=in
-        parallel=], and {{Document/[[orientationPendingPromise]]}} is not
-        `null`, [=reject and nullify the current lock promise=] of |document|
-        with an {{"AbortError"}}.
-        </li>
         <li>Let |topDocument| be |document|'s [=top-level browsing context=]'s
         [=navigable/active document=].
         </li>
@@ -777,6 +772,10 @@
             |orientation| and update the [=Screen/current orientation type=]
             and [=Screen/current orientation angle=] to reflect any changes to
             the [=screen orientation=].
+            </li>
+            <li>If |document| stops being [=Document/fully active=], or the
+            |document| ceases to meet the [=pre-lock conditions=], run the
+            [=fully unlock the screen orientation steps=].
             </li>
           </ol>
         </li>
