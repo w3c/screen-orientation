@@ -424,7 +424,7 @@
           </li>
           <li>If the [=user agent=] does not support locking the screen
           orientation to |orientation|, return [=a promise rejected with=] a
-          {{"NotSupportedError"}} {{DOMException}} and xse steps.
+          {{"NotSupportedError"}} {{DOMException}} and abort these steps.
           </li>
           <li data-tests="lock-basic.html">If |document|'s
           {{Document/[[orientationPendingPromise]]}} is not `null`, [=reject
