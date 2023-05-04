@@ -408,19 +408,9 @@
           <li>Let |document:Document| be [=this=]'s [=relevant global
           object=]'s [=associated `Document`=].
           </li>
-          <li data-tests="non-fully-active.html">If |document| is not
-          [=Document/fully active=], return [=a promise rejected with=] an
-          {{"InvalidStateError"}} {{DOMException}}.
-          </li>
-          <li data-tests="lock-sandboxed-iframe.html">If |document| has the
-          [=sandboxed orientation lock browsing context flag=] set, or doesn't
-          meet the [=pre-lock conditions=], or locking would be a security
-          risk, return [=a promise rejected with=] a {{"SecurityError"}}
-          {{DOMException}} and abort these steps.
-          </li>
-          <li>If |document|'s [=Document/visibility state=] is "hidden", return
-          [=a promise rejected with=] an {{"SecurityError"}} {{DOMException}}
-          and abort these steps.
+          <li>Run the [=common safety checks=] with |document|. If an
+          [=exception=] is [=exception/throw|thrown=], return [=a promise
+          rejected with=] that exception and abort these steps.
           </li>
           <li>If the [=user agent=] does not support locking the screen
           orientation to |orientation|, return [=a promise rejected with=] a
@@ -452,16 +442,9 @@
           <li>Let |document:Document| be [=this=]'s [=relevant global
           object=]'s [=associated `Document`=].
           </li>
-          <li>If |document| is not [=Document/fully active=],
-          [=exception/throw=] an {{"InvalidStateError"}} {{DOMException}}.
-          </li>
-          <li data-tests="lock-sandboxed-iframe.html">If |document| has the
-          [=sandboxed orientation lock browsing context flag=] set, return
-          `undefined`.
-          </li>
-          <li>If |document|'s [=Document/visibility state=] is "hidden",
-          [=exception/throw=] a {{"SecurityError"}} {{DOMException}} and abort
-          these steps.
+          <li>Run the [=common safety checks=] with |document|. If an
+          [=exception=] is [=exception/throw|thrown=], re-throw that exception
+          and abort these steps.
           </li>
           <li>If screen's [=Screen/active orientation lock=] is `null`, return
           `undefined`.
@@ -480,6 +463,29 @@
           predict what the new orientation is going to be and even if it is
           going to change at all.
         </p>
+      </section>
+      <section>
+        <h2>
+          Common Safety Checks
+        </h2>
+        <p>
+          The <dfn>common safety checks</dfn> for a {{Document}}
+          |document:Document| are the following steps:
+        </p>
+        <ol class="algorithm">
+          <li data-tests="non-fully-active.html">If |document| is not
+          [=Document/fully active=], [=exception/throw=] an
+          {{"InvalidStateError"}} {{DOMException}}.
+          </li>
+          <li data-tests="lock-sandboxed-iframe.html">If |document| has the
+          [=sandboxed orientation lock browsing context flag=] set,
+          [=exception/throw=] {{"SecurityError"}} {{DOMException}}.
+          </li>
+          <li data-tests="hidden_document.html">If |document|'s
+          [=Document/visibility state=] is "hidden", [=exception/throw=]
+          {{"SecurityError"}} {{DOMException}}.
+          </li>
+        </ol>
       </section>
       <section>
         <h2>
