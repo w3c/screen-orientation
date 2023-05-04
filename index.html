@@ -408,9 +408,9 @@
           <li>Let |document:Document| be [=this=]'s [=relevant global
           object=]'s [=associated `Document`=].
           </li>
-          <li>Run the [=common safety checks=] with |document|. If it returns a
-          {{DOMException}}, return [=a promise rejected with=] that
-          {{DOMException}} and abort these steps.
+          <li>Run the [=common safety checks=] with |document|. If an
+          [=exception=] is [=exception/throw|thrown=], return [=a promise
+          rejected with=] that exception and abort these steps.
           </li>
           <li>If the [=user agent=] does not support locking the screen
           orientation to |orientation|, return [=a promise rejected with=] a
@@ -442,9 +442,9 @@
           <li>Let |document:Document| be [=this=]'s [=relevant global
           object=]'s [=associated `Document`=].
           </li>
-          <li>Run the [=common safety checks=] with |document|. If it returns a
-          {{DOMException}}, [=exception/throw=] that {{DOMException}} and abort
-          these steps.
+          <li>Run the [=common safety checks=] with |document|. If an
+          [=exception=] is [=exception/throw|thrown=], re-throw that exception
+          and abort these steps.
           </li>
           <li>If screen's [=Screen/active orientation lock=] is `null`, return
           `undefined`.
@@ -474,15 +474,15 @@
         </p>
         <ol class="algorithm">
           <li data-tests="non-fully-active.html">If |document| is not
-          [=Document/fully active=], return an {{"InvalidStateError"}}
-          {{DOMException}}.
+          [=Document/fully active=], [=exception/throw=] an
+          {{"InvalidStateError"}} {{DOMException}}.
           </li>
           <li data-tests="lock-sandboxed-iframe.html">If |document| has the
-          [=sandboxed orientation lock browsing context flag=] set, return a
-          {{"SecurityError"}} {{DOMException}}.
+          [=sandboxed orientation lock browsing context flag=] set,
+          [=exception/throw=] {{"SecurityError"}} {{DOMException}}.
           </li>
           <li data-tests="hidden_document.html">If |document|'s
-          [=Document/visibility state=] is "hidden", return a
+          [=Document/visibility state=] is "hidden", [=exception/throw=]
           {{"SecurityError"}} {{DOMException}}.
           </li>
         </ol>
