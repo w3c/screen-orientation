@@ -43,16 +43,15 @@
       <p>
         The <cite>Screen Orientation</cite> specification standardizes the
         types and angles for a device's screen orientation, and provides a
-        mechanism to that allows lock the screen orientation to a given type.
-        The API defined by this specification exposes the type and angle of a
-        device's current screen orientation, and dispatches events if the
-        device's screen orientation changes. This allows web applications to
-        programmatically adapt the user experience for many possible screen
-        orientations in concert with CSS. If supported and if certain
-        preconditions are met, the API also provides the ability to lock the
-        screen orientation. This is useful in applications such as computer
-        games where users physically rotate the device but the screen
-        orientation itself mustn't change.
+        means for locking and unlocking it. The API, defined by this
+        specification, exposes the current type and angle of the device's
+        screen orientation, and dispatches events when it changes. This enables
+        web applications to programmatically adapt the user experience for
+        multiple screen orientations, working alongside CSS. The API also
+        allows for the screen orientation to be locked under certain
+        preconditions. This is particularly useful for applications such as
+        computer games, where users physically rotate the device, but the
+        screen orientation itself should not change.
       </p>
     </section>
     <section id="sotd">
@@ -81,6 +80,7 @@
           function getOppositeOrientation() {
             return screen
               .orientation
+              .type
               .startsWith("portrait") ? "landscape" : "portrait";
           }
 
@@ -221,9 +221,9 @@
             <dfn data-dfn-for="Screen">Current orientation angle</dfn>
           </dt>
           <dd>
-            The angle in degrees that the screen is rotated clockwise from its
-            [=natural=] orientation as derived by the [=screen orientation
-            values table=].
+            The angle in degrees that the screen is rotated counter-clockwise
+            from its [=natural=] orientation as derived by the [=screen
+            orientation values list=].
           </dd>
           <dt>
             <dfn data-dfn-for="Screen">Active orientation lock</dfn>
@@ -235,95 +235,42 @@
           </dd>
         </dl>
         <p>
-          The <a>screen orientation values table</a> presents the possible
-          value for the [=Screen/current orientation type=] and
-          [=Screen/current orientation angle=]. The table specifies the
-          [=primary=] and [=secondary=] values that are determined by the
-          device's [=natural=] orientation and the possibilities available to
-          the [=user agent=] for setting the other primary and secondary
-          orientation values.
+          The <dfn>screen orientation values lists</dfn> below standardize the
+          angles associated with each screen orientation type for screens with
+          different [=natural=] orientations:
         </p>
-        <table class="simple">
-          <caption>
-            The <dfn>screen orientation values table</dfn>
-          </caption>
-          <thead>
-            <tr>
-              <th>
-                In the natural orientation is...
-              </th>
-              <th>
-                Primary Orientation
-              </th>
-              <th>
-                Secondary Orientation
-              </th>
-              <th>
-                Primary Orientation (alternative)
-              </th>
-              <th>
-                Secondary Orientation (alternative)
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                <a>Portrait</a>
-              </td>
-              <td>
-                [=portrait-primary=]<br>
-                angle `0`
-              </td>
-              <td>
-                <a>portrait-secondary</a><br>
-                angle `180`
-              </td>
-              <td>
-                <a>landscape-primary</a><br>
-                angle `90` or angle `270`
-              </td>
-              <td>
-                <a>landscape-secondary</a><br>
-                The angle not used for [=landscape-primary=].
-              </td>
-            </tr>
-            <tr>
-              <td>
-                [=Landscape=]
-              </td>
-              <td>
-                [=landscape-primary=]<br>
-                angle `0`
-              </td>
-              <td>
-                <a>landscape-secondary</a><br>
-                angle `180`
-              </td>
-              <td>
-                [=portrait-primary=]<br>
-                angle `90` or angle `270`
-              </td>
-              <td>
-                <a>portrait-secondary</a><br>
-                The angle not used for [=portrait-primary=].
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <div class="practice">
-          <p class="practicedesc">
-            <span class="practicelab">{{ScreenOrientation/angle}} and
-            {{ScreenOrientation/type}} relationship</span> Never assume any
-            cross-devices relationship between the screen orientation type and
-            the screen orientation angle. Any assumption would be wrong given
-            that a device might have `90` and `270` as the angles for
-            `landscape` types but another device will have `0` and `180`,
-            depending on its [=natural=] orientation. Instead, it is
-            recommended to check during runtime the relationship between angle
-            and type.
-          </p>
-        </div>
+        <dl>
+          <dt>
+            For screens with a [=natural=] [=portrait=] orientation:
+          </dt>
+          <dd>
+            <ul>
+              <li>[=portrait-primary=]: 0°
+              </li>
+              <li>[=landscape-primary=]: 90°
+              </li>
+              <li>[=portrait-secondary=]: 180°
+              </li>
+              <li>[=landscape-secondary=]: 270°
+              </li>
+            </ul>
+          </dd>
+          <dt>
+            For screens with a [=natural=] [=landscape=] orientation:
+          </dt>
+          <dd>
+            <ul>
+              <li>[=landscape-primary=]: 0°
+              </li>
+              <li>[=portrait-primary=]: 90°
+              </li>
+              <li>[=landscape-secondary=]: 180°
+              </li>
+              <li>[=portrait-secondary=]: 270°
+              </li>
+            </ul>
+          </dd>
+        </dl>
       </section>
     </section>
     <section>
@@ -417,7 +364,8 @@
               </td>
               <td>
                 Represents the screen's last known [=Screen/current orientation
-                angle=] in degrees as an {{unsigned short}}.
+                angle=] in degrees as an {{unsigned short}} as derived from the
+                [=screen orientation values lists=].
               </td>
             </tr>
             <tr>
@@ -461,15 +409,9 @@
           </li>
           <li>Let |document:Document| be |global|'s [=associated `Document`=].
           </li>
-          <li data-tests="non-fully-active.html">If |document| is not
-          [=Document/fully active=], return [=a promise rejected with=] an
-          {{"InvalidStateError"}} {{DOMException}}.
-          </li>
-          <li data-tests="lock-sandboxed-iframe.html">If |document| has the
-          [=sandboxed orientation lock browsing context flag=] set, or doesn't
-          meet the [=pre-lock conditions=], or locking would be a security
-          risk, return [=a promise rejected with=] a {{"SecurityError"}}
-          {{DOMException}} and abort these steps.
+          <li>Run the [=common safety checks=] with |document|. If an
+          [=exception=] is [=exception/throw|thrown=], return [=a promise
+          rejected with=] that exception and abort these steps.
           </li>
           <li>If the [=user agent=] does not support locking the screen
           orientation to |orientation|, return [=a promise rejected with=] a
@@ -506,12 +448,9 @@
           <li>Let |document:Document| be [=this=]'s [=relevant global
           object=]'s [=associated `Document`=].
           </li>
-          <li>If |document| is not [=Document/fully active=],
-          [=exception/throw=] an {{"InvalidStateError"}} {{DOMException}}.
-          </li>
-          <li data-tests="lock-sandboxed-iframe.html">If |document| has the
-          [=sandboxed orientation lock browsing context flag=] set, return
-          `undefined`.
+          <li>Run the [=common safety checks=] with |document|. If an
+          [=exception=] is [=exception/throw|thrown=], re-throw that exception
+          and abort these steps.
           </li>
           <li>If screen's [=Screen/active orientation lock=] is `null`, return
           `undefined`.
@@ -530,6 +469,29 @@
           predict what the new orientation is going to be and even if it is
           going to change at all.
         </p>
+      </section>
+      <section>
+        <h2>
+          Common Safety Checks
+        </h2>
+        <p>
+          The <dfn>common safety checks</dfn> for a {{Document}}
+          |document:Document| are the following steps:
+        </p>
+        <ol class="algorithm">
+          <li data-tests="non-fully-active.html">If |document| is not
+          [=Document/fully active=], [=exception/throw=] an
+          {{"InvalidStateError"}} {{DOMException}}.
+          </li>
+          <li data-tests="lock-sandboxed-iframe.html">If |document| has the
+          [=sandboxed orientation lock browsing context flag=] set,
+          [=exception/throw=] {{"SecurityError"}} {{DOMException}}.
+          </li>
+          <li data-tests="hidden_document.html">If |document|'s
+          [=Document/visibility state=] is "hidden", [=exception/throw=]
+          {{"SecurityError"}} {{DOMException}}.
+          </li>
+        </ol>
       </section>
       <section>
         <h2>
@@ -553,7 +515,7 @@
           <p>
             The {{ScreenOrientation/angle}} attribute represents how far the
             screen has rotated from it [=natural=] orientation. The <a>screen
-            orientation values table</a> specifies how the angle changes
+            orientation values list</a> specifies how the angle changes
             depending on the how screen is rotated.
           </p>
         </aside>
@@ -586,8 +548,8 @@
         };
       </pre>
       <p>
-        The <dfn>OrientationLockType</dfn> enum represents the screen
-        orientations to which a screen can be potentially [=locked=].
+        The {{OrientationLockType}} enum represents the screen orientations to
+        which a screen can be potentially [=locked=].
       </p>
       <aside class="note" title="Orientation support">
         <p>
@@ -630,8 +592,8 @@
         };
       </pre>
       <p>
-        The <dfn>OrientationType</dfn> enum values are used to represent the
-        screen's [=Screen/current orientation type=].
+        The {{OrientationType}} enum values are used to represent the screen's
+        [=Screen/current orientation type=].
       </p>
       <ul>
         <li>"<dfn>portrait-primary</dfn>" represents [=portrait-primary=].
@@ -822,7 +784,7 @@
         these steps.
         </li>
         <li>Let |type| and |angle| be the screen's [=Screen/current orientation
-        type=] and [=Screen/current orientation angle=], respectively.
+        type=] and [=Screen/current orientation angle=].
         </li>
         <li>Let |screenOrientation| be |document|'s [=relevant global
         object=]'s [=associated `ScreenOrientation`=].
@@ -832,22 +794,27 @@
         |screenOrientation|'s {{ScreenOrientation/[[angle]]}}, abort these
         steps.
         </li>
-        <li>Set |screenOrientation|'s {{ScreenOrientation/[[angle]]}} to
-        |angle|.
-        </li>
-        <li>Set |screenOrientation|'s {{ScreenOrientation/[[type]]}} to |type|.
-        </li>
-        <li>[=Fire an event=] named "<a data-link-for=
-        "ScreenOrientation">change</a>" at |screenOrientation|.
+        <li>[=Queue a global task=] on the [=user interaction task source=]
+        with |document|'s [=relevant global object=] to perform the following
+        steps:
+          <ol>
+            <li>Set |screenOrientation|'s {{ScreenOrientation/[[angle]]}} to
+            |angle|.
+            </li>
+            <li>Set |screenOrientation|'s {{ScreenOrientation/[[type]]}} to
+            |type|.
+            </li>
+            <li>[=Fire an event=] named "<a data-link-for=
+            "ScreenOrientation">change</a>" at |screenOrientation|.
+            </li>
+          </ol>
         </li>
         <li>Let |descendantDocs| be an [=ordered set=] consisting of
         |document|'s [=Document/descendant navigables=]'s [=navigable/active
         documents=], if any, in tree order.
         </li>
-        <li>[=Set/For each=] |doc:Document| in |descendantDocs|, [=queue a
-        global task=] on the [=DOM manipulation task source=] with |doc|'s
-        [=relevant global object=] to run the [=screen orientation change
-        steps=] with |doc|.
+        <li>[=Set/For each=] |doc:Document| in |descendantDocs|, run the
+        [=screen orientation change steps=] with |doc|.
         </li>
       </ol>
       <h2>
@@ -908,9 +875,8 @@
         simple fullscreen documents as a [=pre-lock condition=]. [[fullscreen]]
       </p>
       <p>
-        When a [=document=] [=fully exists fullscreen|fully exist
-        fullscreen==], it also runs the [=fully unlock the screen orientation
-        steps=]. [[fullscreen]]
+        When a [=document=] exits fullscreen, it also runs the [=fully unlock
+        the screen orientation steps=]. [[fullscreen]]
       </p>
     </section>
     <section id="appmanifest-interaction">
