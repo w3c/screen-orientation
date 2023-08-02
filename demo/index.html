@@ -65,6 +65,7 @@
   </style>
   <script defer>
     const { orientation } = screen;
+    let legacyOrientation;
     let currentAngle;
     let currentType;
     let logger;
@@ -75,6 +76,9 @@
       const { type, angle } = orientation;
       currentType.innerText = `"${type}"`;
       currentAngle.innerText = `${angle}°`;
+      if ("orientation" in window) {
+        legacyOrientation.innerText = `${window.orientation}°`;
+      }
     }
 
     function isSupported() {
@@ -92,6 +96,7 @@
     }
 
     function init() {
+      legacyOrientation = document.querySelector(".legacy-orientation");
       currentAngle = document.querySelector(".current-angle");
       currentType = document.querySelector(".current-type");
       logger = document.querySelector(".logger");
@@ -204,6 +209,12 @@
             (<output for="orientation" class="current-angle"
               >angle is not available</output
             >).
+          </p>
+          <p>
+            Legacy <code>window.orientation</code> value:
+            <output for="legacy-orientation" class="legacy-orientation">
+              angle is not available.
+            </output>
           </p>
         </fieldset>
       </form>
