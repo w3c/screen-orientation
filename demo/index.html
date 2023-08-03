@@ -63,19 +63,66 @@
       font-size: medium;
     }
   </style>
+  <body onload="init()" class="not-supported">
+    <h1>Screen Orientation Lock API Demo</h1>
+    <p>
+      This demo shows how to use the
+      <a href="https://w3c.github.iddo/screen-orientation/"
+        >Screen Orientation Lock API</a
+      >
+      to lock the screen orientation to portrait or landscape.
+    </p>
+    <section>
+      <form class="orientation-form">
+        <fieldset>
+          <label>
+            Lock to:
+            <select disabled class="orientation-selector" name="orientation">
+              <option value="unlock" selected>Unlocked</option>
+              <option value="portrait">Portrait</option>
+              <option value="portrait-primary">Portrait primary</option>
+              <option value="portrait-secondary">Portrait secondary</option>
+              <option value="landscape">Landscape</option>
+              <option value="landscape-primary">Landscape primary</option>
+              <option value="landscape-secondary">landscape secondary</option>
+              <option value="any">Any</option>
+              <option value="natural">Natural</option>
+            </select>
+          </label>
+          <p>
+            Current screen orientation:
+            <output for="orientation" class="current-type">unknown</output>
+            (<output for="orientation" class="current-angle"
+              >angle is not available</output
+            >).
+          </p>
+          <p>
+            Legacy <code>window.orientation</code> value:
+            <output for="legacy-orientation" class="legacy-orientation">
+              angle is not available.
+            </output>
+          </p>
+        </fieldset>
+      </form>
+      <dl class="logger"></dl>
+      <button class="clear-button">Clear log</button>
+    </section>
+  </body>
   <script defer>
-    const { orientation } = screen;
-    let legacyOrientation;
-    let currentAngle;
-    let currentType;
-    let logger;
-    let selector;
-    let clearButton;
+    const legacyOrientation = document.querySelector(".legacy-orientation");
+    const currentAngle = document.querySelector(".current-angle");
+    const currentType = document.querySelector(".current-type");
+    const logger = document.querySelector(".logger");
+    const selector = document.querySelector(".orientation-selector");
+    const clearButton = document.querySelector(".clear-button");
 
     function renderUpdate() {
-      const { type, angle } = orientation;
-      currentType.innerText = `"${type}"`;
-      currentAngle.innerText = `${angle}°`;
+      if ("orientation" in screen) {
+        const { type, angle } = screen.orientation;
+        currentType.innerText = `"${type}"`;
+        currentAngle.innerText = `${angle}°`;
+      }
+
       if ("orientation" in window) {
         legacyOrientation.innerText = `${window.orientation}°`;
       }
@@ -96,19 +143,17 @@
     }
 
     function init() {
-      legacyOrientation = document.querySelector(".legacy-orientation");
-      currentAngle = document.querySelector(".current-angle");
-      currentType = document.querySelector(".current-type");
-      logger = document.querySelector(".logger");
-      selector = document.querySelector(".orientation-selector");
-      clearButton = document.querySelector(".clear-button");
-      if (!isSupported()) return;
+      isSupported();
       document.body.classList.remove("not-supported");
       selector.disabled = false;
 
-      screen.orientation.addEventListener("change", () => {
-        renderUpdate();
+      const orientationQuery = window.matchMedia("(orientation: landscape)");
+
+      orientationQuery.addEventListener("change", renderUpdate);
+
+      screen.orientation?.addEventListener("change", () => {
         log(`Orientation changed to "${orientation.type}".`, "event");
+        renderUpdate();
       });
 
       document.addEventListener("fullscreenchange", handleFullscreen);
@@ -177,49 +222,4 @@
       logger.prepend(dt, dd);
     }
   </script>
-  <body onload="init()" class="not-supported">
-    <h1>Screen Orientation Lock API Demo</h1>
-    <p>
-      This demo shows how to use the
-      <a href="https://w3c.github.iddo/screen-orientation/"
-        >Screen Orientation Lock API</a
-      >
-      to lock the screen orientation to portrait or landscape.
-    </p>
-    <section>
-      <form class="orientation-form">
-        <fieldset>
-          <label>
-            Lock to:
-            <select disabled class="orientation-selector" name="orientation">
-              <option value="unlock" selected>Unlocked</option>
-              <option value="portrait">Portrait</option>
-              <option value="portrait-primary">Portrait primary</option>
-              <option value="portrait-secondary">Portrait secondary</option>
-              <option value="landscape">Landscape</option>
-              <option value="landscape-primary">Landscape primary</option>
-              <option value="landscape-secondary">landscape secondary</option>
-              <option value="any">Any</option>
-              <option value="natural">Natural</option>
-            </select>
-          </label>
-          <p>
-            Current screen orientation:
-            <output for="orientation" class="current-type">unknown</output>
-            (<output for="orientation" class="current-angle"
-              >angle is not available</output
-            >).
-          </p>
-          <p>
-            Legacy <code>window.orientation</code> value:
-            <output for="legacy-orientation" class="legacy-orientation">
-              angle is not available.
-            </output>
-          </p>
-        </fieldset>
-      </form>
-      <dl class="logger"></dl>
-      <button class="clear-button">Clear log</button>
-    </section>
-  </body>
 </html>
