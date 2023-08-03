@@ -149,12 +149,14 @@
 
       const orientationQuery = window.matchMedia("(orientation: landscape)");
 
-      orientationQuery.addEventListener("change", renderUpdate);
-
-      screen.orientation?.addEventListener("change", () => {
-        log(`Orientation changed to "${orientation.type}".`, "event");
+      const handleOrientationChange = () => {
+        log(`Orientation changed to "${screen.orientation?.type}".`, "event");
         renderUpdate();
-      });
+      }
+
+      orientationQuery.addEventListener("change", handleOrientationChange);
+
+      screen.orientation?.addEventListener("change", handleOrientationChange);
 
       document.addEventListener("fullscreenchange", handleFullscreen);
       selector.addEventListener("input", lockOrientation);
