@@ -129,32 +129,38 @@
     }
 
     function isSupported() {
-      switch (true) {
-        case !screen.orientation?.lock:
-          logError("Screen Orientation API is not supported in this browser.");
-          return false;
-        case !document.documentElement.requestFullscreen:
-          logError(
-            "the Fullscreen API, which is required, is unavailable in this browser."
-          );
-          return false;
+      if (!screen.orientation) {
+        logError("screen.orientation not available.");
+        return false;
       }
-      return true;
+      if (!screen.orientation?.lock) {
+        logError("Orientation locking is not supported in this browser.");
+        return false;
+      }
+      if (!document.documentElement?.requestFullscreen) {
+        logError(
+          "the Fullscreen API, which is required, is unavailable in this browser."
+        );
+        return false;
+      }
     }
 
     function init() {
-      isSupported();
-      document.body.classList.remove("not-supported");
-      selector.disabled = false;
-
-      const orientationQuery = window.matchMedia("(orientation: landscape)");
+      if (isSupported()) {
+        document.body.classList.remove("not-supported");
+        selector.disabled = false;
+      }
 
       const handleOrientationChange = () => {
         log(`Orientation changed to "${screen.orientation?.type}".`, "event");
         renderUpdate();
-      }
+      };
 
-      orientationQuery.addEventListener("change", handleOrientationChange);
+      // use a media query to detect orientation change
+      if (!screen.orientation) {
+        const orientationQuery = window.matchMedia("(orientation: landscape)");
+        orientationQuery.addEventListener("change", handleOrientationChange);
+      }
 
       screen.orientation?.addEventListener("change", handleOrientationChange);
 
