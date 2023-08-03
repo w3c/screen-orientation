@@ -196,7 +196,7 @@
             if (!document.fullscreenElement) {
               await document.documentElement.requestFullscreen();
             }
-            await orientation.lock(value);
+            await screen.orientation.lock(value);
             log(`Screen orientation locked to "${value}".`, "success");
             renderUpdate();
           } catch (err) {
