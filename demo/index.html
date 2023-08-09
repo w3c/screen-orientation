@@ -63,7 +63,7 @@
       font-size: medium;
     }
   </style>
-  <body onload="init()" class="not-supported">
+  <body onload="init()">
     <h1>Screen Orientation Lock API Demo</h1>
     <p>
       This demo shows how to use the
@@ -128,7 +128,7 @@
       }
     }
 
-    function isSupported() {
+    function isLockingSupported() {
       if (!screen.orientation) {
         logError("screen.orientation not available.");
         return false;
@@ -146,8 +146,9 @@
     }
 
     function init() {
-      if (isSupported()) {
-        document.body.classList.remove("not-supported");
+      const canLock = isLockingSupported();
+      if (!canLock) {
+        document.body.classList.add("not-supported");
         selector.disabled = false;
       }
 
@@ -160,12 +161,12 @@
       if (!screen.orientation) {
         const orientationQuery = window.matchMedia("(orientation: landscape)");
         orientationQuery.addEventListener("change", handleOrientationChange);
+      } else {
+          screen.orientation?.addEventListener("change", handleOrientationChange);
       }
 
-      screen.orientation?.addEventListener("change", handleOrientationChange);
-
       document.addEventListener("fullscreenchange", handleFullscreen);
-      selector.addEventListener("input", lockOrientation);
+      if (canLock) selector.addEventListener("input", lockOrientation);
 
       clearButton.addEventListener("click", (ev) => {
         ev.preventDefault();
