@@ -157,12 +157,16 @@
         renderUpdate();
       };
 
-      // use a media query to detect orientation change
-      if (!screen.orientation) {
+      if (screen.orientation) {
+        log("Using screen.orientation to handle events.");
+        screen.orientation?.addEventListener("change", handleOrientationChange);
+      } else if("onorientationchange" in window) {
+        log("Using legacy window's orientationchange to handle events.");
+        window.addEventListener("orientationchange", handleOrientationChange);
+      } else {
+        log("Using media query to handle orientation changes.");
         const orientationQuery = window.matchMedia("(orientation: landscape)");
         orientationQuery.addEventListener("change", handleOrientationChange);
-      } else {
-          screen.orientation?.addEventListener("change", handleOrientationChange);
       }
 
       document.addEventListener("fullscreenchange", handleFullscreen);
