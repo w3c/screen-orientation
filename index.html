@@ -405,8 +405,9 @@
           [[[#appmanifest-interaction]]] and [[[#fullscreen-interaction]]].
         </p>
         <ol class="algorithm">
-          <li>Let |document:Document| be [=this=]'s [=relevant global
-          object=]'s [=associated `Document`=].
+          <li>Let |global:Window| be [=this=]'s [=relevant global object=].
+          </li>
+          <li>Let |document:Document| be |global|'s [=associated `Document`=].
           </li>
           <li>Run the [=common safety checks=] with |document|. If an
           [=exception=] is [=exception/throw|thrown=], return [=a promise
@@ -415,6 +416,11 @@
           <li>If the [=user agent=] does not support locking the screen
           orientation to |orientation|, return [=a promise rejected with=] a
           {{"NotSupportedError"}} {{DOMException}} and abort these steps.
+          </li>
+          <li>If |global| does not have [=transient activation=], return [=a
+          promise rejected with=] a {{"NotAllowedError"}} {{DOMException}}.
+          </li>
+          <li>[=Consume user activation=] of |global|.
           </li>
           <li data-tests="lock-basic.html">If |document|'s
           {{Document/[[orientationPendingPromise]]}} is not `null`, [=reject
