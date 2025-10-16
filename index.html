@@ -725,7 +725,9 @@
                 web applications from changing the screen orientation, or if
                 the underlying platform, rather than the user agent, does not
                 allow locking the screen orientation to the given
-                |orientation|.
+                |orientation|. Note that differences in user preferences or
+                platform capabilities could potentially be used for fingerprinting,
+                as they may create detectable patterns in lock failure behavior.
               </p>
             </li>
             <li>Set the screen's [=Screen/active orientation lock=] to
@@ -868,8 +870,10 @@
         Interaction with Fullscreen API
       </h2>
       <p>
-        A user agent SHOULD restrict the use of {{ScreenOrientation/lock()}} to
-        simple fullscreen documents as a [=pre-lock condition=]. [[fullscreen]]
+        A user agent MUST restrict the use of {{ScreenOrientation/lock()}} to
+        simple fullscreen documents as a [=pre-lock condition=]. This requirement
+        prevents fingerprinting through differences in user agent behavior regarding
+        orientation locking permissions. [[fullscreen]]
       </p>
       <p>
         When a [=document=] exits fullscreen, it also runs the [=fully unlock
