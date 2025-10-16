@@ -64,9 +64,9 @@
         Example of usage
       </h2>
       <p>
-        In this example clicking the "Lock" button requests to go into
+        In this example, clicking the "Lock" button requests to go into
         fullscreen and then locks the screen to the opposite orientation.
-        clicking the "unlock" button unlocks the screen.
+        Clicking the "Unlock" button unlocks the screen.
       </p>
       <pre class="example html" title=
       "Locking to a specific orientation and unlocking">
@@ -222,8 +222,8 @@
           </dt>
           <dd>
             The angle in degrees that the screen is rotated counter-clockwise
-            from its [=natural=] orientation as derived by the [=screen
-            orientation values list=].
+            from its [=natural=] orientation as derived from the [=screen
+            orientation values lists=].
           </dd>
           <dt>
             <dfn data-dfn-for="Screen">Active orientation lock</dfn>
@@ -508,9 +508,9 @@
         "What does the value given for angle represent?">
           <p>
             The {{ScreenOrientation/angle}} attribute represents how far the
-            screen has rotated from it [=natural=] orientation. The <a>screen
-            orientation values list</a> specifies how the angle changes
-            depending on the how screen is rotated.
+            screen has rotated from its [=natural=] orientation. The <a>screen
+            orientation values lists</a> specify how the angle changes
+            depending on how the screen is rotated.
           </p>
         </aside>
       </section>
@@ -562,7 +562,7 @@
         </li>
         <li>"<dfn>portrait</dfn>" represents [=portrait=].
         </li>
-        <li>"<dfn>portrait-primary</dfn>" represents [=portrait-primary=],
+        <li>"<dfn>portrait-primary</dfn>" represents [=portrait-primary=].
         </li>
         <li>"<dfn>portrait-secondary</dfn>" represents [=portrait-secondary=].
         </li>
@@ -660,7 +660,7 @@
       <p>
         When steps require to <dfn>apply orientation lock</dfn> of
         {{OrientationLockType?}} |orientation| to {{Document}} |document|, the
-        [=user agent=] MUST perform do the following steps:
+        [=user agent=] MUST perform the following steps:
       </p>
       <ol class="algorithm">
         <li>If |document| stops being [=Document/fully active=] while [=in
@@ -679,8 +679,8 @@
           <ol>
             <li>If |doc| is |document|, continue.
             </li>
-            <li>If |doc| {{Document/[[orientationPendingPromise]]}} is `null`,
-            continue.
+            <li>If |doc|'s {{Document/[[orientationPendingPromise]]}} is
+            `null`, continue.
             </li>
             <li>[=Reject and nullify the current lock promise=] of |doc| with
             an {{"AbortError"}}.
@@ -815,8 +815,8 @@
         Handling page visibility changes
       </h2>
       <p>
-        [[HTML]]'s update the visibility state runs the [=screen orientation
-        change steps=].
+        [[HTML]]'s "update the visibility state" algorithm runs the [=screen
+        orientation change steps=].
       </p>
       <aside class="note">
         <p>
@@ -920,7 +920,7 @@
         To resist fingerprinting (e.g., in private browsing), user agents MAY:
       </p>
       <ol>
-        <li>For the life of a [=top-level browsing context=], behave as as if
+        <li>For the life of a [=top-level browsing context=], behave as if the
         screen's [=natural=] orientation is
         {{ScreenOrientation/[[initialType]]}}.
         </li>
