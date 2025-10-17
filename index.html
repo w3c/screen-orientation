@@ -943,14 +943,15 @@
         </li>
       </ul>
       <p>
-        The requirement for documents to be [=Document/fully active descendant
-        of a top-level traversable=] with user attention ensures that
-        orientation events are only delivered to documents in windows that are
-        both visible at the system level and have the user's attention (either
-        through focus or the ability to receive keyboard input). The additional
-        visibility state check provides defense in depth. These restrictions
-        prevent background tabs, hidden windows, and minimized applications
-        from collecting orientation data for fingerprinting purposes.
+        The requirement for [=documents=] to be [=Document/fully active
+        descendant of a top-level traversable with user attention=] with user
+        attention ensures that orientation events are only delivered to
+        documents in windows that are both visible at the system level and have
+        the user's attention (either through focus or the ability to receive
+        keyboard input). The additional visibility state check provides defense
+        in depth. These restrictions prevent background tabs, hidden windows,
+        and minimized applications from collecting orientation data for
+        fingerprinting purposes.
       </p>
       <h3>
         Anti-fingerprinting Mitigations
