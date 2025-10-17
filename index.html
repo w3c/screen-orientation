@@ -899,17 +899,17 @@
           The `can-lock-orientation` media feature
         </h2>
         <p>
-          The <dfn>`can-lock-orientation`</dfn> media feature is used to query
-          whether the user agent supports locking the screen orientation in the
-          current context.
+          The <code><dfn>can-lock-orientation</dfn></code> media feature is
+          used to query whether the user agent supports locking the screen
+          orientation in the current context.
         </p>
         <p>
           <strong>Value:</strong> <code>none</code> | <code>auto</code>
         </p>
         <p>
-          The `can-lock-orientation` media feature is a [=boolean context=]
-          media feature. It can be used to test whether the user agent supports
-          screen orientation locking functionality.
+          The <a>can-lock-orientation</a> media feature is a [=boolean
+          context=] media feature. It can be used to test whether the user
+          agent supports screen orientation locking functionality.
         </p>
         <dl>
           <dt>
@@ -943,16 +943,17 @@
           </dd>
         </dl>
         <p class="note">
-          The `can-lock-orientation` media feature evaluates to `auto` when
-          orientation locking functionality is available, but this doesn't
+          The <a>can-lock-orientation</a> media feature evaluates to `auto`
+          when orientation locking functionality is available, but this doesn't
           guarantee that a specific lock request will succeed. Factors such as
           platform limitations or specific orientation support may still cause
           {{ScreenOrientation/lock()}} to fail.
         </p>
         <div class="example">
           <p>
-            The following example shows how to use the `can-lock-orientation`
-            media feature to conditionally display orientation-related UI:
+            The following example shows how to use the
+            <a>can-lock-orientation</a> media feature to conditionally display
+            orientation-related UI:
           </p>
           <pre class="css">
             /* Hide rotation controls when orientation locking is not supported */
@@ -1006,9 +1007,10 @@
             </li>
           </ul>
           <p class="note">
-            These privacy considerations ensure that the `can-lock-orientation`
-            media feature provides useful functionality for progressive
-            enhancement while minimizing potential fingerprinting vectors.
+            These privacy considerations ensure that the
+            <a>can-lock-orientation</a> media feature provides useful
+            functionality for progressive enhancement while minimizing
+            potential fingerprinting vectors.
           </p>
         </section>
       </section>
