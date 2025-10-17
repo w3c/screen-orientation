@@ -926,19 +926,19 @@
         requested fullscreen. This prevents cross-origin documents from
         detecting the fullscreen state of their embedding document.
       </p>
+      <aside class="note" title="Fullscreen exit handling">
+        <p>
+          When a [=document=] exits fullscreen, the [[FULLSCREEN]]
+          specification automatically calls the [=fully unlock the screen
+          orientation steps=], which handles unlocking orientation and
+          rejecting any pending orientation lock promises for both the document
+          and its same-origin descendant documents.
+        </p>
+      </aside>
       <p>
-        When a [=document=] |doc| exits fullscreen, the user agent MUST:
-      </p>
-      <ol class="algorithm">
-        <li>Run the [=fully unlock the screen orientation steps=] with |doc|.
-        </li>
-        <li>[=Reject descendant document orientation promises=] for |doc|.
-        </li>
-      </ol>
-      <p>
-        [=React=] to a [=document=] |doc|'s [=pending fullscreen request
-        promise=]. When the promise is [=reject|rejected=], run the following
-        steps:
+        [=promise/React=] to a [=document=] |doc|'s [=pending fullscreen
+        request promise=]. When the promise is [=reject|rejected=], run the
+        following steps:
       </p>
       <ol class="algorithm">
         <li>If |doc|'s {{Document/[[orientationPendingPromise]]}} is not
