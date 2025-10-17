@@ -937,13 +937,12 @@
         <li>Additional [=Document/visibility state=] checks provide defense in
         depth against hidden documents
         </li>
-        <li>Events originate from [=top-level browsing context=] documents and
+        <li>Events originate from the [=navigable/active document=] of a [=top-level traversable=] and
         propagate to descendant documents
         </li>
       </ul>
       <p>
-        The requirement for [=Document/fully active descendant of a top-level
-        traversable with user attention|user attention=] ensures that
+        The requirement for documents to be [=Document/fully active descendant of a top-level traversable=] with user attention ensures that
         orientation events are only delivered to documents in windows that are
         both visible at the system level and have the user's attention (either
         through focus or the ability to receive keyboard input). The additional
