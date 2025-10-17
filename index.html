@@ -859,6 +859,42 @@
         <li>[=Apply orientation lock=] `null` to |topDocument|.
         </li>
       </ol>
+      <h2>
+        Rejecting descendant document orientation promises
+      </h2>
+      <p>
+        To <dfn>reject descendant document orientation promises</dfn> for a
+        {{Document}} |document|, the [=user agent=] MUST:
+      </p>
+      <ol class="algorithm">
+        <li>If |document| is not a [=top-level browsing context=]'s
+        [=navigable/active document=], abort these steps.
+          <p class="note">
+            Only top-level documents have descendant navigables to process.
+          </p>
+        </li>
+        <li>Let |descendantDocs| be an [=ordered set=] consisting of
+        |document|'s [=Document/descendant navigables=]'s [=navigable/active
+        documents=], if any, in tree order.
+        </li>
+        <li>[=Set/For each=] |descendantDoc:Document| in |descendantDocs|:
+          <ol>
+            <li>If |descendantDoc| is not [=same origin=] with |document|,
+            continue.
+              <p class="note">
+                Only same-origin descendant documents are processed to prevent
+                cross-origin documents from detecting orientation lock states
+                of their embedding documents, which could be used for timing
+                attacks or fingerprinting.
+              </p>
+            </li>
+            <li>If |descendantDoc|'s {{Document/[[orientationPendingPromise]]}}
+            is not `null`, [=reject and nullify the current lock promise=] of
+            |descendantDoc| with an {{"AbortError"}}.
+            </li>
+          </ol>
+        </li>
+      </ol>
     </section>
     <section id="fullscreen-interaction">
       <h2>
@@ -866,12 +902,52 @@
       </h2>
       <p>
         A user agent SHOULD restrict the use of {{ScreenOrientation/lock()}} to
-        simple fullscreen documents as a [=pre-lock condition=]. [[fullscreen]]
+        documents that meet the <dfn>fullscreen pre-lock condition</dfn> as a
+        [=pre-lock condition=]. [[fullscreen]]
       </p>
       <p>
-        When a [=document=] exits fullscreen, it also runs the [=fully unlock
-        the screen orientation steps=]. [[fullscreen]]
+        A {{Document}} |document| meets the [=fullscreen pre-lock condition=]
+        if any of the following are true:
       </p>
+      <ol>
+        <li>|document| has a [=fullscreen element=].
+        </li>
+        <li>|document| has its [=pending fullscreen request flag=] set.
+        </li>
+        <li>|document| is [=same origin=] with its [=top-level browsing
+        context=]'s [=navigable/active document=], and that [=top-level
+        browsing context=]'s [=navigable/active document=] meets one of the
+        above conditions.
+        </li>
+      </ol>
+      <p class="note">
+        The third condition allows same-origin iframes to lock the screen
+        orientation when their parent document is in fullscreen or has
+        requested fullscreen. This prevents cross-origin documents from
+        detecting the fullscreen state of their embedding document.
+      </p>
+      <p>
+        When a [=document=] |doc| exits fullscreen, the user agent MUST:
+      </p>
+      <ol class="algorithm">
+        <li>Run the [=fully unlock the screen orientation steps=] with |doc|.
+        </li>
+        <li>[=Reject descendant document orientation promises=] for |doc|.
+        </li>
+      </ol>
+      <p>
+        [=React=] to a [=document=] |doc|'s [=pending fullscreen request
+        promise=]. When the promise is [=reject|rejected=], run the following
+        steps:
+      </p>
+      <ol class="algorithm">
+        <li>If |doc|'s {{Document/[[orientationPendingPromise]]}} is not
+        `null`, [=reject and nullify the current lock promise=] of |doc| with
+        an {{"AbortError"}}.
+        </li>
+        <li>[=Reject descendant document orientation promises=] for |doc|.
+        </li>
+      </ol>
     </section>
     <section id="appmanifest-interaction">
       <h2>
