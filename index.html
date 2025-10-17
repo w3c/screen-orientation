@@ -890,7 +890,7 @@
         condition=].
       </p>
     </section>
-    <section>
+    <section data-cite="mediaqueries-5">
       <h2>
         CSS Integration
       </h2>
@@ -907,7 +907,7 @@
           <strong>Value:</strong> <code>none</code> | <code>auto</code>
         </p>
         <p>
-          The `can-lock-orientation` media feature is a <a data-cite="mediaqueries-5#boolean-context">boolean context</a>
+          The `can-lock-orientation` media feature is a [=boolean context=]
           media feature. It can be used to test whether the user agent supports
           screen orientation locking functionality.
         </p>
@@ -920,11 +920,17 @@
             locking is not possible in the current context. This includes cases
             where:
             <ul>
-              <li>The user agent does not implement the Screen Orientation API</li>
-              <li>The document is not [=Document/fully active=]</li>
-              <li>The document has the [=sandboxed orientation lock browsing context flag=] set</li>
-              <li>The document's [=Document/visibility state=] is "hidden"</li>
-              <li>The current context doesn't meet the [=pre-lock conditions=]</li>
+              <li>The user agent does not implement the Screen Orientation API
+              </li>
+              <li>The document is not [=Document/fully active=]
+              </li>
+              <li>The document has the [=sandboxed orientation lock browsing
+              context flag=] set
+              </li>
+              <li>The document's [=Document/visibility state=] is "hidden"
+              </li>
+              <li>The current context doesn't meet the [=pre-lock conditions=]
+              </li>
             </ul>
           </dd>
           <dt>
@@ -978,33 +984,31 @@
             Privacy considerations for `can-lock-orientation`
           </h2>
           <p>
-            To prevent fingerprinting through user preferences or device capabilities,
-            user agents SHOULD consider the following privacy mitigations:
+            To prevent fingerprinting through user preferences or device
+            capabilities, user agents SHOULD consider the following privacy
+            mitigations:
           </p>
           <ul>
-            <li>
-              When user preferences disable orientation locking, user agents MAY
-              still report `can-lock-orientation: auto` and only fail at the time
-              of actual {{ScreenOrientation/lock()}} invocation. This prevents
-              revealing user preference settings through CSS.
+            <li>When user preferences disable orientation locking, user agents
+            MAY still report `can-lock-orientation: auto` and only fail at the
+            time of actual {{ScreenOrientation/lock()}} invocation. This
+            prevents revealing user preference settings through CSS.
             </li>
-            <li>
-              In private browsing modes, user agents SHOULD normalize the behavior
-              to always report `can-lock-orientation: auto` for contexts where the
-              API would normally be available, regardless of user preferences or
-              detailed device capabilities.
+            <li>In private browsing modes, user agents SHOULD normalize the
+            behavior to always report `can-lock-orientation: auto` for contexts
+            where the API would normally be available, regardless of user
+            preferences or detailed device capabilities.
             </li>
-            <li>
-              User agents SHOULD NOT use device-specific orientation support
-              capabilities (such as whether specific orientations are physically
-              possible) to determine the media feature value, as this could
-              reveal device characteristics.
+            <li>User agents SHOULD NOT use device-specific orientation support
+            capabilities (such as whether specific orientations are physically
+            possible) to determine the media feature value, as this could
+            reveal device characteristics.
             </li>
           </ul>
           <p class="note">
             These privacy considerations ensure that the `can-lock-orientation`
-            media feature provides useful functionality for progressive enhancement
-            while minimizing potential fingerprinting vectors.
+            media feature provides useful functionality for progressive
+            enhancement while minimizing potential fingerprinting vectors.
           </p>
         </section>
       </section>
