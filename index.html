@@ -726,8 +726,9 @@
                 the underlying platform, rather than the user agent, does not
                 allow locking the screen orientation to the given
                 |orientation|. Note that differences in user preferences or
-                platform capabilities could potentially be used for fingerprinting,
-                as they may create detectable patterns in lock failure behavior.
+                platform capabilities could potentially be used for
+                fingerprinting, as they may create detectable patterns in lock
+                failure behavior.
               </p>
             </li>
             <li>Set the screen's [=Screen/active orientation lock=] to
@@ -826,9 +827,9 @@
           Developers need to be aware that [=documents=] that are not
           [=Document/fully active descendant of a top-level traversable with
           user attention=] will not receive orientation change events. However,
-          once a [=document=] meets these requirements again (becomes visible and
-          gains user attention), it will receive change events reflecting the
-          current orientation.
+          once a [=document=] meets these requirements again (becomes visible
+          and gains user attention), it will receive change events reflecting
+          the current orientation.
         </p>
       </aside>
       <h2>
@@ -871,9 +872,9 @@
       </h2>
       <p>
         A user agent MUST restrict the use of {{ScreenOrientation/lock()}} to
-        simple fullscreen documents as a [=pre-lock condition=]. This requirement
-        prevents fingerprinting through differences in user agent behavior regarding
-        orientation locking permissions. [[fullscreen]]
+        simple fullscreen documents as a [=pre-lock condition=]. This
+        requirement prevents fingerprinting through differences in user agent
+        behavior regarding orientation locking permissions. [[fullscreen]]
       </p>
       <p>
         When a [=document=] exits fullscreen, it also runs the [=fully unlock
@@ -937,12 +938,13 @@
         <li>Additional [=Document/visibility state=] checks provide defense in
         depth against hidden documents
         </li>
-        <li>Events originate from the [=navigable/active document=] of a [=top-level traversable=] and
-        propagate to descendant documents
+        <li>Events originate from the [=navigable/active document=] of a
+        [=top-level traversable=] and propagate to descendant documents
         </li>
       </ul>
       <p>
-        The requirement for documents to be [=Document/fully active descendant of a top-level traversable=] with user attention ensures that
+        The requirement for documents to be [=Document/fully active descendant
+        of a top-level traversable=] with user attention ensures that
         orientation events are only delivered to documents in windows that are
         both visible at the system level and have the user's attention (either
         through focus or the ability to receive keyboard input). The additional
