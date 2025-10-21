@@ -47,11 +47,11 @@
         specification, exposes the current type and angle of the device's
         screen orientation, and dispatches events when it changes. This enables
         web applications to programmatically adapt the user experience for
-        multiple screen orientations, working alongside CSS. The API also
-        allows for the screen orientation to be locked under certain
-        preconditions. This is particularly useful for applications such as
-        computer games, where users physically rotate the device, but the
-        screen orientation itself should not change.
+        multiple screen orientations, working alongside CSS. This API is
+        particularly useful for applications such as computer games, where
+        users physically rotate the device, but the screen orientation itself
+        should not change. The API restricts locking the screen orientation
+        only if certain [=pre-lock conditions=] are met.
       </p>
     </section>
     <section id="sotd">
@@ -394,6 +394,14 @@
           `lock()` method
         </h2>
         <p>
+          <dfn>pre-lock conditions</dfn> are optional requirements that a
+          [=user agent=] MAY impose before allowing screen orientation locking.
+          Common pre-lock conditions include requiring the document to be in
+          fullscreen mode or being part of an installed web application. See
+          [[[#appmanifest-interaction]]] and [[[#fullscreen-interaction]]] for
+          specific examples.
+        </p>
+        <p>
           When the {{lock()}} method is invoked with {{OrientationLockType}}
           |orientation:OrientationLockType|, the [=user agent=] MUST run the
           following steps.
@@ -410,11 +418,11 @@
           orientation to |orientation|, return [=a promise rejected with=] a
           {{"NotSupportedError"}} {{DOMException}} and abort these steps.
           </li>
-          <li>If the [=user agent=] requires |document| and its
-          associated [=Document/browsing context=] to meet [=pre-lock
-          conditions=] in order to [=lock the screen orientation=], and those
-          conditions are not met, return [=a promise rejected with=] a
-          {{"NotAllowedError"}} {{DOMException}} and abort these steps.
+          <li>If the [=user agent=] requires |document| and its associated
+          [=Document/browsing context=] to meet [=pre-lock conditions=] in
+          order to [=lock the screen orientation=], and those conditions are
+          not met, return [=a promise rejected with=] a {{"NotAllowedError"}}
+          {{DOMException}} and abort these steps.
           </li>
           <li data-tests="lock-basic.html">If |document|'s
           {{Document/[[orientationPendingPromise]]}} is not `null`, [=reject
@@ -429,14 +437,6 @@
           <li>Return |document|'s {{Document/[[orientationPendingPromise]]}}.
           </li>
         </ol>
-        <p>
-          <dfn>pre-lock conditions</dfn> are optional requirements that a
-          [=user agent=] MAY impose before allowing screen orientation locking.
-          Common pre-lock conditions include requiring the document to be in
-          fullscreen mode or being part of an installed web application. See
-          [[[#appmanifest-interaction]]] and [[[#fullscreen-interaction]]] for
-          specific examples.
-        </p>
       </section>
       <section>
         <h2>
@@ -951,14 +951,14 @@
       </ul>
       <p>
         The requirement for [=documents=] to be [=Document/fully active
-        descendant of a top-level traversable with user attention=] ensures that
-        orientation events are only delivered to
-        documents in windows that are both visible at the system level and have
-        the user's attention (either through focus or the ability to receive
-        keyboard input). The additional visibility state check provides defense
-        in depth. These restrictions prevent background tabs, hidden windows,
-        and minimized applications from collecting orientation data for
-        fingerprinting purposes.
+        descendant of a top-level traversable with user attention=] ensures
+        that orientation events are only delivered to documents in windows that
+        are both visible at the system level and have the user's attention
+        (either through focus or the ability to receive keyboard input). The
+        additional visibility state check provides defense in depth. These
+        restrictions prevent background tabs, hidden windows, and minimized
+        applications from collecting orientation data for fingerprinting
+        purposes.
       </p>
       <h3>
         Anti-fingerprinting Mitigations
