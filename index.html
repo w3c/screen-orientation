@@ -414,7 +414,7 @@
           associated [=Document/browsing context=] to meet [=pre-lock
           conditions=] in order to [=lock the screen orientation=], and those
           conditions are not met, return [=a promise rejected with=] a
-          {{"NotSupportedError"}} {{DOMException}} and abort these steps.
+          {{"NotAllowedError"}} {{DOMException}} and abort these steps.
           </li>
           <li data-tests="lock-basic.html">If |document|'s
           {{Document/[[orientationPendingPromise]]}} is not `null`, [=reject
