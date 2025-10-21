@@ -669,7 +669,7 @@
         `null`, [=reject and nullify the current lock promise=] of |document|
         with an {{"AbortError"}}.
         </li>
-        <li>Let |topDocument| be |document|'s [=top-level browsing context=]'s
+        <li>Let |topDocument| be |document|'s [=top-level traversable=]'s
         [=navigable/active document=].
         </li>
         <li>Let |descendantDocs| be an [=ordered set=] consisting of
@@ -768,9 +768,9 @@
       </h2>
       <p data-tests="onchange-event.html">
         When a user-agent determines that the screen's orientation has changed
-        for a [=top-level browsing context=], or the user moves the [=top-level
+        for a [=top-level traversable=], or the user moves the [=top-level
         browsing context=] to a different screen, then run the [=screen
-        orientation change steps=] with the [=top-level browsing context=]'s
+        orientation change steps=] with the [=top-level traversable=]'s
         [=navigable/active document=].
       </p>
       <p>
@@ -827,8 +827,8 @@
           Developers need to be aware that [=documents=] that are not
           [=Document/fully active descendant of a top-level traversable with
           user attention=] will not receive orientation change events. However,
-          once a [=document=] meets these requirements again, it will receive change events reflecting
-          the current orientation.
+          once a [=document=] meets these requirements again, it will receive
+          change events reflecting the current orientation.
         </p>
       </aside>
       <h2>
@@ -839,7 +839,7 @@
         |document|, the user agent MUST run the following steps:
       </p>
       <ol class="algorithm">
-        <li>If |document| is not a [=top-level browsing context=]'s
+        <li>If |document| is not a [=top-level traversable=]'s
         [=navigable/active document=], abort these steps.
         </li>
         <li>Run the [=fully unlock the screen orientation steps=] with
@@ -858,7 +858,7 @@
         `null`, [=reject and nullify the current lock promise=] of |document|
         with an {{"AbortError"}}.
         </li>
-        <li>Let |topDocument| be |document|'s [=top-level browsing context=]'s
+        <li>Let |topDocument| be |document|'s [=top-level traversable=]'s
         [=navigable/active document=].
         </li>
         <li>[=Apply orientation lock=] `null` to |topDocument|.
@@ -931,13 +931,14 @@
         several delivery restrictions:
       </p>
       <ul>
-        <li>Events only fire on a [=document=] that is a [=Document/fully active descendant of a top-level traversable=] with [=user attention=].
-
+        <li>Events only fire on a [=document=] that is a [=Document/fully
+        active descendant of a top-level traversable with user attention=].
         </li>
-        <li>Additional [=Document/visibility state=] checks provide defense-in-depth against hidden documents.
-
+        <li>Additional [=Document/visibility state=] checks provide
+        defense-in-depth against hidden documents.
         </li>
-        <li>Events originate from the [=navigable/active document=] of a [=top-level traversable=] and propagate to descendant documents.
+        <li>Events originate from the [=navigable/active document=] of a
+        [=top-level traversable=] and propagate to descendant documents.
         </li>
       </ul>
       <p>
@@ -960,7 +961,7 @@
         browsing modes:
       </p>
       <ol>
-        <li>For the life of a [=top-level browsing context=], behave as if the
+        <li>For the life of a [=top-level traversable=], behave as if the
         screen's [=natural=] orientation is
         {{ScreenOrientation/[[initialType]]}}.
         </li>
