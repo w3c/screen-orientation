@@ -827,8 +827,7 @@
           Developers need to be aware that [=documents=] that are not
           [=Document/fully active descendant of a top-level traversable with
           user attention=] will not receive orientation change events. However,
-          once a [=document=] meets these requirements again (becomes visible
-          and gains user attention), it will receive change events reflecting
+          once a [=document=] meets these requirements again, it will receive change events reflecting
           the current orientation.
         </p>
       </aside>
@@ -932,14 +931,13 @@
         several delivery restrictions:
       </p>
       <ul>
-        <li>Events only fire on a [=document=] that is [=Document/fully active
-        descendant of a top-level traversable with user attention=]
+        <li>Events only fire on a [=document=] that is a [=Document/fully active descendant of a top-level traversable=] with [=user attention=].
+
         </li>
-        <li>Additional [=Document/visibility state=] checks provide defense in
-        depth against hidden documents
+        <li>Additional [=Document/visibility state=] checks provide defense-in-depth against hidden documents.
+
         </li>
-        <li>Events originate from the [=navigable/active document=] of a
-        [=top-level traversable=] and propagate to descendant documents
+        <li>Events originate from the [=navigable/active document=] of a [=top-level traversable=] and propagate to descendant documents.
         </li>
       </ul>
       <p>
