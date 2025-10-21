@@ -669,9 +669,7 @@
         `null`, [=reject and nullify the current lock promise=] of |document|
         with an {{"AbortError"}}.
         </li>
-        <li>If any [=pre-lock conditions=] are no longer met while [=in
-        parallel=], run the [=fully unlock the screen orientation steps=]
-        with |document|.
+        <li>[=In parallel=], if any [=pre-lock conditions=] are no longer met, run the [=fully unlock the screen orientation steps=] with |document|.
         </li>
         <li>Let |topDocument| be |document|'s [=top-level browsing context=]'s
         [=navigable/active document=].
