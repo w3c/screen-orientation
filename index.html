@@ -907,9 +907,9 @@
           <strong>Value:</strong> <code>none</code> | <code>auto</code>
         </p>
         <p>
-          The <a>can-lock-orientation</a> media feature is a [=boolean
-          context=] media feature. It can be used to test whether the user
-          agent supports screen orientation locking functionality.
+          The <a>can-lock-orientation</a> media feature can be used to test
+          whether the user agent supports screen orientation locking
+          functionality.
         </p>
         <dl>
           <dt>
@@ -931,7 +931,8 @@
               </li>
               <li>The current context doesn't meet the [=pre-lock conditions=]
               </li>
-            </ul>
+            </ul>This keyword value evaluates as false in the [=boolean
+            context=].
           </dd>
           <dt>
             `auto`
@@ -939,7 +940,8 @@
           <dd>
             The user agent supports screen orientation locking and locking is
             possible in the current context, meaning a call to
-            {{ScreenOrientation/lock()}} could potentially succeed.
+            {{ScreenOrientation/lock()}} could potentially succeed. This
+            keyword value evaluates as true in the [=boolean context=].
           </dd>
         </dl>
         <p class="note">
