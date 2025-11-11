@@ -47,11 +47,11 @@
         specification, exposes the current type and angle of the device's
         screen orientation, and dispatches events when it changes. This enables
         web applications to programmatically adapt the user experience for
-        multiple screen orientations, working alongside CSS. The API also
-        allows for the screen orientation to be locked under certain
-        preconditions. This is particularly useful for applications such as
-        computer games, where users physically rotate the device, but the
-        screen orientation itself should not change.
+        multiple screen orientations, working alongside CSS. This API is
+        particularly useful for applications such as computer games, where
+        users physically rotate the device, but the screen orientation itself
+        should not change. The API restricts locking the screen orientation
+        only if certain [=pre-lock conditions=] are met.
       </p>
     </section>
     <section id="sotd">
@@ -64,9 +64,9 @@
         Example of usage
       </h2>
       <p>
-        In this example, clicking the "Lock" button requests to go into
+        In this example, selecting the "Lock" button requests to go into
         fullscreen and then locks the screen to the opposite orientation.
-        Clicking the "Unlock" button unlocks the screen.
+        Selecting the "Unlock" button unlocks the screen.
       </p>
       <pre class="example html" title=
       "Locking to a specific orientation and unlocking">
@@ -443,15 +443,17 @@
           `lock()` method
         </h2>
         <p>
+          <dfn>pre-lock conditions</dfn> are optional requirements that a
+          [=user agent=] MAY impose before allowing screen orientation locking.
+          Common pre-lock conditions include requiring the document to be in
+          fullscreen mode or being part of an installed web application. See
+          [[[#appmanifest-interaction]]] and [[[#fullscreen-interaction]]] for
+          specific examples.
+        </p>
+        <p>
           When the {{lock()}} method is invoked with {{OrientationLockType}}
           |orientation:OrientationLockType|, the [=user agent=] MUST run the
           following steps.
-        </p>
-        <p>
-          The [=user agent=] MAY require a [=document=] and its associated
-          [=Document/browsing context=] to meet one or more <dfn>pre-lock
-          conditions</dfn> in order to [=lock the screen orientation=]. See
-          [[[#appmanifest-interaction]]] and [[[#fullscreen-interaction]]].
         </p>
         <ol class="algorithm">
           <li>Let |document:Document| be [=this=]'s [=relevant global
@@ -464,6 +466,12 @@
           <li>If the [=user agent=] does not support locking the screen
           orientation to |orientation|, return [=a promise rejected with=] a
           {{"NotSupportedError"}} {{DOMException}} and abort these steps.
+          </li>
+          <li>If the [=user agent=] requires |document| and its associated
+          [=Document/browsing context=] to meet [=pre-lock conditions=] in
+          order to [=lock the screen orientation=], and those conditions are
+          not met, return [=a promise rejected with=] a {{"NotAllowedError"}}
+          {{DOMException}} and abort these steps.
           </li>
           <li data-tests="lock-basic.html">If |document|'s
           {{Document/[[orientationPendingPromise]]}} is not `null`, [=reject
@@ -522,9 +530,10 @@
           |document:Document| are the following steps:
         </p>
         <ol class="algorithm">
-          <li data-tests="non-fully-active.html">If |document| is not
-          [=Document/fully active=], [=exception/throw=] an
-          {{"InvalidStateError"}} {{DOMException}}.
+          <li data-tests="non-fully-active.html">If |document| is not a
+          [=Document/fully active descendant of a top-level traversable with
+          user attention=], [=exception/throw=] an {{"InvalidStateError"}}
+          {{DOMException}}.
           </li>
           <li data-tests="lock-sandboxed-iframe.html">If |document| has the
           [=sandboxed orientation lock browsing context flag=] set,
@@ -717,7 +726,7 @@
         `null`, [=reject and nullify the current lock promise=] of |document|
         with an {{"AbortError"}}.
         </li>
-        <li>Let |topDocument| be |document|'s [=top-level browsing context=]'s
+        <li>Let |topDocument| be |document|'s [=top-level traversable=]'s
         [=navigable/active document=].
         </li>
         <li>Let |descendantDocs| be an [=ordered set=] consisting of
@@ -773,7 +782,10 @@
                 web applications from changing the screen orientation, or if
                 the underlying platform, rather than the user agent, does not
                 allow locking the screen orientation to the given
-                |orientation|.
+                |orientation|. Note that differences in user preferences or
+                platform capabilities could potentially be used for
+                fingerprinting, as they may create detectable patterns in lock
+                failure behavior.
               </p>
             </li>
             <li>Set the screen's [=Screen/active orientation lock=] to
@@ -813,9 +825,9 @@
       </h2>
       <p data-tests="onchange-event.html">
         When a user-agent determines that the screen's orientation has changed
-        for a [=top-level browsing context=], or the user moves the [=top-level
+        for a [=top-level traversable=], or the user moves the [=top-level
         browsing context=] to a different screen, then run the [=screen
-        orientation change steps=] with the [=top-level browsing context=]'s
+        orientation change steps=] with the [=top-level traversable=]'s
         [=navigable/active document=].
       </p>
       <p>
@@ -823,8 +835,8 @@
         {{Document}} |document:Document| are as follows:
       </p>
       <ol class="algorithm">
-        <li>If |document|'s [=Document/visibility state=] is "hidden", abort
-        these steps.
+        <li>If |document| is not a [=Document/fully active descendant of a
+        top-level traversable with user attention=], abort these steps.
         </li>
         <li>Let |type| and |angle| be the screen's [=Screen/current orientation
         type=] and [=Screen/current orientation angle=].
@@ -872,10 +884,11 @@
       </p>
       <aside class="note">
         <p>
-          Developers need to be aware that [=documents=] with a "hidden"
-          [=Document/visibility state=] will not receive an orientation change
-          event. However, once the [=document=] becomes visible again, it will
-          receive the change event.
+          Developers need to be aware that [=documents=] that are not
+          [=Document/fully active descendant of a top-level traversable with
+          user attention=] will not receive orientation change events. However,
+          once a [=document=] meets these requirements again, it will receive
+          change events reflecting the current orientation.
         </p>
       </aside>
       <h2>
@@ -886,7 +899,7 @@
         |document|, the user agent MUST run the following steps:
       </p>
       <ol class="algorithm">
-        <li>If |document| is not a [=top-level browsing context=]'s
+        <li>If |document| is not a [=top-level traversable=]'s
         [=navigable/active document=], abort these steps.
         </li>
         <li>Run the [=fully unlock the screen orientation steps=] with
@@ -905,7 +918,7 @@
         `null`, [=reject and nullify the current lock promise=] of |document|
         with an {{"AbortError"}}.
         </li>
-        <li>Let |topDocument| be |document|'s [=top-level browsing context=]'s
+        <li>Let |topDocument| be |document|'s [=top-level traversable=]'s
         [=navigable/active document=].
         </li>
         <li>[=Apply orientation lock=] `null` to |topDocument|.
@@ -917,8 +930,10 @@
         Interaction with Fullscreen API
       </h2>
       <p>
-        A user agent SHOULD restrict the use of {{ScreenOrientation/lock()}} to
-        simple fullscreen documents as a [=pre-lock condition=]. [[fullscreen]]
+        A user agent MUST restrict the use of {{ScreenOrientation/lock()}} to
+        simple fullscreen documents as a [=pre-lock condition=]. This
+        requirement prevents fingerprinting through differences in user agent
+        behavior regarding orientation locking permissions. [[fullscreen]]
       </p>
       <p>
         When a [=document=] exits fullscreen, it also runs the [=fully unlock
@@ -963,16 +978,50 @@
       <p>
         A screen's [=Screen/current orientation type|type=] and
         [=Screen/current orientation angle|angle=] are a potential
-        fingerprinting vector. The following mitigation help protect a user's
-        privacy by not revealing how a device is being held, and also prevents
+        fingerprinting vectors. The following mitigations help protect a user's
+        privacy by not revealing how a device is being held, and also prevent
         the [=secondary=] orientation type and associated angles from being
-        user for fingerprinting purposes.
+        used for fingerprinting purposes.
       </p>
+      <h3>
+        Event Delivery Restrictions
+      </h3>
       <p>
-        To resist fingerprinting (e.g., in private browsing), user agents MAY:
+        To protect user privacy, orientation change events are subject to
+        several delivery restrictions:
+      </p>
+      <ul>
+        <li>Events only fire on a [=document=] that is a [=Document/fully
+        active descendant of a top-level traversable with user attention=].
+        </li>
+        <li>Additional [=Document/visibility state=] checks provide
+        defense-in-depth against hidden documents.
+        </li>
+        <li>Events originate from the [=navigable/active document=] of a
+        [=top-level traversable=] and propagate to descendant documents.
+        </li>
+      </ul>
+      <p>
+        The requirement for [=documents=] to be [=Document/fully active
+        descendant of a top-level traversable with user attention=] ensures
+        that orientation events are only delivered to documents in windows that
+        are both visible at the system level and have the user's attention
+        (either through focus or the ability to receive keyboard input). The
+        additional visibility state check provides defense in depth. These
+        restrictions prevent background tabs, hidden windows, and minimized
+        applications from collecting orientation data for fingerprinting
+        purposes.
+      </p>
+      <h3>
+        Anti-fingerprinting Mitigations
+      </h3>
+      <p>
+        To resist fingerprinting, user agents SHOULD implement the following
+        protections, particularly in privacy-conscious contexts such as private
+        browsing modes:
       </p>
       <ol>
-        <li>For the life of a [=top-level browsing context=], behave as if the
+        <li>For the life of a [=top-level traversable=], behave as if the
         screen's [=natural=] orientation is
         {{ScreenOrientation/[[initialType]]}}.
         </li>
