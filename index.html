@@ -882,9 +882,14 @@
       </h2>
       <p>
         A user agent MUST restrict the use of {{ScreenOrientation/lock()}} to
-        simple fullscreen documents as a [=pre-lock condition=]. This
+        [=simple fullscreen documents=] as a [=pre-lock condition=]. This
         requirement prevents fingerprinting through differences in user agent
         behavior regarding orientation locking permissions. [[fullscreen]]
+      </p>
+      <p>
+        If a [=document=] [=Document/has pending fullscreen request=], the user
+        agent MUST await the [=Document/pending fullscreen request promise=]
+        before evaluating the [=pre-lock conditions=]. [[fullscreen]]
       </p>
       <p>
         When a [=document=] exits fullscreen, it also runs the [=fully unlock
