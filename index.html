@@ -142,12 +142,23 @@
             <dfn>Natural</dfn>
           </dt>
           <dd>
-            The most natural orientation for the device's display as determined
-            by the user agent, the user, the operating system, or the screen
-            itself. For example, a device viewed, or held upright in the user's
-            hand, with the screen facing the user. A computer monitor are
-            commonly naturally [=landscape-primary=], while a mobile phones are
-            commonly naturally [=portrait-primary=].
+            The reference orientation for the device's display, from which
+            orientation angles are measured, as determined by the user agent,
+            the user, the operating system, or the screen itself. For example,
+            a computer monitor's reference orientation is typically
+            [=landscape-primary=], while the reference orientation for a mobile
+            phone is typically [=portrait-primary=].
+            <p class="note">
+              How a user agent determines the [=natural=] orientation is
+              implementation-defined and varies by platform. Some user agents
+              use a fixed orientation per device class (for example,
+              [=portrait-primary=] for handsets and [=landscape-primary=] for
+              tablets, desktops, and TVs), while others derive it from the
+              screen's physical dimensions and current rotation. For devices
+              without an obvious upright, such as square or foldable screens,
+              the [=natural=] orientation can therefore differ between user
+              agents.
+            </p>
           </dd>
           <dt>
             <dfn>Landscape</dfn>
