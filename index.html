@@ -847,12 +847,16 @@
         |document|, the user agent MUST run the following steps:
       </p>
       <ol class="algorithm">
-        <li>If |document|'s {{Document/[[orientationPendingPromise]]}} is not
-        `null`, [=reject and nullify the current lock promise=] of |document|
-        with an {{"AbortError"}}.
-        </li>
         <li>If |document| is not a [=top-level traversable=]'s
-        [=navigable/active document=], abort these steps.
+        [=navigable/active document=]:
+          <ol>
+            <li>If |document|'s {{Document/[[orientationPendingPromise]]}} is
+            not `null`, [=reject and nullify the current lock promise=] of
+            |document| with an {{"AbortError"}}.
+            </li>
+            <li>Abort these steps.
+            </li>
+          </ol>
         </li>
         <li>Run the [=fully unlock the screen orientation steps=] with
         |document|.
