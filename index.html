@@ -328,6 +328,55 @@
         </table>
       </section>
     </section>
+    <section data-dfn-for="Window">
+      <h2>
+        Extensions to the `Window` interface
+      </h2>
+      <pre class="idl">
+        partial interface Window {
+          readonly attribute short orientation;
+          attribute EventHandler onorientationchange;
+        };
+      </pre>
+      <section>
+        <h2>
+          `orientation` attribute
+        </h2>
+        <p>
+          When getting the {{Window/orientation}} attribute, the [=user agent=] MUST run
+          the following steps:
+        </p>
+        <ol class="algorithm">
+          <li>Let |orientationAngle| be the [=Screen/current orientation angle=].
+          </li>
+          <li>If |orientationAngle| is less than 180, return |orientationAngle|.
+          </li>
+          <li>If |orientationAngle| is 180, and the [=user agent=] supports that value,
+          return |orientationAngle|, else return 0.
+          </li>
+          <li>If |orientationAngle| is greater than 180, return |orientationAngle| - 360.
+          </li>
+        </ol>
+        <p>
+          User agents MUST support the `-90`, `0` and `90` values and MAY optionally support `180`.
+        </p>
+        <p class="note">
+          `0` represents the natural orientation, `-90` represents 90 degrees clockwise,
+          `90` represents 90 degrees counterclockwise, and `180` represents 180 degrees
+          from natural orientation.
+        </p>
+      </section>
+      <section>
+        <h2>
+          `onorientationchange` event handler attribute
+        </h2>
+        <p>
+          The {{Window/onorientationchange}} attribute is an [=event handler IDL attribute=] for
+          the {{Window/onorientationchange}} [=event handler=], whose [=event handler event type=]
+          is <dfn class="event" data-dfn-for="Window">orientationchange</dfn>.
+        </p>
+      </section>
+    </section>
     <section data-dfn-for="Screen">
       <h2>
         Extensions to the `Screen` interface
@@ -828,6 +877,9 @@
             </li>
             <li>[=Fire an event=] named "<a data-link-for=
             "ScreenOrientation">change</a>" at |screenOrientation|.
+            </li>
+            <li>[=Fire an event=] named "<a data-link-for=
+            "Window">orientationchange</a>" at |document|'s [=relevant global object=].
             </li>
           </ol>
         </li>
