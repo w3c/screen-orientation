@@ -693,7 +693,10 @@
         `null`, [=reject and nullify the current lock promise=] of |document|
         with an {{"AbortError"}}.
         </li>
-        <li>Let |topDocument| be |document|'s [=top-level traversable=]'s
+        <li>[=In parallel=], if any [=pre-lock conditions=] are no longer met,
+        run the [=fully unlock the screen orientation steps=] with |document|.
+        </li>
+        <li>Let |topDocument| be |document|'s [=top-level browsing context=]'s
         [=navigable/active document=].
         </li>
         <li>Let |descendantDocs| be an [=ordered set=] consisting of
@@ -895,9 +898,14 @@
       </h2>
       <p>
         A user agent MUST restrict the use of {{ScreenOrientation/lock()}} to
-        simple fullscreen documents as a [=pre-lock condition=]. This
+        [=simple fullscreen documents=] as a [=pre-lock condition=]. This
         requirement prevents fingerprinting through differences in user agent
         behavior regarding orientation locking permissions. [[fullscreen]]
+      </p>
+      <p>
+        If a [=document=] [=Document/has pending fullscreen request=], the user
+        agent MUST await the [=Document/pending fullscreen request promise=]
+        before evaluating the [=pre-lock conditions=]. [[fullscreen]]
       </p>
       <p>
         When a [=document=] exits fullscreen, it also runs the [=fully unlock
