@@ -410,12 +410,10 @@
           `lock()` method
         </h2>
         <p>
-          <dfn>pre-lock conditions</dfn> are optional requirements that a
-          [=user agent=] MAY impose before allowing screen orientation locking.
-          Common pre-lock conditions include requiring the document to be in
-          fullscreen mode or being part of an installed web application. See
-          [[[#appmanifest-interaction]]] and [[[#fullscreen-interaction]]] for
-          specific examples.
+          The <dfn>pre-lock conditions</dfn> are the requirements a
+          [=document=] must meet before the [=user agent=] allows screen
+          orientation locking. See [[[#fullscreen-interaction]]] and
+          [[[#appmanifest-interaction]]].
         </p>
         <p>
           When the {{lock()}} method is invoked with {{OrientationLockType}}
@@ -434,11 +432,10 @@
           orientation to |orientation|, return [=a promise rejected with=] a
           {{"NotSupportedError"}} {{DOMException}} and abort these steps.
           </li>
-          <li>If the [=user agent=] requires |document| and its associated
-          [=Document/browsing context=] to meet [=pre-lock conditions=] in
-          order to [=lock the screen orientation=], and those conditions are
-          not met, return [=a promise rejected with=] a {{"NotAllowedError"}}
-          {{DOMException}} and abort these steps.
+          <li>If |document| and its associated [=Document/browsing context=] do
+          not meet the [=pre-lock conditions=], return [=a promise rejected
+          with=] a {{"NotAllowedError"}} {{DOMException}} and abort these
+          steps.
           </li>
           <li data-tests="lock-basic.html">If |document|'s
           {{Document/[[orientationPendingPromise]]}} is not `null`, [=reject
