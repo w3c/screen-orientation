@@ -719,6 +719,11 @@
             not `null`, [=reject and nullify the current lock promise=] of
             |document| with an {{"AbortError"}} and abort these steps.
             </li>
+            <li>If |document|'s [=Document/visibility state=] becomes "hidden", and
+            if the |document|'s {{Document/[[orientationPendingPromise]]}} is
+            not `null`, [=reject and nullify the current lock promise=] of
+            |document| with an {{"AbortError"}} and abort these steps.
+            </li>
             <li>If |orientation| is `null`, [=unlock the screen orientation=].
             </li>
             <li>Otherwise, attempt to [=lock the screen orientation=] to
