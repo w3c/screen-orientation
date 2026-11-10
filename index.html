@@ -434,8 +434,7 @@
           </li>
           <li>If |document| and its associated [=Document/browsing context=] do
           not meet the [=pre-lock conditions=], return [=a promise rejected
-          with=] a {{"NotAllowedError"}} {{DOMException}} and abort these
-          steps.
+          with=] a {{"SecurityError"}} {{DOMException}} and abort these steps.
           </li>
           <li data-tests="lock-basic.html">If |document|'s
           {{Document/[[orientationPendingPromise]]}} is not `null`, [=reject
