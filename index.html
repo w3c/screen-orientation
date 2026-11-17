@@ -731,8 +731,8 @@
                 <li>Set the screen's [=Screen/active orientation lock=] to
                 `null`.
                 </li>
-                <li>[=Queue a global task=] on the [=DOM manipulation task source=]
-                with |document|'s [=relevant global object=] to:
+                <li>[=Queue a global task=] on the [=DOM manipulation task
+                source=] with |document|'s [=relevant global object=] to:
                   <ol>
                     <li>If the |document|'s
                     {{Document/[[orientationPendingPromise]]}} is not `null`,
@@ -767,17 +767,19 @@
                 {{Document/[[orientationPendingPromise]]}}.
                   <aside class="note">
                     <p>
-                      As the promise needs to resolve after a "<a data-link-for=
-                      "ScreenOrientation">change</a>" event is fired, we keep a
-                      reference to prevent it from being aborted by an event's
-                      handler function calling {{ScreenOrientation/lock()}}.
+                      As the promise needs to resolve after a
+                      "<a data-link-for="ScreenOrientation">change</a>" event
+                      is fired, we keep a reference to prevent it from being
+                      aborted by an event's handler function calling
+                      {{ScreenOrientation/lock()}}.
                     </p>
                   </aside>
                 </li>
-                <li>Set |document|'s {{Document/[[orientationPendingPromise]]}} to
-                `null`.
+                <li>Set |document|'s {{Document/[[orientationPendingPromise]]}}
+                to `null`.
                 </li>
-                <li>Run the [=screen orientation change steps=] with |topDocument|.
+                <li>Run the [=screen orientation change steps=] with
+                |topDocument|.
                 </li>
                 <li>If |promise| is not `null`, [=resolve=] |promise| with
                 `undefined`.
