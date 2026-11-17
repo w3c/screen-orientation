@@ -798,9 +798,8 @@
         [=navigable/active document=].
       </p>
       <p>
-        The <dfn class="export">screen orientation change steps</dfn> for
-        {{Document}} |document:Document|, given an optional boolean
-        |notifyDescendants| (default true), are as follows:
+        To <dfn>update the screen orientation</dfn> of {{Document}}
+        |document:Document|, run these steps:
       </p>
       <ol class="algorithm">
         <li>If |document| is not a [=Document/fully active descendant of a
@@ -832,14 +831,18 @@
             </li>
           </ol>
         </li>
-        <li>If |notifyDescendants| is false, return.
+      </ol>
+      <p>
+        The <dfn class="export">screen orientation change steps</dfn> for
+        {{Document}} |document:Document| are as follows:
+      </p>
+      <ol class="algorithm">
+        <li>Let |documents| be an [=ordered set=] consisting of |document|
+        followed by |document|'s [=Document/descendant navigables=]'s
+        [=navigable/active documents=], if any, in tree order.
         </li>
-        <li>Let |descendantDocs| be an [=ordered set=] consisting of
-        |document|'s [=Document/descendant navigables=]'s [=navigable/active
-        documents=], if any, in tree order.
-        </li>
-        <li>[=Set/For each=] |doc:Document| in |descendantDocs|, run the
-        [=screen orientation change steps=] with |doc| and false.
+        <li>[=Set/For each=] |doc:Document| in |documents|, [=update the
+        screen orientation=] of |doc|.
         </li>
       </ol>
       <h2>
