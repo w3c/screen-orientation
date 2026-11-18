@@ -19,6 +19,11 @@
             company: "Apple Inc.",
             w3cid: 39125,
           },
+          {
+            name: "Léonie Watson",
+            company: "TetraLogical",
+            w3cid: 44692,
+          },
         ],
         formerEditors: [
           {
@@ -145,12 +150,23 @@
             <dfn>Natural</dfn>
           </dt>
           <dd>
-            The most natural orientation for the device's display as determined
-            by the user agent, the user, the operating system, or the screen
-            itself. For example, a device viewed, or held upright in the user's
-            hand, with the screen facing the user. A computer monitor are
-            commonly naturally [=landscape-primary=], while a mobile phones are
-            commonly naturally [=portrait-primary=].
+            The reference orientation for the device's display, from which
+            orientation angles are measured, as determined by the user agent,
+            the user, the operating system, or the screen itself. For example,
+            a computer monitor's reference orientation is typically
+            [=landscape-primary=], while the reference orientation for a mobile
+            phone is typically [=portrait-primary=].
+            <p class="note">
+              How a user agent determines the [=natural=] orientation is
+              implementation-defined and varies by platform. Some user agents
+              use a fixed orientation per device class (for example,
+              [=portrait-primary=] for handsets and [=landscape-primary=] for
+              tablets, desktops, and TVs), while others derive it from the
+              screen's physical dimensions and its default rotation. For
+              devices without an obvious upright, such as square or foldable
+              screens, the [=natural=] orientation can therefore differ between
+              user agents.
+            </p>
           </dd>
           <dt>
             <dfn>Landscape</dfn>
@@ -718,17 +734,17 @@
                 <li>Set the screen's [=Screen/active orientation lock=] to
                 `null`.
                 </li>
-                <li>[=Queue a task=] on the [=DOM manipulation task source=]
-                with |document|'s [=relevant global object=] to:
+                <li>[=Queue a global task=] on the [=DOM manipulation task
+                source=] with |document|'s [=relevant global object=] to:
                   <ol>
                     <li>If the |document|'s
                     {{Document/[[orientationPendingPromise]]}} is not `null`,
                     [=reject and nullify the current lock promise=] of
                     |document| with a {{"NotSupportedError"}}.
                     </li>
-                    <li>Abort these steps.
-                    </li>
                   </ol>
+                </li>
+                <li>Abort these parallel sub-steps.
                 </li>
               </ol>
               <p class="note">
@@ -747,29 +763,31 @@
             and [=Screen/current orientation angle=] to reflect any changes to
             the [=screen orientation=].
             </li>
-          </ol>
-        </li>
-        <li>[=Queue a global task=] on the [=DOM manipulation task source=]
-        with |document|'s [=relevant global object=] to:
-          <ol>
-            <li>Let |promise:Promise?| be |document|'s
-            {{Document/[[orientationPendingPromise]]}}.
-              <aside class="note">
-                <p>
-                  As the promise needs to resolve after a "<a data-link-for=
-                  "ScreenOrientation">change</a>" event is fired, we keep a
-                  reference to prevent it from being aborted by an event's
-                  handler function calling {{ScreenOrientation/lock()}}.
-                </p>
-              </aside>
-            </li>
-            <li>Set |document|'s {{Document/[[orientationPendingPromise]]}} to
-            `null`.
-            </li>
-            <li>Run the [=screen orientation change steps=] with |topDocument|.
-            </li>
-            <li>If |promise| is not `null`, [=resolve=] |promise| with
-            `undefined`.
+            <li>[=Queue a global task=] on the [=DOM manipulation task source=]
+            with |document|'s [=relevant global object=] to:
+              <ol>
+                <li>Let |promise:Promise?| be |document|'s
+                {{Document/[[orientationPendingPromise]]}}.
+                  <aside class="note">
+                    <p>
+                      As the promise needs to resolve after a
+                      "<a data-link-for="ScreenOrientation">change</a>" event
+                      is fired, we keep a reference to prevent it from being
+                      aborted by an event's handler function calling
+                      {{ScreenOrientation/lock()}}.
+                    </p>
+                  </aside>
+                </li>
+                <li>Set |document|'s {{Document/[[orientationPendingPromise]]}}
+                to `null`.
+                </li>
+                <li>Run the [=screen orientation change steps=] with
+                |topDocument|.
+                </li>
+                <li>If |promise| is not `null`, [=resolve=] |promise| with
+                `undefined`.
+                </li>
+              </ol>
             </li>
           </ol>
         </li>
@@ -897,8 +915,7 @@
       </h2>
       <p>
         The [[[appmanifest]]] specification allows web applications to set the
-        [=default screen orientation=] via the the [=manifest/orientation=]
-        member.
+        [=default screen orientation=] via the [=manifest/orientation=] member.
       </p>
       <p data-cite="mediaqueries">
         A user agent SHOULD require [=installed web applications=] to be
